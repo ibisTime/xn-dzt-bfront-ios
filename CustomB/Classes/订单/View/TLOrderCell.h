@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TLOrderModel.h"
 
 @interface TLOrderCell : UITableViewCell
 
-
+@property (nonatomic, strong) TLOrderModel *order;
 + (CGFloat)defaultCellHeight;
 
 @end

@@ -10,9 +10,7 @@
 #define TLUIHeader_h
 
 
-#define ACCOUNT_MARGIN 20;
-#define ACCOUNT_HEIGHT 45;
-#define ACCOUNT_MIDDLE_MARGIN 20;
+
 
 #define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
 #define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height

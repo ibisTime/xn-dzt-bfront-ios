@@ -9,6 +9,8 @@
 #import "TLOrderCell.h"
 #import "TLUIHeader.h"
 #import "TLStatusView.h"
+#import "NSString+Extension.h"
+#import "Const.h"
 
 @interface TLOrderCell()
 
@@ -28,14 +30,36 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
         [self setUpUI];
+        [self data];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     
         
     }
     
-    [self data];
-    
     return self;
+}
+
+- (void)setOrder:(TLOrderModel *)order {
+
+    _order = order;
+    self.codeLbl.text = _order.code;
+    self.timeLbl.text = [_order.createDatetime convertDate];
+    
+    //
+    self.userInfoLbl.text = [NSString stringWithFormat:@"%@|%@",_order.applyName,_order.applyMobile];
+    
+    if ([_order.status isEqualToString:kOrderStatusWillMeasurement]) {
+        
+        
+    } else {
+    
+        self.productInfoLbl.text = @"衬衫|￥500";
+
+    }
+    //
+    self.statusView.type = [_order.status isEqualToString:kOrderStatusWillMeasurement] ? TLStatusViewTypeYellow : TLStatusViewTypeTheme;
+    self.statusView.contentLbl.text=  [_order getStatusName];
+
 }
 
 + (CGFloat)defaultCellHeight {

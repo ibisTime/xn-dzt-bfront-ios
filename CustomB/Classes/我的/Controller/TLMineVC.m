@@ -11,6 +11,8 @@
 #import "UIImageView+WebCache.h"
 #import "TLSettingCell.h"
 #import "TLSettingModel.h"
+#import "TLLevelView.h"
+#import "TLUser.h"
 
 @interface TLMineVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -18,10 +20,10 @@
 //
 @property (nonatomic, strong) UIImageView *userPhotoImageView;
 @property (nonatomic, strong) UILabel *nameLbl;
-@property (nonatomic, strong) UIView *levelView;
+@property (nonatomic, strong) TLLevelView *levelView;
 @property (nonatomic, strong) UILabel *professionalTitleLbl;
 
-@property (nonatomic, copy) NSArray <TLSettingModel *>*models;
+@property (nonatomic, copy) NSArray <TLSettingModel * >*models;
 
 @end
 
@@ -54,7 +56,9 @@
     accountItem.text = @"账户设置";
     
     self.models = @[accountBalanceItem,sysMsgItem,accountItem];
-
+    [accountItem setAction:^{
+        [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginOutNotification object:nil];
+    }];
     
     
     [self setUpUI];
@@ -68,6 +72,18 @@
     [self.userPhotoImageView sd_setImageWithURL:nil placeholderImage:[UIImage imageNamed:@"默认头像"]];
     self.nameLbl.text = @"田磊";
     self.professionalTitleLbl.text = @"特技着装顾问";
+    
+    self.levelView.contentLbl.text=  @"LV10";
+    self.levelView.backgroundColor = [UIColor colorWithHexString:@"#dab616"];
+
+
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    if (self.models[indexPath.row].action) {
+        self.models[indexPath.row].action();
+    }
 
 }
 
@@ -142,9 +158,8 @@
     [topImageView addSubview:self.nameLbl];
     
     //
-    self.levelView = [[UIView alloc] init];
+    self.levelView = [[TLLevelView alloc] init];
     [topImageView addSubview:self.levelView];
-    self.levelView.backgroundColor = [UIColor colorWithHexString:@"#dab616"];
     
     //
     self.professionalTitleLbl = [UILabel labelWithFrame:CGRectZero
@@ -172,7 +187,6 @@
         make.left.equalTo(self.nameLbl.mas_left);
         make.top.equalTo(self.nameLbl.mas_bottom).offset(7);
         make.height.mas_equalTo(13);
-        make.width.mas_equalTo(30);
     }];
     
     [self.professionalTitleLbl mas_makeConstraints:^(MASConstraintMaker *make) {

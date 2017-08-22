@@ -23,13 +23,11 @@ FOUNDATION_EXPORT void TLLog(NSString *format, ...);
 
 @property (nonatomic,assign) RunEnv runEnv;
 
-//环信
-@property (nonatomic, copy) NSString *chatKey;
 //url请求地址
 @property (nonatomic, strong) NSString *addr;
 //@property (nonatomic,copy) NSString *aliPayKey;
 @property (nonatomic, copy) NSString *qiniuDomain;
-@property (nonatomic,strong) NSString *shareBaseUrl;
+@property (nonatomic, copy) NSString *systemCode;
 
 
 @property (nonatomic,copy, readonly) NSString *pushKey;

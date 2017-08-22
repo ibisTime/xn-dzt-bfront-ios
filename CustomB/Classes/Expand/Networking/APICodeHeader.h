@@ -14,7 +14,7 @@
 
 //用户
 #define USER_REG_CODE @"805041"//注册
-#define USER_LOGIN_CODE @"805043"//登录
+#define USER_LOGIN_CODE @"805050"//登录
 #define USER_FIND_PWD_CODE @"805048"//忘记密码
 
 #define USER_CAHNGE_MOBILE @"805047"//修改手机号
@@ -31,7 +31,7 @@
 #define SHOP_RE_ADD @"808203" //增加店铺
 
 //
-#define USER_INFO @"805056"
+#define USER_INFO @"805121"
 
 
 #endif /* apiCodeHeader_h */

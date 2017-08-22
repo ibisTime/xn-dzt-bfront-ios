@@ -7,7 +7,7 @@
 //
 
 #import "TLUserLoginVC.h"
-//#import "TLUserForgetPwdVC.h"
+#import "ZHUserForgetPwdVC.h"
 #import "TLNavigationController.h"
 #import "TLUser.h"
 #import "UICKeyChainStore.h"
@@ -22,9 +22,9 @@
 #define KEY_CHAIN_USER_PASS_WORD_KEY @"KEYCHAIN_USER_PASS_WORD_KEY_ZH"
 
 
-#define ACCOUNT_MARGIN 20;
-#define ACCOUNT_HEIGHT 45;
-#define ACCOUNT_MIDDLE_MARGIN 20;
+//#define ACCOUNT_MARGIN 20;
+//#define ACCOUNT_HEIGHT 45;
+//#define ACCOUNT_MIDDLE_MARGIN 20;
 
 @interface TLUserLoginVC ()
 
@@ -42,7 +42,7 @@
     [self setUpUI];
     
     
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
     
     //登录成功之后，给予回调
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:kUserLoginNotification object:nil];
@@ -122,20 +122,17 @@
 
 - (void)findPwd {
 
-//    TLUserForgetPwdVC *vc = [[TLUserForgetPwdVC alloc] init];
-//    [self.navigationController pushViewController:vc animated:YES];
+    ZHUserForgetPwdVC *vc = [[ZHUserForgetPwdVC alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
 
 }
 
-
-- (void)goReg {
-
-//    [self.navigationController pushViewController:[[TLUserRegistVC alloc] init] animated:YES];
-
-}
 
 - (void)goLogin {
     
+    
+//    [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginNotification object:nil];
+
     
     if (!(self.phoneTf.text &&self.phoneTf.text.length > 5)) {
         
@@ -210,51 +207,48 @@
 - (void)setUpUI {
     
     
-    UIScrollView *bgSV = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    UIScrollView *bgSV = self.bgSV;
     
     CGFloat margin = ACCOUNT_MARGIN;
-    CGFloat w = SCREEN_WIDTH - 2*margin;
+    CGFloat w = ACCOUNT_TF_WIDTH;
     CGFloat h = ACCOUNT_HEIGHT;
     CGFloat middleMargin = ACCOUNT_MIDDLE_MARGIN;
     
     //账号
-    ZHAccountTf *phoneTf = [[ZHAccountTf alloc] initWithFrame:CGRectMake(margin, 50, w, h)];
+    ZHAccountTf *phoneTf = [[ZHAccountTf alloc] initWithFrame:CGRectMake(margin, 150, w, h)];
     phoneTf.leftIconView.image = [UIImage imageNamed:@"手机号"];
     phoneTf.zh_placeholder = @"请输入手机号";
     [bgSV addSubview:phoneTf];
-    self.phoneTf = phoneTf;
     phoneTf.keyboardType = UIKeyboardTypeNumberPad;
+    self.phoneTf = phoneTf;
+    self.phoneTf.centerX = bgSV.centerX;
 
     
     //密码
-    ZHAccountTf *pwdTf = [[ZHAccountTf alloc] initWithFrame:CGRectMake(margin, phoneTf.yy + middleMargin, w, h)];
+    ZHAccountTf *pwdTf = [[ZHAccountTf alloc] initWithFrame:CGRectMake(phoneTf.x, phoneTf.yy + middleMargin, w, h)];
     pwdTf.secureTextEntry = YES;
     pwdTf.leftIconView.image = [UIImage imageNamed:@"密码"];
     pwdTf.zh_placeholder = @"请输入密码";
     [bgSV addSubview:pwdTf];
     self.pwdTf = pwdTf;
+    self.pwdTf.centerX = self.phoneTf.centerX;
+    
+    //登陆
+    UIButton *loginBtn = [UIButton zhBtnWithFrame:CGRectMake(margin,pwdTf.yy + 10, w, h) title:@"登录"];
+    [bgSV addSubview:loginBtn];
+    [loginBtn addTarget:self action:@selector(goLogin) forControlEvents:UIControlEventTouchUpInside];
+    loginBtn.centerX = self.phoneTf.centerX;
+
     
     //找回密码
-    UIButton *forgetPwdBtn = [[UIButton alloc] initWithFrame:CGRectMake(0,pwdTf.yy + 10 , 100, 25) title:@"找回密码" backgroundColor:[UIColor clearColor]];
+    UIButton *forgetPwdBtn = [[UIButton alloc] initWithFrame:CGRectMake(0,loginBtn.yy + 10 , 100, 25) title:@"找回密码" backgroundColor:[UIColor clearColor]];
     [forgetPwdBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [bgSV addSubview:forgetPwdBtn];
     forgetPwdBtn.titleLabel.font = [UIFont thirdFont];
     forgetPwdBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     forgetPwdBtn.xx = SCREEN_WIDTH - margin;
     [forgetPwdBtn addTarget:self action:@selector(findPwd) forControlEvents:UIControlEventTouchUpInside];
-    
-    //登陆
-    UIButton *loginBtn = [UIButton zhBtnWithFrame:CGRectMake(margin,pwdTf.yy + 55, w, h) title:@"登录"];
-    [bgSV addSubview:loginBtn];
-    [loginBtn addTarget:self action:@selector(goLogin) forControlEvents:UIControlEventTouchUpInside];
-
-    
-    //注册
-    UIButton *regBtn = [UIButton borderBtnWithFrame:CGRectMake(margin,loginBtn.yy + 30, w, h) title:@"注册" borderColor:[UIColor whiteColor]];
-    [regBtn addTarget:self action:@selector(goReg) forControlEvents:UIControlEventTouchUpInside];
-    [bgSV addSubview:regBtn];
-
-
 
 }
+
 @end

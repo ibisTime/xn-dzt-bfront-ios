@@ -12,13 +12,13 @@
 typedef NS_ENUM(NSInteger,TLOrderStatus){
     
     TLOrderStatusAll = 0, //全部
-    TLOrderStatusWillPay = 1, //待支付支付
-    TLOrderStatusWillSend = 2, //待发货
-    TLOrderStatusDidPay = 3, //已经支付
-    TLOrderStatusDidFinish = 4 //已经完成
-    
+    TLOrderStatusWillMeasurement = 1, //待量体
+    TLOrderStatusWillPay = 2, //待支付
+    TLOrderStatusWillSubmit = 3, //待录入,已支付
+    TLOrderStatusWillCheck = 4 //待复核
     
 };
+
 
 @interface TLOrderCategoryVC : TLBaseVC
 

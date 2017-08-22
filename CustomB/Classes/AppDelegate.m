@@ -11,6 +11,9 @@
 #import "TLUser.h"
 #import "TLUserLoginVC.h"
 #import "TLTabBarController.h"
+#import "TLNavigationController.h"
+#import "AppConfig.h"
+#import "NBNetwork.h"
 
 @interface AppDelegate ()
 
@@ -23,18 +26,29 @@
     
 //    http://oss.dzt.hichengdai.com/main.html
     
+    
+    
+    [AppConfig config].runEnv = RunEnvDev;
+    
+    
+    [NBNetworkConfig config].baseUrl = @"http://121.43.101.148:8901/forward-service/api";
+    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    if (0) {
+    
+    
+    if ([TLUser user].isLogin) {
         
-        self.window.rootViewController = [[TLUserLoginVC alloc] init];
+          self.window.rootViewController = [[TLTabBarController alloc] init];
+   
 
     } else {
     
-        self.window.rootViewController = [[TLTabBarController alloc] init];
-
+        TLNavigationController *nav = [[TLNavigationController alloc] initWithRootViewController:[[TLUserLoginVC alloc] init]];
+        self.window.rootViewController = nav;
+        
     }
     
     
@@ -43,6 +57,22 @@
     
     return YES;
     
+}
+
+- (void)userLoginOut {
+
+    [[TLUser user] loginOut];
+    
+    TLNavigationController *nav = [[TLNavigationController alloc] initWithRootViewController:[[TLUserLoginVC alloc] init]];
+    self.window.rootViewController = nav;
+
+}
+
+- (void)userLogin {
+
+    self.window.rootViewController = [[TLTabBarController alloc] init];
+
+
 }
 
 

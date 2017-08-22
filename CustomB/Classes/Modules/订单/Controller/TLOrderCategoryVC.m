@@ -15,6 +15,9 @@
 #import "TLUser.h"
 #import "TLNetworking.h"
 #import "TLOrderCell.h"
+#import "Const.h"
+#import "TLOrderDetailVC.h"
+#import "TLOrderDetailVC2.h"
 
 @interface TLOrderCategoryVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -36,17 +39,17 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
-//    if (self.isFirst) {
-//        
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            
-//            [self.orderTableView beginRefreshing];
-//            self.isFirst = NO;
-//            
-//        });
-//        
-//        
-//    }
+    if (self.isFirst) {
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            
+            [self.orderTableView beginRefreshing];
+            self.isFirst = NO;
+            
+        });
+        
+        
+    }
     
 }
 
@@ -66,29 +69,39 @@
     
     //--//
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
-    helper.code = @"808068";
-    helper.parameters[@"token"] = [TLUser user].token;
-    helper.parameters[@"applyUser"] = [TLUser user].userId;
-    helper.isDeliverCompanyCode = NO;
+    helper.code = @"620230";
+    helper.parameters[@"ltUser"] = [TLUser user].userId;
+//    helper.parameters[@"applyUser"] = [TLUser user].userId;
     
-    if (self.status == TLOrderStatusWillPay) {
+    switch (self.status) {
+        case TLOrderStatusWillMeasurement: {
         
-        helper.parameters[@"status"] = @"1";
-        
-    } else if(self.status == TLOrderStatusDidPay) {
-        
-        helper.parameters[@"status"] = @"3";
-        
-    } else if(self.status == TLOrderStatusWillSend)  {
-        
-        helper.parameters[@"status"] = @"2";
-        
-    } else if(self.status == TLOrderStatusDidFinish) {//全部
-        
-        helper.parameters[@"status"] = @"4";
-        
-        
+            helper.parameters[@"status"] = kOrderStatusWillMeasurement;
+            
+        } break;
+        case TLOrderStatusWillPay: {
+            
+            helper.parameters[@"status"] = kOrderStatusWillPay;
+            
+        } break;
+            
+        case TLOrderStatusWillSubmit: {
+            
+            helper.parameters[@"status"] = kOrderStatusWillSubmit;
+            
+        } break;
+            
+        case TLOrderStatusWillCheck: {
+            
+            helper.parameters[@"status"] = kOrderStatusWillCheck;
+            
+        } break;
+            
+ 
+        default:
+            break;
     }
+
     
     //    1待支付 2 已支付待发货 3 已发货待收货 4 已收货 91用户取消 92 商户取消 93 快递异常
     
@@ -135,14 +148,34 @@
 }
 
 
+- (void)tl_placeholderOperation {
+
+    [self.orderTableView beginRefreshing];
+
+}
 
 
 #pragma mark- delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-
+    if (0) {
+        
+        TLOrderDetailVC *vc = [[TLOrderDetailVC alloc] init];
+        vc.order  = self.orderGroups[indexPath.row];
+        [self.navigationController pushViewController:vc
+                                             animated:YES];
+        
+    } else {
     
+        TLOrderDetailVC2 *vc = [[TLOrderDetailVC2 alloc] init];
+//        vc.order  = self.orderGroups[indexPath.row];
+        [self.navigationController pushViewController:vc
+                                             animated:YES];
+    }
+
+
 }
+
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     
@@ -152,7 +185,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return 10;
+    return self.orderGroups.count;
 
 }
 
@@ -167,7 +200,7 @@
         
     }
 
-//    cell.order = self.orderGroups[indexPath.section];
+    cell.order = self.orderGroups[indexPath.section];
     
     return cell;
     

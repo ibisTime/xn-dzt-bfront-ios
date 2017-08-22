@@ -6,9 +6,9 @@
 //  Copyright © 2016年  tianlei. All rights reserved.
 //
 
-#import "TLBaseVC.h"
+#import "ZHAccountBaseVC.h"
 
-@interface TLUserLoginVC : TLBaseVC
+@interface TLUserLoginVC : ZHAccountBaseVC
 
 @property (nonatomic,copy) void(^loginSuccess)();
 

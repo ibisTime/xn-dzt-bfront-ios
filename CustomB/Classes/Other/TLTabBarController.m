@@ -36,7 +36,7 @@
     }
     
 
-
+    self.selectedIndex = 1;
 }
 
 - (void)usrLoginOut {

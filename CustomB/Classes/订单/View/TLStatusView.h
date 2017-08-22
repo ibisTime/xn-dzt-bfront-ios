@@ -8,10 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+typedef NS_ENUM(NSUInteger, TLStatusViewType) {
+    TLStatusViewTypeYellow,
+    TLStatusViewTypeTheme
+};
+
 @interface TLStatusView : UIView
 
 @property (nonatomic, strong) UILabel *contentLbl;
 - (instancetype)init;
 
+@property (nonatomic, assign) TLStatusViewType type;
 
 @end

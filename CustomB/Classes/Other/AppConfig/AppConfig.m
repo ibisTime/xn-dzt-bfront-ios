@@ -44,46 +44,37 @@ void TLLog(NSString *format, ...) {
         case RunEnvRelease: {
         
            self.qiniuDomain = @"http://omxvtiss6.bkt.clouddn.com";
-           self.chatKey = @"1139170317178872#zhpay";
             
            self.addr = @"http://139.224.200.54:5601"; //test
-           //分享的基础连接
-//            http://121.43.101.148:5603/share/share-receive.html?code=xxx&userReferee=xxx
-            self.shareBaseUrl = @"http://m.zhenghuijituan.com";
 
         }break;
             
         case RunEnvTest: {
             
             self.qiniuDomain = @"http://omxvtiss6.bkt.clouddn.com";
-            self.chatKey = @"1139170317178872#zhpay";
             self.addr = @"http://106.15.49.68:5601";
-            
-//            self.shareBaseUrl = @"http://118.178.124.16:5603";
-            self.shareBaseUrl = @"http://m.zhqb.hichengdai.com";
             
         }break;
             
             
         case RunEnvDev: {
             
-//            self.qiniuDomain = @"http://oi99f4peg.bkt.clouddn.com";
-//            self.chatKey = @"tianleios#cd-test";
-            
             self.qiniuDomain = @"http://omxvtiss6.bkt.clouddn.com";
-            self.chatKey = @"1139170317178872#zhpay";
             
-            self.addr = @"http://106.15.49.68:5501";
-
-//            self.addr = @"http://121.43.101.148:8901";
-            self.shareBaseUrl = @"http://121.43.101.148:5603";
+//            http://121.43.101.148:8901/forward-service/api
+            self.addr = @"http://121.43.101.148:8901";
 
         }break;
    
 
     }
     
-} 
+}
+
+- (NSString *)systemCode {
+
+    return @"CD-CDZT000009";
+}
 
 - (NSString *)pushKey {
 

@@ -33,6 +33,21 @@
     return self;
 }
 
+- (void)setType:(TLStatusViewType)type {
+
+    if (type == TLStatusViewTypeYellow) {
+        
+       self.backgroundColor = [UIColor colorWithHexString:@"#dab616"];
+        
+    } else if (type == TLStatusViewTypeTheme) {
+        
+       self.backgroundColor = [UIColor themeColor];
+
+    }
+    
+
+}
+
 - (void)layoutSubviews {
 
     [super layoutSubviews];
@@ -40,7 +55,6 @@
     self.layer.cornerRadius = self.height/2.0;
 
 }
-
 
 - (void)setBackgroundColor:(UIColor *)backgroundColor {
 

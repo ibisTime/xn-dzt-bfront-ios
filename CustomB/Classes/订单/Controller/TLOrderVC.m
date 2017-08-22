@@ -20,7 +20,9 @@
 @property (nonatomic, strong) UIScrollView *switchScrollView;
 @property (nonatomic, strong) TLSearchView *searchView;
 
+@property (nonatomic, copy) NSArray<NSNumber *> *orderStatusArr;
 @end
+
 
 @implementation TLOrderVC
 
@@ -37,7 +39,7 @@
     ZHSegmentView *segmentView =  [[ZHSegmentView alloc] initWithFrame:CGRectMake(0, self.searchView.yy, SCREEN_WIDTH, 40)];
     [self.view addSubview:segmentView];
     segmentView.delegate = self;
-    segmentView.tagNames = @[@"全部订单",@"新单",@"待量体",@"待支付",@"待录入",@"待复核"];
+    segmentView.tagNames = @[@"全部订单",@"待量体",@"待支付",@"待录入",@"待复核"];
     
     //
     self.switchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, segmentView.yy, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - segmentView.bottom)];
@@ -46,8 +48,12 @@
     self.switchScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * segmentView.tagNames.count, self.switchScrollView.height);
 
     
-    self.isAdd = [@[@1, @0, @0, @0,@0,@0] mutableCopy];
+    self.isAdd = [@[@1 , @0, @0,@0,@0] mutableCopy];
+    
+    self.orderStatusArr = @[@(TLOrderStatusAll),@(TLOrderStatusWillMeasurement),@(TLOrderStatusWillPay),@(TLOrderStatusWillSubmit),@(TLOrderStatusWillCheck)];
+    
     TLOrderCategoryVC *vc = [[TLOrderCategoryVC alloc] init];
+    vc.status = [self.orderStatusArr[0] integerValue];
     [self addChildViewController:vc];
     vc.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, self.switchScrollView.height);
     [self.switchScrollView addSubview:vc.view];
@@ -61,6 +67,7 @@
     if ([self.isAdd[idx] isEqual:@0]) {
         
         TLOrderCategoryVC *vc = [[TLOrderCategoryVC alloc] init];
+        vc.status = [self.orderStatusArr[idx] integerValue];
         [self addChildViewController:vc];
         vc.view.frame = CGRectMake(SCREEN_WIDTH * idx, 0, SCREEN_WIDTH, self.switchScrollView.height);
         [self.switchScrollView addSubview:vc.view];
