@@ -29,9 +29,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-//        self.backgroundColor = [UIColor backgroundColor];
-        self.backgroundColor = [UIColor clearColor];
-        self.contentView.backgroundColor = [UIColor clearColor];
+        self.backgroundColor = [UIColor backgroundColor];
+        self.contentView.backgroundColor = self.backgroundColor;
         
         self.btn = [[UIButton alloc] initWithFrame:self.bounds];
         [self.contentView addSubview:self.btn];

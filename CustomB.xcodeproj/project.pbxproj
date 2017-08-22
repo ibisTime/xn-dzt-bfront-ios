@@ -32,13 +32,18 @@
 		2E3072041F4C00410003ADD9 /* NBBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3071F61F4C00410003ADD9 /* NBBaseRequest.m */; };
 		2E3072051F4C00410003ADD9 /* NBCDRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3071F81F4C00410003ADD9 /* NBCDRequest.m */; };
 		2E3072061F4C00410003ADD9 /* NBRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3071FA1F4C00410003ADD9 /* NBRequest.m */; };
-		2E3072091F4C0C430003ADD9 /* TLOrderCollectionViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072081F4C0C430003ADD9 /* TLOrderCollectionViewHeader.m */; };
 		2E30720C1F4C0FBC0003ADD9 /* TLOrderCustom1Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30720B1F4C0FBC0003ADD9 /* TLOrderCustom1Cell.m */; };
 		2E3072101F4C17350003ADD9 /* TLOrderDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30720F1F4C17350003ADD9 /* TLOrderDataManager.m */; };
 		2E3072131F4C175E0003ADD9 /* TLGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072121F4C175E0003ADD9 /* TLGroup.m */; };
 		2E3072161F4C225A0003ADD9 /* TLOrderStyleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072151F4C225A0003ADD9 /* TLOrderStyleCell.m */; };
 		2E3072191F4C27300003ADD9 /* TLOrderParameterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072181F4C27300003ADD9 /* TLOrderParameterCell.m */; };
 		2E30721C1F4C39290003ADD9 /* TLColorChooseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30721B1F4C39290003ADD9 /* TLColorChooseCell.m */; };
+		2E3072201F4C5B4C0003ADD9 /* TLMeasureDataCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30721F1F4C5B4C0003ADD9 /* TLMeasureDataCell.m */; };
+		2E3072231F4C682D0003ADD9 /* TLOrderInfoCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072221F4C682D0003ADD9 /* TLOrderInfoCell.m */; };
+		2E3072271F4C6D3B0003ADD9 /* TLOrderCollectionViewHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072261F4C6D3B0003ADD9 /* TLOrderCollectionViewHeader.m */; };
+		2E30722A1F4C6D820003ADD9 /* TLOrderBigTitleHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072291F4C6D820003ADD9 /* TLOrderBigTitleHeader.m */; };
+		2E30722D1F4C72610003ADD9 /* TLOrderBGTitleHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30722C1F4C72610003ADD9 /* TLOrderBGTitleHeader.m */; };
+		2E3072301F4C74810003ADD9 /* TLOrderDoubleTitleHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30722F1F4C74810003ADD9 /* TLOrderDoubleTitleHeader.m */; };
 		2E8C8A831F4A851B00974F85 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C8A821F4A851B00974F85 /* main.m */; };
 		2E8C8A8E1F4A851B00974F85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C8A8D1F4A851B00974F85 /* Assets.xcassets */; };
 		2E8C8A911F4A851B00974F85 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C8A8F1F4A851B00974F85 /* LaunchScreen.storyboard */; };
@@ -136,8 +141,6 @@
 		2E3071F81F4C00410003ADD9 /* NBCDRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBCDRequest.m; sourceTree = "<group>"; };
 		2E3071F91F4C00410003ADD9 /* NBRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBRequest.h; sourceTree = "<group>"; };
 		2E3071FA1F4C00410003ADD9 /* NBRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBRequest.m; sourceTree = "<group>"; };
-		2E3072071F4C0C430003ADD9 /* TLOrderCollectionViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLOrderCollectionViewHeader.h; sourceTree = "<group>"; };
-		2E3072081F4C0C430003ADD9 /* TLOrderCollectionViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLOrderCollectionViewHeader.m; sourceTree = "<group>"; };
 		2E30720A1F4C0FBC0003ADD9 /* TLOrderCustom1Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLOrderCustom1Cell.h; sourceTree = "<group>"; };
 		2E30720B1F4C0FBC0003ADD9 /* TLOrderCustom1Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLOrderCustom1Cell.m; sourceTree = "<group>"; };
 		2E30720E1F4C17350003ADD9 /* TLOrderDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLOrderDataManager.h; sourceTree = "<group>"; };
@@ -150,6 +153,18 @@
 		2E3072181F4C27300003ADD9 /* TLOrderParameterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLOrderParameterCell.m; sourceTree = "<group>"; };
 		2E30721A1F4C39290003ADD9 /* TLColorChooseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLColorChooseCell.h; sourceTree = "<group>"; };
 		2E30721B1F4C39290003ADD9 /* TLColorChooseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLColorChooseCell.m; sourceTree = "<group>"; };
+		2E30721E1F4C5B4C0003ADD9 /* TLMeasureDataCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLMeasureDataCell.h; sourceTree = "<group>"; };
+		2E30721F1F4C5B4C0003ADD9 /* TLMeasureDataCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLMeasureDataCell.m; sourceTree = "<group>"; };
+		2E3072211F4C682D0003ADD9 /* TLOrderInfoCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLOrderInfoCell.h; sourceTree = "<group>"; };
+		2E3072221F4C682D0003ADD9 /* TLOrderInfoCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLOrderInfoCell.m; sourceTree = "<group>"; };
+		2E3072251F4C6D3B0003ADD9 /* TLOrderCollectionViewHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLOrderCollectionViewHeader.h; sourceTree = "<group>"; };
+		2E3072261F4C6D3B0003ADD9 /* TLOrderCollectionViewHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLOrderCollectionViewHeader.m; sourceTree = "<group>"; };
+		2E3072281F4C6D820003ADD9 /* TLOrderBigTitleHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLOrderBigTitleHeader.h; sourceTree = "<group>"; };
+		2E3072291F4C6D820003ADD9 /* TLOrderBigTitleHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLOrderBigTitleHeader.m; sourceTree = "<group>"; };
+		2E30722B1F4C72610003ADD9 /* TLOrderBGTitleHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLOrderBGTitleHeader.h; sourceTree = "<group>"; };
+		2E30722C1F4C72610003ADD9 /* TLOrderBGTitleHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLOrderBGTitleHeader.m; sourceTree = "<group>"; };
+		2E30722E1F4C74810003ADD9 /* TLOrderDoubleTitleHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLOrderDoubleTitleHeader.h; sourceTree = "<group>"; };
+		2E30722F1F4C74810003ADD9 /* TLOrderDoubleTitleHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLOrderDoubleTitleHeader.m; sourceTree = "<group>"; };
 		2E8C8A7E1F4A851B00974F85 /* CustomB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8C8A821F4A851B00974F85 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2E8C8A8D1F4A851B00974F85 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -285,10 +300,10 @@
 		2E3071A01F4AC8BD0003ADD9 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2E3072241F4C6D3B0003ADD9 /* Header */,
+				2E30721D1F4C5B3B0003ADD9 /* 量体数据Cell */,
 				2E3071D61F4BDEC20003ADD9 /* TLOrderDetailCell.h */,
 				2E3071D71F4BDEC20003ADD9 /* TLOrderDetailCell.m */,
-				2E3072071F4C0C430003ADD9 /* TLOrderCollectionViewHeader.h */,
-				2E3072081F4C0C430003ADD9 /* TLOrderCollectionViewHeader.m */,
 				2E30720A1F4C0FBC0003ADD9 /* TLOrderCustom1Cell.h */,
 				2E30720B1F4C0FBC0003ADD9 /* TLOrderCustom1Cell.m */,
 				2E3072141F4C225A0003ADD9 /* TLOrderStyleCell.h */,
@@ -297,6 +312,8 @@
 				2E3072181F4C27300003ADD9 /* TLOrderParameterCell.m */,
 				2E30721A1F4C39290003ADD9 /* TLColorChooseCell.h */,
 				2E30721B1F4C39290003ADD9 /* TLColorChooseCell.m */,
+				2E3072211F4C682D0003ADD9 /* TLOrderInfoCell.h */,
+				2E3072221F4C682D0003ADD9 /* TLOrderInfoCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -398,6 +415,30 @@
 				2E3072121F4C175E0003ADD9 /* TLGroup.m */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		2E30721D1F4C5B3B0003ADD9 /* 量体数据Cell */ = {
+			isa = PBXGroup;
+			children = (
+				2E30721E1F4C5B4C0003ADD9 /* TLMeasureDataCell.h */,
+				2E30721F1F4C5B4C0003ADD9 /* TLMeasureDataCell.m */,
+			);
+			path = "量体数据Cell";
+			sourceTree = "<group>";
+		};
+		2E3072241F4C6D3B0003ADD9 /* Header */ = {
+			isa = PBXGroup;
+			children = (
+				2E3072251F4C6D3B0003ADD9 /* TLOrderCollectionViewHeader.h */,
+				2E3072261F4C6D3B0003ADD9 /* TLOrderCollectionViewHeader.m */,
+				2E3072281F4C6D820003ADD9 /* TLOrderBigTitleHeader.h */,
+				2E3072291F4C6D820003ADD9 /* TLOrderBigTitleHeader.m */,
+				2E30722B1F4C72610003ADD9 /* TLOrderBGTitleHeader.h */,
+				2E30722C1F4C72610003ADD9 /* TLOrderBGTitleHeader.m */,
+				2E30722E1F4C74810003ADD9 /* TLOrderDoubleTitleHeader.h */,
+				2E30722F1F4C74810003ADD9 /* TLOrderDoubleTitleHeader.m */,
+			);
+			path = Header;
 			sourceTree = "<group>";
 		};
 		2E8C8A751F4A851B00974F85 = {
@@ -992,6 +1033,8 @@
 				2E8C8AE21F4A94DC00974F85 /* TLUploadManager.m in Sources */,
 				2E8C8B321F4ABB7800974F85 /* TLBannerView.m in Sources */,
 				2E8C8AD11F4A8B2400974F85 /* TLUserExt.m in Sources */,
+				2E3072271F4C6D3B0003ADD9 /* TLOrderCollectionViewHeader.m in Sources */,
+				2E3072301F4C74810003ADD9 /* TLOrderDoubleTitleHeader.m in Sources */,
 				2E8C8AA11F4A863600974F85 /* AppDelegate.m in Sources */,
 				2E3072031F4C00410003ADD9 /* NBNetworkConfig.m in Sources */,
 				2E3071BD1F4AE2CC0003ADD9 /* TLSettingModel.m in Sources */,
@@ -1000,15 +1043,16 @@
 				2E8C8B101F4A998C00974F85 /* TLOrderVC.m in Sources */,
 				2E3071A61F4AC94F0003ADD9 /* TLOrderModel.m in Sources */,
 				2E3071C01F4AE7A30003ADD9 /* TLLevelView.m in Sources */,
+				2E30722D1F4C72610003ADD9 /* TLOrderBGTitleHeader.m in Sources */,
 				2E3071B71F4AD2960003ADD9 /* TLCustomerCell.m in Sources */,
 				2E3071D81F4BDEC20003ADD9 /* TLOrderDetailCell.m in Sources */,
 				2E8C8AD71F4A947F00974F85 /* UILable+convience.m in Sources */,
 				2E8C8AB71F4A88AF00974F85 /* UIColor+theme.m in Sources */,
 				2E3072051F4C00410003ADD9 /* NBCDRequest.m in Sources */,
-				2E3072091F4C0C430003ADD9 /* TLOrderCollectionViewHeader.m in Sources */,
 				2E3071CF1F4BC2540003ADD9 /* Const.m in Sources */,
 				2E8C8B131F4A999A00974F85 /* TLMineVC.m in Sources */,
 				2E3071AD1F4ACFF50003ADD9 /* TLSearchView.m in Sources */,
+				2E3072231F4C682D0003ADD9 /* TLOrderInfoCell.m in Sources */,
 				2E3071A91F4AC9C80003ADD9 /* TLPlaceholderView.m in Sources */,
 				2E8C8AA51F4A876B00974F85 /* TLTabBarController.m in Sources */,
 				2E8C8ABE1F4A892A00974F85 /* UIColor+Extension.m in Sources */,
@@ -1028,6 +1072,7 @@
 				2E8C8AEE1F4A958A00974F85 /* TLAlert.m in Sources */,
 				2E8C8AFE1F4A966200974F85 /* FCUUID.m in Sources */,
 				2E8C8B071F4A983600974F85 /* UIButton+convience.m in Sources */,
+				2E3072201F4C5B4C0003ADD9 /* TLMeasureDataCell.m in Sources */,
 				2E8C8B311F4ABB7800974F85 /* TLBannerCell.m in Sources */,
 				2E3071C61F4B20590003ADD9 /* ZHCaptchaView.m in Sources */,
 				2E8C8B1F1F4AB11400974F85 /* TLHomeTableHeaderView.m in Sources */,
@@ -1040,6 +1085,7 @@
 				2E3072021F4C00410003ADD9 /* NBNetworkAgent.m in Sources */,
 				2E8C8ACB1F4A8A9000974F85 /* UIView+Frame.m in Sources */,
 				2E8C8B361F4ABBBD00974F85 /* NSTimer+tlNoCycle.m in Sources */,
+				2E30722A1F4C6D820003ADD9 /* TLOrderBigTitleHeader.m in Sources */,
 				2E8C8AFF1F4A966200974F85 /* UIDevice+FCUUID.m in Sources */,
 				2E8C8B191F4AA98200974F85 /* TLOrderCell.m in Sources */,
 				2E3072161F4C225A0003ADD9 /* TLOrderStyleCell.m in Sources */,

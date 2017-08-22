@@ -37,7 +37,7 @@
         
         self.bgImageView = [[UIImageView alloc] initWithFrame:self.bounds];
         [self.contentView addSubview:self.bgImageView];
-        self.bgImageView.layer.cornerRadius = 10;
+        self.bgImageView.layer.cornerRadius = 5;
         self.bgImageView.backgroundColor = [UIColor whiteColor];
         self.bgImageView.layer.masksToBounds = YES;
         self.bgImageView.backgroundColor = [UIColor orangeColor];

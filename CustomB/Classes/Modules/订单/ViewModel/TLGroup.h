@@ -15,9 +15,14 @@
 @property (nonatomic, assign) NSInteger itemCount;
 @property (nonatomic, assign) BOOL editting;
 @property (nonatomic, copy) NSString *cellReuseIdentifier;
+@property (nonatomic, copy) NSString *headerReuseIdentifier;
+
+
 //@property (nonatomic, copy) NSString *headerReuseIdentifier;
 
 @property (nonatomic, copy) void(^action)();
+
+@property (nonatomic, assign) CGSize headerSize;
 
 
 @property (nonatomic, assign) CGSize itemSize;

@@ -97,7 +97,8 @@
 
 - (void)setUpUI {
 
-    self.backgroundColor = [UIColor colorWithHexString:@"#fafafa"];
+    self.backgroundColor = [UIColor backgroundColor];
+    
     self.titleLbl = [UILabel labelWithFrame:CGRectZero
                                textAligment:NSTextAlignmentLeft
                             backgroundColor:[UIColor clearColor]
@@ -146,7 +147,7 @@
     [self.cancleBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.centerY.equalTo(self.confirmBtn.mas_centerY);
-        make.right.equalTo(self.confirmBtn.mas_left).offset(-18);
+        make.right.equalTo(self.confirmBtn.mas_left).offset(0);
         make.height.equalTo(self.mas_height);
         make.width.mas_equalTo(50);
 
