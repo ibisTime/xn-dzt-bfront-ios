@@ -12,6 +12,7 @@
 #import "TLDataModel.h"
 #import "TLParameterModel.h"
 #import "TLCiXiuTextInputCell.h"
+
 @class TLChooseDataModel;
 
 @interface TLOrderDataManager : NSObject
@@ -59,7 +60,7 @@
 //以下必须先调方法，然后数组才会有初始化的值
 - (void)handleParameterData:(id)responseObject;
 @property (nonatomic, strong) NSMutableArray <TLParameterModel *>*zhuoZhuangFengGeRoom;
-
+//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*mianLiaoFengGeRoom;
 @property (nonatomic, strong) NSMutableArray <TLParameterModel *>*guiGeRoom;
 @property (nonatomic, strong) NSMutableArray <TLParameterModel *>*menJinRoom;
 @property (nonatomic, strong) NSMutableArray <TLParameterModel *>*lingXingRoom;
@@ -69,6 +70,10 @@
 @property (nonatomic, strong) NSMutableArray <TLParameterModel *>*fontRoom;
 @property (nonatomic, strong) NSMutableArray <TLParameterModel *>*ciXiuLocationRoom;
 @property (nonatomic, strong) NSMutableArray <TLParameterModel *>*ciXiuColorRoom;
+
+//
+- (void)handleMianLiaoData:(id)responseObject;
+@property (nonatomic, strong) NSMutableArray < TLParameterModel*>*mianLiaoRoom;
 
 
 

@@ -32,6 +32,8 @@
 #import "AppConfig.h"
 
 #import "TLChooseDataModel.h"
+#import "TLUser.h"
+#import "TLAlert.h"
 
 
 @interface TLOrderDetailVC2 ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,TLOrderEditHeaderDelegate>
@@ -64,8 +66,12 @@
     [TLProgressHUD showWithStatus:nil];
     NBCDRequest *req = [[NBCDRequest alloc] init];
     req.code = @"620207";
+    req.parameters[@"orderCode"] = self.order.code;
+    req.parameters[@"remark"] = @"ios remark";
+    req.parameters[@"updater"] = [TLUser user].userId;
 //    req.parameters[@"systemCode"] = [AppConfig config].systemCode;
 //    req.parameters[@"companyCode"] = [AppConfig config].systemCode;
+    
     
     //量体信息
     NSMutableDictionary *measureDict = [[NSMutableDictionary alloc] init];
@@ -73,6 +79,8 @@
         
         measureDict[obj.keyName] = obj.value;
         
+        measureDict[obj.keyName] = @"default value";
+
     }];
     req.parameters[@"map"] = measureDict;
 
@@ -84,7 +92,7 @@
         [obj.parameterModelRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
             if (obj.isSelected) {
-//                [otherArr addObject:]
+                [otherArr addObject:obj.code];
             }
             
         }];
@@ -92,56 +100,126 @@
     }];
 
     //3.风格
+    [self.dataManager.zhuoZhuangFengGeRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        if (obj.isSelected) {
+            [otherArr addObject:obj.code];
+        }
+    }];
+
     //4.规格
+    [self.dataManager.guiGeRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        if (obj.isSelected) {
+            [otherArr addObject:obj.code];
+        }
+    }];
+    
     //5.门禁
+    [self.dataManager.menJinRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        if (obj.isSelected) {
+            [otherArr addObject:obj.code];
+        }
+    }];
+    
     //6.领型
+    [self.dataManager.lingXingRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        if (obj.isSelected) {
+            [otherArr addObject:obj.code];
+        }
+    }];
+    
     //7.袖子
+    [self.dataManager.xiuXingRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        if (obj.isSelected) {
+            [otherArr addObject:obj.code];
+        }
+    }];
+    
     //8.口袋
+    [self.dataManager.kouDaiRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        if (obj.isSelected) {
+            [otherArr addObject:obj.code];
+        }
+    }];
+    
     //9.收省
-    //10.内容
+    [self.dataManager.shouXingRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        if (obj.isSelected) {
+            [otherArr addObject:obj.code];
+        }
+    }];
+    
+    //10.刺绣内容
+ 
+    
     //11.刺绣字体
+    [self.dataManager.fontRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        if (obj.isSelected) {
+            [otherArr addObject:obj.code];
+        }
+    }];
     //12.位置
+    [self.dataManager.ciXiuLocationRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        if (obj.isSelected) {
+            [otherArr addObject:obj.code];
+        }
+    }];
+    
     //13.颜色
+    [self.dataManager.ciXiuColorRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        if (obj.isSelected) {
+            [otherArr addObject:obj.code];
+        }
+    }];
     //14.备注
     
-//    req.parameters[@"codeList"] =
+    req.parameters[@"codeList"] = otherArr;
 
 
 
-    [self.dataManager.groups  enumerateObjectsUsingBlock:^(TLGroup * _Nonnull group, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        if (group.dataModelRoom.count > 0) {
-            
-            if ([group.dataModelRoom[0] isKindOfClass:[TLParameterModel class]]) {
-                
-                //大类-小类的数据， 找出大类 对应的 小类的数据
-                [group.dataModelRoom enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    
-                    TLParameterModel *parameterModel = obj;
-                    if (parameterModel.isSelected) {
-                        
-                        // @{"4-1" : value}
-                        @{parameterModel.type : parameterModel.code };
-                        
-                    }
-              
-                }];
-                
-            } else {
-                //一些填写的数据
-                
-            
-            
-            }
-           
-        }
-        
-    }];
+//    [self.dataManager.groups  enumerateObjectsUsingBlock:^(TLGroup * _Nonnull group, NSUInteger idx, BOOL * _Nonnull stop) {
+//        
+//        if (group.dataModelRoom.count > 0) {
+//            
+//            if ([group.dataModelRoom[0] isKindOfClass:[TLParameterModel class]]) {
+//                
+//                //大类-小类的数据， 找出大类 对应的 小类的数据
+//                [group.dataModelRoom enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                    
+//                    TLParameterModel *parameterModel = obj;
+//                    if (parameterModel.isSelected) {
+//                        
+//                        // @{"4-1" : value}
+//                        @{parameterModel.type : parameterModel.code };
+//                        
+//                    }
+//              
+//                }];
+//                
+//            } else {
+//                //一些填写的数据
+//                
+//            
+//            
+//            }
+//           
+//        }
+//        
+//    }];
     
     [req startWithSuccess:^(__kindof NBBaseRequest *request) {
         
         [TLProgressHUD dismiss];
-        
+        [TLAlert alertWithSucces:@"录入成功"];
     } failure:^(__kindof NBBaseRequest *request) {
         [TLProgressHUD dismiss];
         
@@ -207,19 +285,37 @@
     NBCDRequest *xingTiReq = [[NBCDRequest alloc] init];
     xingTiReq.code = @"805908";
     
+    //面料
+    NBCDRequest *mianLiaoReq = [[NBCDRequest alloc] init];
+    mianLiaoReq.code = @"620012";
+    mianLiaoReq.parameters[@"modelCode"] = self.productCode;
+    mianLiaoReq.parameters[@"status"] = @"1";
+//    [mianLiaoReq startWithSuccess:^(__kindof NBBaseRequest *request) {
+//        
+//        [TLProgressHUD dismiss];
+//        
+//    } failure:^(__kindof NBBaseRequest *request) {
+//        [TLProgressHUD dismiss];
+//        
+//    }];
     
-    NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[req,parameterReq,xingTiReq]];
+    
+    NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[req,parameterReq,xingTiReq,mianLiaoReq]];
     [batchReq startWithSuccess:^(NBBatchReqest *batchRequest) {
         
         NBCDRequest *chooseReq = (NBCDRequest *)batchRequest.reqArray[0];
         NBCDRequest *measureDict = (NBCDRequest *)batchRequest.reqArray[1];
         NBCDRequest *xingTiReq = (NBCDRequest *)batchRequest.reqArray[2];
+        NBCDRequest *mianLiaoReq = (NBCDRequest *)batchRequest.reqArray[3];
+
 
         
         [self.dataManager handleParameterData:chooseReq.responseObject];
         [self.dataManager handMeasureData:measureDict.responseObject];
         [self.dataManager configXingTiDataModelWithResp:xingTiReq.responseObject];
         
+        [self.dataManager handleMianLiaoData:mianLiaoReq.responseObject];
+
         //
         [self setUpUI];
         [self registerClass];
@@ -377,9 +473,22 @@
     CGFloat w = (SCREEN_WIDTH - styleGroup.edgeInsets.left * 2 - 2* styleGroup.minimumLineSpacing)/3.0;
     styleGroup.itemSize = CGSizeMake(w, 30);
     
+    //
+        CGFloat parameterCellWidth = (SCREEN_WIDTH - styleGroup.edgeInsets.left * 2 - 2* styleGroup.minimumLineSpacing)/3.0;
+    
+    TLGroup *mianLiaoRoom = [[TLGroup alloc] init];
+    [self.dataManager.groups addObject:mianLiaoRoom];
+    mianLiaoRoom.dataModelRoom = self.dataManager.mianLiaoRoom;
+    mianLiaoRoom.title = @"面料";
+    mianLiaoRoom.headerSize = headerSmallSize;
+    mianLiaoRoom.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
+    mianLiaoRoom.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
+    mianLiaoRoom.minimumLineSpacing = horizonMargin;
+    mianLiaoRoom.minimumInteritemSpacing = middleMargin;
+    mianLiaoRoom.edgeInsets = paramterEdgeInsets;
+    mianLiaoRoom.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     
     //
-    CGFloat parameterCellWidth = (SCREEN_WIDTH - styleGroup.edgeInsets.left * 2 - 2* styleGroup.minimumLineSpacing)/3.0;
     TLGroup *parameterGroup = [[TLGroup alloc] init];
     [self.dataManager.groups addObject:parameterGroup];
     parameterGroup.dataModelRoom = self.dataManager.guiGeRoom;
@@ -655,6 +764,22 @@
         [self presentViewController:alertCtrl animated:YES completion:^{
             
         }];
+    } else if ([cell isKindOfClass:[TLOrderStyleCell class]]) {
+    
+        NSMutableArray <TLParameterModel *>*models = self.dataManager.groups[indexPath.section].dataModelRoom;
+        [models enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            obj.isSelected = idx == indexPath.row;
+            
+        }];
+        
+        [UIView animateWithDuration:0 animations:^{
+            [self.orderDetailCollectionView  performBatchUpdates:^{
+                [self.orderDetailCollectionView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section]];
+                
+            } completion:nil];
+        }];
+    
     }
 
 }

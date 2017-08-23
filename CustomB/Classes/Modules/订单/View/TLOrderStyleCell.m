@@ -14,6 +14,7 @@
 @interface TLOrderStyleCell()
 
 @property (nonatomic, strong) UIButton *btn;
+@property (nonatomic, strong) UIImageView *selectMarkImageView;
 
 @end
 
@@ -49,6 +50,16 @@
         self.btn.userInteractionEnabled = NO;
         
         
+        
+        self.selectMarkImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        [self.contentView addSubview:self.selectMarkImageView];
+        self.selectMarkImageView.layer.cornerRadius = self.btn.layer.cornerRadius;
+        self.selectMarkImageView.backgroundColor = [UIColor clearColor];
+        self.selectMarkImageView.layer.masksToBounds = YES;
+        self.selectMarkImageView.layer.borderColor = [UIColor themeColor].CGColor;
+        self.selectMarkImageView.layer.borderWidth = 2;
+        
+        
     }
     return self;
 }
@@ -59,7 +70,8 @@
     
     TLParameterModel *parameterModel = model;
     [self.btn setTitle:parameterModel.name forState:UIControlStateNormal];
-
+    self.selectMarkImageView.hidden = !parameterModel.isSelected;
+    
 }
 
 @end

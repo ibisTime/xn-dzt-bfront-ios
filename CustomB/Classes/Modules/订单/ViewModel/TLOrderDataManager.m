@@ -198,6 +198,12 @@
 
 }
 
+- (void)handleMianLiaoData:(id)responseObject {
+
+    self.mianLiaoRoom = [TLParameterModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
+
+}
+
 
 
 - (void)handleParameterData:(id)responseObject {
@@ -253,6 +259,10 @@
     NSArray *zhuoZhuangFengGeRoom = dict[@"1-8"];
     self.zhuoZhuangFengGeRoom = [TLParameterModel tl_objectArrayWithDictionaryArray:zhuoZhuangFengGeRoom];
 
+//    NSArray *mianLiaoFengGeRoom = dict[@"1-2"];
+//    self.mianLiaoFengGeRoom = [TLParameterModel tl_objectArrayWithDictionaryArray:mianLiaoFengGeRoom];
+    
+    
     
 
 

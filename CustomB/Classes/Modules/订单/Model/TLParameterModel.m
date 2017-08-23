@@ -10,4 +10,10 @@
 
 @implementation TLParameterModel
 
++ (NSDictionary *)tl_replacedKeyFromPropertyName
+{
+    return @{ @"description" : @"desc" };
+    
+}
+
 @end
