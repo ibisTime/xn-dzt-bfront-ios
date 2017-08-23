@@ -8,6 +8,8 @@
 
 #import "TLMeasureDataCell.h"
 #import "TLUIHeader.h"
+#import "TLDataModel.h"
+#import "TLChooseDataModel.h"
 
 
 @interface TLMeasureDataCell()
@@ -22,7 +24,7 @@
 
 + (NSString *)cellReuseIdentifier {
     
-    return @"TLColorChooseCellID";
+    return @"TLMeasureDataCellID";
     
 }
 
@@ -98,8 +100,32 @@
 
     }
     
-    [self data];
+//    [self data];
     return self;
+}
+
+- (void)setModel:(id)model {
+
+    [super setModel:model];
+    
+    
+    if ([model isKindOfClass:[TLDataModel class]]) {
+        
+        TLDataModel *dataModel = model;
+        self.leftTitleLbl.text = dataModel.keyName;
+        self.textField.text = dataModel.value;
+        self.textField.userInteractionEnabled = YES;
+
+        
+    } else if ([model isKindOfClass:[TLChooseDataModel class]]) {
+    
+        TLChooseDataModel *dataModel = model;
+        self.leftTitleLbl.text = dataModel.typeName;
+        self.textField.text = dataModel.typeValue;
+        self.textField.userInteractionEnabled = NO;
+        
+    }
+    
 }
 
 - (void)data {

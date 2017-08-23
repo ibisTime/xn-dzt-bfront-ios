@@ -102,7 +102,7 @@
         @throw [NSException exceptionWithName:@"请实现 convertParameters 方法" reason:nil userInfo:nil];
     
     }
-    
+    NSLog(@"%@\n%@",URLString,parameters);
     //请求
     switch (req.HTTPMethod) {
         

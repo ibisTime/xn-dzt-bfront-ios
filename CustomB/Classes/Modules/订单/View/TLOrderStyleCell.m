@@ -9,6 +9,7 @@
 #import "TLOrderStyleCell.h"
 #import "UIColor+Extension.h"
 #import "UIColor+theme.h"
+#import "TLParameterModel.h"
 
 @interface TLOrderStyleCell()
 
@@ -45,9 +46,20 @@
         [self.btn setTitleColor:[UIColor textColor] forState:UIControlStateNormal];
 
         
+        self.btn.userInteractionEnabled = NO;
+        
         
     }
     return self;
+}
+
+- (void)setModel:(id)model {
+
+    [super setModel:model];
+    
+    TLParameterModel *parameterModel = model;
+    [self.btn setTitle:parameterModel.name forState:UIControlStateNormal];
+
 }
 
 @end

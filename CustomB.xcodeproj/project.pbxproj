@@ -32,7 +32,6 @@
 		2E3072041F4C00410003ADD9 /* NBBaseRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3071F61F4C00410003ADD9 /* NBBaseRequest.m */; };
 		2E3072051F4C00410003ADD9 /* NBCDRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3071F81F4C00410003ADD9 /* NBCDRequest.m */; };
 		2E3072061F4C00410003ADD9 /* NBRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3071FA1F4C00410003ADD9 /* NBRequest.m */; };
-		2E30720C1F4C0FBC0003ADD9 /* TLOrderCustom1Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30720B1F4C0FBC0003ADD9 /* TLOrderCustom1Cell.m */; };
 		2E3072101F4C17350003ADD9 /* TLOrderDataManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30720F1F4C17350003ADD9 /* TLOrderDataManager.m */; };
 		2E3072131F4C175E0003ADD9 /* TLGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072121F4C175E0003ADD9 /* TLGroup.m */; };
 		2E3072161F4C225A0003ADD9 /* TLOrderStyleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072151F4C225A0003ADD9 /* TLOrderStyleCell.m */; };
@@ -44,6 +43,15 @@
 		2E30722A1F4C6D820003ADD9 /* TLOrderBigTitleHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072291F4C6D820003ADD9 /* TLOrderBigTitleHeader.m */; };
 		2E30722D1F4C72610003ADD9 /* TLOrderBGTitleHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30722C1F4C72610003ADD9 /* TLOrderBGTitleHeader.m */; };
 		2E3072301F4C74810003ADD9 /* TLOrderDoubleTitleHeader.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30722F1F4C74810003ADD9 /* TLOrderDoubleTitleHeader.m */; };
+		2E3072331F4D115D0003ADD9 /* TLDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072321F4D115D0003ADD9 /* TLDataModel.m */; };
+		2E3072361F4D176E0003ADD9 /* TLOrderBaseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072351F4D176E0003ADD9 /* TLOrderBaseCell.m */; };
+		2E3072391F4D30A70003ADD9 /* TLProductChooseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072381F4D30A70003ADD9 /* TLProductChooseVC.m */; };
+		2E30723C1F4D37600003ADD9 /* TLProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30723B1F4D37600003ADD9 /* TLProduct.m */; };
+		2E30723F1F4D38CE0003ADD9 /* NSNumber+TLAdd.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30723E1F4D38CE0003ADD9 /* NSNumber+TLAdd.m */; };
+		2E3072421F4D4F0D0003ADD9 /* TLParameterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072411F4D4F0D0003ADD9 /* TLParameterModel.m */; };
+		2E3072451F4D87B80003ADD9 /* TLCiXiuTextInputCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072441F4D87B80003ADD9 /* TLCiXiuTextInputCell.m */; };
+		2E3072481F4D8AFB0003ADD9 /* TLInputDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072471F4D8AFB0003ADD9 /* TLInputDataModel.m */; };
+		2E30724B1F4DA4410003ADD9 /* TLChooseDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30724A1F4DA4410003ADD9 /* TLChooseDataModel.m */; };
 		2E8C8A831F4A851B00974F85 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C8A821F4A851B00974F85 /* main.m */; };
 		2E8C8A8E1F4A851B00974F85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C8A8D1F4A851B00974F85 /* Assets.xcassets */; };
 		2E8C8A911F4A851B00974F85 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C8A8F1F4A851B00974F85 /* LaunchScreen.storyboard */; };
@@ -141,8 +149,6 @@
 		2E3071F81F4C00410003ADD9 /* NBCDRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBCDRequest.m; sourceTree = "<group>"; };
 		2E3071F91F4C00410003ADD9 /* NBRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NBRequest.h; sourceTree = "<group>"; };
 		2E3071FA1F4C00410003ADD9 /* NBRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NBRequest.m; sourceTree = "<group>"; };
-		2E30720A1F4C0FBC0003ADD9 /* TLOrderCustom1Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLOrderCustom1Cell.h; sourceTree = "<group>"; };
-		2E30720B1F4C0FBC0003ADD9 /* TLOrderCustom1Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLOrderCustom1Cell.m; sourceTree = "<group>"; };
 		2E30720E1F4C17350003ADD9 /* TLOrderDataManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLOrderDataManager.h; sourceTree = "<group>"; };
 		2E30720F1F4C17350003ADD9 /* TLOrderDataManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLOrderDataManager.m; sourceTree = "<group>"; };
 		2E3072111F4C175E0003ADD9 /* TLGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLGroup.h; sourceTree = "<group>"; };
@@ -165,6 +171,24 @@
 		2E30722C1F4C72610003ADD9 /* TLOrderBGTitleHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLOrderBGTitleHeader.m; sourceTree = "<group>"; };
 		2E30722E1F4C74810003ADD9 /* TLOrderDoubleTitleHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLOrderDoubleTitleHeader.h; sourceTree = "<group>"; };
 		2E30722F1F4C74810003ADD9 /* TLOrderDoubleTitleHeader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLOrderDoubleTitleHeader.m; sourceTree = "<group>"; };
+		2E3072311F4D115D0003ADD9 /* TLDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLDataModel.h; sourceTree = "<group>"; };
+		2E3072321F4D115D0003ADD9 /* TLDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLDataModel.m; sourceTree = "<group>"; };
+		2E3072341F4D176E0003ADD9 /* TLOrderBaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLOrderBaseCell.h; sourceTree = "<group>"; };
+		2E3072351F4D176E0003ADD9 /* TLOrderBaseCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLOrderBaseCell.m; sourceTree = "<group>"; };
+		2E3072371F4D30A70003ADD9 /* TLProductChooseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLProductChooseVC.h; sourceTree = "<group>"; };
+		2E3072381F4D30A70003ADD9 /* TLProductChooseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLProductChooseVC.m; sourceTree = "<group>"; };
+		2E30723A1F4D37600003ADD9 /* TLProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLProduct.h; sourceTree = "<group>"; };
+		2E30723B1F4D37600003ADD9 /* TLProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLProduct.m; sourceTree = "<group>"; };
+		2E30723D1F4D38CE0003ADD9 /* NSNumber+TLAdd.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumber+TLAdd.h"; sourceTree = "<group>"; };
+		2E30723E1F4D38CE0003ADD9 /* NSNumber+TLAdd.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumber+TLAdd.m"; sourceTree = "<group>"; };
+		2E3072401F4D4F0D0003ADD9 /* TLParameterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLParameterModel.h; sourceTree = "<group>"; };
+		2E3072411F4D4F0D0003ADD9 /* TLParameterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLParameterModel.m; sourceTree = "<group>"; };
+		2E3072431F4D87B80003ADD9 /* TLCiXiuTextInputCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCiXiuTextInputCell.h; sourceTree = "<group>"; };
+		2E3072441F4D87B80003ADD9 /* TLCiXiuTextInputCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLCiXiuTextInputCell.m; sourceTree = "<group>"; };
+		2E3072461F4D8AFB0003ADD9 /* TLInputDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLInputDataModel.h; sourceTree = "<group>"; };
+		2E3072471F4D8AFB0003ADD9 /* TLInputDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLInputDataModel.m; sourceTree = "<group>"; };
+		2E3072491F4DA4410003ADD9 /* TLChooseDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLChooseDataModel.h; sourceTree = "<group>"; };
+		2E30724A1F4DA4410003ADD9 /* TLChooseDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLChooseDataModel.m; sourceTree = "<group>"; };
 		2E8C8A7E1F4A851B00974F85 /* CustomB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8C8A821F4A851B00974F85 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2E8C8A8D1F4A851B00974F85 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -282,6 +306,8 @@
 				2E3071A21F4AC8E60003ADD9 /* TLOrderCategoryVC.m */,
 				2E3071D31F4BDE710003ADD9 /* TLOrderDetailVC.h */,
 				2E3071D41F4BDE710003ADD9 /* TLOrderDetailVC.m */,
+				2E3072371F4D30A70003ADD9 /* TLProductChooseVC.h */,
+				2E3072381F4D30A70003ADD9 /* TLProductChooseVC.m */,
 				2E3071D91F4BFA570003ADD9 /* TLOrderDetailVC2.h */,
 				2E3071DA1F4BFA570003ADD9 /* TLOrderDetailVC2.m */,
 			);
@@ -293,6 +319,16 @@
 			children = (
 				2E3071A41F4AC94F0003ADD9 /* TLOrderModel.h */,
 				2E3071A51F4AC94F0003ADD9 /* TLOrderModel.m */,
+				2E3072311F4D115D0003ADD9 /* TLDataModel.h */,
+				2E3072321F4D115D0003ADD9 /* TLDataModel.m */,
+				2E3072491F4DA4410003ADD9 /* TLChooseDataModel.h */,
+				2E30724A1F4DA4410003ADD9 /* TLChooseDataModel.m */,
+				2E3072461F4D8AFB0003ADD9 /* TLInputDataModel.h */,
+				2E3072471F4D8AFB0003ADD9 /* TLInputDataModel.m */,
+				2E30723A1F4D37600003ADD9 /* TLProduct.h */,
+				2E30723B1F4D37600003ADD9 /* TLProduct.m */,
+				2E3072401F4D4F0D0003ADD9 /* TLParameterModel.h */,
+				2E3072411F4D4F0D0003ADD9 /* TLParameterModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -300,12 +336,12 @@
 		2E3071A01F4AC8BD0003ADD9 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				2E3072241F4C6D3B0003ADD9 /* Header */,
-				2E30721D1F4C5B3B0003ADD9 /* 量体数据Cell */,
+				2E3072341F4D176E0003ADD9 /* TLOrderBaseCell.h */,
+				2E3072351F4D176E0003ADD9 /* TLOrderBaseCell.m */,
 				2E3071D61F4BDEC20003ADD9 /* TLOrderDetailCell.h */,
 				2E3071D71F4BDEC20003ADD9 /* TLOrderDetailCell.m */,
-				2E30720A1F4C0FBC0003ADD9 /* TLOrderCustom1Cell.h */,
-				2E30720B1F4C0FBC0003ADD9 /* TLOrderCustom1Cell.m */,
+				2E3072241F4C6D3B0003ADD9 /* Header */,
+				2E30721D1F4C5B3B0003ADD9 /* 量体数据Cell */,
 				2E3072141F4C225A0003ADD9 /* TLOrderStyleCell.h */,
 				2E3072151F4C225A0003ADD9 /* TLOrderStyleCell.m */,
 				2E3072171F4C27300003ADD9 /* TLOrderParameterCell.h */,
@@ -314,6 +350,8 @@
 				2E30721B1F4C39290003ADD9 /* TLColorChooseCell.m */,
 				2E3072211F4C682D0003ADD9 /* TLOrderInfoCell.h */,
 				2E3072221F4C682D0003ADD9 /* TLOrderInfoCell.m */,
+				2E3072431F4D87B80003ADD9 /* TLCiXiuTextInputCell.h */,
+				2E3072441F4D87B80003ADD9 /* TLCiXiuTextInputCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -688,6 +726,8 @@
 		2E8C8AB81F4A88DF00974F85 /* Expand */ = {
 			isa = PBXGroup;
 			children = (
+				2E30723D1F4D38CE0003ADD9 /* NSNumber+TLAdd.h */,
+				2E30723E1F4D38CE0003ADD9 /* NSNumber+TLAdd.m */,
 				2E3071DC1F4C00410003ADD9 /* NBHTTP */,
 				2E3071D01F4BD5770003ADD9 /* NSString+Extension.h */,
 				2E3071D11F4BD5770003ADD9 /* NSString+Extension.m */,
@@ -1039,21 +1079,27 @@
 				2E3072031F4C00410003ADD9 /* NBNetworkConfig.m in Sources */,
 				2E3071BD1F4AE2CC0003ADD9 /* TLSettingModel.m in Sources */,
 				2E8C8AE11F4A94DC00974F85 /* TLPageDataHelper.m in Sources */,
+				2E30723C1F4D37600003ADD9 /* TLProduct.m in Sources */,
 				2E3072191F4C27300003ADD9 /* TLOrderParameterCell.m in Sources */,
 				2E8C8B101F4A998C00974F85 /* TLOrderVC.m in Sources */,
 				2E3071A61F4AC94F0003ADD9 /* TLOrderModel.m in Sources */,
 				2E3071C01F4AE7A30003ADD9 /* TLLevelView.m in Sources */,
 				2E30722D1F4C72610003ADD9 /* TLOrderBGTitleHeader.m in Sources */,
+				2E3072451F4D87B80003ADD9 /* TLCiXiuTextInputCell.m in Sources */,
 				2E3071B71F4AD2960003ADD9 /* TLCustomerCell.m in Sources */,
 				2E3071D81F4BDEC20003ADD9 /* TLOrderDetailCell.m in Sources */,
 				2E8C8AD71F4A947F00974F85 /* UILable+convience.m in Sources */,
+				2E30724B1F4DA4410003ADD9 /* TLChooseDataModel.m in Sources */,
 				2E8C8AB71F4A88AF00974F85 /* UIColor+theme.m in Sources */,
+				2E3072361F4D176E0003ADD9 /* TLOrderBaseCell.m in Sources */,
 				2E3072051F4C00410003ADD9 /* NBCDRequest.m in Sources */,
 				2E3071CF1F4BC2540003ADD9 /* Const.m in Sources */,
 				2E8C8B131F4A999A00974F85 /* TLMineVC.m in Sources */,
 				2E3071AD1F4ACFF50003ADD9 /* TLSearchView.m in Sources */,
 				2E3072231F4C682D0003ADD9 /* TLOrderInfoCell.m in Sources */,
+				2E3072391F4D30A70003ADD9 /* TLProductChooseVC.m in Sources */,
 				2E3071A91F4AC9C80003ADD9 /* TLPlaceholderView.m in Sources */,
+				2E3072481F4D8AFB0003ADD9 /* TLInputDataModel.m in Sources */,
 				2E8C8AA51F4A876B00974F85 /* TLTabBarController.m in Sources */,
 				2E8C8ABE1F4A892A00974F85 /* UIColor+Extension.m in Sources */,
 				2E30719C1F4AC3400003ADD9 /* ZHSegmentView.m in Sources */,
@@ -1065,13 +1111,16 @@
 				2E8C8B1C1F4AAE8D00974F85 /* TLStatusView.m in Sources */,
 				2E8C8B161F4A99BD00974F85 /* TLCustomerVC.m in Sources */,
 				2E8C8AE71F4A952E00974F85 /* TLTableView.m in Sources */,
+				2E3072331F4D115D0003ADD9 /* TLDataModel.m in Sources */,
 				2E3071DB1F4BFA570003ADD9 /* TLOrderDetailVC2.m in Sources */,
 				2E3071D51F4BDE710003ADD9 /* TLOrderDetailVC.m in Sources */,
+				2E3072421F4D4F0D0003ADD9 /* TLParameterModel.m in Sources */,
 				2E8C8AEF1F4A958A00974F85 /* TLProgressHUD.m in Sources */,
 				2E8C8A831F4A851B00974F85 /* main.m in Sources */,
 				2E8C8AEE1F4A958A00974F85 /* TLAlert.m in Sources */,
 				2E8C8AFE1F4A966200974F85 /* FCUUID.m in Sources */,
 				2E8C8B071F4A983600974F85 /* UIButton+convience.m in Sources */,
+				2E30723F1F4D38CE0003ADD9 /* NSNumber+TLAdd.m in Sources */,
 				2E3072201F4C5B4C0003ADD9 /* TLMeasureDataCell.m in Sources */,
 				2E8C8B311F4ABB7800974F85 /* TLBannerCell.m in Sources */,
 				2E3071C61F4B20590003ADD9 /* ZHCaptchaView.m in Sources */,
@@ -1080,7 +1129,6 @@
 				2E3071BA1F4AE03F0003ADD9 /* TLSettingCell.m in Sources */,
 				2E3071CC1F4B22830003ADD9 /* ZHUserForgetPwdVC.m in Sources */,
 				2E3071B41F4AD2140003ADD9 /* TLCustomerCategoryVC.m in Sources */,
-				2E30720C1F4C0FBC0003ADD9 /* TLOrderCustom1Cell.m in Sources */,
 				2E3072131F4C175E0003ADD9 /* TLGroup.m in Sources */,
 				2E3072021F4C00410003ADD9 /* NBNetworkAgent.m in Sources */,
 				2E8C8ACB1F4A8A9000974F85 /* UIView+Frame.m in Sources */,

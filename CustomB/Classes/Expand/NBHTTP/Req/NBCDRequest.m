@@ -64,7 +64,7 @@
         
     }
     
-    return self.parameters;
+    return dict;
     
 }
 @end

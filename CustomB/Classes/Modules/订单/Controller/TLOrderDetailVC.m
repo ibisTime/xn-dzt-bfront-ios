@@ -59,13 +59,14 @@
   self.orderArr =  @[
                      
        @{@"订单编号" : self.order.code},
+       @{@"下单时间" : [self.order.createDatetime convertToDetailDate]},
+       @{@"订单状态" : [self.order getStatusName]},
+       
        @{@"姓名" : self.order.applyName},
        @{@"手机号" :  self.order.applyMobile},
        @{@"量体地址" : [self.order getDetailAddress]},
        @{@"预约时间" : [self.order.ltDatetime convertToDetailDate]},
        @{@"量体叮嘱" : self.order.remark},
-       @{@"下单时间" : [self.order.createDatetime convertToDetailDate]},
-       @{@"订单状态" : [self.order getStatusName]}
 
 
        ];

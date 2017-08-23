@@ -8,6 +8,7 @@
 
 #import "TLOrderInfoCell.h"
 #import "TLUIHeader.h"
+#import "TLDataModel.h"
 
 @implementation TLOrderInfoCell
 
@@ -47,10 +48,19 @@
     return self;
 }
 
+- (void)setModel:(id)model {
+    [super setModel:model];
+    
+    TLDataModel *dataModel = model;
+    self.titleLbl.text = dataModel.keyName;
+    self.contentLbl.text = dataModel.value;
+    
+}
+
+
 - (void)data {
 
-    self.titleLbl.text = @"订单编号";
-    self.contentLbl.text = @"订单编号订单编号订单编号订单编号订单编号订单编号订单编号";
+  
 
 }
 

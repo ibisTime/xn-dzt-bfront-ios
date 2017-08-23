@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TLOrderBaseCell.h"
 
-@interface TLOrderInfoCell : UICollectionViewCell
+@interface TLOrderInfoCell : TLOrderBaseCell
 
 @property (nonatomic, strong) UILabel *titleLbl;
 @property (nonatomic, strong) UILabel *contentLbl;
-+ (NSString *)cellReuseIdentifier;
+
 
 @end

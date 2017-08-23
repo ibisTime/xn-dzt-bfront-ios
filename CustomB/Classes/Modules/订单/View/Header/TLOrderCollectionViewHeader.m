@@ -43,6 +43,26 @@
 }
 
 
+- (void)setGroup:(TLGroup *)group {
+
+    _group = group;
+    
+    self.contentLbl.text = _group.content;
+    self.titleLbl.text = _group.title;
+    
+//    self.contentLbl.text=  @"在哪1";
+    if (_group.editting) {
+        
+        [self editing];
+        
+    } else {
+        
+        [self edited];
+        
+    }
+    
+}
+
 - (void)editing {
 
     self.editBtn.hidden = YES;
@@ -114,6 +134,21 @@
     }];
     
     //
+    self.contentLbl = [UILabel labelWithFrame:CGRectZero
+                               textAligment:NSTextAlignmentLeft
+                            backgroundColor:[UIColor clearColor]
+                                       font:FONT(12)
+                                  textColor:[UIColor textColor]];
+    
+    [self addSubview:self.contentLbl];
+    
+    [self.contentLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.mas_centerY);
+        make.left.equalTo(self.titleLbl.mas_right).offset(15);
+        
+    }];
+    
+
     
     self.editBtn = [self btnWithTitle:@"编辑" titleColor:[UIColor colorWithHexString:@"#b0b0b0"]];
     [self addSubview:self.editBtn];

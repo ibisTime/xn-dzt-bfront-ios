@@ -18,6 +18,7 @@
 #import "Const.h"
 #import "TLOrderDetailVC.h"
 #import "TLOrderDetailVC2.h"
+#import "TLProductChooseVC.h"
 
 @interface TLOrderCategoryVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -167,13 +168,29 @@
         
     } else {
     
-        TLOrderDetailVC2 *vc = [[TLOrderDetailVC2 alloc] init];
-//        vc.order  = self.orderGroups[indexPath.row];
-        [self.navigationController pushViewController:vc
-                                             animated:YES];
+        TLOrderModel *order = self.orderGroups[indexPath.row];
+        
+        if ([order getOrderType] == TLOrderTypeProductUnChoose ){
+            //产品未选择
+            
+            TLProductChooseVC *vc = [[TLProductChooseVC alloc] init];
+            vc.order = self.orderGroups[indexPath.row];
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        } else {
+            
+            //衬衫或者H+
+            TLOrderDetailVC2 *vc = [[TLOrderDetailVC2 alloc] init];
+            vc.order = self.orderGroups[indexPath.row];
+            [self.navigationController pushViewController:vc
+                                                 animated:YES];
+        
+        }
+   
+        
     }
 
-
+    
 }
 
 

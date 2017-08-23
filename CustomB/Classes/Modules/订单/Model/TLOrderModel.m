@@ -11,6 +11,27 @@
 
 @implementation TLOrderModel
 
+//0为衬衫订单，1为H+ 为空时
+
+- (TLOrderType)getOrderType {
+
+    if (self.type == nil) {
+        
+        return TLOrderTypeProductUnChoose;
+        
+    } else if ([self.type isEqualToString:@"0"]) {
+    
+        return TLOrderTypeChenShan;
+
+    } else {
+    
+        return TLOrderTypeHAdd;
+
+    }
+    
+
+}
+
 - (NSString *)getDetailAddress {
 
     return [NSString stringWithFormat:@"%@%@%@%@",self.ltProvince,self.ltCity,self.ltArea,self.ltAddress];

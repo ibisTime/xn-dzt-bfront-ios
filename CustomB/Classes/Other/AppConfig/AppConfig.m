@@ -59,9 +59,8 @@ void TLLog(NSString *format, ...) {
             
         case RunEnvDev: {
             
-            self.qiniuDomain = @"http://omxvtiss6.bkt.clouddn.com";
+            self.qiniuDomain = @"http://opf6b9y6y.bkt.clouddn.com";
             
-//            http://121.43.101.148:8901/forward-service/api
             self.addr = @"http://121.43.101.148:8901";
 
         }break;

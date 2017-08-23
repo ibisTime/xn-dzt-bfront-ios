@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TLOrderBaseCell.h"
 
-@interface TLOrderParameterCell : UICollectionViewCell
+@interface TLOrderParameterCell : TLOrderBaseCell
 
-+ (NSString *)cellReuseIdentifier;
 
 @end

@@ -8,6 +8,14 @@
 
 #import "TLBaseModel.h"
 
+typedef NS_ENUM(NSUInteger, TLOrderType) {
+    
+    TLOrderTypeChenShan,
+    TLOrderTypeHAdd,
+    TLOrderTypeProductUnChoose
+    
+};
+
 @interface TLOrderModel : TLBaseModel
 
 @property (nonatomic, copy) NSString *code;
@@ -25,8 +33,12 @@
 
 @property (nonatomic, copy) NSString *remark;
 
+//0为衬衫订单，1为H+ 为空时
+@property (nonatomic, copy) NSString *type;
 
 
+
+- (TLOrderType)getOrderType;
 
 - (NSString *)getDetailAddress;
 

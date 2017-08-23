@@ -86,7 +86,7 @@
         
     } else {
         
-        return [NSString stringWithFormat:@"%@/%@?imageMogr2/auto-orient/strip",[AppConfig config].qiniuDomain,self];
+        return [[NSString stringWithFormat:@"%@/%@?imageMogr2/auto-orient/strip",[AppConfig config].qiniuDomain,self] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         
     }
     

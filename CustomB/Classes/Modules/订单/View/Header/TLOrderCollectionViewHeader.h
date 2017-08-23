@@ -28,7 +28,11 @@ typedef NS_ENUM(NSUInteger, EditType) {
 
 @interface TLOrderCollectionViewHeader : UICollectionReusableView
 
+@property (nonatomic, strong) TLGroup *group;
+
 @property (nonatomic, strong) UILabel *titleLbl;
+@property (nonatomic, strong) UILabel *contentLbl;
+
 
 + (NSString *)headerReuseIdentifier;
 

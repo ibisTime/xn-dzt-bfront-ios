@@ -11,10 +11,9 @@
 #import "ZHSegmentView.h"
 #import "TLOrderCategoryVC.h"
 #import "TLSearchView.h"
+#import "TLOrderDetailVC2.h"
 
 @interface TLOrderVC ()<ZHSegmentViewDelegate,UIScrollViewDelegate>
-
-//@property (nonatomic, strong) UIView *searchBgView;
 
 @property (nonatomic, strong) NSMutableArray *isAdd ;
 @property (nonatomic, strong) UIScrollView *switchScrollView;

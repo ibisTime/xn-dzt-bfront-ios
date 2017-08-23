@@ -8,10 +8,14 @@
 
 #import "TLOrderParameterCell.h"
 #import "TLUIHeader.h"
+#import "TLParameterModel.h"
+#import "UIImageView+WebCache.h"
+#import "NSString+Extension.h"
 
 @interface TLOrderParameterCell()
 
 @property (nonatomic, strong) UIImageView *bgImageView;
+//@property (nonatomic, strong) UIImageView *selectMarkImageView;
 @property (nonatomic, strong) UIImageView *selectMarkImageView;
 
 @end
@@ -21,6 +25,18 @@
 + (NSString *)cellReuseIdentifier {
     
     return @"TLOrderParameterCellID";
+    
+}
+
+- (void)setModel:(id)model {
+
+    [super setModel:model];
+    
+    TLParameterModel *parameterModel = model;
+    NSString *str = [parameterModel.pic convertImageUrl];
+    [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:str]];
+    
+    self.selectMarkImageView.hidden = !parameterModel.isSelected;
     
 }
 
@@ -43,13 +59,21 @@
         self.bgImageView.layer.borderWidth = 0.8;
         
         //
-        self.selectMarkImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
-        [self.bgImageView addSubview:self.selectMarkImageView];
+        self.selectMarkImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        [self.contentView addSubview:self.selectMarkImageView];
+        self.selectMarkImageView.layer.cornerRadius = 10;
+        self.selectMarkImageView.backgroundColor = [UIColor clearColor];
+        self.selectMarkImageView.layer.masksToBounds = YES;
+        self.selectMarkImageView.layer.borderColor = [UIColor themeColor].CGColor;
+        self.selectMarkImageView.layer.borderWidth = 2;
         
-        self.selectMarkImageView.image = [UIImage imageNamed:@"规格选中"];
-        [self.selectMarkImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.bottom.equalTo(self.bgImageView);
-        }];
+//        self.selectMarkImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
+//        [self.bgImageView addSubview:self.selectMarkImageView];
+//        
+//        self.selectMarkImageView.image = [UIImage imageNamed:@"规格选中"];
+//        [self.selectMarkImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.right.bottom.equalTo(self.bgImageView);
+//        }];
         
 
       

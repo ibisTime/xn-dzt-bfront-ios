@@ -9,10 +9,15 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+
+@class TLDataModel;
+
 @interface TLGroup : NSObject
 
 @property (nonatomic, copy) NSString *title;
-@property (nonatomic, assign) NSInteger itemCount;
+@property (nonatomic, copy) NSString *content;
+
+@property (nonatomic, assign,readonly) NSInteger itemCount;
 @property (nonatomic, assign) BOOL editting;
 @property (nonatomic, copy) NSString *cellReuseIdentifier;
 @property (nonatomic, copy) NSString *headerReuseIdentifier;
@@ -30,8 +35,8 @@
 @property (nonatomic, assign) CGFloat minimumLineSpacing;
 @property (nonatomic, assign) CGFloat minimumInteritemSpacing;
 
-
-
+//比如地址这些存的是TLDataModel,  有选择的存的是 TLParameterModel
+@property (nonatomic, strong) NSMutableArray *dataModelRoom;
 
 
 @end

@@ -8,6 +8,10 @@
 
 #import "TLColorChooseCell.h"
 #import "TLUIHeader.h"
+#import "TLParameterModel.h"
+#import "NSString+Extension.h"
+#import "UIImageView+WebCache.h"
+
 
 @interface TLColorChooseCell()
 
@@ -26,6 +30,16 @@
     
 }
 
+- (void)setModel:(id)model {
+    
+    [super setModel:model];
+    
+    TLParameterModel *parameterModel = model;
+    NSString *str = [parameterModel.pic convertImageUrl];
+    [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:str]];
+    self.markImageView.hidden = !parameterModel.isSelected;
+    
+}
 
 
 - (instancetype)initWithFrame:(CGRect)frame
@@ -33,7 +47,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [UIColor backgroundColor];
+        self.contentView.backgroundColor =  [UIColor backgroundColor];
         
         self.bgImageView = [[UIImageView alloc] initWithFrame:self.bounds];
         [self.contentView addSubview:self.bgImageView];

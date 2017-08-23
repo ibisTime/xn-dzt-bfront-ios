@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TLOrderBaseCell.h"
 
-@interface TLColorChooseCell : UICollectionViewCell
+@interface TLColorChooseCell : TLOrderBaseCell
 
-+ (NSString *)cellReuseIdentifier;
 
 
 @end
