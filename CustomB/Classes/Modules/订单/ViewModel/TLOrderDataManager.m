@@ -11,6 +11,7 @@
 #import "TLDataModel.h"
 #import "TLInputDataModel.h"
 #import "TLChooseDataModel.h"
+#import "NSNumber+TLAdd.h"
 
 @implementation TLOrderDataManager
 
@@ -440,16 +441,27 @@
     }
     
     
-  NSArray <NSDictionary *>*arr =  @[
+  NSMutableArray <NSDictionary *> *dingDanInfoArr = [ @[
       
       @{@"订单编号" : self.order.code},
       @{@"下单时间" : [self.order.createDatetime convertToDetailDate]},
       @{@"订单状态" : [self.order getStatusName]},
       
-      ];
+      ] mutableCopy];
+    //订单价格
+    if (self.order.amount) {
+        NSString *priceStr =  [NSString stringWithFormat:@"￥%@",[self.order.amount convertToRealMoney]];
+        [dingDanInfoArr addObject:@{@"订单价格":priceStr}];
+    }
+    
+    if (self.order.payAmount) {
+        
+        NSString *turePriceStr =  [NSString stringWithFormat:@"￥%@",[self.order.payAmount convertToRealMoney]];
+        [dingDanInfoArr addObject:@{@"价格优惠":turePriceStr}];
+    }
     
     NSMutableArray *thenArr = [[NSMutableArray alloc] init];
-    [arr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [dingDanInfoArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         TLDataModel *model = [[TLDataModel alloc] init];
         model.keyName = obj.allKeys[0];
@@ -474,8 +486,42 @@
 
 - (NSMutableArray *)configConstLogisticsInfoDataModel {
 
-    return [NSMutableArray new];
+    if (!self.order) {
+        NSLog(@"订单不能为空");
+        return nil;
+    }
+    
+    if (!self.order.logisticsCode) {
+        return [NSMutableArray new];
+    }
+    
+    TLInputDataModel *remarkDataModel =  [[TLInputDataModel alloc] init];
+    remarkDataModel.value = self.order.remark;
+    self.remarkRoom = [[NSMutableArray alloc] initWithArray:@[remarkDataModel]];
+    
+    
+    NSMutableArray <NSDictionary *> *orderInfoArr = [  @[
+@{@"物流公司" : self.order.logisticsCompany},
+@{@"发货时间" : [self.order.deliveryDatetime convertToDetailDate]},
+@{@"快递单号" : self.order.logisticsCode},
+@{@"收货确认" : [self.order getStatusName]},
 
+
+                                                                                               ] mutableCopy];
+    
+    
+    
+    NSMutableArray *thenArr = [[NSMutableArray alloc] init];
+    [orderInfoArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        TLDataModel *model = [[TLDataModel alloc] init];
+        model.keyName = obj.allKeys[0];
+        model.value = obj[model.keyName];
+        [thenArr addObject:model];
+        
+    }];
+    
+    return thenArr;
 }
 
 - (NSMutableArray *)configConstUserInfoDataModel {
@@ -489,13 +535,15 @@
     remarkDataModel.value = self.order.remark;
     self.remarkRoom = [[NSMutableArray alloc] initWithArray:@[remarkDataModel]];
     
-    NSArray <NSDictionary *>*arr =  @[
+    NSMutableArray <NSDictionary *> *orderInfoArr = [[NSMutableArray alloc] initWithArray:   @[
                                       @{@"客户姓名" : self.order.ltName},
                                       @{@"联系电话" : self.order.applyMobile}
-                                      ];
+                                      ]];
+    
+
     
     NSMutableArray *thenArr = [[NSMutableArray alloc] init];
-    [arr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [orderInfoArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         TLDataModel *model = [[TLDataModel alloc] init];
         model.keyName = obj.allKeys[0];

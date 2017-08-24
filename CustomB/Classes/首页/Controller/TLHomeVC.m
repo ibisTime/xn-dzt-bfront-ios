@@ -12,11 +12,17 @@
 #import "TLMsgCell.h"
 #import "TLHomeTableHeaderView.h"
 #import "TLBannerView.h"
+#import "NBNetwork.h"
+#import "TLProductChooseVC.h"
+#import "TLOrderDetailVC2.h"
 
 
 @interface TLHomeVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *homeTableView;
+
+@property (nonatomic, copy) NSArray <TLOrderModel *>*orderGroup;
+
 @end
 
 @implementation TLHomeVC
@@ -35,6 +41,28 @@
  
     self.navigationItem.titleView = titleLbl;
     
+ 
+    
+    NBCDRequest *orderReq = [[NBCDRequest alloc] init];
+    orderReq.code = @"620230";
+    orderReq.parameters[@"start"] = @"1";
+    orderReq.parameters[@"limit"] = @"5";
+    [orderReq startWithSuccess:^(__kindof NBBaseRequest *request) {
+        
+       NSArray *arr = request.responseObject[@"data"][@"list"];
+       self.orderGroup  = [TLOrderModel tl_objectArrayWithDictionaryArray:arr];
+        
+        [self setUpUI];
+    } failure:^(__kindof NBBaseRequest *request) {
+        
+    }];
+    
+    
+    
+}
+
+- (void)setUpUI {
+
     self.homeTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 48) style:UITableViewStyleGrouped];
     [self.view addSubview:self.homeTableView];
     self.homeTableView.delegate = self;
@@ -45,9 +73,45 @@
     TLBannerView *headerView = [[TLBannerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 200)];
     headerView.imgUrls = @[@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1503903557&di=152adb2d71faca4bb4d0820eff5385c5&imgtype=jpg&er=1&src=http%3A%2F%2Fimages0.cnblogs.com%2Fblog2015%2F780338%2F201508%2F261134016561975.png",@"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2084569111,4178087204&fm=26&gp=0.jpg",@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1503903557&di=152adb2d71faca4bb4d0820eff5385c5&imgtype=jpg&er=1&src=http%3A%2F%2Fimages0.cnblogs.com%2Fblog2015%2F780338%2F201508%2F261134016561975.png"];
     self.homeTableView.tableHeaderView = headerView;
-    
+
 }
 
+#pragma mark- delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+
+    if ([[tableView cellForRowAtIndexPath:indexPath] isKindOfClass:[TLOrderCell class]]) {
+        
+        TLOrderModel *order = self.orderGroup[indexPath.row];
+        
+        if ([order getOrderType] == TLOrderTypeProductUnChoose ){
+            //产品未选择
+            
+            TLProductChooseVC *vc = [[TLProductChooseVC alloc] init];
+            vc.order = order;
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        } else {
+            
+            //衬衫或者H+
+            TLOrderDetailVC2 *vc = [[TLOrderDetailVC2 alloc] init];
+            vc.orderCode = order.code;
+            [self.navigationController pushViewController:vc
+                                                 animated:YES];
+            
+        }
+        
+        
+    } else {
+        
+        
+    
+    }
+
+}
+
+
+
+#pragma mark- dataSource
 - (CGFloat)tableView:(UITableView *)tableView estimatedHeightForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     return [TLOrderCell defaultCellHeight];
@@ -101,7 +165,10 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    return 2;
+    if (section == 0) {
+        return 1;
+    }
+    return self.orderGroup.count;
 
 }
 
@@ -128,7 +195,7 @@
         
         cell = [[TLOrderCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"id"];
     }
-    
+    cell.order = self.orderGroup[indexPath.row];
     return cell;
 
 }

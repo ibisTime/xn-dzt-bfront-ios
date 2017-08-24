@@ -11,7 +11,8 @@
 @interface Const : NSObject
 //新单就是待量体
 
-//1 待量体,2 已定价,3 已支付 ,4 待复核,5 待生产,6 生产中,7 已发货,8 已收货,9 已评价,10 已归档,11 取消订单
+//1 待量体,2 已定价,3 已支付 ,4 待复核,
+//5 待生产,6 生产中,7 已发货,8 已收货,9 已评价,10 已归档,11 取消订单
 
 
 //1-1       产品规格
@@ -75,10 +76,20 @@
 //订单状态
 FOUNDATION_EXTERN NSString * const kOrderStatusCancle;
 
-FOUNDATION_EXTERN NSString * const kOrderStatusWillPay; //待支付
+FOUNDATION_EXTERN NSString * const kOrderStatusDidDingJia; //已定价
 FOUNDATION_EXTERN NSString * const kOrderStatusWillMeasurement; //待量体
 FOUNDATION_EXTERN NSString * const kOrderStatusWillCheck; //待复核
 FOUNDATION_EXTERN NSString * const kOrderStatusWillSubmit; //待录入，已支付
+
+FOUNDATION_EXTERN NSString * const kOrderStatusWillShengChan; //待生产
+FOUNDATION_EXTERN NSString * const kOrderStatusShengChanIng; //生产中
+FOUNDATION_EXTERN NSString * const kOrderStatusDidSend; //已发货
+FOUNDATION_EXTERN NSString * const kOrderStatusDidReceive; //已收货
+FOUNDATION_EXTERN NSString * const kOrderStatusDidComment; //评价
+FOUNDATION_EXTERN NSString * const kOrderStatusDidSave; //评价
+
+
+
 
 
 

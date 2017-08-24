@@ -37,6 +37,14 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 @property (nonatomic, copy) NSString *ltName;
 @property (nonatomic, copy) NSString *applyMobile;
 
+//
+@property (nonatomic, copy) NSString *deliverer;
+@property (nonatomic, copy) NSString *deliveryDatetime;
+@property (nonatomic, copy) NSString *logisticsCode;
+@property (nonatomic, copy) NSString *logisticsCompany;
+
+
+@property (nonatomic, strong) NSNumber *amount;
 @property (nonatomic, strong) NSNumber *payAmount;
 
 

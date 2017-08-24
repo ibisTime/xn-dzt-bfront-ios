@@ -23,7 +23,7 @@
 //    NSArray *titles = @[@"优店",@"尖货",@"购物中心",@"我的"];
     NSArray *VCNames = @[@"TLHomeVC",@"TLOrderVC",@"TLCustomerVC",@"TLMineVC"];
     
-    NSArray *imageNames = @[@"首页01",@"订单01",@"客户01",@"我的01"];
+    NSArray *imageNames = @[@"首页00",@"订单00",@"客户00",@"我的00"];
     NSArray *selectedImageNames = @[@"首页01",@"订单01",@"客户01",@"我的01"];
     
     

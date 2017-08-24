@@ -20,7 +20,13 @@
 
 @property (nonatomic, copy) NSString *code;
 @property (nonatomic, copy) NSString *name; //小类姓名
-@property (nonatomic, copy) NSString *pic; //小类
+@property (nonatomic, copy) NSString *pic; //未选中图片
+
+
+@property (nonatomic, copy,readonly) NSString *selectPic; //未选中图片
+@property (nonatomic, copy) NSString *advPic; //未选中图片
+
+
 @property (nonatomic, strong) NSNumber *price;
 
 

@@ -11,10 +11,17 @@
 //1 待量体,2 已定价,3 已支付 ,4 待复核,5 待生产,6 生产中,7 已发货,8 已收货,9 已评价,10 已归档,11 取消订单
 
  NSString * const kOrderStatusCancle = @"11";
- NSString * const kOrderStatusWillPay = @"2"; //待支付
+ NSString * const kOrderStatusDidDingJia = @"2"; //待支付
  NSString * const kOrderStatusWillMeasurement = @"1"; //待量体
  NSString * const kOrderStatusWillCheck = @"4"; //待复核
-NSString * const kOrderStatusWillSubmit = @"3"; //待复核
+ NSString * const kOrderStatusWillSubmit = @"3"; //待复核
+
+ NSString * const kOrderStatusWillShengChan = @"5"; //待生产
+ NSString * const kOrderStatusShengChanIng = @"6"; //生产中
+ NSString * const kOrderStatusDidSend = @"7"; //已发货
+ NSString * const kOrderStatusDidReceive = @"8"; //已收货
+ NSString * const kOrderStatusDidComment = @"9"; //评价
+ NSString * const kOrderStatusDidSave = @"10"; //评价
 
 
 

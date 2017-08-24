@@ -36,6 +36,23 @@
     NSString *str = [parameterModel.pic convertImageUrl];
     [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:str]];
     
+    if (0 && parameterModel.selectPic) {
+        
+        NSString *str = [parameterModel.selectPic convertImageUrl];
+        [self.selectMarkImageView sd_setImageWithURL:[NSURL URLWithString:str]];
+        self.selectMarkImageView.layer.cornerRadius = 0;
+        self.selectMarkImageView.layer.masksToBounds = NO;
+        self.selectMarkImageView.layer.borderWidth = 0;
+        
+    } else {
+    
+        self.selectMarkImageView.layer.cornerRadius = 10;
+        self.selectMarkImageView.layer.masksToBounds = YES;
+        self.selectMarkImageView.layer.borderColor = [UIColor themeColor].CGColor;
+        self.selectMarkImageView.layer.borderWidth = 2;
+    
+    }
+    
     self.selectMarkImageView.hidden = !parameterModel.isSelected;
     
 }
@@ -61,11 +78,8 @@
         //
         self.selectMarkImageView = [[UIImageView alloc] initWithFrame:self.bounds];
         [self.contentView addSubview:self.selectMarkImageView];
-        self.selectMarkImageView.layer.cornerRadius = 10;
         self.selectMarkImageView.backgroundColor = [UIColor clearColor];
-        self.selectMarkImageView.layer.masksToBounds = YES;
-        self.selectMarkImageView.layer.borderColor = [UIColor themeColor].CGColor;
-        self.selectMarkImageView.layer.borderWidth = 2;
+   
         
 //        self.selectMarkImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
 //        [self.bgImageView addSubview:self.selectMarkImageView];

@@ -28,6 +28,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"订单";
+   
     
 //    [self setUpSearchView];
     //

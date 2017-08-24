@@ -14,7 +14,6 @@
 @property (nonatomic, copy) NSString *type;
 @property (nonatomic, copy) NSString *typeName;
 @property (nonatomic, copy) NSString *typeValue;
-
 //
 @property (nonatomic, strong) NSMutableArray <TLParameterModel *>*parameterModelRoom;
 

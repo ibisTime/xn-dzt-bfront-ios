@@ -128,6 +128,7 @@
     UIImageView *topImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0,SCREEN_WIDTH , 205)];
     topImageView.contentMode = UIViewContentModeScaleAspectFill;
     topImageView.image = [UIImage imageNamed:@"我的背景"];
+    topImageView.clipsToBounds = YES;
     
     self.mineTableView.tableHeaderView = topImageView;
     //

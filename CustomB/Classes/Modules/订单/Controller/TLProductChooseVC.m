@@ -56,6 +56,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"产品选择";
     [self tl_placeholderOperation];
 
     
@@ -105,6 +106,7 @@
             TLOrderDetailVC2 *vc = [[TLOrderDetailVC2 alloc] init];
             vc.productCode = self.productRoom[indexPath.row].code;
             vc.orderCode = self.order.code;
+            vc.operationType = OrderOperationTypeDefault;
             [self.navigationController pushViewController:vc animated:YES];
             
         } failure:^(__kindof NBBaseRequest *request) {
@@ -119,6 +121,7 @@
         TLOrderDetailVC2 *vc = [[TLOrderDetailVC2 alloc] init];
         vc.productCode = self.productRoom[indexPath.row].code;
         vc.orderCode = self.order.code;
+        vc.operationType = OrderOperationTypeHAddDingJia;
         [self.navigationController pushViewController:vc animated:YES];
     
     }

@@ -16,4 +16,10 @@
     
 }
 
+- (NSString *)selectPic {
+
+    return self.advPic;
+    
+}
+
 @end

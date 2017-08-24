@@ -25,7 +25,6 @@
 
 
 //0为衬衫订单，1为H+ 为空时
-
 - (TLOrderType)getOrderType {
 
     if (self.type == nil) {
@@ -57,11 +56,17 @@
     NSDictionary *dict = @{
                            
                            kOrderStatusCancle : @"已取消",
-                           kOrderStatusWillPay : @"待支付",
+                           kOrderStatusDidDingJia : @"待支付",
                            kOrderStatusWillCheck : @"待复核",
                            kOrderStatusWillMeasurement : @"待量体",
                            kOrderStatusWillCheck : @"待复核",
-                           kOrderStatusWillSubmit : @"待录入"
+                           kOrderStatusWillSubmit : @"待录入",
+                           kOrderStatusWillShengChan : @"待生产", //待生产
+                           kOrderStatusShengChanIng : @"生产中", //生产中
+                           kOrderStatusDidSend : @"已发货",//已发货
+                           kOrderStatusDidReceive : @"已收货", //已收货
+                           kOrderStatusDidComment : @"已评价",//评价
+                           kOrderStatusDidSave : @"已归档"//评价
                            
                            };
     //

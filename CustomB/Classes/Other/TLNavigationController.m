@@ -7,6 +7,7 @@
 //
 
 #import "TLNavigationController.h"
+#import "TLUIHeader.h"
 
 @interface TLNavigationController ()
 
@@ -17,6 +18,21 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    [UINavigationBar appearance].backIndicatorImage = [UIImage imageNamed:@"返回"];
+    [UINavigationBar appearance].backIndicatorTransitionMaskImage = [UIImage imageNamed:@"返回"];
+
+    [[UIBarButtonItem appearance] setBackButtonTitlePositionAdjustment:UIOffsetMake(0, -60) forBarMetrics:UIBarMetricsDefault];
+
+    UINavigationBar *navBar = [UINavigationBar appearance];
+    navBar.barTintColor = [UIColor whiteColor];
+    navBar.translucent = NO;
+    navBar.tintColor = [UIColor textColor];
+    [navBar setTitleTextAttributes:@{
+                                     NSForegroundColorAttributeName : [UIColor textColor]
+                                     }];
+//    [navBar setBackgroundImage:[[UIColor whiteColor] convertToImage ] forBarMetrics:UIBarMetricsDefault];
+//    navBar.shadowImage = [[UIColor colorWithHexString:@"#dedede"] convertToImage];
+
 }
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated {

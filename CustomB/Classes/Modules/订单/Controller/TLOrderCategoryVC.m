@@ -82,7 +82,7 @@
         } break;
         case TLOrderStatusWillPay: {
             
-            helper.parameters[@"status"] = kOrderStatusWillPay;
+            helper.parameters[@"status"] = kOrderStatusDidDingJia;
             
         } break;
             
