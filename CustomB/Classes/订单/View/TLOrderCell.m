@@ -48,14 +48,17 @@
     //
     self.userInfoLbl.text = [NSString stringWithFormat:@"%@|%@",_order.applyName,_order.applyMobile];
     
-    if ([_order.status isEqualToString:kOrderStatusWillMeasurement]) {
+    
+    if (_order.productList || _order.productList.count > 0) {
         
-        
+        self.productInfoLbl.text = [_order.productList[0] getPriceStr];
+
     } else {
     
-        self.productInfoLbl.text = @"衬衫|￥500";
+        self.productInfoLbl.text = nil;
 
     }
+
     //
     self.statusView.type = [_order.status isEqualToString:kOrderStatusWillMeasurement] ? TLStatusViewTypeYellow : TLStatusViewTypeTheme;
     self.statusView.contentLbl.text=  [_order getStatusName];

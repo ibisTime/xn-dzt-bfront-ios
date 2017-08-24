@@ -181,7 +181,7 @@
             
             //衬衫或者H+
             TLOrderDetailVC2 *vc = [[TLOrderDetailVC2 alloc] init];
-            vc.order = self.orderGroups[indexPath.row];
+            vc.orderCode = self.orderGroups[indexPath.row].code;
             [self.navigationController pushViewController:vc
                                                  animated:YES];
         

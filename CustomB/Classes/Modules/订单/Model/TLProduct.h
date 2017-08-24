@@ -4,9 +4,17 @@
 //
 //  Created by  tianlei on 2017/8/23.
 //  Copyright © 2017年  tianlei. All rights reserved.
-//
+//  标准产品SPU
 
 #import "TLBaseModel.h"
+
+typedef NS_ENUM(NSUInteger, TLProductType) {
+    
+    TLProductTypeChenShan,
+    TLProductTypeHAdd
+
+    
+};
 
 @interface TLProduct : TLBaseModel
 
@@ -15,6 +23,10 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, strong) NSNumber *price;
 @property (nonatomic, strong) NSString *desc;
+@property (nonatomic, copy) NSString *type;
+
+@property (nonatomic, assign, readonly) TLProductType productType;
+
 
 //advPic = "2_1502863432270.jpg";
 //code = MO201708161448405541;

@@ -17,4 +17,19 @@
     
 }
 
+- (TLProductType)productType {
+
+    if ([self.type isEqualToString:@"0"]) {
+    
+        return TLProductTypeChenShan;
+        
+    } else if([self.type isEqualToString:@"1"]) {
+    
+        return TLProductTypeHAdd;
+
+    }
+    
+    return TLProductTypeChenShan;
+}
+
 @end

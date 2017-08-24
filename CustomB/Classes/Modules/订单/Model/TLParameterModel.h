@@ -10,8 +10,8 @@
 
 @interface TLParameterModel : TLBaseModel
 
-@property (nonatomic, copy) NSString *type; // 1-3
-@property (nonatomic, copy) NSString *typeName; // 大类
+@property (nonatomic, copy) NSString *type; // 1-3 大类对应很多选型，如大领，小领，宽领
+@property (nonatomic, copy) NSString *typeName; // 大类姓名
 
 
 
@@ -19,8 +19,8 @@
 @property (nonatomic, assign) BOOL isSelected;
 
 @property (nonatomic, copy) NSString *code;
-@property (nonatomic, copy) NSString *name;
-@property (nonatomic, copy) NSString *pic;
+@property (nonatomic, copy) NSString *name; //小类姓名
+@property (nonatomic, copy) NSString *pic; //小类
 @property (nonatomic, strong) NSNumber *price;
 
 

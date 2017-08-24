@@ -13,6 +13,8 @@
 @interface TLOrderDetailVC2 : TLBaseVC
 
 @property (nonatomic, copy) NSString *productCode;
-@property (nonatomic, strong) TLOrderModel *order;
+
+@property (nonatomic, copy) NSString *orderCode;
+
 
 @end

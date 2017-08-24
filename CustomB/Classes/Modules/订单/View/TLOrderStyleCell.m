@@ -10,10 +10,12 @@
 #import "UIColor+Extension.h"
 #import "UIColor+theme.h"
 #import "TLParameterModel.h"
+#import "TLUIHeader.h"
 
 @interface TLOrderStyleCell()
 
-@property (nonatomic, strong) UIButton *btn;
+@property (nonatomic, strong) UILabel  *textLbl;
+
 @property (nonatomic, strong) UIImageView *selectMarkImageView;
 
 @end
@@ -34,32 +36,37 @@
         self.backgroundColor = [UIColor backgroundColor];
         self.contentView.backgroundColor = self.backgroundColor;
         
-        self.btn = [[UIButton alloc] initWithFrame:self.bounds];
-        [self.contentView addSubview:self.btn];
+        self.textLbl = [UILabel labelWithFrame:self.bounds
+                                  textAligment:NSTextAlignmentCenter
+                               backgroundColor:[UIColor whiteColor]
+                                          font:FONT(12)
+                                     textColor:[UIColor textColor]];
+        [self.contentView addSubview:self.textLbl];
+        //
+        
        
-        self.btn.layer.cornerRadius = 5;
-        self.btn.layer.masksToBounds = YES;
-        self.btn.layer.borderWidth = 0.5;
-        self.btn.layer.borderColor = [UIColor colorWithHexString:@"#a0a0a0"].CGColor;
-        self.btn.titleLabel.font = [UIFont systemFontOfSize:12];
-        self.backgroundColor = [UIColor whiteColor];
-        [self.btn setTitle:@"非常修身" forState:UIControlStateNormal];
-        [self.btn setTitleColor:[UIColor textColor] forState:UIControlStateNormal];
-
+         self.textLbl.layer.cornerRadius = 5;
+         self.textLbl.layer.masksToBounds = YES;
+         self.textLbl.layer.borderWidth = 0.5;
+         self.textLbl.layer.borderColor = [UIColor colorWithHexString:@"#a0a0a0"].CGColor;
+         self.textLbl.text = @"非常修身";
         
-        self.btn.userInteractionEnabled = NO;
-        
-        
-        
+    
         self.selectMarkImageView = [[UIImageView alloc] initWithFrame:self.bounds];
         [self.contentView addSubview:self.selectMarkImageView];
-        self.selectMarkImageView.layer.cornerRadius = self.btn.layer.cornerRadius;
+        self.selectMarkImageView.layer.cornerRadius = self.textLbl.layer.cornerRadius;
         self.selectMarkImageView.backgroundColor = [UIColor clearColor];
         self.selectMarkImageView.layer.masksToBounds = YES;
         self.selectMarkImageView.layer.borderColor = [UIColor themeColor].CGColor;
         self.selectMarkImageView.layer.borderWidth = 2;
         
+        [self.textLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(UIEdgeInsetsMake(1, 1, 1, 1));
+        }];
         
+        [self.selectMarkImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(UIEdgeInsetsMake(1, 1, 1, 1));
+        }];
     }
     return self;
 }
@@ -69,7 +76,7 @@
     [super setModel:model];
     
     TLParameterModel *parameterModel = model;
-    [self.btn setTitle:parameterModel.name forState:UIControlStateNormal];
+    self.textLbl.text = parameterModel.name;
     self.selectMarkImageView.hidden = !parameterModel.isSelected;
     
 }

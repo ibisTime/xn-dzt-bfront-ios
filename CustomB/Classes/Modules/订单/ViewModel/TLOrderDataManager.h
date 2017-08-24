@@ -12,69 +12,81 @@
 #import "TLDataModel.h"
 #import "TLParameterModel.h"
 #import "TLCiXiuTextInputCell.h"
+#import "TLInputDataModel.h"
 
 @class TLChooseDataModel;
 
 @interface TLOrderDataManager : NSObject
 
+- (instancetype)initWithOrder:(TLOrderModel *)order;
+
 @property (nonatomic, strong) NSMutableArray <TLGroup *>*groups;
 @property (nonatomic, strong) TLOrderModel *order;
-
 
 //形体数据
 - (void)configXingTiDataModelWithResp:(id)resp;
 @property (nonatomic, strong) NSMutableArray <TLChooseDataModel *>*xingTiRoom;
-//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*xingTaiRoom;
-//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*beiXingRoom;
-//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*zuoJianRoom;
-//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*boZiRoom;
-//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*youJianRoom;
-//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*fuSeRoom;
-//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*duXingRoom;
-//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*seCaiRoom;
-//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*shouBiRoom;
-//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*duiBiRoom;
-//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*tunXingRoom;
-//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*liangGanRoom;
 
-
-
-- (NSMutableArray <TLCiXiuTextInputCell *>*)configCiXiuTextDataModel;
-
-/**
- 配置不变的 如订单信息，物流信息 客户
- */
-- (NSMutableArray <TLDataModel *>*)configConstOrderInfoDataModel;
-- (NSMutableArray *)configConstLogisticsInfoDataModel;
-- (NSMutableArray *)configConstUserInfoDataModel;
-
-
-- (NSMutableArray *)configDefaultModel;
-
-//
-
+//测量数据
 - (void)handMeasureData:(id)responseObject;
-@property (nonatomic, strong) NSMutableArray <TLDataModel *>*measureDataRoom;
+@property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*measureDataRoom;
 
+//刺绣文字
+//- (NSMutableArray <TLCiXiuTextInputCell *>*)configCiXiuTextDataModel;
 
-//以下必须先调方法，然后数组才会有初始化的值
+//除形体之外的可选参数, 拉出全部选型
 - (void)handleParameterData:(id)responseObject;
 @property (nonatomic, strong) NSMutableArray <TLParameterModel *>*zhuoZhuangFengGeRoom;
-//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*mianLiaoFengGeRoom;
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*guiGeRoom;
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*menJinRoom;
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*lingXingRoom;
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*xiuXingRoom;
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*kouDaiRoom;
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*shouXingRoom;
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*fontRoom;
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*ciXiuLocationRoom;
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*ciXiuColorRoom;
+@property (nonatomic, strong) NSString  *zhuoZhuangFengGeValue;
 
-//
+@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*guiGeRoom;
+@property (nonatomic, strong) NSString  *guiGeValue;
+
+@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*menJinRoom;
+@property (nonatomic, strong) NSString  *menJinValue;
+
+@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*lingXingRoom;
+@property (nonatomic, strong) NSString  *lingXingValue;
+
+@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*xiuXingRoom;
+@property (nonatomic, strong) NSString  *xiuXingValue;
+
+@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*kouDaiRoom;
+@property (nonatomic, strong) NSString  *kouDaiValue;
+
+@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*shouXingRoom;
+@property (nonatomic, strong) NSString  *shouXingValue;
+
+@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*fontRoom;
+@property (nonatomic, strong) NSString  *fontValue;
+
+@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*ciXiuLocationRoom;
+@property (nonatomic, strong) NSString  *ciXiuLocationValue;
+
+@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*ciXiuColorRoom;
+@property (nonatomic, strong) NSString  *ciXiuColorValue;
+
+
+@property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*ciXiuTextRoom;
+@property (nonatomic, strong) NSString  *ciXiuTextValue;
+
+
+@property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*remarkRoom;
+@property (nonatomic, strong) NSString  *remarkValue;
+
+//面料
 - (void)handleMianLiaoData:(id)responseObject;
 @property (nonatomic, strong) NSMutableArray < TLParameterModel*>*mianLiaoRoom;
 
 
+/**
+ 配置不变的 如订单信息，物流信息 客户，此类信息较固定
+ */
+- (NSMutableArray <TLDataModel *>*)configConstOrderInfoDataModel;
+
+- (NSMutableArray <TLDataModel *>*)configConstUserInfoDataModel; // 用户信息
+
+- (NSMutableArray *)configConstLogisticsInfoDataModel; //物流
+- (NSMutableArray *)configDefaultModel;
 
 @end

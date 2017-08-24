@@ -10,6 +10,7 @@
 #import "TLUIHeader.h"
 #import "TLDataModel.h"
 #import "TLChooseDataModel.h"
+#import "TLInputDataModel.h"
 
 
 @interface TLMeasureDataCell()
@@ -47,6 +48,9 @@
         [self.contentView addSubview:self.textField];
         self.textField.textColor = [UIColor textColor];
         self.textField.font = FONT(12);
+        
+        [self.textField addTarget:self action:@selector(editChange) forControlEvents:UIControlEventEditingChanged];
+
         
         //
         self.arrowImageView = [[UIImageView alloc] init];
@@ -104,6 +108,14 @@
     return self;
 }
 
+
+- (void)editChange {
+    
+    TLInputDataModel *inputModel = self.model;
+    inputModel.value = self.textField.text;
+    
+}
+
 - (void)setModel:(id)model {
 
     [super setModel:model];
@@ -111,10 +123,11 @@
     
     if ([model isKindOfClass:[TLDataModel class]]) {
         
-        TLDataModel *dataModel = model;
+        TLInputDataModel *dataModel = model;
         self.leftTitleLbl.text = dataModel.keyName;
         self.textField.text = dataModel.value;
         self.textField.userInteractionEnabled = YES;
+        
 
         
     } else if ([model isKindOfClass:[TLChooseDataModel class]]) {

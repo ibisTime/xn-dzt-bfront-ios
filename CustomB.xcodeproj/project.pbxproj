@@ -52,6 +52,10 @@
 		2E3072451F4D87B80003ADD9 /* TLCiXiuTextInputCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072441F4D87B80003ADD9 /* TLCiXiuTextInputCell.m */; };
 		2E3072481F4D8AFB0003ADD9 /* TLInputDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072471F4D8AFB0003ADD9 /* TLInputDataModel.m */; };
 		2E30724B1F4DA4410003ADD9 /* TLChooseDataModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30724A1F4DA4410003ADD9 /* TLChooseDataModel.m */; };
+		2E3072571F4E6C6C0003ADD9 /* TLCustomer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072541F4E6C6C0003ADD9 /* TLCustomer.m */; };
+		2E3072581F4E6C6C0003ADD9 /* TLUserProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072561F4E6C6C0003ADD9 /* TLUserProduct.m */; };
+		2E30725B1F4E6CA10003ADD9 /* TLUserParameterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30725A1F4E6CA10003ADD9 /* TLUserParameterModel.m */; };
+		2E30725E1F4EBF6B0003ADD9 /* TLUserParameterMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30725D1F4EBF6B0003ADD9 /* TLUserParameterMap.m */; };
 		2E8C8A831F4A851B00974F85 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C8A821F4A851B00974F85 /* main.m */; };
 		2E8C8A8E1F4A851B00974F85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C8A8D1F4A851B00974F85 /* Assets.xcassets */; };
 		2E8C8A911F4A851B00974F85 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C8A8F1F4A851B00974F85 /* LaunchScreen.storyboard */; };
@@ -189,6 +193,14 @@
 		2E3072471F4D8AFB0003ADD9 /* TLInputDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLInputDataModel.m; sourceTree = "<group>"; };
 		2E3072491F4DA4410003ADD9 /* TLChooseDataModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLChooseDataModel.h; sourceTree = "<group>"; };
 		2E30724A1F4DA4410003ADD9 /* TLChooseDataModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLChooseDataModel.m; sourceTree = "<group>"; };
+		2E3072531F4E6C6C0003ADD9 /* TLCustomer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCustomer.h; sourceTree = "<group>"; };
+		2E3072541F4E6C6C0003ADD9 /* TLCustomer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLCustomer.m; sourceTree = "<group>"; };
+		2E3072551F4E6C6C0003ADD9 /* TLUserProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLUserProduct.h; sourceTree = "<group>"; };
+		2E3072561F4E6C6C0003ADD9 /* TLUserProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLUserProduct.m; sourceTree = "<group>"; };
+		2E3072591F4E6CA10003ADD9 /* TLUserParameterModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLUserParameterModel.h; sourceTree = "<group>"; };
+		2E30725A1F4E6CA10003ADD9 /* TLUserParameterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLUserParameterModel.m; sourceTree = "<group>"; };
+		2E30725C1F4EBF6B0003ADD9 /* TLUserParameterMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLUserParameterMap.h; sourceTree = "<group>"; };
+		2E30725D1F4EBF6B0003ADD9 /* TLUserParameterMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLUserParameterMap.m; sourceTree = "<group>"; };
 		2E8C8A7E1F4A851B00974F85 /* CustomB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8C8A821F4A851B00974F85 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2E8C8A8D1F4A851B00974F85 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -317,6 +329,7 @@
 		2E30719F1F4AC8BD0003ADD9 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2E3072521F4E6C6C0003ADD9 /* 用户产品 */,
 				2E3071A41F4AC94F0003ADD9 /* TLOrderModel.h */,
 				2E3071A51F4AC94F0003ADD9 /* TLOrderModel.m */,
 				2E3072311F4D115D0003ADD9 /* TLDataModel.h */,
@@ -477,6 +490,21 @@
 				2E30722F1F4C74810003ADD9 /* TLOrderDoubleTitleHeader.m */,
 			);
 			path = Header;
+			sourceTree = "<group>";
+		};
+		2E3072521F4E6C6C0003ADD9 /* 用户产品 */ = {
+			isa = PBXGroup;
+			children = (
+				2E3072531F4E6C6C0003ADD9 /* TLCustomer.h */,
+				2E3072541F4E6C6C0003ADD9 /* TLCustomer.m */,
+				2E3072551F4E6C6C0003ADD9 /* TLUserProduct.h */,
+				2E3072561F4E6C6C0003ADD9 /* TLUserProduct.m */,
+				2E3072591F4E6CA10003ADD9 /* TLUserParameterModel.h */,
+				2E30725A1F4E6CA10003ADD9 /* TLUserParameterModel.m */,
+				2E30725C1F4EBF6B0003ADD9 /* TLUserParameterMap.h */,
+				2E30725D1F4EBF6B0003ADD9 /* TLUserParameterMap.m */,
+			);
+			path = "用户产品";
 			sourceTree = "<group>";
 		};
 		2E8C8A751F4A851B00974F85 = {
@@ -1077,6 +1105,7 @@
 				2E3072301F4C74810003ADD9 /* TLOrderDoubleTitleHeader.m in Sources */,
 				2E8C8AA11F4A863600974F85 /* AppDelegate.m in Sources */,
 				2E3072031F4C00410003ADD9 /* NBNetworkConfig.m in Sources */,
+				2E3072581F4E6C6C0003ADD9 /* TLUserProduct.m in Sources */,
 				2E3071BD1F4AE2CC0003ADD9 /* TLSettingModel.m in Sources */,
 				2E8C8AE11F4A94DC00974F85 /* TLPageDataHelper.m in Sources */,
 				2E30723C1F4D37600003ADD9 /* TLProduct.m in Sources */,
@@ -1095,6 +1124,7 @@
 				2E3072051F4C00410003ADD9 /* NBCDRequest.m in Sources */,
 				2E3071CF1F4BC2540003ADD9 /* Const.m in Sources */,
 				2E8C8B131F4A999A00974F85 /* TLMineVC.m in Sources */,
+				2E30725E1F4EBF6B0003ADD9 /* TLUserParameterMap.m in Sources */,
 				2E3071AD1F4ACFF50003ADD9 /* TLSearchView.m in Sources */,
 				2E3072231F4C682D0003ADD9 /* TLOrderInfoCell.m in Sources */,
 				2E3072391F4D30A70003ADD9 /* TLProductChooseVC.m in Sources */,
@@ -1122,6 +1152,7 @@
 				2E8C8B071F4A983600974F85 /* UIButton+convience.m in Sources */,
 				2E30723F1F4D38CE0003ADD9 /* NSNumber+TLAdd.m in Sources */,
 				2E3072201F4C5B4C0003ADD9 /* TLMeasureDataCell.m in Sources */,
+				2E3072571F4E6C6C0003ADD9 /* TLCustomer.m in Sources */,
 				2E8C8B311F4ABB7800974F85 /* TLBannerCell.m in Sources */,
 				2E3071C61F4B20590003ADD9 /* ZHCaptchaView.m in Sources */,
 				2E8C8B1F1F4AB11400974F85 /* TLHomeTableHeaderView.m in Sources */,
@@ -1133,6 +1164,7 @@
 				2E3072021F4C00410003ADD9 /* NBNetworkAgent.m in Sources */,
 				2E8C8ACB1F4A8A9000974F85 /* UIView+Frame.m in Sources */,
 				2E8C8B361F4ABBBD00974F85 /* NSTimer+tlNoCycle.m in Sources */,
+				2E30725B1F4E6CA10003ADD9 /* TLUserParameterModel.m in Sources */,
 				2E30722A1F4C6D820003ADD9 /* TLOrderBigTitleHeader.m in Sources */,
 				2E8C8AFF1F4A966200974F85 /* UIDevice+FCUUID.m in Sources */,
 				2E8C8B191F4AA98200974F85 /* TLOrderCell.m in Sources */,
