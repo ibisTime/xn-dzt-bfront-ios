@@ -51,6 +51,12 @@
     self.titleLbl.text = _group.title;
     
 //    self.contentLbl.text=  @"在哪1";
+    
+    if (!group.canEdit) {
+        
+        [self forbidEdit];
+        return;
+    }
     if (_group.editting) {
         
         [self editing];
@@ -61,6 +67,15 @@
         
     }
     
+}
+
+- (void)forbidEdit {
+
+    self.editBtn.hidden = YES;
+    //
+    self.cancleBtn.hidden = YES;
+    self.confirmBtn.hidden = YES;
+
 }
 
 - (void)editing {

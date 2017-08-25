@@ -37,7 +37,15 @@
     TLParameterModel *parameterModel = model;
     NSString *str = [parameterModel.pic convertImageUrl];
     [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:str]];
-    self.markImageView.hidden = !parameterModel.isSelected;
+    if (parameterModel.yuSelected) {
+        
+        self.markImageView.hidden = NO;
+        
+    } else {
+        
+        self.markImageView.hidden = YES;
+        
+    }
     
 }
 
@@ -55,7 +63,6 @@
         self.bgImageView.layer.cornerRadius = 5;
         self.bgImageView.backgroundColor = [UIColor whiteColor];
         self.bgImageView.layer.masksToBounds = YES;
-        self.bgImageView.backgroundColor = [UIColor orangeColor];
         
         //
         self.markImageView = [[UIImageView alloc] initWithFrame:self.bounds];

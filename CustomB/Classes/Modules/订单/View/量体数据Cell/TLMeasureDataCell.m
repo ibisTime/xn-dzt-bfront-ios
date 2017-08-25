@@ -48,14 +48,14 @@
         [self.contentView addSubview:self.textField];
         self.textField.textColor = [UIColor textColor];
         self.textField.font = FONT(12);
-        
+        self.textField.keyboardType = UIKeyboardTypeDecimalPad;
         [self.textField addTarget:self action:@selector(editChange) forControlEvents:UIControlEventEditingChanged];
 
         
         //
         self.arrowImageView = [[UIImageView alloc] init];
         [self.contentView addSubview:self.arrowImageView];
-//        self.arrowImageView.image = [UIImage imageNamed:@"下拉箭头"];
+        self.arrowImageView.image = [UIImage imageNamed:@"下拉箭头"];
         
         
         UIView *line = [[UIView alloc] init];
@@ -82,12 +82,12 @@
         }];
         
      
-//        [self.arrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-//            
-//            make.centerY.equalTo(self.leftTitleLbl.mas_centerY);
-//            make.right.equalTo(line.mas_right);
-//            
-//        }];
+        [self.arrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.centerY.equalTo(self.leftTitleLbl.mas_centerY);
+            make.right.equalTo(line.mas_right);
+            
+        }];
 
         
         // 16 22.5
@@ -127,7 +127,7 @@
         self.leftTitleLbl.text = dataModel.keyName;
         self.textField.text = dataModel.value;
         self.textField.userInteractionEnabled = YES;
-        
+        self.arrowImageView.hidden = YES;
 
         
     } else if ([model isKindOfClass:[TLChooseDataModel class]]) {
@@ -136,6 +136,7 @@
         self.leftTitleLbl.text = dataModel.typeName;
         self.textField.text = dataModel.typeValue;
         self.textField.userInteractionEnabled = NO;
+        self.arrowImageView.hidden = NO;
         
     }
     

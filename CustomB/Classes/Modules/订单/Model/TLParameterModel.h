@@ -14,10 +14,11 @@
 @property (nonatomic, copy) NSString *typeName; // 大类姓名
 
 
+//预选择， isSelected是确定选择
+@property (nonatomic, assign) BOOL yuSelected;
 
 //是否为选中
 @property (nonatomic, assign) BOOL isSelected;
-
 @property (nonatomic, copy) NSString *code;
 @property (nonatomic, copy) NSString *name; //小类姓名
 @property (nonatomic, copy) NSString *pic; //未选中图片
@@ -25,10 +26,7 @@
 
 @property (nonatomic, copy,readonly) NSString *selectPic; //未选中图片
 @property (nonatomic, copy) NSString *advPic; //未选中图片
-
-
 @property (nonatomic, strong) NSNumber *price;
-
 
 //"code":"GY201708231211313165",
 //"type":"1-3",

@@ -18,6 +18,8 @@
 @property (nonatomic, strong) NSDictionary *CIXIU; //刺绣
 @property (nonatomic, strong) NSDictionary *CELIANG; //测量
 @property (nonatomic, strong) NSDictionary *DINGZHI; //定制
-@property (nonatomic, strong) NSDictionary *TIXIN; //其它
+@property (nonatomic, strong) NSDictionary *TIXIN; //
+@property (nonatomic, strong) NSDictionary *QITA; //
+
 
 @end

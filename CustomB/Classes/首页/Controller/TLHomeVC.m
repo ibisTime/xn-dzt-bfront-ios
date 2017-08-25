@@ -15,14 +15,20 @@
 #import "NBNetwork.h"
 #import "TLProductChooseVC.h"
 #import "TLOrderDetailVC2.h"
-
+#import "TLNetworking.h"
+#import "ZHBannerModel.h"
+#import "NSString+Extension.h"
+#import "AppConfig.h"
+#import "TLWebVC.h"
 
 @interface TLHomeVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *homeTableView;
-
 @property (nonatomic, copy) NSArray <TLOrderModel *>*orderGroup;
 
+@property (nonatomic, strong) TLBannerView *bannerView;
+@property (nonatomic,strong) NSMutableArray <ZHBannerModel *>*bannerRoom;
+@property (nonatomic,strong) NSMutableArray *bannerPics; //图片
 @end
 
 @implementation TLHomeVC
@@ -38,11 +44,10 @@
                                            font:FONT(18)
                                       textColor:[UIColor colorWithHexString:@"#4d4d4d"]];
     titleLbl.text = @"合衣私人定制";
- 
     self.navigationItem.titleView = titleLbl;
     
- 
-    
+    [self setUpUI];
+    //订单
     NBCDRequest *orderReq = [[NBCDRequest alloc] init];
     orderReq.code = @"620230";
     orderReq.parameters[@"start"] = @"1";
@@ -51,8 +56,23 @@
         
        NSArray *arr = request.responseObject[@"data"][@"list"];
        self.orderGroup  = [TLOrderModel tl_objectArrayWithDictionaryArray:arr];
-        
         [self setUpUI];
+        
+        [self getBanner];
+        
+    } failure:^(__kindof NBBaseRequest *request) {
+        
+    }];
+    
+    //留言
+    NBCDRequest *liuYanReq = [[NBCDRequest alloc] init];
+    liuYanReq.code = @"620145";
+    liuYanReq.parameters[@"start"] = @"1";
+    liuYanReq.parameters[@"start"] = @"1";
+    liuYanReq.parameters[@"receiver"] = [TLUser user].userId;
+    [liuYanReq startWithSuccess:^(__kindof NBBaseRequest *request) {
+        
+        
     } failure:^(__kindof NBBaseRequest *request) {
         
     }];
@@ -71,9 +91,68 @@
     
     //tableView
     TLBannerView *headerView = [[TLBannerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 200)];
-    headerView.imgUrls = @[@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1503903557&di=152adb2d71faca4bb4d0820eff5385c5&imgtype=jpg&er=1&src=http%3A%2F%2Fimages0.cnblogs.com%2Fblog2015%2F780338%2F201508%2F261134016561975.png",@"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2084569111,4178087204&fm=26&gp=0.jpg",@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1503903557&di=152adb2d71faca4bb4d0820eff5385c5&imgtype=jpg&er=1&src=http%3A%2F%2Fimages0.cnblogs.com%2Fblog2015%2F780338%2F201508%2F261134016561975.png"];
+//    headerView.imgUrls = @[@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1503903557&di=152adb2d71faca4bb4d0820eff5385c5&imgtype=jpg&er=1&src=http%3A%2F%2Fimages0.cnblogs.com%2Fblog2015%2F780338%2F201508%2F261134016561975.png",@"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2084569111,4178087204&fm=26&gp=0.jpg",@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1503903557&di=152adb2d71faca4bb4d0820eff5385c5&imgtype=jpg&er=1&src=http%3A%2F%2Fimages0.cnblogs.com%2Fblog2015%2F780338%2F201508%2F261134016561975.png"];
     self.homeTableView.tableHeaderView = headerView;
+    self.bannerView = headerView;
+    
+    __weak typeof(self) weakSelf = self;
+    self.bannerView.selected = ^(NSInteger index){
+        
+        TLWebVC *webVC = [[TLWebVC alloc] init];
+        
+        if (!(weakSelf.bannerRoom[index].url && weakSelf.bannerRoom[index].url.length > 0)) {
+            return ;
+        }
+        webVC.url = weakSelf.bannerRoom[index].url;
+        webVC.title = weakSelf.bannerRoom[index].name;
+        [weakSelf.navigationController pushViewController:webVC animated:YES];
+        
+    };
+}
 
+- (void)getBanner {
+    
+//    NBCDRequest *req = [[NBCDRequest alloc] init];
+//    req.code = @"805805";
+//    req.parameters[@"type"] = @"2";
+//    req.parameters[@"systemCode"] = [AppConfig config].systemCode;
+//    req.parameters[@"companyCode"] = [AppConfig config].systemCode;
+//    req.parameters[@"start"] = @"1";
+//    req.parameters[@"limit"] = @"1";
+//    
+//    
+//    [req startWithSuccess:^(__kindof NBBaseRequest *request) {
+//        
+//        
+//    } failure:^(__kindof NBBaseRequest *request) {
+//        
+//    }];
+    
+    //广告图
+    __weak typeof(self) weakSelf = self;
+    TLNetworking *http = [TLNetworking new];
+    http.code = @"805805";
+    http.parameters[@"type"] = @"2";
+    http.parameters[@"start"] = @"1";
+    http.parameters[@"limit"] = @"1000";
+    [http postWithSuccess:^(id responseObject) {
+        
+        weakSelf.bannerRoom = [ZHBannerModel tl_objectArrayWithDictionaryArray:responseObject[@"data"][@"list"]];
+        //组装数据
+        weakSelf.bannerPics = [NSMutableArray arrayWithCapacity:weakSelf.bannerRoom.count];
+        
+        //取出图片
+        [weakSelf.bannerRoom enumerateObjectsUsingBlock:^(ZHBannerModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            [weakSelf.bannerPics addObject:[obj.pic convertImageUrl]];
+        }];
+        
+        weakSelf.bannerView.imgUrls = weakSelf.bannerPics;
+        
+    } failure:^(NSError *error) {
+        
+        
+    }];
+    
 }
 
 #pragma mark- delegate

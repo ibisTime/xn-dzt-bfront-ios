@@ -16,9 +16,20 @@
 {
     self = [super init];
     if (self) {
+        self.canEdit = YES;
         self.editting = NO;
     }
     return self;
+}
+
+- (UIEdgeInsets)edgeInsets {
+
+    if (self.editting) {
+        return self.editingEdgeInsets;
+    }
+    
+    return self.editedEdgeInsets;
+    
 }
 
 - (NSInteger)itemCount {

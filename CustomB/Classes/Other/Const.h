@@ -76,11 +76,12 @@
 //订单状态
 FOUNDATION_EXTERN NSString * const kOrderStatusCancle;
 
-FOUNDATION_EXTERN NSString * const kOrderStatusDidDingJia; //已定价
 FOUNDATION_EXTERN NSString * const kOrderStatusWillMeasurement; //待量体
-FOUNDATION_EXTERN NSString * const kOrderStatusWillCheck; //待复核
+FOUNDATION_EXTERN NSString * const kOrderStatusDidDingJia; //已定价
 FOUNDATION_EXTERN NSString * const kOrderStatusWillSubmit; //待录入，已支付
+FOUNDATION_EXTERN NSString * const kOrderStatusWillCheck; //待复核
 
+//
 FOUNDATION_EXTERN NSString * const kOrderStatusWillShengChan; //待生产
 FOUNDATION_EXTERN NSString * const kOrderStatusShengChanIng; //生产中
 FOUNDATION_EXTERN NSString * const kOrderStatusDidSend; //已发货

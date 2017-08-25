@@ -29,35 +29,32 @@
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="bgx-in-bgz">
                                                 <rect key="frame" x="0.0" y="0.0" width="343" height="647"/>
-                                                <subviews>
-                                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lanchImg" translatesAutoresizingMaskIntoConstraints="NO" id="1Jm-ai-EBl">
-                                                        <rect key="frame" x="0.0" y="0.0" width="343" height="647"/>
-                                                    </imageView>
-                                                </subviews>
-                                                <constraints>
-                                                    <constraint firstItem="1Jm-ai-EBl" firstAttribute="top" secondItem="bgx-in-bgz" secondAttribute="top" id="55P-Wv-Gwe"/>
-                                                    <constraint firstAttribute="trailing" secondItem="1Jm-ai-EBl" secondAttribute="trailing" id="CVv-dF-Vgr"/>
-                                                    <constraint firstAttribute="bottom" secondItem="1Jm-ai-EBl" secondAttribute="bottom" id="Xwf-FN-8Ry"/>
-                                                    <constraint firstItem="1Jm-ai-EBl" firstAttribute="leading" secondItem="bgx-in-bgz" secondAttribute="leading" id="tuL-Ma-OJT"/>
-                                                </constraints>
                                             </stackView>
                                         </subviews>
                                     </stackView>
                                 </subviews>
                             </stackView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lanchImg" translatesAutoresizingMaskIntoConstraints="NO" id="1Jm-ai-EBl">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            </imageView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstAttribute="trailing" secondItem="1Jm-ai-EBl" secondAttribute="trailing" id="D8c-pF-BkP"/>
+                            <constraint firstItem="1Jm-ai-EBl" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="KxW-fn-41r"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="1Jm-ai-EBl" secondAttribute="bottom" id="Ky3-3D-0jg"/>
+                            <constraint firstItem="1Jm-ai-EBl" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="ZpW-i5-rC4"/>
                             <constraint firstItem="JQy-W4-rOe" firstAttribute="top" secondItem="Llm-lL-Icb" secondAttribute="bottom" id="cea-IW-RYW"/>
                             <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="JQy-W4-rOe" secondAttribute="bottom" id="sIJ-cJ-nGM"/>
                             <constraint firstItem="JQy-W4-rOe" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leadingMargin" id="vJJ-N6-T2o"/>
                             <constraint firstAttribute="trailingMargin" secondItem="JQy-W4-rOe" secondAttribute="trailing" id="xHX-d8-9U7"/>
                         </constraints>
                     </view>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-535.20000000000005" y="152.47376311844079"/>
+            <point key="canvasLocation" x="-519.20000000000005" y="152.47376311844079"/>
         </scene>
     </scenes>
     <resources>

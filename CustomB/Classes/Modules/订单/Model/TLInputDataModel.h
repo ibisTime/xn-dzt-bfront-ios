@@ -11,7 +11,7 @@
 @interface TLInputDataModel : NSObject
 
 @property (nonatomic, copy) NSString *keyName;
-@property (nonatomic, copy) NSString *keyCode;
+@property (nonatomic, copy) NSString *keyCode; //1-4
 @property (nonatomic, copy) NSString *value;
 
 @end

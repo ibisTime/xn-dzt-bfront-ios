@@ -68,6 +68,8 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 
 - (NSString *)getStatusName;
 
+- (BOOL)canEdit;
+
 @end
 
 //"code":"DD201708171511465585",

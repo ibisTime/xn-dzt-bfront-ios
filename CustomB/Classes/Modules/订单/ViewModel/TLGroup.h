@@ -19,6 +19,7 @@
 
 @property (nonatomic, assign,readonly) NSInteger itemCount;
 @property (nonatomic, assign) BOOL editting;
+@property (nonatomic, assign) BOOL canEdit;
 @property (nonatomic, copy) NSString *cellReuseIdentifier;
 @property (nonatomic, copy) NSString *headerReuseIdentifier;
 
@@ -31,7 +32,14 @@
 
 
 @property (nonatomic, assign) CGSize itemSize;
-@property (nonatomic, assign) UIEdgeInsets edgeInsets;
+
+@property (nonatomic, assign, readonly) UIEdgeInsets edgeInsets;
+@property (nonatomic, assign) UIEdgeInsets editingEdgeInsets;
+@property (nonatomic, assign) UIEdgeInsets editedEdgeInsets;
+
+
+
+
 @property (nonatomic, assign) CGFloat minimumLineSpacing;
 @property (nonatomic, assign) CGFloat minimumInteritemSpacing;
 

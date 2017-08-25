@@ -59,7 +59,6 @@
                            kOrderStatusDidDingJia : @"待支付",
                            kOrderStatusWillCheck : @"待复核",
                            kOrderStatusWillMeasurement : @"待量体",
-                           kOrderStatusWillCheck : @"待复核",
                            kOrderStatusWillSubmit : @"待录入",
                            kOrderStatusWillShengChan : @"待生产", //待生产
                            kOrderStatusShengChanIng : @"生产中", //生产中
@@ -73,4 +72,20 @@
     return dict[self.status];
 
 }
+
+- (BOOL)canEdit {
+
+    return [self.status isEqualToString:kOrderStatusWillMeasurement] ||
+    [self.status isEqualToString:kOrderStatusWillSubmit] ||
+    [self.status isEqualToString:kOrderStatusDidDingJia] ||
+    [self.status isEqualToString:kOrderStatusWillCheck];
+    
+//    return [self.status isEqualToString:kOrderStatusWillMeasurement] ||
+//    
+//           [self.status isEqualToString:kOrderStatusWillSubmit] ||
+//    [self.status isEqualToString:kOrderStatusDidDingJia] ||
+//    [self.status isEqualToString:kOrderStatusWillCheck];
+
+}
+
 @end

@@ -167,6 +167,8 @@
                                              animated:YES];
         
     } else {
+        
+        
     
         TLOrderModel *order = self.orderGroups[indexPath.row];
         
@@ -186,7 +188,7 @@
                                                  animated:YES];
         
         }
-   
+        
         
     }
 
@@ -217,7 +219,7 @@
         
     }
 
-    cell.order = self.orderGroups[indexPath.section];
+    cell.order = self.orderGroups[indexPath.row];
     
     return cell;
     

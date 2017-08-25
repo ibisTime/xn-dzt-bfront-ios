@@ -13,6 +13,17 @@
 #import "TLSettingModel.h"
 #import "TLLevelView.h"
 #import "TLUser.h"
+#import "NBCDRequest.h"
+#import "AppConfig.h"
+#import "TLProgressHUD.h"
+#import "TLUser.h"
+#import "ZHCurrencyModel.h"
+#import "NSNumber+TLAdd.h"
+#import "TLBalanceVC.h"
+#import "TLAccountSettingVC.h"
+#import "UIImageView+WebCache.h"
+#import "NSString+Extension.h"
+
 
 @interface TLMineVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -20,10 +31,12 @@
 //
 @property (nonatomic, strong) UIImageView *userPhotoImageView;
 @property (nonatomic, strong) UILabel *nameLbl;
+
 @property (nonatomic, strong) TLLevelView *levelView;
 @property (nonatomic, strong) UILabel *professionalTitleLbl;
 
 @property (nonatomic, copy) NSArray <TLSettingModel * >*models;
+@property (nonatomic, strong) NSMutableArray <ZHCurrencyModel *>*currencyRoom;
 
 @end
 
@@ -39,32 +52,96 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    //账户
-    TLSettingModel *accountBalanceItem = [[TLSettingModel alloc] init];
-    accountBalanceItem.imgName = @"账户余额";
-    accountBalanceItem.text = @"账户余额";
-    accountBalanceItem.subText = @"账户余额";
     
-    //系统消息
-    TLSettingModel *sysMsgItem = [[TLSettingModel alloc] init];
-    sysMsgItem.imgName = @"系统消息";
-    sysMsgItem.text = @"系统消息";
+    [TLProgressHUD showWithStatus:nil];
+    NBCDRequest *req = [[NBCDRequest alloc] init];
+    req.code = @"802503";
+    req.parameters[@"systemCode"] = [AppConfig config].systemCode;
+    req.parameters[@"companyCode"] = [AppConfig config].systemCode;
     
-    //账户设置
-    TLSettingModel *accountItem = [[TLSettingModel alloc] init];
-    accountItem.imgName = @"账户设置";
-    accountItem.text = @"账户设置";
-    
-    self.models = @[accountBalanceItem,sysMsgItem,accountItem];
-    [accountItem setAction:^{
-        [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginOutNotification object:nil];
+    req.parameters[@"token"] = [TLUser user].token;
+    req.parameters[@"userId"] = [TLUser user].userId;
+
+
+    [req startWithSuccess:^(__kindof NBBaseRequest *request) {
+        
+        [TLProgressHUD dismiss];
+        
+        self.currencyRoom = [ZHCurrencyModel tl_objectArrayWithDictionaryArray:request.responseObject[@"data"]];
+        
+        
+        __weak typeof(self) weakSelf = self;
+        //账户
+        TLSettingModel *accountBalanceItem = [[TLSettingModel alloc] init];
+        accountBalanceItem.imgName = @"账户余额";
+        accountBalanceItem.text = @"账户余额";
+        [self.currencyRoom enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj.currency isEqualToString:kCNY]) {
+                
+                accountBalanceItem.subText = [obj.amount convertToRealMoney];
+
+            }
+            
+        }];
+        [accountBalanceItem setAction:^{
+            
+            TLBalanceVC *vc = [[TLBalanceVC alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        }];
+        
+        //系统消息
+        TLSettingModel *sysMsgItem = [[TLSettingModel alloc] init];
+        sysMsgItem.imgName = @"系统消息";
+        sysMsgItem.text = @"系统消息";
+        
+        //账户设置
+        TLSettingModel *accountItem = [[TLSettingModel alloc] init];
+        accountItem.imgName = @"账户设置";
+        accountItem.text = @"账户设置";
+        self.models = @[accountBalanceItem,sysMsgItem,accountItem];
+        [accountItem setAction:^{
+            
+            [weakSelf goSetUserInfo];
+//            TLAccountSettingVC *vc = [[TLAccountSettingVC alloc] init];
+//            [weakSelf.navigationController pushViewController:vc animated:YES];
+        }];
+
+        
+        [self setUpUI];
+        
+        [self data];
+        
+    } failure:^(__kindof NBBaseRequest *request) {
+        [TLProgressHUD dismiss];
+        
     }];
     
     
-    [self setUpUI];
+//    TLNetworking *http = [TLNetworking new];
+//    http.code = @"802503";
+//    http.isShowMsg = YES;
+//    http.parameters[@"token"] = [ZHUser user].token;
+//    http.parameters[@"userId"] = [ZHUser user].userId;
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeInfo) name:kUserInfoChange object:nil];
+}
+
+
+
+
+- (void)changeInfo {
     
-    [self data];
+    self.nameLbl.text = [TLUser user].nickname;
+    [self.userPhotoImageView sd_setImageWithURL:[NSURL URLWithString:[[TLUser user].userExt.photo convertImageUrl]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
     
+    
+}
+
+- (void)goSetUserInfo {
+
+    TLAccountSettingVC *vc = [[TLAccountSettingVC alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+
 }
 
 - (void)data {
@@ -84,6 +161,8 @@
     if (self.models[indexPath.row].action) {
         self.models[indexPath.row].action();
     }
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
 
 }
 
@@ -129,7 +208,9 @@
     topImageView.contentMode = UIViewContentModeScaleAspectFill;
     topImageView.image = [UIImage imageNamed:@"我的背景"];
     topImageView.clipsToBounds = YES;
-    
+    topImageView.userInteractionEnabled = YES;
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(goSetUserInfo)];
+    [topImageView addGestureRecognizer:tap];
     self.mineTableView.tableHeaderView = topImageView;
     //
     UILabel *titleLbl = [UILabel labelWithFrame:CGRectZero

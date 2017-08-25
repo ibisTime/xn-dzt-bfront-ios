@@ -31,7 +31,17 @@
     [AppConfig config].runEnv = RunEnvDev;
     
     
-    [NBNetworkConfig config].baseUrl = @"http://121.43.101.148:8901/forward-service/api";
+    if([AppConfig config].runEnv == RunEnvDev) {
+    
+          [NBNetworkConfig config].baseUrl = @"http://121.43.101.148:8901/forward-service/api";
+    
+    } else {
+        
+          [NBNetworkConfig config].baseUrl = @"http://118.178.124.16:3301/forward-service/api";
+    
+    
+    }
+  
     
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];

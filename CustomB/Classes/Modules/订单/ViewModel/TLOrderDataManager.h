@@ -70,9 +70,13 @@
 @property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*ciXiuTextRoom;
 @property (nonatomic, strong) NSString  *ciXiuTextValue;
 
-
+//
 @property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*remarkRoom;
 @property (nonatomic, strong) NSString  *remarkValue;
+
+//
+@property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*shouHuoAddressRoom;
+@property (nonatomic, strong) NSString  *shouHuoValue;
 
 //面料
 - (void)handleMianLiaoData:(id)responseObject;

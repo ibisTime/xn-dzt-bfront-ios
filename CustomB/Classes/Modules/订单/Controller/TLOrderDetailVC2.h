@@ -24,6 +24,4 @@ typedef NS_ENUM(NSUInteger, OrderOperationType) {
 
 @property (nonatomic, assign) OrderOperationType operationType;
 
-
-
 @end

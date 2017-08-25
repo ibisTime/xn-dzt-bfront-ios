@@ -46,7 +46,7 @@
         
         self.textField = [[UITextField alloc] init];
         [self.contentView addSubview:self.textField];
-        self.textField.placeholder = @"请输入刺绣内容";
+//        self.textField.placeholder = @"请输入刺绣内容";
         self.textField.font = [UIFont systemFontOfSize:12];
         [self.textField addTarget:self action:@selector(editChange) forControlEvents:UIControlEventEditingChanged];
         

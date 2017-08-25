@@ -12,6 +12,7 @@
 #import "TLInputDataModel.h"
 #import "TLChooseDataModel.h"
 #import "NSNumber+TLAdd.h"
+#import "Const.h"
 
 @implementation TLOrderDataManager
 
@@ -213,7 +214,7 @@
     self.mianLiaoRoom = [TLParameterModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
 
     [self.mianLiaoRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        obj.name = @"面料";
+        obj.name = obj.code;
     }];
 }
 
@@ -243,7 +244,9 @@
             if ([selelctParaDict[@"code"] isEqualToString:obj.code]) {
                 
                 obj.isSelected = [selelctParaDict[@"code"] isEqualToString:obj.code];
+                obj.yuSelected = obj.isSelected;
                 self.guiGeValue = selelctParaDict[@"name"];
+                *stop = YES;
             }
             
         }];
@@ -259,8 +262,10 @@
             if ([selelctParaDict[@"code"] isEqualToString:obj.code]) {
                 
                 obj.isSelected = [selelctParaDict[@"code"] isEqualToString:obj.code];
+                obj.yuSelected = obj.isSelected;
                 self.zhuoZhuangFengGeValue = selelctParaDict[@"name"];
-                
+                *stop = YES;
+
             }
             
         }];
@@ -278,7 +283,9 @@
             if ([selelctParaDict[@"code"] isEqualToString:obj.code]) {
                 
                 obj.isSelected = [selelctParaDict[@"code"] isEqualToString:obj.code];
+                obj.yuSelected = obj.isSelected;
                 self.menJinValue = selelctParaDict[@"name"];
+                *stop = YES;
 
             }
             
@@ -297,7 +304,9 @@
             if ([selelctParaDict[@"code"] isEqualToString:obj.code]) {
                 
                 obj.isSelected = [selelctParaDict[@"code"] isEqualToString:obj.code];
+                obj.yuSelected = obj.isSelected;
                 self.lingXingValue = selelctParaDict[@"name"];
+                *stop = YES;
 
             }
             
@@ -315,7 +324,9 @@
             if ([selelctParaDict[@"code"] isEqualToString:obj.code]) {
                 
                 obj.isSelected = [selelctParaDict[@"code"] isEqualToString:obj.code];
+                obj.yuSelected = obj.isSelected;
                 self.xiuXingValue = selelctParaDict[@"name"];
+                *stop = YES;
 
             }
             
@@ -333,8 +344,10 @@
             if ([selelctParaDict[@"code"] isEqualToString:obj.code]) {
                 
                 obj.isSelected = [selelctParaDict[@"code"] isEqualToString:obj.code];
+                obj.yuSelected = obj.isSelected;
                 self.kouDaiValue = selelctParaDict[@"name"];
-                
+                *stop = YES;
+
             }
             
         }];
@@ -351,8 +364,10 @@
             if ([selelctParaDict[@"code"] isEqualToString:obj.code]) {
                 
                 obj.isSelected = [selelctParaDict[@"code"] isEqualToString:obj.code];
+                obj.yuSelected = obj.isSelected;
                 self.shouXingValue = selelctParaDict[@"name"];
-                
+                *stop = YES;
+
             }
             
         }];
@@ -370,8 +385,10 @@
             if ([selelctParaDict[@"code"] isEqualToString:obj.code]) {
                 
                 obj.isSelected = [selelctParaDict[@"code"] isEqualToString:obj.code];
+                obj.yuSelected = obj.isSelected;
                 self.fontValue = selelctParaDict[@"name"];
-                
+                *stop = YES;
+
             }
             
         }];
@@ -388,8 +405,10 @@
             if ([selelctParaDict[@"code"] isEqualToString:obj.code]) {
                 
                 obj.isSelected = [selelctParaDict[@"code"] isEqualToString:obj.code];
+                obj.yuSelected = obj.isSelected;
                 self.ciXiuLocationValue = selelctParaDict[@"name"];
-                
+                *stop = YES;
+
             }
             
         }];
@@ -406,8 +425,10 @@
             if ([selelctParaDict[@"code"] isEqualToString:obj.code]) {
                 
                 obj.isSelected = [selelctParaDict[@"code"] isEqualToString:obj.code];
+                obj.yuSelected = obj.isSelected;
                 self.ciXiuColorValue = selelctParaDict[@"name"];
-                
+                *stop = YES;
+
             }
             
         }];
@@ -424,7 +445,8 @@
             
                 self.ciXiuTextValue = selelctParaDict[@"code"];
             self.ciXiuTextRoom[0].value = self.ciXiuTextValue;
-            
+            *stop = YES;
+
         }];
     }
 
@@ -440,6 +462,8 @@
         return nil;
     }
     
+ 
+    
     
   NSMutableArray <NSDictionary *> *dingDanInfoArr = [ @[
       
@@ -448,6 +472,16 @@
       @{@"订单状态" : [self.order getStatusName]},
       
       ] mutableCopy];
+    
+    
+    if (self.order.resultMap.DINGZHI[@"1-2"]) {
+        
+        NSDictionary *selelctParaDict = self.order.resultMap.DINGZHI[@"1-2"];
+        
+        [dingDanInfoArr addObject:@{@"面料编号" : selelctParaDict[@"code"]}];
+        
+    }
+    
     //订单价格
     if (self.order.amount) {
         NSString *priceStr =  [NSString stringWithFormat:@"￥%@",[self.order.amount convertToRealMoney]];
@@ -499,17 +533,27 @@
     remarkDataModel.value = self.order.remark;
     self.remarkRoom = [[NSMutableArray alloc] initWithArray:@[remarkDataModel]];
     
+    NSString *shouHuoStr = nil;
+    shouHuoStr = @"未收货";
+    if (
+        [self.order.status isEqualToString:kOrderStatusDidReceive] ||
+        [self.order.status isEqualToString:kOrderStatusDidSave] ||
+        [self.order.status isEqualToString:kOrderStatusDidComment] ||
+        [self.order.status isEqualToString:kOrderStatusDidSave]
+        
+        ) {
+        shouHuoStr = @"已收货";
+        
+    }
     
     NSMutableArray <NSDictionary *> *orderInfoArr = [  @[
 @{@"物流公司" : self.order.logisticsCompany},
 @{@"发货时间" : [self.order.deliveryDatetime convertToDetailDate]},
 @{@"快递单号" : self.order.logisticsCode},
-@{@"收货确认" : [self.order getStatusName]},
+@{@"收货确认" : shouHuoStr},
 
 
                                                                                                ] mutableCopy];
-    
-    
     
     NSMutableArray *thenArr = [[NSMutableArray alloc] init];
     [orderInfoArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -531,6 +575,19 @@
         return nil;
     }
     
+    TLInputDataModel *shouHuoDiZHi = [[TLInputDataModel alloc] init];
+    self.shouHuoAddressRoom = [@[shouHuoDiZHi] mutableCopy];
+    if (self.order.resultMap.QITA[@"6-4"]) {
+        
+        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-4"];
+        shouHuoDiZHi.keyCode = @"6-4";
+        shouHuoDiZHi.keyName = @"收货地址";
+        shouHuoDiZHi.value = selelctParaDict[@"code"];
+        
+    }
+    
+   
+    
     TLInputDataModel *remarkDataModel =  [[TLInputDataModel alloc] init];
     remarkDataModel.value = self.order.remark;
     self.remarkRoom = [[NSMutableArray alloc] initWithArray:@[remarkDataModel]];
@@ -540,6 +597,40 @@
                                       @{@"联系电话" : self.order.applyMobile}
                                       ]];
     
+    //
+    //NL("6-1", "年龄"), SG("6-2", "身高"), TZ("6-3", "体重"), YJDZ("6-4", "邮寄地址"),
+    //BEIZHU("6-5", "备注");
+    if (self.order.resultMap.QITA[@"6-1"]) {
+        
+        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-1"];
+
+            [orderInfoArr addObject:@{@"年龄" : selelctParaDict[@"code"]}];
+    }
+    
+    //
+    if (self.order.resultMap.QITA[@"6-2"]) {
+        
+        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-2"];
+        [orderInfoArr addObject:@{@"身高" : [NSString stringWithFormat:@"%@ cm",selelctParaDict[@"code"]]}];
+        
+    }
+    
+    //
+    if (self.order.resultMap.QITA[@"6-4"]) {
+        
+        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-4"];
+        [orderInfoArr addObject:@{@"邮寄地址" : selelctParaDict[@"code"]}];
+        
+    }
+    
+    //
+    if (self.order.resultMap.QITA[@"6-3"]) {
+        
+        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-3"];
+            
+        [orderInfoArr addObject:@{@"体重" : [NSString stringWithFormat:@"%@ kg",selelctParaDict[@"code"]]}];
+        
+    }
 
     
     NSMutableArray *thenArr = [[NSMutableArray alloc] init];

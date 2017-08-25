@@ -29,7 +29,7 @@
     [super viewDidLoad];
     self.title = @"订单";
    
-    
+    self.view.backgroundColor = [UIColor whiteColor];
 //    [self setUpSearchView];
     //
     self.searchView = [[TLSearchView alloc] initWithFrame:CGRectMake(0, 0,SCREEN_WIDTH, 88)];

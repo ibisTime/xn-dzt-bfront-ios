@@ -241,13 +241,14 @@
 
     
     //找回密码
-    UIButton *forgetPwdBtn = [[UIButton alloc] initWithFrame:CGRectMake(0,loginBtn.yy + 10 , 100, 25) title:@"找回密码" backgroundColor:[UIColor clearColor]];
-    [forgetPwdBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    UIButton *forgetPwdBtn = [[UIButton alloc] initWithFrame:CGRectMake(0,loginBtn.yy + 10 , 100, 25) title:@"忘记密码 >" backgroundColor:[UIColor clearColor]];
+    [forgetPwdBtn setTitleColor:[UIColor colorWithHexString:@"#dab616"] forState:UIControlStateNormal];
     [bgSV addSubview:forgetPwdBtn];
     forgetPwdBtn.titleLabel.font = [UIFont thirdFont];
     forgetPwdBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
     forgetPwdBtn.xx = SCREEN_WIDTH - margin;
     [forgetPwdBtn addTarget:self action:@selector(findPwd) forControlEvents:UIControlEventTouchUpInside];
+    forgetPwdBtn.right = loginBtn.right;
 
 }
 

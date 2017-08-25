@@ -56,6 +56,15 @@
 		2E3072581F4E6C6C0003ADD9 /* TLUserProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072561F4E6C6C0003ADD9 /* TLUserProduct.m */; };
 		2E30725B1F4E6CA10003ADD9 /* TLUserParameterModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30725A1F4E6CA10003ADD9 /* TLUserParameterModel.m */; };
 		2E30725E1F4EBF6B0003ADD9 /* TLUserParameterMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30725D1F4EBF6B0003ADD9 /* TLUserParameterMap.m */; };
+		2E3072611F4FC6A00003ADD9 /* ZHCurrencyModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072601F4FC6A00003ADD9 /* ZHCurrencyModel.m */; };
+		2E3072691F4FE5900003ADD9 /* CustomBUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072681F4FE5900003ADD9 /* CustomBUITests.m */; };
+		2E3072761F4FF14A0003ADD9 /* TLBalanceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072751F4FF14A0003ADD9 /* TLBalanceVC.m */; };
+		2E3072791F4FF2010003ADD9 /* TLUserSettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072781F4FF2010003ADD9 /* TLUserSettingCell.m */; };
+		2E30727C1F4FF3300003ADD9 /* TLAccountSettingVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30727B1F4FF3300003ADD9 /* TLAccountSettingVC.m */; };
+		2E30727F1F4FFA5A0003ADD9 /* ZHChangeNickNameVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30727E1F4FFA5A0003ADD9 /* ZHChangeNickNameVC.m */; };
+		2E3072831F4FFC830003ADD9 /* TLImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072821F4FFC830003ADD9 /* TLImagePicker.m */; };
+		2E3072861F500E0B0003ADD9 /* ZHBannerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072851F500E0B0003ADD9 /* ZHBannerModel.m */; };
+		2E3072891F502C9F0003ADD9 /* TLWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072881F502C9F0003ADD9 /* TLWebVC.m */; };
 		2E8C8A831F4A851B00974F85 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C8A821F4A851B00974F85 /* main.m */; };
 		2E8C8A8E1F4A851B00974F85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C8A8D1F4A851B00974F85 /* Assets.xcassets */; };
 		2E8C8A911F4A851B00974F85 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C8A8F1F4A851B00974F85 /* LaunchScreen.storyboard */; };
@@ -99,6 +108,16 @@
 		2E8C8B361F4ABBBD00974F85 /* NSTimer+tlNoCycle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C8B351F4ABBBD00974F85 /* NSTimer+tlNoCycle.m */; };
 		D0C9E4DDDA4D08742E080DD8 /* libPods-CustomB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49AA13F7A4F0E82CFDA0CF74 /* libPods-CustomB.a */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2E30726B1F4FE5900003ADD9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 2E8C8A761F4A851B00974F85 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2E8C8A7D1F4A851B00974F85;
+			remoteInfo = CustomB;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1531B65D53931CD08FC8A97E /* Pods-CustomB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomB.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomB/Pods-CustomB.debug.xcconfig"; sourceTree = "<group>"; };
@@ -201,6 +220,25 @@
 		2E30725A1F4E6CA10003ADD9 /* TLUserParameterModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLUserParameterModel.m; sourceTree = "<group>"; };
 		2E30725C1F4EBF6B0003ADD9 /* TLUserParameterMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLUserParameterMap.h; sourceTree = "<group>"; };
 		2E30725D1F4EBF6B0003ADD9 /* TLUserParameterMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLUserParameterMap.m; sourceTree = "<group>"; };
+		2E30725F1F4FC6A00003ADD9 /* ZHCurrencyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHCurrencyModel.h; sourceTree = "<group>"; };
+		2E3072601F4FC6A00003ADD9 /* ZHCurrencyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHCurrencyModel.m; sourceTree = "<group>"; };
+		2E3072661F4FE5900003ADD9 /* CustomBUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CustomBUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E3072681F4FE5900003ADD9 /* CustomBUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CustomBUITests.m; sourceTree = "<group>"; };
+		2E30726A1F4FE5900003ADD9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2E3072741F4FF14A0003ADD9 /* TLBalanceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLBalanceVC.h; sourceTree = "<group>"; };
+		2E3072751F4FF14A0003ADD9 /* TLBalanceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLBalanceVC.m; sourceTree = "<group>"; };
+		2E3072771F4FF2010003ADD9 /* TLUserSettingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLUserSettingCell.h; sourceTree = "<group>"; };
+		2E3072781F4FF2010003ADD9 /* TLUserSettingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLUserSettingCell.m; sourceTree = "<group>"; };
+		2E30727A1F4FF3300003ADD9 /* TLAccountSettingVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TLAccountSettingVC.h; path = ../View/TLAccountSettingVC.h; sourceTree = "<group>"; };
+		2E30727B1F4FF3300003ADD9 /* TLAccountSettingVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TLAccountSettingVC.m; path = ../View/TLAccountSettingVC.m; sourceTree = "<group>"; };
+		2E30727D1F4FFA5A0003ADD9 /* ZHChangeNickNameVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHChangeNickNameVC.h; sourceTree = "<group>"; };
+		2E30727E1F4FFA5A0003ADD9 /* ZHChangeNickNameVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHChangeNickNameVC.m; sourceTree = "<group>"; };
+		2E3072811F4FFC830003ADD9 /* TLImagePicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLImagePicker.h; sourceTree = "<group>"; };
+		2E3072821F4FFC830003ADD9 /* TLImagePicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLImagePicker.m; sourceTree = "<group>"; };
+		2E3072841F500E0B0003ADD9 /* ZHBannerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHBannerModel.h; sourceTree = "<group>"; };
+		2E3072851F500E0B0003ADD9 /* ZHBannerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHBannerModel.m; sourceTree = "<group>"; };
+		2E3072871F502C9F0003ADD9 /* TLWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLWebVC.h; sourceTree = "<group>"; };
+		2E3072881F502C9F0003ADD9 /* TLWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLWebVC.m; sourceTree = "<group>"; };
 		2E8C8A7E1F4A851B00974F85 /* CustomB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8C8A821F4A851B00974F85 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2E8C8A8D1F4A851B00974F85 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -289,6 +327,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		2E3072631F4FE5900003ADD9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2E8C8A7B1F4A851B00974F85 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -507,10 +552,62 @@
 			path = "用户产品";
 			sourceTree = "<group>";
 		};
+		2E3072671F4FE5900003ADD9 /* CustomBUITests */ = {
+			isa = PBXGroup;
+			children = (
+				2E3072681F4FE5900003ADD9 /* CustomBUITests.m */,
+				2E30726A1F4FE5900003ADD9 /* Info.plist */,
+			);
+			path = CustomBUITests;
+			sourceTree = "<group>";
+		};
+		2E3072701F4FF1390003ADD9 /* 账户 */ = {
+			isa = PBXGroup;
+			children = (
+				2E3072711F4FF1390003ADD9 /* Controller */,
+				2E3072721F4FF1390003ADD9 /* Model */,
+				2E3072731F4FF1390003ADD9 /* View */,
+			);
+			path = "账户";
+			sourceTree = "<group>";
+		};
+		2E3072711F4FF1390003ADD9 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2E3072741F4FF14A0003ADD9 /* TLBalanceVC.h */,
+				2E3072751F4FF14A0003ADD9 /* TLBalanceVC.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		2E3072721F4FF1390003ADD9 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2E3072731F4FF1390003ADD9 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2E3072801F4FFC830003ADD9 /* ImageTools */ = {
+			isa = PBXGroup;
+			children = (
+				2E3072811F4FFC830003ADD9 /* TLImagePicker.h */,
+				2E3072821F4FFC830003ADD9 /* TLImagePicker.m */,
+			);
+			path = ImageTools;
+			sourceTree = "<group>";
+		};
 		2E8C8A751F4A851B00974F85 = {
 			isa = PBXGroup;
 			children = (
 				2E8C8A801F4A851B00974F85 /* CustomB */,
+				2E3072671F4FE5900003ADD9 /* CustomBUITests */,
 				2E8C8A7F1F4A851B00974F85 /* Products */,
 				6A48F8D13FFF094E0DDEA396 /* Pods */,
 				A3319A62B05AA97A44AEC207 /* Frameworks */,
@@ -521,6 +618,7 @@
 			isa = PBXGroup;
 			children = (
 				2E8C8A7E1F4A851B00974F85 /* CustomB.app */,
+				2E3072661F4FE5900003ADD9 /* CustomBUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -552,6 +650,8 @@
 			children = (
 				2E8C8A991F4A863600974F85 /* AppDelegate.h */,
 				2E8C8A9A1F4A863600974F85 /* AppDelegate.m */,
+				2E30725F1F4FC6A00003ADD9 /* ZHCurrencyModel.h */,
+				2E3072601F4FC6A00003ADD9 /* ZHCurrencyModel.m */,
 				2E8C8A9B1F4A863600974F85 /* Modules */,
 				2E8C8A9C1F4A863600974F85 /* Other */,
 				2E8C8A9D1F4A863600974F85 /* 客户 */,
@@ -565,6 +665,7 @@
 		2E8C8A9B1F4A863600974F85 /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				2E3072701F4FF1390003ADD9 /* 账户 */,
 				2E30719D1F4AC8BD0003ADD9 /* 订单 */,
 				2E3071AE1F4AD1F70003ADD9 /* 客户 */,
 				2E8C8B201F4AB49600974F85 /* 消息 */,
@@ -649,6 +750,8 @@
 			children = (
 				2E8C8B111F4A999A00974F85 /* TLMineVC.h */,
 				2E8C8B121F4A999A00974F85 /* TLMineVC.m */,
+				2E30727A1F4FF3300003ADD9 /* TLAccountSettingVC.h */,
+				2E30727B1F4FF3300003ADD9 /* TLAccountSettingVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -667,6 +770,8 @@
 			children = (
 				2E3071B81F4AE03F0003ADD9 /* TLSettingCell.h */,
 				2E3071B91F4AE03F0003ADD9 /* TLSettingCell.m */,
+				2E3072771F4FF2010003ADD9 /* TLUserSettingCell.h */,
+				2E3072781F4FF2010003ADD9 /* TLUserSettingCell.m */,
 				2E3071BE1F4AE7A30003ADD9 /* TLLevelView.h */,
 				2E3071BF1F4AE7A30003ADD9 /* TLLevelView.m */,
 			);
@@ -678,6 +783,8 @@
 			children = (
 				2E8C8B0B1F4A997800974F85 /* TLHomeVC.h */,
 				2E8C8B0C1F4A997800974F85 /* TLHomeVC.m */,
+				2E3072871F502C9F0003ADD9 /* TLWebVC.h */,
+				2E3072881F502C9F0003ADD9 /* TLWebVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -685,6 +792,8 @@
 		2E8C8AAD1F4A885F00974F85 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2E3072841F500E0B0003ADD9 /* ZHBannerModel.h */,
+				2E3072851F500E0B0003ADD9 /* ZHBannerModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -754,6 +863,7 @@
 		2E8C8AB81F4A88DF00974F85 /* Expand */ = {
 			isa = PBXGroup;
 			children = (
+				2E3072801F4FFC830003ADD9 /* ImageTools */,
 				2E30723D1F4D38CE0003ADD9 /* NSNumber+TLAdd.h */,
 				2E30723E1F4D38CE0003ADD9 /* NSNumber+TLAdd.m */,
 				2E3071DC1F4C00410003ADD9 /* NBHTTP */,
@@ -803,6 +913,8 @@
 		2E8C8AC01F4A898B00974F85 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				2E30727D1F4FFA5A0003ADD9 /* ZHChangeNickNameVC.h */,
+				2E30727E1F4FFA5A0003ADD9 /* ZHChangeNickNameVC.m */,
 				2E3071C11F4B1F520003ADD9 /* ZHAccountBaseVC.h */,
 				2E3071C21F4B1F520003ADD9 /* ZHAccountBaseVC.m */,
 				2E8C8AC31F4A89FC00974F85 /* TLUserLoginVC.h */,
@@ -968,6 +1080,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		2E3072651F4FE5900003ADD9 /* CustomBUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2E30726D1F4FE5900003ADD9 /* Build configuration list for PBXNativeTarget "CustomBUITests" */;
+			buildPhases = (
+				2E3072621F4FE5900003ADD9 /* Sources */,
+				2E3072631F4FE5900003ADD9 /* Frameworks */,
+				2E3072641F4FE5900003ADD9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2E30726C1F4FE5900003ADD9 /* PBXTargetDependency */,
+			);
+			name = CustomBUITests;
+			productName = CustomBUITests;
+			productReference = 2E3072661F4FE5900003ADD9 /* CustomBUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		2E8C8A7D1F4A851B00974F85 /* CustomB */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2E8C8A951F4A851B00974F85 /* Build configuration list for PBXNativeTarget "CustomB" */;
@@ -997,6 +1127,12 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = " tianlei";
 				TargetAttributes = {
+					2E3072651F4FE5900003ADD9 = {
+						CreatedOnToolsVersion = 8.3.3;
+						DevelopmentTeam = 7K7EFNFZWL;
+						ProvisioningStyle = Automatic;
+						TestTargetID = 2E8C8A7D1F4A851B00974F85;
+					};
 					2E8C8A7D1F4A851B00974F85 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 7K7EFNFZWL;
@@ -1018,11 +1154,19 @@
 			projectRoot = "";
 			targets = (
 				2E8C8A7D1F4A851B00974F85 /* CustomB */,
+				2E3072651F4FE5900003ADD9 /* CustomBUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		2E3072641F4FE5900003ADD9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2E8C8A7C1F4A851B00974F85 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1083,11 +1227,20 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		2E3072621F4FE5900003ADD9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2E3072691F4FE5900003ADD9 /* CustomBUITests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		2E8C8A7A1F4A851B00974F85 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				2E8C8AD41F4A8B8900974F85 /* TLBaseModel.m in Sources */,
+				2E3072831F4FFC830003ADD9 /* TLImagePicker.m in Sources */,
 				2E3071C31F4B1F520003ADD9 /* ZHAccountBaseVC.m in Sources */,
 				2E8C8AE01F4A94DC00974F85 /* TLNetworking.m in Sources */,
 				2E8C8AE81F4A952E00974F85 /* TLTextField.m in Sources */,
@@ -1097,6 +1250,7 @@
 				2E3071A31F4AC8E60003ADD9 /* TLOrderCategoryVC.m in Sources */,
 				2E8C8AF31F4A95AB00974F85 /* AppConfig.m in Sources */,
 				2E8C8B0D1F4A997800974F85 /* TLHomeVC.m in Sources */,
+				2E30727F1F4FFA5A0003ADD9 /* ZHChangeNickNameVC.m in Sources */,
 				2E8C8B041F4A980600974F85 /* UIFont+UI.m in Sources */,
 				2E8C8AE21F4A94DC00974F85 /* TLUploadManager.m in Sources */,
 				2E8C8B321F4ABB7800974F85 /* TLBannerView.m in Sources */,
@@ -1109,8 +1263,10 @@
 				2E3071BD1F4AE2CC0003ADD9 /* TLSettingModel.m in Sources */,
 				2E8C8AE11F4A94DC00974F85 /* TLPageDataHelper.m in Sources */,
 				2E30723C1F4D37600003ADD9 /* TLProduct.m in Sources */,
+				2E3072861F500E0B0003ADD9 /* ZHBannerModel.m in Sources */,
 				2E3072191F4C27300003ADD9 /* TLOrderParameterCell.m in Sources */,
 				2E8C8B101F4A998C00974F85 /* TLOrderVC.m in Sources */,
+				2E3072791F4FF2010003ADD9 /* TLUserSettingCell.m in Sources */,
 				2E3071A61F4AC94F0003ADD9 /* TLOrderModel.m in Sources */,
 				2E3071C01F4AE7A30003ADD9 /* TLLevelView.m in Sources */,
 				2E30722D1F4C72610003ADD9 /* TLOrderBGTitleHeader.m in Sources */,
@@ -1128,6 +1284,7 @@
 				2E3071AD1F4ACFF50003ADD9 /* TLSearchView.m in Sources */,
 				2E3072231F4C682D0003ADD9 /* TLOrderInfoCell.m in Sources */,
 				2E3072391F4D30A70003ADD9 /* TLProductChooseVC.m in Sources */,
+				2E3072761F4FF14A0003ADD9 /* TLBalanceVC.m in Sources */,
 				2E3071A91F4AC9C80003ADD9 /* TLPlaceholderView.m in Sources */,
 				2E3072481F4D8AFB0003ADD9 /* TLInputDataModel.m in Sources */,
 				2E8C8AA51F4A876B00974F85 /* TLTabBarController.m in Sources */,
@@ -1153,6 +1310,7 @@
 				2E30723F1F4D38CE0003ADD9 /* NSNumber+TLAdd.m in Sources */,
 				2E3072201F4C5B4C0003ADD9 /* TLMeasureDataCell.m in Sources */,
 				2E3072571F4E6C6C0003ADD9 /* TLCustomer.m in Sources */,
+				2E3072611F4FC6A00003ADD9 /* ZHCurrencyModel.m in Sources */,
 				2E8C8B311F4ABB7800974F85 /* TLBannerCell.m in Sources */,
 				2E3071C61F4B20590003ADD9 /* ZHCaptchaView.m in Sources */,
 				2E8C8B1F1F4AB11400974F85 /* TLHomeTableHeaderView.m in Sources */,
@@ -1163,6 +1321,7 @@
 				2E3072131F4C175E0003ADD9 /* TLGroup.m in Sources */,
 				2E3072021F4C00410003ADD9 /* NBNetworkAgent.m in Sources */,
 				2E8C8ACB1F4A8A9000974F85 /* UIView+Frame.m in Sources */,
+				2E30727C1F4FF3300003ADD9 /* TLAccountSettingVC.m in Sources */,
 				2E8C8B361F4ABBBD00974F85 /* NSTimer+tlNoCycle.m in Sources */,
 				2E30725B1F4E6CA10003ADD9 /* TLUserParameterModel.m in Sources */,
 				2E30722A1F4C6D820003ADD9 /* TLOrderBigTitleHeader.m in Sources */,
@@ -1171,6 +1330,7 @@
 				2E3072161F4C225A0003ADD9 /* TLOrderStyleCell.m in Sources */,
 				2E30721C1F4C39290003ADD9 /* TLColorChooseCell.m in Sources */,
 				2E3071C91F4B208F0003ADD9 /* TLTimeButton.m in Sources */,
+				2E3072891F502C9F0003ADD9 /* TLWebVC.m in Sources */,
 				2E8C8AA81F4A87D800974F85 /* TLNavigationController.m in Sources */,
 				2E8C8B001F4A966200974F85 /* UICKeyChainStore.m in Sources */,
 				2E8C8AD01F4A8B2400974F85 /* TLUser.m in Sources */,
@@ -1179,6 +1339,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2E30726C1F4FE5900003ADD9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2E8C8A7D1F4A851B00974F85 /* CustomB */;
+			targetProxy = 2E30726B1F4FE5900003ADD9 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		2E8C8A8F1F4A851B00974F85 /* LaunchScreen.storyboard */ = {
@@ -1192,6 +1360,30 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		2E30726E1F4FE5900003ADD9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 7K7EFNFZWL;
+				INFOPLIST_FILE = CustomBUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = tian.CustomBUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = CustomB;
+			};
+			name = Debug;
+		};
+		2E30726F1F4FE5900003ADD9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				DEVELOPMENT_TEAM = 7K7EFNFZWL;
+				INFOPLIST_FILE = CustomBUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = tian.CustomBUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_TARGET_NAME = CustomB;
+			};
+			name = Release;
+		};
 		2E8C8A931F4A851B00974F85 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1315,6 +1507,14 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		2E30726D1F4FE5900003ADD9 /* Build configuration list for PBXNativeTarget "CustomBUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2E30726E1F4FE5900003ADD9 /* Debug */,
+				2E30726F1F4FE5900003ADD9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		2E8C8A791F4A851B00974F85 /* Build configuration list for PBXProject "CustomB" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

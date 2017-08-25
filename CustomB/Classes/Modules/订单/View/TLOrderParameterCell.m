@@ -36,7 +36,7 @@
     NSString *str = [parameterModel.pic convertImageUrl];
     [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:str]];
     
-    if (0 && parameterModel.selectPic) {
+    if (0 && parameterModel.yuSelected) {
         
         NSString *str = [parameterModel.selectPic convertImageUrl];
         [self.selectMarkImageView sd_setImageWithURL:[NSURL URLWithString:str]];
@@ -53,7 +53,17 @@
     
     }
     
-    self.selectMarkImageView.hidden = !parameterModel.isSelected;
+    if (parameterModel.yuSelected) {
+        
+        self.selectMarkImageView.hidden = NO;
+        
+    } else {
+        
+        self.selectMarkImageView.hidden = YES;
+        
+    }
+    
+//    self.selectMarkImageView.hidden = !parameterModel.isSelected;
     
 }
 

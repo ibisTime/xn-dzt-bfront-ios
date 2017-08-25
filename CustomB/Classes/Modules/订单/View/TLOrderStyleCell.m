@@ -77,7 +77,17 @@
     
     TLParameterModel *parameterModel = model;
     self.textLbl.text = parameterModel.name;
-    self.selectMarkImageView.hidden = !parameterModel.isSelected;
+    
+    if (parameterModel.yuSelected) {
+        
+        self.selectMarkImageView.hidden = NO;
+        
+    } else {
+        
+        self.selectMarkImageView.hidden = YES;
+        
+    }
+//    self.selectMarkImageView.hidden = !parameterModel.isSelected;
     
 }
 
