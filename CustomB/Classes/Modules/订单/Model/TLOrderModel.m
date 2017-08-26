@@ -73,6 +73,19 @@
 
 }
 
+- (BOOL)canEditXingTi {
+
+    return ![self.status isEqualToString:kOrderStatusWillShengChan] &&
+           ![self.status isEqualToString:kOrderStatusShengChanIng] &&
+    ![self.status isEqualToString:kOrderStatusDidSend] &&
+    ![self.status isEqualToString:kOrderStatusDidReceive] &&
+    ![self.status isEqualToString:kOrderStatusDidComment] &&
+    ![self.status isEqualToString:kOrderStatusDidSave]
+    ;
+
+}
+
+
 - (BOOL)canEdit {
 
     return [self.status isEqualToString:kOrderStatusWillMeasurement] ||

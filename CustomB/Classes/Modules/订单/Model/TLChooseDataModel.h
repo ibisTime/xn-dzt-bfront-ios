@@ -11,6 +11,9 @@
 
 @interface TLChooseDataModel : NSObject
 
+@property (nonatomic, assign) BOOL canEdit;
+
+
 @property (nonatomic, copy) NSString *type;
 @property (nonatomic, copy) NSString *typeName;
 @property (nonatomic, copy) NSString *typeValue;

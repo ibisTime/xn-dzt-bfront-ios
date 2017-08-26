@@ -20,6 +20,8 @@
 #import "TLProgressHUD.h"
 #import "TLAlert.h"
 #import "TLUploadManager.h"
+#import "ZHChangeMobileVC.h"
+
 
 @interface TLAccountSettingVC ()<UITableViewDataSource,UITableViewDelegate>
 
@@ -78,6 +80,12 @@ __weak typeof(self) weakSelf = self;
         phoneItem.text = @"登录手机号";
         self.phoneItem  = phoneItem;
         phoneItem.subText = [TLUser user].mobile;
+    [phoneItem setAction:^{
+        
+        ZHChangeMobileVC *vc = [[ZHChangeMobileVC alloc] init];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
+        
+    }];
 
     
     TLSettingModel *pwdItem = [[TLSettingModel alloc] init];

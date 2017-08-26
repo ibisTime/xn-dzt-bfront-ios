@@ -90,7 +90,10 @@
 
 - (NSMutableArray <TLDataModel *>*)configConstUserInfoDataModel; // 用户信息
 
+- (NSMutableArray <TLDataModel *>*)configProductInfoDataModel; // 用户信息
+
 - (NSMutableArray *)configConstLogisticsInfoDataModel; //物流
+
 - (NSMutableArray *)configDefaultModel;
 
 @end

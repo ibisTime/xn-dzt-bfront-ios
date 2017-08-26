@@ -84,7 +84,6 @@
     self.statusView.contentLbl.text=  @"新单";
     self.statusView.contentLbl.text=  @"待量体";
 
-
 }
 
 - (void)setUpUI {

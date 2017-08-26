@@ -10,6 +10,13 @@
 
 @implementation TLDataModel
 
-
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        self.isStatus = NO;
+    }
+    return self;
+}
 
 @end

@@ -63,23 +63,8 @@
 }
 #pragma mark- 提交
 - (void)trueSubmit {
-    
-    
-    //1.量体数据
-    //2.形体信息
-    //3.风格
-    //4.规格
-    //5.门禁
-    //6.领型
-    //7.袖子
-    //8.口袋
-    //9.收省
-    //10.内容
-    //11.刺绣字体
-    //12.位置
-    //13.颜色
-    //14.备注
-//    [TLProgressHUD showWithStatus:nil];
+
+//  [TLProgressHUD showWithStatus:nil];
     NBCDRequest *req = [[NBCDRequest alloc] init];
     NSMutableArray *otherArr = [[NSMutableArray alloc] init];
 
@@ -103,10 +88,7 @@
         req.parameters[@"orderCode"] = self.order.code;
         req.parameters[@"remark"] = @"ios 提交";
         req.parameters[@"updater"] = [TLUser user].userId;
-        
-        
 
-        
         [self.dataManager.measureDataRoom enumerateObjectsUsingBlock:^(TLInputDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
             if (!obj.value || [obj.value isEqualToString:@"-"] || obj.value.length <=0) {
@@ -126,18 +108,8 @@
             
             [obj.parameterModelRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull parameterModel, NSUInteger idx, BOOL * _Nonnull stop) {
                 
-//                if (!parameterModel.isSelected) {
-//                    
-//                    if (idx == self.dataManager.zhuoZhuangFengGeRoom.count - 1) {
-//                        @throw [NSException
-//                                exceptionWithName:[NSString  stringWithFormat:@"请选择%@",obj.typeName] reason:nil userInfo:nil];
-//                    }
-//                    
-//                } else {
-                
                     measureDict[parameterModel.type] = parameterModel.code;
                     *stop = YES;
-//                }
                 
             }];
             
@@ -147,12 +119,12 @@
     }
     
     //刺绣内容
-    NSString *cixiuType = @"5-1";
+    NSString *cixiuType = @"5-01";
     NSString *cixiuValue = self.dataManager.ciXiuTextRoom[0].value;
     measureDict[cixiuType] = cixiuValue;
     
     //收货地址
-    NSString *addressType = @"6-4";
+    NSString *addressType = @"6-04";
     NSString *addressValue = self.dataManager.shouHuoAddressRoom[0].value;
     measureDict[addressType] = addressValue;
     
@@ -397,10 +369,9 @@
 
          self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"H+定价" style:UIBarButtonItemStylePlain target:self action:@selector(submit)];
         
-        
     } else {
-        self.title = @"订单详情";
-
+        
+         self.title = @"订单详情";
          self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"提交" style:UIBarButtonItemStylePlain target:self action:@selector(submit)];
         
     }
@@ -468,9 +439,6 @@
             //配置Model
             [self configModel];
             //
-            //
-            
-            
             
         } failure:^(NBBatchReqest *batchRequest) {
             
@@ -480,15 +448,7 @@
         
         
     }];
-    
-  
- 
-    
-    
-    
-    
 
-    
 }
 
 
@@ -513,6 +473,21 @@
     orderInfoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 0, 20, 0);
     orderInfoGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
     orderInfoGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 30);
+        //伪头部
+    TLGroup *falseGroup = [[TLGroup alloc] init];
+    falseGroup.dataModelRoom = [self.dataManager configProductInfoDataModel];
+    if (falseGroup.dataModelRoom.count > 0) {
+        [self.dataManager.groups addObject:falseGroup];
+    }
+    falseGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
+    falseGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
+    falseGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 1);
+    falseGroup.minimumLineSpacing = 0;
+    falseGroup.minimumInteritemSpacing = 0;
+    falseGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+    falseGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
+    falseGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 30);
+    
     
     //***********物流信息******************************//
     TLGroup *logisticsInfoGroup = [[TLGroup alloc] init];
@@ -608,20 +583,14 @@
     styleGroup.canEdit = [self.order canEdit];
     styleGroup.content = self.dataManager.zhuoZhuangFengGeValue;
     styleGroup.headerSize = headerSmallSize;
-    
     styleGroup.cellReuseIdentifier = [TLOrderStyleCell cellReuseIdentifier];
     styleGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
-    
     styleGroup.minimumLineSpacing = horizonMargin;
     styleGroup.minimumInteritemSpacing = middleMargin;
-    CGFloat styleW = (SCREEN_WIDTH - styleGroup.edgeInsets.left * 2 - 2*styleGroup.minimumLineSpacing)/3.0;
     styleGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
     styleGroup.editingEdgeInsets = paramterEdgeInsets;
 //    styleGroup.itemSize = CGSizeMake(styleW, 30);
     styleGroup.itemSize = CGSizeMake(parameterCellWidth, 30);
-
-
-    
     //
     
 
@@ -941,12 +910,16 @@
         
         
         TLGroup *group = self.dataManager.groups[indexPath.section];
-        TLChooseDataModel *cxingTiChooseModel = group.dataModelRoom[indexPath.row];
+        TLChooseDataModel *xingTiChooseModel = group.dataModelRoom[indexPath.row];
+        if (!xingTiChooseModel.canEdit) {
+            //不可编辑状态，不进行事件处理
+            return;
+        }
         
         //进行选择
-        UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"%@%@",@"",cxingTiChooseModel.typeName] message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+        UIAlertController *alertCtrl = [UIAlertController alertControllerWithTitle:[NSString stringWithFormat:@"%@%@",@"",xingTiChooseModel.typeName] message:nil preferredStyle:UIAlertControllerStyleActionSheet];
         
-        [cxingTiChooseModel.parameterModelRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [xingTiChooseModel.parameterModelRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
             UIAlertAction *action = [UIAlertAction actionWithTitle:obj.name style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 
@@ -954,11 +927,10 @@
                 NSInteger index = [alertCtrl.actions indexOfObject:action];
                 
                 //为选中
-                [cxingTiChooseModel.parameterModelRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [xingTiChooseModel.parameterModelRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     obj.yuSelected = idx == index;
                 }];
-                cxingTiChooseModel.typeValue = cxingTiChooseModel.parameterModelRoom[index].name;
-                
+                xingTiChooseModel.typeValue = xingTiChooseModel.parameterModelRoom[index].name;
                 
                 [UIView animateWithDuration:0 animations:^{
                     [self.orderDetailCollectionView  performBatchUpdates:^{

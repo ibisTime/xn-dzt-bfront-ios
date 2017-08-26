@@ -123,7 +123,7 @@
         vc.orderCode = self.order.code;
         vc.operationType = OrderOperationTypeHAddDingJia;
         [self.navigationController pushViewController:vc animated:YES];
-    
+        
     }
 
 

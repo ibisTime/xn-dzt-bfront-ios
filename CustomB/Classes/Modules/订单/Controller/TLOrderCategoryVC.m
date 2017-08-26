@@ -62,6 +62,7 @@
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 40) delegate:self dataSource:self];
     [self.view addSubview:tableView];
+    tableView.backgroundColor = [UIColor whiteColor];
 //    tableView.contentOffset = CGPointMake(0, -24);
 //    tableView.contentInset = UIEdgeInsetsMake(24, 0, 0, 0);
     

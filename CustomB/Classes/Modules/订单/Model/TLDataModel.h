@@ -14,4 +14,7 @@
 @property (nonatomic, copy) NSString *keyCode;
 @property (nonatomic, copy) NSString *value;
 
+//该model 是非为状态
+@property (nonatomic, assign) BOOL isStatus;
+
 @end

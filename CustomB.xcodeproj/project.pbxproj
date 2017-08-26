@@ -65,6 +65,9 @@
 		2E3072831F4FFC830003ADD9 /* TLImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072821F4FFC830003ADD9 /* TLImagePicker.m */; };
 		2E3072861F500E0B0003ADD9 /* ZHBannerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072851F500E0B0003ADD9 /* ZHBannerModel.m */; };
 		2E3072891F502C9F0003ADD9 /* TLWebVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072881F502C9F0003ADD9 /* TLWebVC.m */; };
+		2E30728C1F51ADDB0003ADD9 /* CustomInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30728B1F51ADDB0003ADD9 /* CustomInputView.m */; };
+		2E30728F1F51B3AB0003ADD9 /* CustomCaptchaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30728E1F51B3AB0003ADD9 /* CustomCaptchaView.m */; };
+		2E3072921F51B5750003ADD9 /* ZHChangeMobileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072911F51B5750003ADD9 /* ZHChangeMobileVC.m */; };
 		2E8C8A831F4A851B00974F85 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C8A821F4A851B00974F85 /* main.m */; };
 		2E8C8A8E1F4A851B00974F85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C8A8D1F4A851B00974F85 /* Assets.xcassets */; };
 		2E8C8A911F4A851B00974F85 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C8A8F1F4A851B00974F85 /* LaunchScreen.storyboard */; };
@@ -239,6 +242,12 @@
 		2E3072851F500E0B0003ADD9 /* ZHBannerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHBannerModel.m; sourceTree = "<group>"; };
 		2E3072871F502C9F0003ADD9 /* TLWebVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLWebVC.h; sourceTree = "<group>"; };
 		2E3072881F502C9F0003ADD9 /* TLWebVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLWebVC.m; sourceTree = "<group>"; };
+		2E30728A1F51ADDB0003ADD9 /* CustomInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomInputView.h; sourceTree = "<group>"; };
+		2E30728B1F51ADDB0003ADD9 /* CustomInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomInputView.m; sourceTree = "<group>"; };
+		2E30728D1F51B3AB0003ADD9 /* CustomCaptchaView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomCaptchaView.h; sourceTree = "<group>"; };
+		2E30728E1F51B3AB0003ADD9 /* CustomCaptchaView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomCaptchaView.m; sourceTree = "<group>"; };
+		2E3072901F51B5750003ADD9 /* ZHChangeMobileVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHChangeMobileVC.h; sourceTree = "<group>"; };
+		2E3072911F51B5750003ADD9 /* ZHChangeMobileVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHChangeMobileVC.m; sourceTree = "<group>"; };
 		2E8C8A7E1F4A851B00974F85 /* CustomB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8C8A821F4A851B00974F85 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2E8C8A8D1F4A851B00974F85 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -419,6 +428,10 @@
 			children = (
 				2E3071AB1F4ACFF50003ADD9 /* TLSearchView.h */,
 				2E3071AC1F4ACFF50003ADD9 /* TLSearchView.m */,
+				2E30728A1F51ADDB0003ADD9 /* CustomInputView.h */,
+				2E30728B1F51ADDB0003ADD9 /* CustomInputView.m */,
+				2E30728D1F51B3AB0003ADD9 /* CustomCaptchaView.h */,
+				2E30728E1F51B3AB0003ADD9 /* CustomCaptchaView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -919,6 +932,8 @@
 				2E3071C21F4B1F520003ADD9 /* ZHAccountBaseVC.m */,
 				2E8C8AC31F4A89FC00974F85 /* TLUserLoginVC.h */,
 				2E8C8AC41F4A89FC00974F85 /* TLUserLoginVC.m */,
+				2E3072901F51B5750003ADD9 /* ZHChangeMobileVC.h */,
+				2E3072911F51B5750003ADD9 /* ZHChangeMobileVC.m */,
 				2E3071CA1F4B22830003ADD9 /* ZHUserForgetPwdVC.h */,
 				2E3071CB1F4B22830003ADD9 /* ZHUserForgetPwdVC.m */,
 			);
@@ -1135,7 +1150,7 @@
 					};
 					2E8C8A7D1F4A851B00974F85 = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 7K7EFNFZWL;
+						DevelopmentTeam = 2MYU2SXZPB;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1257,6 +1272,7 @@
 				2E8C8AD11F4A8B2400974F85 /* TLUserExt.m in Sources */,
 				2E3072271F4C6D3B0003ADD9 /* TLOrderCollectionViewHeader.m in Sources */,
 				2E3072301F4C74810003ADD9 /* TLOrderDoubleTitleHeader.m in Sources */,
+				2E30728F1F51B3AB0003ADD9 /* CustomCaptchaView.m in Sources */,
 				2E8C8AA11F4A863600974F85 /* AppDelegate.m in Sources */,
 				2E3072031F4C00410003ADD9 /* NBNetworkConfig.m in Sources */,
 				2E3072581F4E6C6C0003ADD9 /* TLUserProduct.m in Sources */,
@@ -1330,10 +1346,12 @@
 				2E3072161F4C225A0003ADD9 /* TLOrderStyleCell.m in Sources */,
 				2E30721C1F4C39290003ADD9 /* TLColorChooseCell.m in Sources */,
 				2E3071C91F4B208F0003ADD9 /* TLTimeButton.m in Sources */,
+				2E30728C1F51ADDB0003ADD9 /* CustomInputView.m in Sources */,
 				2E3072891F502C9F0003ADD9 /* TLWebVC.m in Sources */,
 				2E8C8AA81F4A87D800974F85 /* TLNavigationController.m in Sources */,
 				2E8C8B001F4A966200974F85 /* UICKeyChainStore.m in Sources */,
 				2E8C8AD01F4A8B2400974F85 /* TLUser.m in Sources */,
+				2E3072921F51B5750003ADD9 /* ZHChangeMobileVC.m in Sources */,
 				2E3072011F4C00410003ADD9 /* NBBatchReqest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1479,11 +1497,11 @@
 			baseConfigurationReference = 1531B65D53931CD08FC8A97E /* Pods-CustomB.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7K7EFNFZWL;
+				DEVELOPMENT_TEAM = 2MYU2SXZPB;
 				INFOPLIST_FILE = CustomB/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = tian.CustomB;
+				PRODUCT_BUNDLE_IDENTIFIER = tian.CustomBB;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1494,11 +1512,11 @@
 			baseConfigurationReference = 738FA1BA76ECA6586E1AF5F9 /* Pods-CustomB.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 7K7EFNFZWL;
+				DEVELOPMENT_TEAM = 2MYU2SXZPB;
 				INFOPLIST_FILE = CustomB/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = tian.CustomB;
+				PRODUCT_BUNDLE_IDENTIFIER = tian.CustomBB;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1514,6 +1532,7 @@
 				2E30726F1F4FE5900003ADD9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		2E8C8A791F4A851B00974F85 /* Build configuration list for PBXProject "CustomB" */ = {
 			isa = XCConfigurationList;

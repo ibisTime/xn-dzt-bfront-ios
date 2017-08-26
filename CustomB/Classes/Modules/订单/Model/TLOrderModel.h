@@ -70,6 +70,10 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 
 - (BOOL)canEdit;
 
+//形体是否可以编辑
+- (BOOL)canEditXingTi;
+
+
 @end
 
 //"code":"DD201708171511465585",

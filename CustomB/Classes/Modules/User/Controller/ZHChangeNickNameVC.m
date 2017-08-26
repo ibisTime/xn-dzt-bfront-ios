@@ -12,10 +12,13 @@
 #import "TLTextField.h"
 #import "TLNetworking.h"
 #import "TLAlert.h"
+#import "CustomInputView.h"
+#import "UIButton+convience.h"
+#import "UIButton+convience.h"
 
 @interface ZHChangeNickNameVC ()
 
-@property (nonatomic,strong) TLTextField *nickNameTf;
+@property (nonatomic, strong) CustomInputView *nickNameView;
 
 @end
 
@@ -25,15 +28,23 @@
     [super viewDidLoad];
     
     self.title = @"修改昵称";
+    self.nickNameView = [[CustomInputView alloc] initWithFrame:CGRectMake(0,  20, SCREEN_WIDTH, 45)];
+    [self.view addSubview:self.nickNameView];
+    self.nickNameView.leftTitleLbl.text = @"新昵称";
     
-    self.nickNameTf = [[TLTextField alloc] initWithframe:CGRectMake(0, 10, SCREEN_WIDTH, 45) leftTitle:@"昵称" titleWidth:70 placeholder:@"请输入昵称"];
-    [self.view addSubview:self.nickNameTf];
+    //
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.nickNameView.yy  +15, SCREEN_WIDTH - 36, 40) title:@"确定" backgroundColor:[UIColor colorWithHexString:@"9ba9b5"] cornerRadius:5];
+    [self.view addSubview:btn];
+    btn.centerX = SCREEN_WIDTH/2.0;
+    [btn addTarget:self action:@selector(save) forControlEvents:UIControlEventTouchUpInside];
     
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(save)];
+    //
+//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(save)];
     
     if ([TLUser user].nickname) {
         
-        self.nickNameTf.text = [TLUser user].nickname;
+        self.nickNameView.textField.text = [TLUser user].nickname;
+        
         
     }
     
@@ -41,7 +52,7 @@
 
 - (void)save {
     
-    if (self.nickNameTf.text && !self.nickNameTf.text.length) {
+    if (self.nickNameView.textField.text && !self.nickNameView.textField.text.length) {
         [TLAlert alertWithHUDText:@"请输入昵称"];
         return;
     }
@@ -51,12 +62,12 @@
     http.code = @"805075";
     http.parameters[@"userId"] = [TLUser user].userId;
     http.parameters[@"token"] = [TLUser user].token;
-    http.parameters[@"nickname"] = self.nickNameTf.text;
+    http.parameters[@"nickname"] = self.nickNameView.textField.text;
     [http postWithSuccess:^(id responseObject) {
         
         [TLAlert alertWithHUDText:@"修改成功"];
         [self.navigationController popViewControllerAnimated:YES];
-        [TLUser user].nickname = self.nickNameTf.text;
+        [TLUser user].nickname = self.nickNameView.textField.text;
         [[NSNotificationCenter defaultCenter] postNotificationName:kUserInfoChange object:nil];
         
         [[TLUser user] updateUserInfo];

@@ -9,6 +9,7 @@
 #import "TLOrderInfoCell.h"
 #import "TLUIHeader.h"
 #import "TLDataModel.h"
+#import "TLStatusView.h"
 
 @implementation TLOrderInfoCell
 
@@ -41,6 +42,17 @@
                                         textColor:[UIColor textColor]];
         [self.contentView addSubview:self.contentLbl];
         self.contentLbl.numberOfLines = 0;
+        
+        self.statusView = [[TLStatusView alloc] init];
+        self.statusView.type = TLStatusViewTypeTheme;
+        [self.contentView addSubview:self.statusView];
+        [self.statusView mas_makeConstraints:^(MASConstraintMaker *make) {
+            
+            make.left.equalTo(self.titleLbl.mas_right).offset(16);
+            make.centerY.equalTo(self.titleLbl.mas_centerY);
+            make.height.mas_equalTo(18);
+
+        }];
 
         
     }
@@ -54,6 +66,18 @@
     TLDataModel *dataModel = model;
     self.titleLbl.text = dataModel.keyName;
     self.contentLbl.text = dataModel.value;
+    
+    if (dataModel.isStatus) {
+        self.contentLbl.hidden = YES;
+        self.statusView.hidden = NO;
+        self.statusView.contentLbl.text = dataModel.value;
+        
+    } else {
+        
+        self.contentLbl.hidden = NO;
+        self.statusView.hidden = YES;
+
+    }
     
 }
 

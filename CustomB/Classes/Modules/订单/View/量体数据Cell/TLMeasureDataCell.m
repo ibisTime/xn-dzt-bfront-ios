@@ -121,14 +121,13 @@
     [super setModel:model];
     
     
-    if ([model isKindOfClass:[TLDataModel class]]) {
+    if ([model isKindOfClass:[TLInputDataModel class]]) {
         
         TLInputDataModel *dataModel = model;
         self.leftTitleLbl.text = dataModel.keyName;
         self.textField.text = dataModel.value;
         self.textField.userInteractionEnabled = YES;
         self.arrowImageView.hidden = YES;
-
         
     } else if ([model isKindOfClass:[TLChooseDataModel class]]) {
     
@@ -136,7 +135,8 @@
         self.leftTitleLbl.text = dataModel.typeName;
         self.textField.text = dataModel.typeValue;
         self.textField.userInteractionEnabled = NO;
-        self.arrowImageView.hidden = NO;
+        self.arrowImageView.hidden = !dataModel.canEdit;
+        self.contentView.userInteractionEnabled = dataModel.canEdit;
         
     }
     

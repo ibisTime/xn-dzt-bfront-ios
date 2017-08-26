@@ -29,6 +29,7 @@
     
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     self.view.backgroundColor = [UIColor colorWithHexString:@"#f0f0f0"];
+    self.view.backgroundColor = [UIColor whiteColor];
     
 //    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStyleBordered target:nil action:nil];
 //    self.navigationItem.backBarButtonItem = backItem;
