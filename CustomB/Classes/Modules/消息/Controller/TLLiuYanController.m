@@ -1,0 +1,13 @@
+//
+//  TLLiuYanController.m
+//  CustomB
+//
+//  Created by  tianlei on 2017/8/27.
+//  Copyright © 2017年  tianlei. All rights reserved.
+//
+
+#import "TLLiuYanController.h"
+
+@implementation TLLiuYanController
+
+@end

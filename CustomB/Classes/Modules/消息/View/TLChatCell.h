@@ -1,16 +1,15 @@
 //
-//  TLMsgCell.h
+//  TLChatCell.h
 //  CustomB
 //
-//  Created by  tianlei on 2017/8/21.
+//  Created by  tianlei on 2017/8/27.
 //  Copyright © 2017年  tianlei. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 #import "CustomLiuYanModel.h"
 
-@interface TLMsgCell : UITableViewCell
-
+@interface TLChatCell : UITableViewCell
 
 @property (nonatomic, strong) CustomLiuYanModel *model;
 

@@ -9,6 +9,7 @@
 #import "TLMsgCell.h"
 #import "TLUIHeader.h"
 #import "TLStatusView.h"
+#import "NSString+Extension.h"
 
 @interface TLMsgCell()
 
@@ -37,9 +38,18 @@
         
     }
     
-    [self data];
     
     return self;
+}
+
+- (void)setModel:(CustomLiuYanModel *)model {
+
+    _model = model;
+
+    self.timeLbl.text = [model.commentDatetime convertDate];
+    //
+    self.userInfoLbl.text = [NSString stringWithFormat:@"%@|%@",model.commentName,model.commentMobile];
+    self.contentLbl.text = _model.content;
 }
 
 - (void)data {

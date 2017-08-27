@@ -39,7 +39,7 @@
         return 0;
     }
     
-    if ([self.dataModelRoom[0] isKindOfClass:[TLInputDataModel class]] || [self.dataModelRoom[0] isKindOfClass:[TLChooseDataModel class]]) {
+    if ([self.dataModelRoom[0] isKindOfClass:[TLDataModel class]] || [self.dataModelRoom[0] isKindOfClass:[TLChooseDataModel class]]) {
         
         return self.dataModelRoom.count;
         

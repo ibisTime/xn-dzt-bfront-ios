@@ -529,6 +529,7 @@
         TLGroup *measureGroup = [[TLGroup alloc] init];
         [self.dataManager.groups addObject:measureGroup];
         measureGroup.title = @"量体信息";
+        measureGroup.editting = YES;
         measureGroup.headerSize = headerMiddleSize;
         measureGroup.cellReuseIdentifier = [TLMeasureDataCell cellReuseIdentifier];
         measureGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];

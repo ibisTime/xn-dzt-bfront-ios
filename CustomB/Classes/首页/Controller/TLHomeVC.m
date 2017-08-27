@@ -20,22 +20,27 @@
 #import "NSString+Extension.h"
 #import "AppConfig.h"
 #import "TLWebVC.h"
+#import "CustomLiuYanModel.h"
+#import "TLChatRoomVC.h"
+#import "TLLiuYanController.h"
 
 @interface TLHomeVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UITableView *homeTableView;
-@property (nonatomic, copy) NSArray <TLOrderModel *>*orderGroup;
 
 @property (nonatomic, strong) TLBannerView *bannerView;
 @property (nonatomic,strong) NSMutableArray <ZHBannerModel *>*bannerRoom;
 @property (nonatomic,strong) NSMutableArray *bannerPics; //图片
+
+@property (nonatomic, strong) NSMutableArray <CustomLiuYanModel *>*liuYanRooom;
+@property (nonatomic, copy) NSArray <TLOrderModel *>*orderGroup;
+
 @end
 
 @implementation TLHomeVC
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     
     //
     UILabel *titleLbl = [UILabel labelWithFrame:CGRectMake(0, 0, 200, 30)
@@ -46,24 +51,13 @@
     titleLbl.text = @"合衣私人定制";
     self.navigationItem.titleView = titleLbl;
     
-    [self setUpUI];
+    self.liuYanRooom = [[NSMutableArray alloc] init];
+    self.orderGroup  = [[NSMutableArray alloc] init];
     
-    //订单
-    NBCDRequest *orderReq = [[NBCDRequest alloc] init];
-    orderReq.code = @"620230";
-    orderReq.parameters[@"start"] = @"1";
-    orderReq.parameters[@"limit"] = @"5";
-    [orderReq startWithSuccess:^(__kindof NBBaseRequest *request) {
-        
-       NSArray *arr = request.responseObject[@"data"][@"list"];
-       self.orderGroup  = [TLOrderModel tl_objectArrayWithDictionaryArray:arr];
-        [self setUpUI];
-        
-        [self getBanner];
-        
-    } failure:^(__kindof NBBaseRequest *request) {
-        
-    }];
+    [self setUpUI];
+    [self getBanner];
+    
+
     
     //留言
     NBCDRequest *liuYanReq = [[NBCDRequest alloc] init];
@@ -74,12 +68,29 @@
     liuYanReq.parameters[@"type"] = @"1";
     [liuYanReq startWithSuccess:^(__kindof NBBaseRequest *request) {
         
+        self.liuYanRooom = [CustomLiuYanModel tl_objectArrayWithDictionaryArray:request.responseObject[@"data"][@"list"]];
+        
+
+        //订单
+        NBCDRequest *orderReq = [[NBCDRequest alloc] init];
+        orderReq.code = @"620230";
+        orderReq.parameters[@"start"] = @"1";
+        orderReq.parameters[@"limit"] = @"5";
+        [orderReq startWithSuccess:^(__kindof NBBaseRequest *request) {
+            
+            NSArray *arr = request.responseObject[@"data"][@"list"];
+            self.orderGroup  = [TLOrderModel tl_objectArrayWithDictionaryArray:arr];
+            [self.homeTableView reloadData];
+            
+        } failure:^(__kindof NBBaseRequest *request) {
+            
+        }];
         
         
     } failure:^(__kindof NBBaseRequest *request) {
         
+        
     }];
-    
     
     
 }
@@ -94,7 +105,6 @@
     
     //tableView
     TLBannerView *headerView = [[TLBannerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 200)];
-//    headerView.imgUrls = @[@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1503903557&di=152adb2d71faca4bb4d0820eff5385c5&imgtype=jpg&er=1&src=http%3A%2F%2Fimages0.cnblogs.com%2Fblog2015%2F780338%2F201508%2F261134016561975.png",@"https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2084569111,4178087204&fm=26&gp=0.jpg",@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1503903557&di=152adb2d71faca4bb4d0820eff5385c5&imgtype=jpg&er=1&src=http%3A%2F%2Fimages0.cnblogs.com%2Fblog2015%2F780338%2F201508%2F261134016561975.png"];
     self.homeTableView.tableHeaderView = headerView;
     self.bannerView = headerView;
     
@@ -114,23 +124,7 @@
 }
 
 - (void)getBanner {
-    
-//    NBCDRequest *req = [[NBCDRequest alloc] init];
-//    req.code = @"805805";
-//    req.parameters[@"type"] = @"2";
-//    req.parameters[@"systemCode"] = [AppConfig config].systemCode;
-//    req.parameters[@"companyCode"] = [AppConfig config].systemCode;
-//    req.parameters[@"start"] = @"1";
-//    req.parameters[@"limit"] = @"1";
-//    
-//    
-//    [req startWithSuccess:^(__kindof NBBaseRequest *request) {
-//        
-//        
-//    } failure:^(__kindof NBBaseRequest *request) {
-//        
-//    }];
-    
+
     //广告图
     __weak typeof(self) weakSelf = self;
     TLNetworking *http = [TLNetworking new];
@@ -157,6 +151,7 @@
     }];
     
 }
+
 
 #pragma mark- delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -185,12 +180,13 @@
         
     } else {
         
+        TLChatRoomVC *vc = [[TLChatRoomVC alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
         
-    
+
     }
 
 }
-
 
 
 #pragma mark- dataSource
@@ -212,20 +208,25 @@
     
 }
 
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
+    if (self.liuYanRooom.count && self.orderGroup.count) {
+        return 2;
+    } else if (self.liuYanRooom.count || self.orderGroup.count) {
+    
+        return 1;
+    } else {
+    
+        return 0;
+    }
+    
+}
+
+//
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
 
-    if (section == 0) {
-        
-        NSString *reuseIdentifier = @"headerId";
-        TLHomeTableHeaderView *v = [tableView dequeueReusableHeaderFooterViewWithIdentifier:reuseIdentifier];
-        
-        if (!v) {
-            
-            v = [[TLHomeTableHeaderView alloc] initWithReuseIdentifier:reuseIdentifier];
-        }
-        v.titleLbl.text = @"客户消息";
-        return v;
-    }
+
     
     NSString *reuseIdentifier = @"headerId";
     TLHomeTableHeaderView *v = [tableView dequeueReusableHeaderFooterViewWithIdentifier:reuseIdentifier];
@@ -234,16 +235,41 @@
         
         v = [[TLHomeTableHeaderView alloc] initWithReuseIdentifier:reuseIdentifier];
     }
-    v.titleLbl.text = @"订单消息";
+
+    v.section = section;
+
+    if (section == 0 && self.liuYanRooom.count > 0) {
+
+        v.titleLbl.text = @"客户消息";
+        
+   } else {
+
+        v.titleLbl.text = @"订单消息";
+
+    }
+    __weak typeof(self) weakSelf = self;
+    [v setAction:^(NSInteger section){
+        
+        if (section == 0) {
+        
+            TLLiuYanController *vc = [[TLLiuYanController alloc] init];
+            [self.navigationController pushViewController:vc animated:YES];
+            
+        } else {
+            
+            self.tabBarController.selectedIndex = 1;
+        
+        
+        }
+        
+    }];
+
+    
     return v;
 
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 
-    return 2;
-    
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
@@ -266,7 +292,7 @@
             
             cell = [[TLMsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"msgCell"];
         }
-        
+        cell.model = self.liuYanRooom[indexPath.row];
         return cell;
         
     }
@@ -281,4 +307,5 @@
     return cell;
 
 }
+
 @end

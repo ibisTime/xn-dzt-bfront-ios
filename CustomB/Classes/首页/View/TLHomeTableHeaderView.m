@@ -47,6 +47,10 @@
             
         }];
         
+        actionNameLbl.userInteractionEnabled = YES;
+        UITapGestureRecognizer *tap  =[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(tap)];
+        [actionNameLbl addGestureRecognizer:tap];
+        
         
         actionNameLbl.text = @"查看全部";
         
@@ -55,6 +59,14 @@
     
     return self;
 
+
+}
+
+- (void)tap {
+
+    if (self.action) {
+        self.action(self.section);
+    }
 
 }
 

@@ -14,6 +14,8 @@
 #import "TLNavigationController.h"
 #import "AppConfig.h"
 #import "NBNetwork.h"
+#import <IQKeyboardManager/IQKeyboardManager.h>
+#import "TLChatRoomVC.h"
 
 @interface AppDelegate ()
 
@@ -47,6 +49,15 @@
     [self.window makeKeyAndVisible];
     
     
+    //
+    IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
+    manager.enable = YES;
+    manager.shouldResignOnTouchOutside = YES;
+    manager.shouldToolbarUsesTextFieldTintColor = YES;
+    manager.enableAutoToolbar = YES;
+    
+    [manager.disabledDistanceHandlingClasses addObject:[TLChatRoomVC class]];
+    [manager.disabledToolbarClasses addObject:[TLChatRoomVC class]];
     
     if ([TLUser user].isLogin) {
         

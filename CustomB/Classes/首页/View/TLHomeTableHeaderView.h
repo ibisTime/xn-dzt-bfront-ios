@@ -12,4 +12,10 @@
 
 @property (nonatomic, strong) UILabel *titleLbl;
 
+@property (nonatomic, assign) NSInteger section;
+
+@property (nonatomic, copy) void(^action)(NSInteger section);
+
+
+
 @end
