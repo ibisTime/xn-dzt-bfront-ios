@@ -21,6 +21,9 @@
 #import "TLAlert.h"
 #import "TLUploadManager.h"
 #import "ZHChangeMobileVC.h"
+#import "CustomChangePwdVC.h"
+#import "CustomPayPwdVC.h"
+#import "ZHBankCardListVC.h"
 
 
 @interface TLAccountSettingVC ()<UITableViewDataSource,UITableViewDelegate>
@@ -90,12 +93,30 @@ __weak typeof(self) weakSelf = self;
     
     TLSettingModel *pwdItem = [[TLSettingModel alloc] init];
     pwdItem.text = @"登录密码";
+    [pwdItem setAction:^{
+        
+        CustomChangePwdVC *vc = [[CustomChangePwdVC alloc] init];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
+        
+    }];
     
     TLSettingModel *payPwdItem = [[TLSettingModel alloc] init];
     payPwdItem.text = @"支付密码";
+    [payPwdItem setAction:^{
+        
+        CustomPayPwdVC *vc = [[CustomPayPwdVC alloc] init];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
+        
+    }];
     
     TLSettingModel *cardItem = [[TLSettingModel alloc] init];
     cardItem.text = @"绑定银行卡";
+    [cardItem setAction:^{
+        
+        ZHBankCardListVC *vc = [[ ZHBankCardListVC alloc] init];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
+        
+    }];
     
    self.models = @[userPhotoItem,nicknameItem,phoneItem,pwdItem,payPwdItem,cardItem];
 
@@ -144,7 +165,7 @@ __weak typeof(self) weakSelf = self;
             
             TLNetworking *getUploadToken = [TLNetworking new];
             getUploadToken.showView = weakSelf.view;
-            getUploadToken.code = @"807900";
+            getUploadToken.code = @"805951";
             getUploadToken.parameters[@"token"] = [TLUser user].token;
             [getUploadToken postWithSuccess:^(id responseObject) {
 
@@ -165,7 +186,7 @@ __weak typeof(self) weakSelf = self;
                     
                     TLNetworking *http = [TLNetworking new];
                     http.showView = weakSelf.view;
-                    http.code = @"805077";
+                    http.code = @"805080";
                     http.parameters[@"userId"] = [TLUser user].userId;
                     http.parameters[@"photo"] = key;
                     http.parameters[@"token"] = [TLUser user].token;

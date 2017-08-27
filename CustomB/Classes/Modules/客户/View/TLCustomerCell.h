@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class TLCustomer;
+
 @interface TLCustomerCell : UITableViewCell
 
 + (CGFloat)defaultCellHeight;
+
+@property (nonatomic, strong) TLCustomer *customer;
 
 @end

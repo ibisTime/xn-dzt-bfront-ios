@@ -21,7 +21,7 @@
 
 + (UIColor *)textColor {
 
-    return [self colorWithHexString:@"#333333"];
+    return [self colorWithHexString:@"#4d4d4d"];
 }
 
 + (UIColor *)textColor2 {

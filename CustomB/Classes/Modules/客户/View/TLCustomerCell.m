@@ -9,6 +9,8 @@
 #import "TLCustomerCell.h"
 #import "TLUIHeader.h"
 #import "TLStatusView.h"
+#import "TLCustomer.h"
+#import "NSString+Extension.h"
 
 @interface TLCustomerCell()
 
@@ -41,7 +43,7 @@
         
     }
     
-    [self data];
+//    [self data];
     
     return self;
     
@@ -53,20 +55,45 @@
 }
 
 
-- (void)data {
+- (void)setCustomer:(TLCustomer *)customer {
+
+    _customer = customer;
     
-    self.masterLbl.text = @"AVVFDDD";
-    self.timeLbl.text = [NSString stringWithFormat:@"最近下单时间：%@",@"2017-09-08"];
+    self.masterLbl.text = _customer.nickname;
+    
+    if (_customer.lastOrderDatetime) {
+        
+        self.timeLbl.text = [NSString stringWithFormat:@"最近下单时间：%@",[_customer.lastOrderDatetime convertToDetailDate]];
+
+    } else {
+    
+        self.timeLbl.text = nil;
+
+    
+    }
     //
-    self.userInfoLbl.text = @"田磊|13830890482";
-    self.vipTypeLbl.text = @"银卡会员";
-    
-    self.addressLbl.text = @"浙江省温州市乐清市";
-    self.customerTypeLbl.text = @"老客户";
-    
-    
+    self.userInfoLbl.text = _customer.mobile;
+    self.vipTypeLbl.text = [_customer getVipName];
+    self.addressLbl.text = [_customer getDetailAddress];
+    self.customerTypeLbl.text = [_customer getCustomerTitle];
     
 }
+
+
+//- (void)data {
+//    
+//    self.masterLbl.text = @"AVVFDDD";
+//    self.timeLbl.text = [NSString stringWithFormat:@"最近下单时间：%@",@"2017-09-08"];
+//    //
+//    self.userInfoLbl.text = @"田磊|13830890482";
+//    self.vipTypeLbl.text = @"银卡会员";
+//    
+//    self.addressLbl.text = @"浙江省温州市乐清市";
+//    self.customerTypeLbl.text = @"老客户";
+//    
+//    
+//    
+//}
 
 - (void)setUpUI {
     

@@ -397,14 +397,14 @@
         req.parameters[@"status"] = @"1";
         
         NBCDRequest *parameterReq = [[NBCDRequest alloc] init];
-        parameterReq.code = @"805906";
+        parameterReq.code = @"620906";
         parameterReq.parameters[@"parentKey"] = @"measure";
         parameterReq.parameters[@"systemCode"] = [AppConfig config].systemCode;
         parameterReq.parameters[@"companyCode"] = [AppConfig config].systemCode;
         
         //根据茶品获取规格
         NBCDRequest *xingTiReq = [[NBCDRequest alloc] init];
-        xingTiReq.code = @"805908";
+        xingTiReq.code = @"620908";
         
         //面料
         NBCDRequest *mianLiaoReq = [[NBCDRequest alloc] init];

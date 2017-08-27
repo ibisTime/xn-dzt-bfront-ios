@@ -38,8 +38,7 @@
     } else {
         
           [NBNetworkConfig config].baseUrl = @"http://118.178.124.16:3301/forward-service/api";
-    
-    
+
     }
   
     

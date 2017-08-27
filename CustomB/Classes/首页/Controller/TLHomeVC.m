@@ -47,6 +47,7 @@
     self.navigationItem.titleView = titleLbl;
     
     [self setUpUI];
+    
     //订单
     NBCDRequest *orderReq = [[NBCDRequest alloc] init];
     orderReq.code = @"620230";
@@ -68,9 +69,11 @@
     NBCDRequest *liuYanReq = [[NBCDRequest alloc] init];
     liuYanReq.code = @"620145";
     liuYanReq.parameters[@"start"] = @"1";
-    liuYanReq.parameters[@"start"] = @"1";
+    liuYanReq.parameters[@"limit"] = @"1";
     liuYanReq.parameters[@"receiver"] = [TLUser user].userId;
+    liuYanReq.parameters[@"type"] = @"1";
     [liuYanReq startWithSuccess:^(__kindof NBBaseRequest *request) {
+        
         
         
     } failure:^(__kindof NBBaseRequest *request) {

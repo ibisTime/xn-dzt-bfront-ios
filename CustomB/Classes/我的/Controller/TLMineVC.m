@@ -37,6 +37,7 @@
 
 @property (nonatomic, copy) NSArray <TLSettingModel * >*models;
 @property (nonatomic, strong) NSMutableArray <ZHCurrencyModel *>*currencyRoom;
+@property (nonatomic, strong) TLSettingModel *accountBalanceItem;
 
 @end
 
@@ -49,81 +50,80 @@
     [self.navigationController setNavigationBarHidden:YES animated:YES];
 }
 
+- (void)tl_placeholderOperation {
+
+
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
     
     [TLProgressHUD showWithStatus:nil];
     NBCDRequest *req = [[NBCDRequest alloc] init];
     req.code = @"802503";
     req.parameters[@"systemCode"] = [AppConfig config].systemCode;
     req.parameters[@"companyCode"] = [AppConfig config].systemCode;
-    
     req.parameters[@"token"] = [TLUser user].token;
     req.parameters[@"userId"] = [TLUser user].userId;
-
 
     [req startWithSuccess:^(__kindof NBBaseRequest *request) {
         
         [TLProgressHUD dismiss];
+          self.currencyRoom = [ZHCurrencyModel tl_objectArrayWithDictionaryArray:request.responseObject[@"data"]];
         
-        self.currencyRoom = [ZHCurrencyModel tl_objectArrayWithDictionaryArray:request.responseObject[@"data"]];
-        
-        
-        __weak typeof(self) weakSelf = self;
-        //账户
-        TLSettingModel *accountBalanceItem = [[TLSettingModel alloc] init];
-        accountBalanceItem.imgName = @"账户余额";
-        accountBalanceItem.text = @"账户余额";
         [self.currencyRoom enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             if ([obj.currency isEqualToString:kCNY]) {
                 
-                accountBalanceItem.subText = [obj.amount convertToRealMoney];
+                self.accountBalanceItem.subText = [NSString stringWithFormat:@"￥%@",[obj.amount convertToRealMoney]];
 
             }
             
         }];
-        [accountBalanceItem setAction:^{
-            
-            TLBalanceVC *vc = [[TLBalanceVC alloc] init];
-            [self.navigationController pushViewController:vc animated:YES];
-            
-        }];
         
-        //系统消息
-        TLSettingModel *sysMsgItem = [[TLSettingModel alloc] init];
-        sysMsgItem.imgName = @"系统消息";
-        sysMsgItem.text = @"系统消息";
-        
-        //账户设置
-        TLSettingModel *accountItem = [[TLSettingModel alloc] init];
-        accountItem.imgName = @"账户设置";
-        accountItem.text = @"账户设置";
-        self.models = @[accountBalanceItem,sysMsgItem,accountItem];
-        [accountItem setAction:^{
-            
-            [weakSelf goSetUserInfo];
-//            TLAccountSettingVC *vc = [[TLAccountSettingVC alloc] init];
-//            [weakSelf.navigationController pushViewController:vc animated:YES];
-        }];
-
-        
-        [self setUpUI];
-        
-        [self data];
+        [self.mineTableView reloadData];
         
     } failure:^(__kindof NBBaseRequest *request) {
         [TLProgressHUD dismiss];
         
     }];
     
-    
-//    TLNetworking *http = [TLNetworking new];
-//    http.code = @"802503";
-//    http.isShowMsg = YES;
-//    http.parameters[@"token"] = [ZHUser user].token;
-//    http.parameters[@"userId"] = [ZHUser user].userId;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeInfo) name:kUserInfoChange object:nil];
+    
+    __weak typeof(self) weakSelf = self;
+    //账户
+    TLSettingModel *accountBalanceItem = [[TLSettingModel alloc] init];
+    self.accountBalanceItem = accountBalanceItem;
+    accountBalanceItem.imgName = @"账户余额";
+    accountBalanceItem.text = @"账户余额";
+    accountBalanceItem.subText = @"--";
+
+
+    [accountBalanceItem setAction:^{
+        
+        TLBalanceVC *vc = [[TLBalanceVC alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }];
+    
+    //系统消息
+    TLSettingModel *sysMsgItem = [[TLSettingModel alloc] init];
+    sysMsgItem.imgName = @"系统消息";
+    sysMsgItem.text = @"系统消息";
+    
+    //账户设置
+    TLSettingModel *accountItem = [[TLSettingModel alloc] init];
+    accountItem.imgName = @"账户设置";
+    accountItem.text = @"账户设置";
+    self.models = @[accountBalanceItem,sysMsgItem,accountItem];
+    [accountItem setAction:^{
+        
+        [weakSelf goSetUserInfo];
+        
+    }];
+    
+    [self setUpUI];
+    [self data];
+    
 }
 
 

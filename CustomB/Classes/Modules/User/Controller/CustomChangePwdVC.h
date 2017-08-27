@@ -1,0 +1,16 @@
+//
+//  CustomCangePwdVC.h
+//  CustomB
+//
+//  Created by  tianlei on 2017/8/27.
+//  Copyright © 2017年  tianlei. All rights reserved.
+//
+
+#import "TLBaseVC.h"
+#import "CustomInputView.h"
+
+@interface CustomChangePwdVC : TLBaseVC
+
+@property (nonatomic, copy) void(^success)();
+
+@end
