@@ -35,12 +35,11 @@
     //获得验证码按钮
     UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 90, frame.size.height)];
     
-    TLTimeButton *captchaBtn = [[TLTimeButton alloc] initWithFrame:CGRectMake(0, 0, 80, frame.size.height - 15) totalTime:60.0];
+    TLTimeButton *captchaBtn = [[TLTimeButton alloc] initWithFrame:CGRectMake(0, 0, 100, frame.size.height - 15) totalTime:60.0];
     captchaBtn.backgroundColor = [UIColor orangeColor];
     self.captchaBtn = captchaBtn;
     [self.captchaBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateDisabled];
     
-//    captchaBtn.titleLabel.font = [UIFont thirdFont];
     UIColor *titleColor = [UIColor colorWithHexString:@"#b3b3b3"];
 
     
@@ -54,7 +53,6 @@
     
     [captchaBtn setTitleColor:titleColor forState:UIControlStateNormal];
     [captchaBtn setTitleColor:titleColor forState:UIControlStateDisabled];
-
     captchaBtn.centerY = rightView.height/2.0;
     [rightView addSubview:captchaBtn];
     

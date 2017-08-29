@@ -12,6 +12,7 @@
 #import "APICodeHeader.h"
 #import "TLAlert.h"
 #import "TLUIHeader.h"
+#import "NSString+Extension.h"
 
 @interface ZHUserForgetPwdVC ()
 
@@ -29,16 +30,16 @@
 
 - (void)sendCaptcha {
     
-//    if (![self.phoneTf.text isPhoneNum]) {
-//        
-//        [TLAlert alertWithHUDText:@"请输入正确的手机号"];
-//        
-//        return;
-//    }
+    if (![self.phoneTf.text isPhoneNum]) {
+        
+        [TLAlert alertWithHUDText:@"请输入正确的手机号"];
+        
+        return;
+    }
     
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
-    http.code = CAPTCHA_CODE;
+    http.code = @"805950";
     http.parameters[@"bizType"] = @"805063";
     http.parameters[@"mobile"] = self.phoneTf.text;
     
@@ -55,12 +56,12 @@
 
 - (void)changePwd {
     
-//    if (![self.phoneTf.text isPhoneNum]) {
-//        
-//        [TLAlert alertWithHUDText:@"请输入正确的手机号"];
-//        
-//        return;
-//    }
+    if (![self.phoneTf.text isPhoneNum]) {
+        
+        [TLAlert alertWithHUDText:@"请输入正确的手机号"];
+        
+        return;
+    }
     
     if (!(self.captchaView.captchaTf.text && self.captchaView.captchaTf.text.length > 3)) {
         [TLAlert alertWithHUDText:@"请输入正确的验证码"];
@@ -150,8 +151,10 @@
     self.rePwdTf.centerX = self.bgSV.centerX;
 
     //xiu gai
-    UIButton *confirmBtn = [UIButton zhBtnWithFrame:CGRectMake(margin,rePwdTf.yy + 10, w, h) title:@"确认"];
+    UIButton *confirmBtn = [[UIButton alloc] initWithFrame:CGRectMake(margin,pwdTf.yy + 10, w, h) title:@"确认" backgroundColor:[UIColor colorWithHexString:@"#b2b2b2"] cornerRadius:5];
     [self.bgSV addSubview:confirmBtn];
+
+
     [confirmBtn addTarget:self action:@selector(changePwd) forControlEvents:UIControlEventTouchUpInside];
     confirmBtn.centerX = self.bgSV.centerX;
 

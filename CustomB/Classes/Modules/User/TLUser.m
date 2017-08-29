@@ -8,8 +8,6 @@
 
 #import "TLUser.h"
 #import "TLUserExt.h"
-//#import "UICKeyChainStore.h"
-//#import "TLHeader.h"
 #import "APICodeHeader.h"
 #import "TLNetworking.h"
 
@@ -94,8 +92,8 @@ NSString *const kUserInfoChange = @"kUserInfoChange_zh";
     self.token = nil;
     self.mobile = nil;
     self.nickname = nil;
-    self.userExt = nil;
     self.tradepwdFlag = nil;
+    self.photo = nil;
     
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_ID_KEY];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:TOKEN_ID_KEY];
@@ -113,15 +111,7 @@ NSString *const kUserInfoChange = @"kUserInfoChange_zh";
 }
 
 
-- (TLUserExt *)userExt {
 
-    if (!_userExt) {
-        _userExt = [[TLUserExt alloc] init];
-        
-    }
-    return _userExt;
-
-}
 
 - (void)updateUserInfo {
 
@@ -152,40 +142,24 @@ NSString *const kUserInfoChange = @"kUserInfoChange_zh";
     self.idNo = dict[@"idNo"];
     self.tradepwdFlag = dict[@"tradepwdFlag"];
     self.createDatetime = dict[@"createDatetime"];
+    self.photo = dict[@"photo"];
+    self.province = dict[@"province"];
+    self.city = dict[@"city"];
+    self.area = dict[@"area"];
+
+
+
     
-    NSDictionary *userExt = dict[@"userExt"];
-    if (userExt) {
-        if (userExt[@"photo"]) {
-            self.userExt.photo = userExt[@"photo"];
-        }
-        
-        if (userExt[@"province"]) {
-            self.userExt.province = userExt[@"province"];
-        }
-        
-        if (userExt[@"city"]) {
-            self.userExt.city = userExt[@"city"];
-        }
-        
-        if (userExt[@"area"]) {
-            self.userExt.area = userExt[@"area"];
-        }
-        
-    }
-    
-    if (dict[@"userExt"][@"test"]) {
-        
-    }
     
 }
 
 
 - (NSString *)detailAddress {
 
-    if (!self.userExt.province) {
+    if (!self.province) {
         return @"未知";
     }
-    return [NSString stringWithFormat:@"%@ %@ %@",self.userExt.province,self.userExt.city,self.userExt.area];
+    return [NSString stringWithFormat:@"%@ %@ %@",self.province,self.city,self.area];
 
 }
 

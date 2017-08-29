@@ -13,6 +13,7 @@
 #define NORMAL_TITLE_COLOR  [UIColor colorWithHexString:@"#b3b3b3"]
 #define SELECT_TITLE_COLOR  [UIColor themeColor]
 
+
 @interface ZHSegmentView()
 
 @property (nonatomic,strong) UIButton *lastBtn;

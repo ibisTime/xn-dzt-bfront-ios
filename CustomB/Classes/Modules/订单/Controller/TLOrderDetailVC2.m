@@ -42,8 +42,8 @@
 @property (nonatomic, strong) UICollectionView *orderDetailCollectionView;
 @property (nonatomic, strong) TLOrderModel *order;
 
-
 @end
+
 
 @implementation TLOrderDetailVC2
 - (void)submit {
@@ -103,7 +103,7 @@
 
         }];
         
-        //2.形体信息
+        //2.形体信息（可选）
         [self.dataManager.xingTiRoom enumerateObjectsUsingBlock:^(TLChooseDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
             [obj.parameterModelRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull parameterModel, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -118,7 +118,7 @@
 
     }
     
-    //刺绣内容
+    //刺绣内容, 如果刺绣内容不为空， 那么刺绣
     NSString *cixiuType = @"5-01";
     NSString *cixiuValue = self.dataManager.ciXiuTextRoom[0].value;
     measureDict[cixiuType] = cixiuValue;
@@ -251,6 +251,7 @@
             
             [otherArr addObject:obj.code];
             *stop = YES;
+            
         }
     }];
     
@@ -281,6 +282,7 @@
         if (!obj.isSelected) {
             
             if (cixiuValue && idx == self.dataManager.fontRoom.count - 1) {
+                
                 @throw [NSException
                         exceptionWithName:@"请选择刺字体" reason:nil userInfo:nil];
             }
@@ -299,7 +301,7 @@
         if (!obj.isSelected) {
             
             if (cixiuValue &&  idx == self.dataManager.ciXiuLocationRoom.count - 1) {
-           @throw [NSException
+                        @throw [NSException
                         exceptionWithName:@"请选择刺绣位置" reason:nil userInfo:nil];
             }
            
@@ -307,9 +309,8 @@
         
             [otherArr addObject:obj.code];
             *stop = YES;
+            
         }
-       
-
         
     }];
     
@@ -396,13 +397,14 @@
         req.parameters[@"modelCode"] = self.order.productList.count ? self.order.productList[0].modelCode : self.productCode;
         req.parameters[@"status"] = @"1";
         
+        //获取， 
         NBCDRequest *parameterReq = [[NBCDRequest alloc] init];
         parameterReq.code = @"620906";
         parameterReq.parameters[@"parentKey"] = @"measure";
         parameterReq.parameters[@"systemCode"] = [AppConfig config].systemCode;
         parameterReq.parameters[@"companyCode"] = [AppConfig config].systemCode;
         
-        //根据茶品获取规格
+        //获取形体数据
         NBCDRequest *xingTiReq = [[NBCDRequest alloc] init];
         xingTiReq.code = @"620908";
         
@@ -428,7 +430,7 @@
             
             //
             [self.dataManager handleParameterData:chooseReq.responseObject];
-            [self.dataManager handMeasureData:measureDict.responseObject];
+            [self.dataManager handMeasureDataWithResp:nil];
             [self.dataManager configXingTiDataModelWithResp:xingTiReq.responseObject];
             
             [self.dataManager handleMianLiaoData:mianLiaoReq.responseObject];
@@ -473,7 +475,8 @@
     orderInfoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 0, 20, 0);
     orderInfoGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
     orderInfoGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 30);
-        //伪头部
+    
+    //伪头部
     TLGroup *falseGroup = [[TLGroup alloc] init];
     falseGroup.dataModelRoom = [self.dataManager configProductInfoDataModel];
     if (falseGroup.dataModelRoom.count > 0) {
@@ -540,8 +543,10 @@
         CGFloat singleW = 300;
         CGFloat measureWidth = singleW/2.0;
         CGFloat measureLeftMargin = (SCREEN_WIDTH - singleW)/2.0;
+        
+        //量体边距
         measureGroup.editedEdgeInsets = UIEdgeInsetsMake(0, measureLeftMargin, 0, measureLeftMargin);
-        measureGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
+        measureGroup.editingEdgeInsets =  measureGroup.editedEdgeInsets;
         measureGroup.itemSize = CGSizeMake(measureWidth, 35);
         
         //***********形体数据******************************//
@@ -597,7 +602,6 @@
 
     
     TLGroup *mianLiaoRoom = [[TLGroup alloc] init];
-    
     mianLiaoRoom.canEdit = [self.order canEdit];
     if (mianLiaoRoom.canEdit) {
         [self.dataManager.groups addObject:mianLiaoRoom];
@@ -881,6 +885,8 @@
     
 }
 
+
+#pragma mark- 以下为数据源方法
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
@@ -953,6 +959,7 @@
         [self presentViewController:alertCtrl animated:YES completion:^{
             
         }];
+        
     } else if ([cell isKindOfClass:[TLOrderStyleCell class]]) {
     
         NSMutableArray <TLParameterModel *>*models = self.dataManager.groups[indexPath.section].dataModelRoom;

@@ -40,6 +40,7 @@
 - (void)chooseDate {
 
     BillDateChooseVC *vc = [[BillDateChooseVC alloc] init];
+    vc.accountNumber = self.accountNumber;
     [self.navigationController pushViewController:vc animated:YES];
 
 }
@@ -113,7 +114,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"今日账单";
+    
+    if (self.displayHeader) {
+        
+        self.title = @"今日账单";
+
+    }
     
  
     if (!self.accountNumber) {
@@ -216,6 +222,7 @@
     
     if (!cell) {
         cell = [[CDBillCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:billCellId];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     cell.billModel = self.bills[indexPath.row];

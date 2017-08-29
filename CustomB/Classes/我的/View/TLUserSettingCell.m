@@ -97,6 +97,8 @@
     //
     self.photoImageView = [[UIImageView alloc] init];
     [self.contentView addSubview:self.photoImageView];
+    self.photoImageView.layer.cornerRadius = 25;
+    self.photoImageView.layer.masksToBounds = YES;
     self.photoImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.photoImageView.clipsToBounds = YES;
     [self.photoImageView mas_makeConstraints:^(MASConstraintMaker *make) {

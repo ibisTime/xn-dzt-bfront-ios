@@ -16,6 +16,8 @@
 #import "TLCustomerCell.h"
 #import "AppConfig.h"
 #import "TLCustomer.h"
+#import "TLCustomerDetailVC.h"
+#import "TLCustomerDetailVC.h"
 
 @interface TLCustomerCategoryVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -31,17 +33,17 @@
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
-    //    if (self.isFirst) {
-    //
-    //        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-    //
-    //            [self.customerTableView beginRefreshing];
-    //            self.isFirst = NO;
-    //
-    //        });
-    //
-    //
-    //    }
+        if (self.isFirst) {
+    
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    
+                [self.customerTableView beginRefreshing];
+                self.isFirst = NO;
+    
+            });
+    
+    
+        }
     
 }
 
@@ -60,17 +62,16 @@
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     TLTableView *tableView = [TLTableView tableViewWithframe:self.view.bounds delegate:self dataSource:self];
     [self.view addSubview:tableView];
-    //    tableView.contentOffset = CGPointMake(0, -24);
-    //    tableView.contentInset = UIEdgeInsetsMake(24, 0, 0, 0);
     
     self.customerTableView = tableView;
-    tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无用户"];
+    tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无客户"];
     
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"805120";
     helper.parameters[@"systemCode"] = [AppConfig config].systemCode;
     helper.parameters[@"companyCode"] = [AppConfig config].systemCode;
     helper.parameters[@"kind"] = @"B";
+    helper.parameters[@"frequent"] = self.status;
     helper.isDeliverCompanyCode = NO;
 //    helper.parameters[@"frequent"] = @"";
     helper.tableView = self.customerTableView;
@@ -119,6 +120,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     
+    TLCustomerDetailVC *vc = [[TLCustomerDetailVC alloc] init];
+    vc.customer = self.customerGroups[indexPath.row];
+    [self.navigationController pushViewController:vc animated:YES];
     
 }
 

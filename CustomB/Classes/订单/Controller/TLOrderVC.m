@@ -12,6 +12,9 @@
 #import "TLOrderCategoryVC.h"
 #import "TLSearchView.h"
 #import "TLOrderDetailVC2.h"
+#import "OrderSearchVC.h"
+#import "NSString+Extension.h"
+#import "TLAlert.h"
 
 @interface TLOrderVC ()<ZHSegmentViewDelegate,UIScrollViewDelegate>
 
@@ -25,15 +28,28 @@
 
 @implementation TLOrderVC
 
+#pragma mark- 搜索
+- (void)search {
+
+    if ([self.searchView.textField.text valid]) {
+        [TLAlert alertWithInfo:@"请输入搜索内容"];
+        return;
+    }
+    //
+    OrderSearchVC *vc = [[OrderSearchVC alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"订单";
    
     self.view.backgroundColor = [UIColor whiteColor];
-//    [self setUpSearchView];
     //
     self.searchView = [[TLSearchView alloc] initWithFrame:CGRectMake(0, 0,SCREEN_WIDTH, 88)];
     [self.view addSubview:self.searchView];
+    [self.searchView.searchBtn addTarget:self action:@selector(search) forControlEvents:UIControlEventTouchUpInside];
     
     //
     ZHSegmentView *segmentView =  [[ZHSegmentView alloc] initWithFrame:CGRectMake(0, self.searchView.yy, SCREEN_WIDTH, 40)];
@@ -46,9 +62,11 @@
     self.switchScrollView.delegate = self;
     [self.view addSubview:self.switchScrollView];
     self.switchScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * segmentView.tagNames.count, self.switchScrollView.height);
+    self.switchScrollView.scrollEnabled = NO;
+    self.switchScrollView.showsHorizontalScrollIndicator = NO;
 
     
-    self.isAdd = [@[@1 , @0, @0,@0,@0] mutableCopy];
+    self.isAdd = [@[@1 ,@0 ,@0 ,@0,@0] mutableCopy];
     
     self.orderStatusArr = @[@(TLOrderStatusAll),@(TLOrderStatusWillMeasurement),@(TLOrderStatusWillPay),@(TLOrderStatusWillSubmit),@(TLOrderStatusWillCheck)];
     

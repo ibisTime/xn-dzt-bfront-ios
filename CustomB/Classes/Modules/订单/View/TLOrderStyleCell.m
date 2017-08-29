@@ -44,29 +44,28 @@
         [self.contentView addSubview:self.textLbl];
         //
         
-       
          self.textLbl.layer.cornerRadius = 5;
          self.textLbl.layer.masksToBounds = YES;
          self.textLbl.layer.borderWidth = 0.5;
          self.textLbl.layer.borderColor = [UIColor colorWithHexString:@"#a0a0a0"].CGColor;
          self.textLbl.text = @"非常修身";
         
-    
-        self.selectMarkImageView = [[UIImageView alloc] initWithFrame:self.bounds];
-        [self.contentView addSubview:self.selectMarkImageView];
-        self.selectMarkImageView.layer.cornerRadius = self.textLbl.layer.cornerRadius;
-        self.selectMarkImageView.backgroundColor = [UIColor clearColor];
-        self.selectMarkImageView.layer.masksToBounds = YES;
-        self.selectMarkImageView.layer.borderColor = [UIColor themeColor].CGColor;
-        self.selectMarkImageView.layer.borderWidth = 2;
-        
+//        self.selectMarkImageView = [[UIImageView alloc] initWithFrame:self.bounds];
+//        [self.contentView addSubview:self.selectMarkImageView];
+//        self.selectMarkImageView.layer.cornerRadius = self.textLbl.layer.cornerRadius;
+//        self.selectMarkImageView.backgroundColor = [UIColor clearColor];
+//        self.selectMarkImageView.layer.masksToBounds = YES;
+//        self.selectMarkImageView.layer.borderColor = [UIColor themeColor].CGColor;
+//        self.selectMarkImageView.layer.borderWidth = 2;
+//        
         [self.textLbl mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(UIEdgeInsetsMake(1, 1, 1, 1));
         }];
         
-        [self.selectMarkImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.edges.mas_equalTo(UIEdgeInsetsMake(1, 1, 1, 1));
-        }];
+//        [self.selectMarkImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.edges.mas_equalTo(UIEdgeInsetsMake(1, 1, 1, 1));
+//        }];
+        
     }
     return self;
 }
@@ -80,14 +79,18 @@
     
     if (parameterModel.yuSelected) {
         
-        self.selectMarkImageView.hidden = NO;
-        
+        self.textLbl.layer.borderWidth = 0;
+        self.textLbl.textColor = [UIColor whiteColor];
+        self.textLbl.backgroundColor = [UIColor themeColor];
+
     } else {
         
-        self.selectMarkImageView.hidden = YES;
+        self.textLbl.layer.borderWidth = 0.5;
+        self.textLbl.layer.borderColor = [UIColor colorWithHexString:@"#a0a0a0"].CGColor;
+        self.textLbl.textColor = [UIColor textColor];
+        self.textLbl.backgroundColor = [UIColor whiteColor];
         
     }
-//    self.selectMarkImageView.hidden = !parameterModel.isSelected;
     
 }
 

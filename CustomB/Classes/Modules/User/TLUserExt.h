@@ -10,12 +10,7 @@
 
 @interface TLUserExt : TLBaseModel
 
-@property (nonatomic,copy) NSString *userId;
-@property (nonatomic,copy) NSString *photo;
 
-@property (nonatomic,copy) NSString *province;
-@property (nonatomic,copy) NSString *city;
-@property (nonatomic,copy) NSString *area;
 
 
 

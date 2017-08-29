@@ -27,16 +27,25 @@
 //0为衬衫订单，1为H+ 为空时
 - (TLOrderType)getOrderType {
 
+    if (self.status == kOrderStatusCancle) {
+        
+        return TLOrderTypeCancle;
+        
+    }
+    
     if (self.type == nil) {
         
+        //未选择产品
         return TLOrderTypeProductUnChoose;
         
     } else if ([self.type isEqualToString:@"0"]) {
     
+        //产品为衬衫
         return TLOrderTypeChenShan;
 
     } else {
     
+        //产品
         return TLOrderTypeHAdd;
 
     }

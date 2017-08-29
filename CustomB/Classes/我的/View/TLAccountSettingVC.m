@@ -55,12 +55,13 @@
     self.view.backgroundColor = [UIColor whiteColor];
     
     self.title = @"账户设置";
-__weak typeof(self) weakSelf = self;
-        //账户
-        TLSettingModel *userPhotoItem = [[TLSettingModel alloc] init];
-        userPhotoItem.text = @"头像";
+    __weak typeof(self) weakSelf = self;
+    
+     //账户
+    TLSettingModel *userPhotoItem = [[TLSettingModel alloc] init];
+    userPhotoItem.text = @"头像";
     self.userPhotoItem  = userPhotoItem;
-        userPhotoItem.imgName = [[TLUser user].userExt.photo convertImageUrl];
+        userPhotoItem.imgName = [[TLUser user].photo convertImageUrl];
         [userPhotoItem setAction:^{
             
             [weakSelf choosePhoto];
@@ -131,10 +132,8 @@ __weak typeof(self) weakSelf = self;
 
 - (void)changeInfo {
     
-    self.nicknameItem.text = [TLUser user].nickname;
-    self.userPhotoItem.imgName = [[TLUser user].userExt.photo convertImageUrl];
-    self.nicknameItem.text = [TLUser user].nickname;
-    
+    self.nicknameItem.subText = [TLUser user].nickname;
+    self.userPhotoItem.imgName = [[TLUser user].photo convertImageUrl];
     [self.accountSettingTableView reloadData];
 }
 
@@ -180,8 +179,6 @@ __weak typeof(self) weakSelf = self;
                     
                     [TLProgressHUD dismiss];
                     
-                    //                    [MBProgressHUD hideHUDForView:weakSelf.view animated:YES];
-                    
                     //设置头像
                     
                     TLNetworking *http = [TLNetworking new];
@@ -193,8 +190,10 @@ __weak typeof(self) weakSelf = self;
                     [http postWithSuccess:^(id responseObject) {
                         
                         [TLAlert alertWithHUDText:@"修改头像成功"];
-                        [TLUser user].userExt.photo = key;
+                        [TLUser user].photo = key;
+                        weakSelf.userPhotoItem.imgName = key;
                         [weakSelf.accountSettingTableView reloadData];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:kUserInfoChange object:nil];
                         
                     } failure:^(NSError *error) {
                         

@@ -51,13 +51,16 @@
     
     self.title = @"账户余额";
     self.dataArray = [[NSMutableArray alloc] initWithCapacity:2];
-
+    [self setUpUI];
+    [self.dataArray addObject:@{ @"总收入" : @"￥--"
+                                 }];
+    [self.dataArray addObject:@{ @"已提现金额" : @"￥--"
+                                 }];
+    
     
     [TLProgressHUD showWithStatus:nil];
     NBCDRequest *balanceReq = [[NBCDRequest alloc] init];
     balanceReq.code = @"802503";
-//    req.parameters[@"systemCode"] = [AppConfig config].systemCode;
-//    req.parameters[@"companyCode"] = [AppConfig config].systemCode;
     balanceReq.parameters[@"token"] = [TLUser user].token;
     balanceReq.parameters[@"userId"] = [TLUser user].userId;
     
@@ -77,12 +80,8 @@
         
         //    cell.rightLbl.text = @"已提现金额";
         
-        [self.dataArray addObject:@{ @"总收入" : @"￥1212"
-                                     }];
-        [self.dataArray addObject:@{ @"已提现金额" : @"￥1212"
-                                     }];
+  
         
-        [self setUpUI];
         
         
 
@@ -126,7 +125,7 @@
     if (!cell) {
         
         cell = [[TLBalanceCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TLBalanceCell"];
-        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     
     NSDictionary *dict = self.dataArray[indexPath.row];
@@ -218,7 +217,6 @@
     }];
     
     //
-    
     UIView *line = [[UIView alloc] init];
     line.backgroundColor = [UIColor lineColor];
     [contentView addSubview:line];
@@ -231,8 +229,6 @@
         make.bottom.equalTo(contentView.mas_bottom);
         
     }];
-    
-
 
 }
 

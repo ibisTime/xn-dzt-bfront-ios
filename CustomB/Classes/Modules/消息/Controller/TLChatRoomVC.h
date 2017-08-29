@@ -10,4 +10,8 @@
 
 @interface TLChatRoomVC : TLBaseVC
 
+@property (nonatomic, copy) NSString *otherName;
+@property (nonatomic, strong) NSString *otherUserId;
+
+
 @end

@@ -234,7 +234,10 @@
     self.pwdTf.centerX = self.phoneTf.centerX;
     
     //登陆
-    UIButton *loginBtn = [UIButton zhBtnWithFrame:CGRectMake(margin,pwdTf.yy + 10, w, h) title:@"登录"];
+    
+    UIButton *loginBtn = [[UIButton alloc] initWithFrame:CGRectMake(margin,pwdTf.yy + 10, w, h) title:@"登录" backgroundColor:[UIColor colorWithHexString:@"#b2b2b2"] cornerRadius:5];
+                          
+                          
     [bgSV addSubview:loginBtn];
     [loginBtn addTarget:self action:@selector(goLogin) forControlEvents:UIControlEventTouchUpInside];
     loginBtn.centerX = self.phoneTf.centerX;

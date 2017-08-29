@@ -13,6 +13,8 @@
 #import "TLTableView.h"
 #import "TLUIHeader.h"
 #import "CustomLiuYanModel.h"
+#import "TLPageDataHelper.h"
+
 
 @interface TLChatRoomVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -21,21 +23,103 @@
 @property (nonatomic, strong) UIView *bootomBgView;
 @property (nonatomic, strong) UITextView *textView;
 
+@property (nonatomic, assign) BOOL isFirst;
+
 @end
 
 @implementation TLChatRoomVC
 
+- (void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+    if (self.isFirst) {
+        [self.chatTableView beginRefreshing];
+        self.isFirst = NO;
+    }
+    
+}
+
 - (void)viewDidLoad {
 
     [super viewDidLoad];
-
     
+    self.isFirst = YES;
+
+    if (!self.otherUserId || !self.otherName) {
+        
+        NSLog(@"请传入对方的userID 和 名称");
+        return;
+    }
+    
+    self.title = self.otherName;
+    //
     CGFloat bottomHeight = 60;
     self.chatTableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - bottomHeight) delegate:self dataSource:self];
     [self.view addSubview:self.chatTableView];
     self.chatTableView.estimatedRowHeight =  50;
     self.chatTableView.backgroundColor = [UIColor colorWithHexString:@"#eeeeee"];
-    self.chatTableView.contentInset = UIEdgeInsetsMake(0, 0, 20, 0);
+    
+    
+//    NBCDRequest *req = [[NBCDRequest alloc] init];
+//    req.code = @"620149";
+//    req.parameters[@"receiver"] = [TLUser user].userId;
+//    req.parameters[@"commenter"] = @"U201708231336531301754";
+//    req.parameters[@"start"] = @"1";
+//    req.parameters[@"limit"] = @"10";
+//    [req startWithSuccess:^(__kindof NBBaseRequest *request) {
+//        
+//        self.chatModelRoom = [CustomLiuYanModel tl_objectArrayWithDictionaryArray:request.responseObject[@"data"][@"list"]];
+//        [self.chatTableView reloadData];
+//        
+//    } failure:^(__kindof NBBaseRequest *request) {
+//        
+//        
+//    }];
+    
+    //
+    __weak typeof(self) weakSelf = self;
+    TLPageDataHelper *pageDataHelper = [[TLPageDataHelper alloc] init];
+    pageDataHelper.code = @"620149";
+    pageDataHelper.parameters[@"receiver"] = [TLUser user].userId;
+    pageDataHelper.parameters[@"commenter"] = self.otherUserId;
+//    pageDataHelper.limit = 1;
+    pageDataHelper.tableView = self.chatTableView;
+    [pageDataHelper modelClass:[CustomLiuYanModel class]];
+    [self.chatTableView addRefreshAction:^{
+    
+        [pageDataHelper refresh:^(NSMutableArray *objs, BOOL stillHave) {
+            
+            weakSelf.chatModelRoom = objs;
+            [weakSelf.chatTableView reloadData];
+            [weakSelf.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow: weakSelf.chatModelRoom.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+            
+        } failure:^(NSError *error) {
+            
+        }];
+    
+        
+   
+        
+    }];
+    
+    [self.chatTableView addLoadMoreAction:^{
+     
+        [pageDataHelper loadMore:^(NSMutableArray *objs, BOOL stillHave) {
+            
+            weakSelf.chatModelRoom = objs;
+            [weakSelf.chatTableView reloadData];
+            [weakSelf.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow: weakSelf.chatModelRoom.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+
+            
+        } failure:^(NSError *error) {
+            
+        }];
+        
+  
+        
+    }];
+    
+    //
     
     
     CGFloat btnW = 60;
@@ -69,34 +153,7 @@
     sendBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     sendBtn.left = SCREEN_WIDTH - sendBtn.width - 18;
     [sendBtn addTarget:self action:@selector(sendMsg) forControlEvents:UIControlEventTouchUpInside];
-    
-//    [sendBtn mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.right.equalTo(inputOuterBgView.mas_right).offset(-18);
-//        make.bottom.equalTo(inputOuterBgView.mas_bottom).offset(-10);
-//        make.height.mas_equalTo(35);
-//        make.width.mas_equalTo(30);
-//    }];
-    
-    
-    
-    NBCDRequest *req = [[NBCDRequest alloc] init];
-    req.code = @"620149";
-    req.parameters[@"receiver"] = [TLUser user].userId;
-    req.parameters[@"commenter"] = @"U201708231336531301754";
-    req.parameters[@"start"] = @"1";
-    req.parameters[@"limit"] = @"10";
-//    req.parameters[@"systemCode"] = [AppConfig config].systemCode;
-//    req.parameters[@"companyCode"] = [AppConfig config].systemCode;
-    [req startWithSuccess:^(__kindof NBBaseRequest *request) {
-        
-        self.chatModelRoom = [CustomLiuYanModel tl_objectArrayWithDictionaryArray:request.responseObject[@"data"][@"list"]];
-        [self.chatTableView reloadData];
-        
-    } failure:^(__kindof NBBaseRequest *request) {
 
-        
-    }];
-    
     
      [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillAppear:) name:UIKeyboardWillChangeFrameNotification object:nil];
 
@@ -107,32 +164,27 @@
 - (void)sendMsg {
 
 
-    
-    CustomLiuYanModel *model = [[CustomLiuYanModel alloc] init];
-    model.commenter = [TLUser user].userId;
-    model.commentPhoto = [TLUser user].userExt.photo;
-    model.content = self.textView.text;
-    [self.chatModelRoom addObject:model];
-    [self.chatTableView reloadData];
-    
-    self.textView.text = nil;
-    [self.view endEditing:YES];
-    return;
             NBCDRequest *req = [[NBCDRequest alloc] init];
             req.code = @"620141";
             req.parameters[@"commenter"] = [TLUser user].userId;
             req.parameters[@"content"] = self.textView.text;
-            req.parameters[@"receiver"] = @"U201708231336531301754";
+            req.parameters[@"receiver"] = self.otherUserId;
             [req startWithSuccess:^(__kindof NBBaseRequest *request) {
     
+                CustomLiuYanModel *model = [[CustomLiuYanModel alloc] init];
+                model.commenter = [TLUser user].userId;
+                model.commentPhoto = [TLUser user].photo;
+                model.content = self.textView.text;
+           
                 self.textView.text = nil;
                 [self.view endEditing:YES];
-    
+                [self.chatModelRoom addObject:model];
+                [self.chatTableView reloadData];
+                
             } failure:^(__kindof NBBaseRequest *request) {
                 
                 
             }];
-    
     
 }
 

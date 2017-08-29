@@ -42,6 +42,15 @@
     return self;
 }
 
+- (void)setSysMsg:(TLSysMsg *)sysMsg {
+
+    _sysMsg = sysMsg;
+    self.timeLbl.text = [_sysMsg.createDatetime convertDate];
+    self.userInfoLbl.text = _sysMsg.smsTitle;
+    self.contentLbl.text = _sysMsg.smsContent;
+    
+}
+
 - (void)setModel:(CustomLiuYanModel *)model {
 
     _model = model;

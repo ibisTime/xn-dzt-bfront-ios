@@ -16,6 +16,9 @@
 @property (nonatomic, strong) UIImageView *leftImageView;
 @property (nonatomic, strong) UIImageView *rightImageView;
 
+@property (nonatomic, strong) UIImageView *leftArrowImageView;
+@property (nonatomic, strong) UIImageView *rightArrowImageView;
+
 @property (nonatomic, strong) UIImageView *bgImageView;
 @property (nonatomic, strong) UILabel *contentLbl;
 
@@ -35,13 +38,20 @@
         
         self.leftImageView.hidden = YES;
         self.rightImageView.hidden=  NO;
+        self.leftArrowImageView.hidden = self.leftImageView.hidden;
+        self.rightArrowImageView.hidden = self.rightImageView.hidden;
+
         [self.rightImageView sd_setImageWithURL:[NSURL URLWithString:[model.commentPhoto convertImageUrl]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
         self.contentLbl.textAlignment = NSTextAlignmentLeft;
+        
         
     } else {
         
         self.leftImageView.hidden = NO;
         self.rightImageView.hidden=  YES;
+        self.leftArrowImageView.hidden = self.leftImageView.hidden;
+        self.rightArrowImageView.hidden = self.rightImageView.hidden;
+        
         [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:[model.commentPhoto convertImageUrl]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
         self.contentLbl.textAlignment = NSTextAlignmentRight;
 
@@ -64,6 +74,17 @@
         
         self.rightImageView = [self photoImageView];
         [self.contentView addSubview:self.rightImageView];
+        
+        //
+        self.leftArrowImageView = [[UIImageView alloc] init];
+        [self.contentView addSubview:self.leftArrowImageView];
+        self.leftArrowImageView.image = [UIImage imageNamed:@"聊天箭头左"
+                                         ];
+        
+        self.rightArrowImageView = [[UIImageView alloc] init];
+        [self.contentView addSubview:self.rightArrowImageView];
+        self.rightArrowImageView.image = [UIImage imageNamed:@"聊天箭头右"
+                                         ];
 
         
         //
@@ -96,11 +117,23 @@
 
         }];
         
+     
+        
         [self.bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.leftImageView.mas_right).offset(10);
-            make.right.equalTo(self.rightImageView.mas_left).offset(-10);
+            make.left.equalTo(self.leftImageView.mas_right).offset(14);
+            make.right.equalTo(self.rightImageView.mas_left).offset(-14);
             make.top.equalTo(self.leftImageView.mas_top).offset(4);
             make.bottom.lessThanOrEqualTo(self.contentView.mas_bottom);
+        }];
+        [self.leftArrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.bgImageView.mas_left);
+            make.centerY.equalTo(self.bgImageView.mas_top).offset(22);
+
+        }];
+        
+        [self.rightArrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.bgImageView.mas_right);
+            make.centerY.equalTo(self.leftArrowImageView.mas_centerY);
         }];
         
         [self.contentLbl mas_makeConstraints:^(MASConstraintMaker *make) {

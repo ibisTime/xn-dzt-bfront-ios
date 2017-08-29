@@ -41,7 +41,14 @@
 @property (nonatomic, copy) NSString *totalFollowNum;
 @property (nonatomic, copy) NSString *updateDatetime;
 @property (nonatomic, copy) NSString *updater;
-@property (nonatomic, strong) TLUserExt *userExt;
+
+@property (nonatomic,copy) NSString *photo;
+
+@property (nonatomic,copy) NSString *province;
+@property (nonatomic,copy) NSString *city;
+@property (nonatomic,copy) NSString *area;
+
+//@property (nonatomic, strong) TLUserExt *userExt;
 
 
 

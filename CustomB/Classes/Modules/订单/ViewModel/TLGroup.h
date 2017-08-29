@@ -37,9 +37,6 @@
 @property (nonatomic, assign) UIEdgeInsets editingEdgeInsets;
 @property (nonatomic, assign) UIEdgeInsets editedEdgeInsets;
 
-
-
-
 @property (nonatomic, assign) CGFloat minimumLineSpacing;
 @property (nonatomic, assign) CGFloat minimumInteritemSpacing;
 

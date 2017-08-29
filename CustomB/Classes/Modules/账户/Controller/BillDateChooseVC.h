@@ -10,4 +10,7 @@
 
 @interface BillDateChooseVC : TLBaseVC
 
+@property (nonatomic, copy) NSString *accountNumber;
+
+
 @end

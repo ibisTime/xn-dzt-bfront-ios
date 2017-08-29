@@ -19,6 +19,7 @@
 @interface TLOrderDataManager : NSObject
 
 - (instancetype)initWithOrder:(TLOrderModel *)order;
+- (instancetype)init;
 
 @property (nonatomic, strong) NSMutableArray <TLGroup *>*groups;
 @property (nonatomic, strong) TLOrderModel *order;
@@ -28,7 +29,7 @@
 @property (nonatomic, strong) NSMutableArray <TLChooseDataModel *>*xingTiRoom;
 
 //测量数据
-- (void)handMeasureData:(id)responseObject;
+- (void)handMeasureDataWithResp:(id)resp;
 @property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*measureDataRoom;
 
 //刺绣文字
@@ -66,7 +67,7 @@
 @property (nonatomic, strong) NSMutableArray <TLParameterModel *>*ciXiuColorRoom;
 @property (nonatomic, strong) NSString  *ciXiuColorValue;
 
-
+//
 @property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*ciXiuTextRoom;
 @property (nonatomic, strong) NSString  *ciXiuTextValue;
 
@@ -90,7 +91,7 @@
 
 - (NSMutableArray <TLDataModel *>*)configConstUserInfoDataModel; // 用户信息
 
-- (NSMutableArray <TLDataModel *>*)configProductInfoDataModel; // 用户信息
+- (NSMutableArray <TLDataModel *>*)configProductInfoDataModel; //产品信息
 
 - (NSMutableArray *)configConstLogisticsInfoDataModel; //物流
 

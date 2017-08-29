@@ -11,6 +11,7 @@
 #import "TLStatusView.h"
 #import "NSString+Extension.h"
 #import "Const.h"
+#import "NSNumber+TLAdd.h"
 
 @interface TLOrderCell()
 
@@ -49,14 +50,14 @@
     self.userInfoLbl.text = [NSString stringWithFormat:@"%@|%@",_order.applyName,_order.applyMobile];
     
     
-    if (_order.productList || _order.productList.count > 0) {
+    if (_order.amount) {
         
-        self.productInfoLbl.text = [_order.productList[0] getPriceStr];
-
+        self.productInfoLbl.text = [NSString stringWithFormat:@"￥%@%@",@"",[_order.amount convertToRealMoney]];
+        
     } else {
     
         self.productInfoLbl.text = nil;
-
+        
     }
 
     //

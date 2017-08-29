@@ -93,16 +93,15 @@
     
     if (product.productType == TLProductTypeChenShan) {
         //选择产品是衬衫
+        //定价
         NBCDRequest *req = [[NBCDRequest alloc] init];
         req.code = @"620203";
         req.parameters[@"modelCode"] = product.code;
         req.parameters[@"orderCode"] = self.order.code;
         req.parameters[@"quantity"] = @"1";
-        req.parameters[@"remark"] = @"iOS 操作";
         req.parameters[@"updater"] = [TLUser user].userId;
         [req startWithSuccess:^(__kindof NBBaseRequest *request) {
             
-            //选择产品是H+
             TLOrderDetailVC2 *vc = [[TLOrderDetailVC2 alloc] init];
             vc.productCode = self.productRoom[indexPath.row].code;
             vc.orderCode = self.order.code;

@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E10D9881F53AD3E00811AB1 /* TLDateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E10D9871F53AD3E00811AB1 /* TLDateModel.m */; };
+		2E10D98B1F53C74800811AB1 /* TLSysMsgVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E10D98A1F53C74800811AB1 /* TLSysMsgVC.m */; };
+		2E10D98E1F53E3F400811AB1 /* TLSysMsg.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E10D98D1F53E3F400811AB1 /* TLSysMsg.m */; };
+		2E10D9911F54008C00811AB1 /* OrderSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E10D9901F54008C00811AB1 /* OrderSearchVC.m */; };
+		2E10D9941F5401EF00811AB1 /* TLCustomerSearchVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E10D9931F5401EF00811AB1 /* TLCustomerSearchVC.m */; };
+		2E10D9971F5406A700811AB1 /* TLConfirmPriceVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E10D9961F5406A700811AB1 /* TLConfirmPriceVC.m */; };
+		2E10D9A01F5416A100811AB1 /* TLGongYiChooseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E10D99F1F5416A100811AB1 /* TLGongYiChooseVC.m */; };
+		2E10D9A31F541CA200811AB1 /* TLCustomerDetailVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E10D9A21F541CA200811AB1 /* TLCustomerDetailVC.m */; };
+		2E10D9A61F54FAE700811AB1 /* TLPriceHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E10D9A51F54FAE700811AB1 /* TLPriceHeaderView.m */; };
+		2E10D9A91F54FB2500811AB1 /* TLButtonHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E10D9A81F54FB2500811AB1 /* TLButtonHeaderView.m */; };
 		2E1F27B91F5261240003717D /* CustomPayPwdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F27B81F5261240003717D /* CustomPayPwdVC.m */; };
 		2E1F27C01F5265DA0003717D /* ZHBankCardListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F27BF1F5265DA0003717D /* ZHBankCardListVC.m */; };
 		2E1F27C31F5265F00003717D /* ZHBankCardAddVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E1F27C21F5265F00003717D /* ZHBankCardAddVC.m */; };
@@ -144,6 +154,26 @@
 
 /* Begin PBXFileReference section */
 		1531B65D53931CD08FC8A97E /* Pods-CustomB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomB.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomB/Pods-CustomB.debug.xcconfig"; sourceTree = "<group>"; };
+		2E10D9861F53AD3E00811AB1 /* TLDateModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLDateModel.h; sourceTree = "<group>"; };
+		2E10D9871F53AD3E00811AB1 /* TLDateModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLDateModel.m; sourceTree = "<group>"; };
+		2E10D9891F53C74800811AB1 /* TLSysMsgVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLSysMsgVC.h; sourceTree = "<group>"; };
+		2E10D98A1F53C74800811AB1 /* TLSysMsgVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLSysMsgVC.m; sourceTree = "<group>"; };
+		2E10D98C1F53E3F400811AB1 /* TLSysMsg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLSysMsg.h; sourceTree = "<group>"; };
+		2E10D98D1F53E3F400811AB1 /* TLSysMsg.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLSysMsg.m; sourceTree = "<group>"; };
+		2E10D98F1F54008C00811AB1 /* OrderSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderSearchVC.h; sourceTree = "<group>"; };
+		2E10D9901F54008C00811AB1 /* OrderSearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderSearchVC.m; sourceTree = "<group>"; };
+		2E10D9921F5401EF00811AB1 /* TLCustomerSearchVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCustomerSearchVC.h; sourceTree = "<group>"; };
+		2E10D9931F5401EF00811AB1 /* TLCustomerSearchVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLCustomerSearchVC.m; sourceTree = "<group>"; };
+		2E10D9951F5406A700811AB1 /* TLConfirmPriceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLConfirmPriceVC.h; sourceTree = "<group>"; };
+		2E10D9961F5406A700811AB1 /* TLConfirmPriceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLConfirmPriceVC.m; sourceTree = "<group>"; };
+		2E10D99E1F5416A100811AB1 /* TLGongYiChooseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLGongYiChooseVC.h; sourceTree = "<group>"; };
+		2E10D99F1F5416A100811AB1 /* TLGongYiChooseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLGongYiChooseVC.m; sourceTree = "<group>"; };
+		2E10D9A11F541CA200811AB1 /* TLCustomerDetailVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLCustomerDetailVC.h; sourceTree = "<group>"; };
+		2E10D9A21F541CA200811AB1 /* TLCustomerDetailVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLCustomerDetailVC.m; sourceTree = "<group>"; };
+		2E10D9A41F54FAE700811AB1 /* TLPriceHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLPriceHeaderView.h; sourceTree = "<group>"; };
+		2E10D9A51F54FAE700811AB1 /* TLPriceHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLPriceHeaderView.m; sourceTree = "<group>"; };
+		2E10D9A71F54FB2500811AB1 /* TLButtonHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLButtonHeaderView.h; sourceTree = "<group>"; };
+		2E10D9A81F54FB2500811AB1 /* TLButtonHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLButtonHeaderView.m; sourceTree = "<group>"; };
 		2E1F27B71F5261240003717D /* CustomPayPwdVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomPayPwdVC.h; sourceTree = "<group>"; };
 		2E1F27B81F5261240003717D /* CustomPayPwdVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomPayPwdVC.m; sourceTree = "<group>"; };
 		2E1F27BE1F5265DA0003717D /* ZHBankCardListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHBankCardListVC.h; sourceTree = "<group>"; };
@@ -479,8 +509,14 @@
 				2E3071D41F4BDE710003ADD9 /* TLOrderDetailVC.m */,
 				2E3072371F4D30A70003ADD9 /* TLProductChooseVC.h */,
 				2E3072381F4D30A70003ADD9 /* TLProductChooseVC.m */,
+				2E10D9951F5406A700811AB1 /* TLConfirmPriceVC.h */,
+				2E10D9961F5406A700811AB1 /* TLConfirmPriceVC.m */,
+				2E10D99E1F5416A100811AB1 /* TLGongYiChooseVC.h */,
+				2E10D99F1F5416A100811AB1 /* TLGongYiChooseVC.m */,
 				2E3071D91F4BFA570003ADD9 /* TLOrderDetailVC2.h */,
 				2E3071DA1F4BFA570003ADD9 /* TLOrderDetailVC2.m */,
+				2E10D98F1F54008C00811AB1 /* OrderSearchVC.h */,
+				2E10D9901F54008C00811AB1 /* OrderSearchVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -556,6 +592,10 @@
 			children = (
 				2E3071B21F4AD2140003ADD9 /* TLCustomerCategoryVC.h */,
 				2E3071B31F4AD2140003ADD9 /* TLCustomerCategoryVC.m */,
+				2E10D9921F5401EF00811AB1 /* TLCustomerSearchVC.h */,
+				2E10D9931F5401EF00811AB1 /* TLCustomerSearchVC.m */,
+				2E10D9A11F541CA200811AB1 /* TLCustomerDetailVC.h */,
+				2E10D9A21F541CA200811AB1 /* TLCustomerDetailVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -643,6 +683,8 @@
 		2E3072241F4C6D3B0003ADD9 /* Header */ = {
 			isa = PBXGroup;
 			children = (
+				2E10D9A41F54FAE700811AB1 /* TLPriceHeaderView.h */,
+				2E10D9A51F54FAE700811AB1 /* TLPriceHeaderView.m */,
 				2E3072251F4C6D3B0003ADD9 /* TLOrderCollectionViewHeader.h */,
 				2E3072261F4C6D3B0003ADD9 /* TLOrderCollectionViewHeader.m */,
 				2E3072281F4C6D820003ADD9 /* TLOrderBigTitleHeader.h */,
@@ -651,6 +693,8 @@
 				2E30722C1F4C72610003ADD9 /* TLOrderBGTitleHeader.m */,
 				2E30722E1F4C74810003ADD9 /* TLOrderDoubleTitleHeader.h */,
 				2E30722F1F4C74810003ADD9 /* TLOrderDoubleTitleHeader.m */,
+				2E10D9A71F54FB2500811AB1 /* TLButtonHeaderView.h */,
+				2E10D9A81F54FB2500811AB1 /* TLButtonHeaderView.m */,
 			);
 			path = Header;
 			sourceTree = "<group>";
@@ -709,6 +753,8 @@
 			children = (
 				2E1F27D61F52B2A40003717D /* ZHBillModel.h */,
 				2E1F27D71F52B2A40003717D /* ZHBillModel.m */,
+				2E10D9861F53AD3E00811AB1 /* TLDateModel.h */,
+				2E10D9871F53AD3E00811AB1 /* TLDateModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -1172,6 +1218,8 @@
 				2E1F27EC1F52F9F10003717D /* TLLiuYanController.m */,
 				2E1F27EE1F52FC190003717D /* TLChatRoomVC.h */,
 				2E1F27EF1F52FC190003717D /* TLChatRoomVC.m */,
+				2E10D9891F53C74800811AB1 /* TLSysMsgVC.h */,
+				2E10D98A1F53C74800811AB1 /* TLSysMsgVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1179,6 +1227,8 @@
 		2E8C8B221F4AB49600974F85 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				2E10D98C1F53E3F400811AB1 /* TLSysMsg.h */,
+				2E10D98D1F53E3F400811AB1 /* TLSysMsg.m */,
 				2E1F27E81F52F5B10003717D /* CustomLiuYanModel.h */,
 				2E1F27E91F52F5B10003717D /* CustomLiuYanModel.m */,
 			);
@@ -1399,6 +1449,9 @@
 				2E3071A31F4AC8E60003ADD9 /* TLOrderCategoryVC.m in Sources */,
 				2E8C8AF31F4A95AB00974F85 /* AppConfig.m in Sources */,
 				2E8C8B0D1F4A997800974F85 /* TLHomeVC.m in Sources */,
+				2E10D9A61F54FAE700811AB1 /* TLPriceHeaderView.m in Sources */,
+				2E10D9A31F541CA200811AB1 /* TLCustomerDetailVC.m in Sources */,
+				2E10D9911F54008C00811AB1 /* OrderSearchVC.m in Sources */,
 				2E1F27DE1F52BBAD0003717D /* ZHWithdrawalVC.m in Sources */,
 				2E30727F1F4FFA5A0003ADD9 /* ZHChangeNickNameVC.m in Sources */,
 				2E8C8B041F4A980600974F85 /* UIFont+UI.m in Sources */,
@@ -1417,6 +1470,8 @@
 				2E8C8AE11F4A94DC00974F85 /* TLPageDataHelper.m in Sources */,
 				2E1F27D81F52B2A40003717D /* ZHBillModel.m in Sources */,
 				2E1F27C81F5266050003717D /* ZHBank.m in Sources */,
+				2E10D9941F5401EF00811AB1 /* TLCustomerSearchVC.m in Sources */,
+				2E10D9971F5406A700811AB1 /* TLConfirmPriceVC.m in Sources */,
 				2E30723C1F4D37600003ADD9 /* TLProduct.m in Sources */,
 				2E3072861F500E0B0003ADD9 /* ZHBannerModel.m in Sources */,
 				2E1F27D21F52AAF50003717D /* TLBalanceCell.m in Sources */,
@@ -1441,6 +1496,7 @@
 				2E3072231F4C682D0003ADD9 /* TLOrderInfoCell.m in Sources */,
 				2E3072391F4D30A70003ADD9 /* TLProductChooseVC.m in Sources */,
 				2E3072951F525C370003ADD9 /* CustomChangePwdVC.m in Sources */,
+				2E10D9881F53AD3E00811AB1 /* TLDateModel.m in Sources */,
 				2E3072761F4FF14A0003ADD9 /* TLBalanceVC.m in Sources */,
 				2E3071A91F4AC9C80003ADD9 /* TLPlaceholderView.m in Sources */,
 				2E3072481F4D8AFB0003ADD9 /* TLInputDataModel.m in Sources */,
@@ -1448,6 +1504,7 @@
 				2E8C8ABE1F4A892A00974F85 /* UIColor+Extension.m in Sources */,
 				2E1F27DB1F52B2D30003717D /* CDBillCell.m in Sources */,
 				2E30719C1F4AC3400003ADD9 /* ZHSegmentView.m in Sources */,
+				2E10D98E1F53E3F400811AB1 /* TLSysMsg.m in Sources */,
 				2E3072041F4C00410003ADD9 /* NBBaseRequest.m in Sources */,
 				2E8C8B291F4AB4C200974F85 /* TLMsgCell.m in Sources */,
 				2E8C8ABB1F4A88F300974F85 /* TLBaseVC.m in Sources */,
@@ -1463,6 +1520,7 @@
 				2E3072421F4D4F0D0003ADD9 /* TLParameterModel.m in Sources */,
 				2E8C8AEF1F4A958A00974F85 /* TLProgressHUD.m in Sources */,
 				2E8C8A831F4A851B00974F85 /* main.m in Sources */,
+				2E10D9A91F54FB2500811AB1 /* TLButtonHeaderView.m in Sources */,
 				2E8C8AEE1F4A958A00974F85 /* TLAlert.m in Sources */,
 				2E1F27C91F5266050003717D /* ZHBankCard.m in Sources */,
 				2E8C8AFE1F4A966200974F85 /* FCUUID.m in Sources */,
@@ -1473,6 +1531,7 @@
 				2E3072571F4E6C6C0003ADD9 /* TLCustomer.m in Sources */,
 				2E1F27CC1F5267250003717D /* TLPickerTextField.m in Sources */,
 				2E1F27CF1F5267ED0003717D /* CustomBankCardCell.m in Sources */,
+				2E10D9A01F5416A100811AB1 /* TLGongYiChooseVC.m in Sources */,
 				2E3072611F4FC6A00003ADD9 /* ZHCurrencyModel.m in Sources */,
 				2E8C8B311F4ABB7800974F85 /* TLBannerCell.m in Sources */,
 				2E3071C61F4B20590003ADD9 /* ZHCaptchaView.m in Sources */,
@@ -1489,6 +1548,7 @@
 				2E30727C1F4FF3300003ADD9 /* TLAccountSettingVC.m in Sources */,
 				2E1F27F31F52FEE00003717D /* TLChatCell.m in Sources */,
 				2E8C8B361F4ABBBD00974F85 /* NSTimer+tlNoCycle.m in Sources */,
+				2E10D98B1F53C74800811AB1 /* TLSysMsgVC.m in Sources */,
 				2E30725B1F4E6CA10003ADD9 /* TLUserParameterModel.m in Sources */,
 				2E30722A1F4C6D820003ADD9 /* TLOrderBigTitleHeader.m in Sources */,
 				2E8C8AFF1F4A966200974F85 /* UIDevice+FCUUID.m in Sources */,

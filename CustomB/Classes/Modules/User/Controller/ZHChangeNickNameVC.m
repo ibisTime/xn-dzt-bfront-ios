@@ -59,7 +59,7 @@
 
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
-    http.code = @"805075";
+    http.code = @"805082";
     http.parameters[@"userId"] = [TLUser user].userId;
     http.parameters[@"token"] = [TLUser user].token;
     http.parameters[@"nickname"] = self.nickNameView.textField.text;

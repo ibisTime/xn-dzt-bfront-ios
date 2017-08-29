@@ -20,7 +20,6 @@
 
     if (self = [super init]) {
         
-        self.groups = [[NSMutableArray alloc] init];
         self.order = order;
     }
     
@@ -29,15 +28,25 @@
 
 }
 
+- (instancetype)init
+{
+    self = [super init];
+    if (self) {
+        
+        self.groups = [[NSMutableArray alloc] init];
 
-- (void)handMeasureData:(id)responseObject {
+    }
+    return self;
+}
+
+- (void)handMeasureDataWithResp:(id)resp {
 
  NSArray <NSDictionary *>*typeArr = @[
-  @{
-      @"2-01" : @"领围"},
-  @{@"2-02" : @"胸围"},
-  @{@"2-03" : @"中腰围"},
-  @{@"2-04" : @"裤腰围"},
+  
+  @{  @"2-01" : @"领围"},
+  @{  @"2-02" : @"胸围"},
+  @{  @"2-03" : @"中腰围"},
+  @{  @"2-04" : @"裤腰围"},
   @{  @"2-05" : @"臀围"},
   @{  @"2-06" : @"大腿围"},
   @{  @"2-07" : @"通档"},
@@ -60,6 +69,8 @@
   @{  @"2-24" : @"腕围"}
       ];
     
+    //组装量体信息，如果当前 数据控制器，的订单中测量信息不为空，就读取对应的值
+    //在用户详情中，可能也有这些信息，？？怎样处理
     self.measureDataRoom = [[NSMutableArray alloc] initWithCapacity:typeArr.count];
     
     [typeArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -82,14 +93,23 @@
         
         model.keyCode = obj.allKeys[0]; //1-2
         model.keyName = obj[model.keyCode];
-        
         model.value = @"-";
         
-        if (self.order.resultMap.CELIANG && self.order.resultMap.CELIANG[model.keyCode]) {
+        if (!resp) {
+            //查询订单中信息进行赋值
+            if (self.order.resultMap.CELIANG && self.order.resultMap.CELIANG[model.keyCode]) {
+                
+                NSDictionary *dict = self.order.resultMap.CELIANG[model.keyCode];
+                model.value =   dict[@"code"] ? dict[@"code"] : @"-";
+            }
             
-            NSDictionary *dict = self.order.resultMap.CELIANG[model.keyCode];
-            model.value =   dict[@"code"] ? dict[@"code"] : @"-";
+        } else {
+            
+           //根据传入的结果进行估值
+           //用在用户信息界面
+        
         }
+   
         [self.measureDataRoom addObject:model];
         
     }];
@@ -118,7 +138,6 @@
                                  ];
     NSDictionary *dict = resp[@"data"];
     
-    
     [xingArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         
@@ -131,7 +150,7 @@
         //形体对应的类
         NSDictionary *valueDict = self.order.resultMap.TIXIN[chooseDataModel.type];
         NSString *selectValueCode = valueDict[@"code"];
-    
+        
         //
         NSString *code = obj.allKeys[0]; //1-2
         NSDictionary *paraDict = dict[code];
@@ -150,6 +169,7 @@
             }
             
             [chooseDataModel.parameterModelRoom addObject:model];
+            
         }];
        
         [self.xingTiRoom addObject:chooseDataModel];
@@ -169,6 +189,7 @@
     [self.mianLiaoRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         obj.name = obj.code;
     }];
+    
 }
 
 
@@ -458,7 +479,7 @@
 
 - (NSMutableArray <TLDataModel *>*)configProductInfoDataModel {
 
-    if (!self.order || !self.order.productList || !(self.order.productList.count <= 0)) {
+    if (!self.order || !self.order.productList || self.order.productList.count <= 0) {
         NSLog(@"订单和产品");
         return nil;
     }
@@ -492,17 +513,17 @@
     }
     
     //--//
-    NSMutableArray *productInfoArrDataModel = [[NSMutableArray alloc] init];
-    [productInfoArrDataModel enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    NSMutableArray *productInfoArrDataModelRoom = [[NSMutableArray alloc] init];
+    [productInfoArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         TLDataModel *model = [[TLDataModel alloc] init];
         model.keyName = obj.allKeys[0];
         model.value = obj[model.keyName];
-        [productInfoArrDataModel addObject:model];
+        [productInfoArrDataModelRoom addObject:model];
         
     }];
     
-    return productInfoArrDataModel;
+    return productInfoArrDataModelRoom;
 
 }
 
@@ -603,21 +624,23 @@
     }
     
     //
-    if (self.order.resultMap.QITA[@"6-04"]) {
+    if (self.order.resultMap.QITA[@"6-03"]) {
         
-        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-04"];
-        [orderInfoArr addObject:@{@"邮寄地址" : selelctParaDict[@"code"]}];
+        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-03"];
+        
+        [orderInfoArr addObject:@{@"体重" : [NSString stringWithFormat:@"%@ kg",selelctParaDict[@"code"]]}];
         
     }
     
     //
-    if (self.order.resultMap.QITA[@"6-03"]) {
+    if (self.order.resultMap.QITA[@"6-04"]) {
         
-        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-03"];
-            
-        [orderInfoArr addObject:@{@"体重" : [NSString stringWithFormat:@"%@ kg",selelctParaDict[@"code"]]}];
+        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-04"];
+        [orderInfoArr addObject:@{@"收货地址" : selelctParaDict[@"code"]}];
         
     }
+    
+  
 
     
     NSMutableArray *thenArr = [[NSMutableArray alloc] init];
