@@ -51,10 +51,10 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 
 
 @property (nonatomic, copy) NSString *remark;
+@property (nonatomic, strong) NSNumber *times;
 
 //0为衬衫订单，1为H+ 为空时
 @property (nonatomic, copy) NSString *type;
-
 @property (nonatomic, strong) NSMutableArray <TLUserProduct *>*productList;
 
 @property (nonatomic, strong) TLUserParameterMap *resultMap;
@@ -72,9 +72,20 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 
 - (BOOL)canEdit;
 
-//形体是否可以编辑
+/**
+ 形体是否可以编辑
+ */
 - (BOOL)canEditXingTi;
 
+/**
+ 是否可以提交复合
+ */
+- (BOOL)canSubmitCheck;
+
+/**
+ 是否可以提交数据，待录入状态的可以
+ */
+- (BOOL)canSubmitData;
 
 @end
 

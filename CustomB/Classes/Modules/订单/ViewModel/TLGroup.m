@@ -35,7 +35,7 @@
 
 - (NSInteger)itemCount {
 
-    if (self.dataModelRoom.count <=0 ) {
+    if (!self.dataModelRoom || self.dataModelRoom.count <=0 ) {
         return 0;
     }
     
@@ -56,7 +56,6 @@
     
     }
  
-    
 }
 
 @end

@@ -130,10 +130,13 @@
         self.arrowImageView.hidden = YES;
         
     } else if ([model isKindOfClass:[TLChooseDataModel class]]) {
+        //主要是形体
     
         TLChooseDataModel *dataModel = model;
+        
         self.leftTitleLbl.text = dataModel.typeName;
-        self.textField.text = dataModel.typeValue;
+        self.textField.text = dataModel.typeValueName;
+        
         self.textField.userInteractionEnabled = NO;
         self.arrowImageView.hidden = !dataModel.canEdit;
         self.contentView.userInteractionEnabled = dataModel.canEdit;

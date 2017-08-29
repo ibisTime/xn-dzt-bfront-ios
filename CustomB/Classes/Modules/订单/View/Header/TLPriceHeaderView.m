@@ -11,12 +11,18 @@
 #import "TLUIHeader.h"
 #import "TLGroup.h"
 
+
+@interface TLPriceHeaderView()
+
+
+@end
+
 @implementation TLPriceHeaderView
 
 
 + (NSString *)headerReuseIdentifier {
     
-    return @"TLPriceHeaderViewID";
+    return [NSString stringWithFormat:@"%@ID",NSStringFromClass(self)];
     
 }
 
@@ -78,11 +84,21 @@
                                     textColor:[UIColor textColor]];
     
     [self addSubview:self.contentLbl];
+    self.contentLbl.text = @"--";
     
     [self.contentLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.mas_centerY);
         make.left.equalTo(self.mas_left).offset(90);
         
+    }];
+    
+    //
+    self.arrowImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"更多"]];
+    [self addSubview:self.arrowImageView];
+    
+    [self.arrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self.mas_centerY);
+        make.right.equalTo(self.mas_right).offset(-18);
     }];
 
     

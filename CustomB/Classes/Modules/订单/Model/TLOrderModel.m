@@ -68,7 +68,7 @@
                            kOrderStatusDidDingJia : @"待支付",
                            kOrderStatusWillCheck : @"待复核",
                            kOrderStatusWillMeasurement : @"待量体",
-                           kOrderStatusWillSubmit : @"待录入",
+                           kOrderStatusDidPay : @"待录入",
                            kOrderStatusWillShengChan : @"待生产", //待生产
                            kOrderStatusShengChanIng : @"生产中", //生产中
                            kOrderStatusDidSend : @"已发货",//已发货
@@ -95,12 +95,41 @@
 }
 
 
-- (BOOL)canEdit {
+- (BOOL)canSubmitData {
 
-    return [self.status isEqualToString:kOrderStatusWillMeasurement] ||
-    [self.status isEqualToString:kOrderStatusWillSubmit] ||
-    [self.status isEqualToString:kOrderStatusDidDingJia] ||
-    [self.status isEqualToString:kOrderStatusWillCheck];
+    return [self.status isEqualToString:kOrderStatusDidPay];
+
+}
+
+
+- (BOOL)canSubmitCheck {
+
+    return [self.status isEqualToString:kOrderStatusDidPay];
+
+}
+
+
+
+- (BOOL)canEdit {
+    
+    if ([self getOrderType] == TLOrderTypeChenShan) {
+            //普通衬衫
+        return [self.status isEqualToString:kOrderStatusWillMeasurement] ||
+        [self.status isEqualToString:kOrderStatusDidPay] ||
+        [self.status isEqualToString:kOrderStatusDidDingJia] ||
+        [self.status isEqualToString:kOrderStatusWillCheck];
+        
+    } else if([self getOrderType] == TLOrderTypeHAdd){
+        //H+
+        return [self.status isEqualToString:kOrderStatusWillMeasurement];
+    
+    } else {
+    
+        NSLog(@"根据订单判断不出，产品类型");
+        return YES;
+    }
+
+
     
 //    return [self.status isEqualToString:kOrderStatusWillMeasurement] ||
 //    

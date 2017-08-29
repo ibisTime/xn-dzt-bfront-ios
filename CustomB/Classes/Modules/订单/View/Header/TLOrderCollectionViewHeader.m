@@ -22,7 +22,7 @@
 
 + (NSString *)headerReuseIdentifier {
 
-   return @"TLOrderCollectionViewHeaderID";
+    return [NSString stringWithFormat:@"%@ID",NSStringFromClass(self)];
     
 }
 

@@ -78,7 +78,7 @@
 //LXXZ("1-03", "领型选择"), XXXZ("1-04", "袖型选择"), MJXZ("1-05", "门襟选择"),
 //
 //SXXZ("1-06", "收省选择"), LKYZ("1-07", "着装风格"), KDXZ("1-08", "口袋选择"),
-
+//
 //// 测量
 //LW("2-01", "领围"), SW("2-02", "胸围"), ZYW("2-03", "中腰围"), KYW("2-04", "裤腰围"),
 //
@@ -106,9 +106,13 @@
 //GXCX("5-01", "个性刺绣"),
 //
 //CXWZ("5-02", "刺绣位置"), CXZT("5-03", "刺绣字体"), CXYS("5-04", "刺绣颜色"),
-//NL("6-01", "年龄"),
+////
+//// NL("6-01", "年龄"),
+//
 //SG("6-02", "身高"), TZ("6-03", "体重"),
+//
 //YJDZ("6-04", "邮寄地址"),
+//
 //BEIZHU("6-05", "备注");
 
 @end
@@ -118,7 +122,7 @@ FOUNDATION_EXTERN NSString * const kOrderStatusCancle;
 
 FOUNDATION_EXTERN NSString * const kOrderStatusWillMeasurement; //待量体
 FOUNDATION_EXTERN NSString * const kOrderStatusDidDingJia; //已定价
-FOUNDATION_EXTERN NSString * const kOrderStatusWillSubmit; //待录入，已支付
+FOUNDATION_EXTERN NSString * const kOrderStatusDidPay; //待录入，已支付
 FOUNDATION_EXTERN NSString * const kOrderStatusWillCheck; //待复核
 
 //

@@ -30,7 +30,7 @@
     
 //    http://www.cnblogs.com/wjblogs/p/5367052.html 删除
     
-    [AppConfig config].runEnv = RunEnvDev;
+    [AppConfig config].runEnv = RunEnvTest;
     
     
     if([AppConfig config].runEnv == RunEnvDev) {
@@ -40,7 +40,7 @@
     } else {
         
           [NBNetworkConfig config].baseUrl = @"http://118.178.124.16:3301/forward-service/api";
-
+        
     }
   
     

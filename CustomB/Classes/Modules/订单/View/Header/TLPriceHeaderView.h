@@ -27,5 +27,6 @@
 @property (nonatomic, strong) TLGroup *group;
 @property (nonatomic, strong) UILabel *titleLbl;
 @property (nonatomic, strong) UILabel *contentLbl;
+@property (nonatomic, strong) UIImageView *arrowImageView;
 
 @end

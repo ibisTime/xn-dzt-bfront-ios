@@ -10,8 +10,8 @@
 
 typedef NS_ENUM(NSUInteger, OrderOperationType) {
     
-    OrderOperationTypeDefault,
-    OrderOperationTypeHAddDingJia
+    OrderOperationTypeDefault
+//    OrderOperationTypeHAddDingJia
 
 };
 

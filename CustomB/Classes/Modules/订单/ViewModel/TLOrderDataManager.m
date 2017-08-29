@@ -21,6 +21,8 @@
     if (self = [super init]) {
         
         self.order = order;
+        self.groups = [[NSMutableArray alloc] init];
+
     }
     
     return self;
@@ -119,14 +121,20 @@
 
 - (void)configXingTiDataModelWithResp:(id)resp {
 
+    //TX("4-01", "体型"), BX("4-02", "背型"), ZJ("4-03", "左肩"), YJ("4-04", "右肩"),
+    //
+    //BZ("4-05", "脖子"), FS("4-06", "肤色"), DX("4-07", "肚型"), SC("4-08", "色彩"),
+    //
+    //SB("4-09", "手臂"), DB("4-10", "对比"), TUNX("4-11", "臀型"), GL("4-12", "量感"),
+    
     self.xingTiRoom = [[NSMutableArray alloc] init];
     NSArray <NSDictionary *> *xingArr = @[
                                  
                                  @{@"4-01" : @"形态"},
                                  @{@"4-02" : @"背型"},
                                  @{@"4-03" : @"左肩"},
-                                 @{@"4-05":  @"脖子"},
                                  @{@"4-04" : @"右肩"},
+                                 @{@"4-05":  @"脖子"},
                                  @{@"4-06" : @"肤色"},
                                  @{@"4-07" : @"肚型"},
                                  @{@"4-08" : @"色彩"},
@@ -165,7 +173,8 @@
             model.typeName = obj[code];
             
             if (selectValueCode && [selectValueCode isEqualToString:model.code]) {
-                chooseDataModel.typeValue = model.name;
+                chooseDataModel.typeValue = model.code;
+                chooseDataModel.typeValueName = model.name;
             }
             
             [chooseDataModel.parameterModelRoom addObject:model];
@@ -175,20 +184,41 @@
         [self.xingTiRoom addObject:chooseDataModel];
 
     }];
-    //---//
-    
-    
+    //
+
 }
 
 
 
 - (void)handleMianLiaoData:(id)responseObject {
 
+    if (!responseObject) {
+        NSLog(@"布料 未传值");
+        return;
+    }
     self.mianLiaoRoom = [TLParameterModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
 
+    //
     [self.mianLiaoRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        obj.name = obj.code;
+        
+        obj.name = [obj.code copy];
+        if (self.order.resultMap.DINGZHI[@"1-02"]) {
+            
+            NSDictionary *selelctParaDict = self.order.resultMap.DINGZHI[@"1-02"];
+            
+            if ([obj.code isEqualToString:selelctParaDict[@"code"]]) {
+                
+                obj.isSelected = YES;
+                obj.yuSelected = YES;
+                self.mianLiaoValue = obj.code;
+                
+            }
+            
+        }
+        
     }];
+    
+    
     
 }
 
@@ -202,7 +232,16 @@
         return;
     }
     
+    
+    //// 面料
+    //CSGG("1-01", "规格"), CSML("1-02", "面料"),
     //
+    //// 工艺
+    //LXXZ("1-03", "领型选择"), XXXZ("1-04", "袖型选择"), MJXZ("1-05", "门襟选择"),
+    //
+    //SXXZ("1-06", "收省选择"), LKYZ("1-07", "着装风格"), KDXZ("1-08", "口袋选择"),
+    
+    //为分类好的全部信息
     NSDictionary *dict = responseObject[@"data"];
     
     //全10个
@@ -213,11 +252,13 @@
     if (self.order.resultMap.DINGZHI[guiGeCode]) {
         
         NSDictionary *selelctParaDict = self.order.resultMap.DINGZHI[guiGeCode];
+        
+        //找出已经设置的选
         [self.guiGeRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
             if ([selelctParaDict[@"code"] isEqualToString:obj.code]) {
                 
-                obj.isSelected = [selelctParaDict[@"code"] isEqualToString:obj.code];
+                obj.isSelected = YES;
                 obj.yuSelected = obj.isSelected;
                 self.guiGeValue = selelctParaDict[@"name"];
                 *stop = YES;
@@ -226,11 +267,11 @@
         }];
     }
     
-    NSArray *zhuoZhuangFengGeRoom = dict[@"1-08"];
+    NSArray *zhuoZhuangFengGeRoom = dict[@"1-07"];
     self.zhuoZhuangFengGeRoom = [TLParameterModel tl_objectArrayWithDictionaryArray:zhuoZhuangFengGeRoom];
-    if (self.order.resultMap.DINGZHI[@"1-08"]) {
+    if (self.order.resultMap.DINGZHI[@"1-07"]) {
         
-        NSDictionary *selelctParaDict = self.order.resultMap.DINGZHI[@"1-08"];
+        NSDictionary *selelctParaDict = self.order.resultMap.DINGZHI[@"1-07"];
         [self.zhuoZhuangFengGeRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
             if ([selelctParaDict[@"code"] isEqualToString:obj.code]) {
@@ -308,11 +349,11 @@
     }
     
     //
-    NSArray *kouDaiRoom = dict[@"1-09"];
+    NSArray *kouDaiRoom = dict[@"1-08"];
     self.kouDaiRoom = [TLParameterModel tl_objectArrayWithDictionaryArray:kouDaiRoom];
-    if (self.order.resultMap.DINGZHI[@"1-09"]) {
+    if (self.order.resultMap.DINGZHI[@"1-08"]) {
         
-        NSDictionary *selelctParaDict = self.order.resultMap.DINGZHI[@"1-09"];
+        NSDictionary *selelctParaDict = self.order.resultMap.DINGZHI[@"1-08"];
         [self.kouDaiRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
             if ([selelctParaDict[@"code"] isEqualToString:obj.code]) {
@@ -328,11 +369,11 @@
     }
     
     //
-    NSArray *shouXingRoom = dict[@"1-07"];
+    NSArray *shouXingRoom = dict[@"1-06"];
     self.shouXingRoom = [TLParameterModel tl_objectArrayWithDictionaryArray:shouXingRoom];
-    if (self.order.resultMap.DINGZHI[@"1-07"]) {
+    if (self.order.resultMap.DINGZHI[@"1-06"]) {
         
-        NSDictionary *selelctParaDict = self.order.resultMap.DINGZHI[@"1-07"];
+        NSDictionary *selelctParaDict = self.order.resultMap.DINGZHI[@"1-06"];
         [self.shouXingRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
             if ([selelctParaDict[@"code"] isEqualToString:obj.code]) {
@@ -476,6 +517,18 @@
     return arr;
 
 }
+
+//- (NSString *)mianLiaoCode {
+//
+//    if (self.order.resultMap.DINGZHI[@"1-02"]) {
+//        
+//        NSDictionary *selelctParaDict = self.order.resultMap.DINGZHI[@"1-02"];
+//        return selelctParaDict[@"code"];
+//        [productInfoArr addObject:@{@"面料编号" : selelctParaDict[@"code"]}];
+//        
+//    }
+//
+//}
 
 - (NSMutableArray <TLDataModel *>*)configProductInfoDataModel {
 

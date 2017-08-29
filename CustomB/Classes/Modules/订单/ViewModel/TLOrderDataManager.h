@@ -82,6 +82,8 @@
 //面料
 - (void)handleMianLiaoData:(id)responseObject;
 @property (nonatomic, strong) NSMutableArray < TLParameterModel*>*mianLiaoRoom;
+@property (nonatomic, strong) NSString  *mianLiaoValue;
+
 
 
 /**

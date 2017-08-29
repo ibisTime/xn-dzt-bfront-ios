@@ -145,9 +145,13 @@
     }];
     
     //tableView
-    TLBannerView *headerView = [[TLBannerView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 200)];
-    self.homeTableView.tableHeaderView = headerView;
-    self.bannerView = headerView;
+    UIView *bannerBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 200)];
+    self.homeTableView.tableHeaderView = bannerBgView;
+
+    TLBannerView *bannerView = [[TLBannerView alloc] initWithFrame:CGRectMake(19, 10, SCREEN_WIDTH - 38, 200)];
+    [bannerBgView addSubview:bannerView];
+
+    self.bannerView = bannerView;
     
 //    __weak typeof(self) weakSelf = self;
     self.bannerView.selected = ^(NSInteger index){
@@ -202,6 +206,12 @@
         
         TLOrderModel *order = self.orderGroup[indexPath.row];
     
+//        TLConfirmPriceVC *vc = [[TLConfirmPriceVC alloc] init];
+//        vc.order = order;
+//        [self.navigationController pushViewController:vc animated:YES];
+//        
+//        
+//        return;
         
         if ([order getOrderType] == TLOrderTypeProductUnChoose ){
             //产品未选择
@@ -289,6 +299,10 @@
     }
     __weak typeof(self) weakSelf = self;
     [v setAction:^(NSInteger section){
+        
+        TLConfirmPriceVC *vc = [[TLConfirmPriceVC alloc] init];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
+        return ;
         
         if (section == 0) {
         

@@ -11,7 +11,9 @@
 #import "NSTimer+tlNoCycle.h"
 #import "TLUIHeader.h"
 
+#define ITEM_WIDTH self.frame.size.width
 #define SCROLL_TIME_INTERVAL 3.0
+#define PAGE_CONTROL_HEIGHT 35
 
 @interface TLBannerView ()<UICollectionViewDataSource,UICollectionViewDelegate>
 
@@ -41,25 +43,32 @@ static NSString * const XNBannerCellID = @"XNBannerCellID ";
         _urls = [NSMutableArray array];
         _isAuto = YES;
         
+        //
+        CGFloat innerWidth = ITEM_WIDTH;
+        CGFloat innerHeight = self.frame.size.height  - PAGE_CONTROL_HEIGHT;
+
+        //
         UICollectionViewFlowLayout *fl = [[UICollectionViewFlowLayout alloc] init];
-        fl.itemSize = frame.size;
+        fl.itemSize = CGSizeMake(innerWidth, innerHeight);
         fl.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         fl.minimumLineSpacing = 0.0;
         fl.minimumInteritemSpacing = 0.0;
         
-        self.bannerCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(19, 10, self.width - 19*2, self.height - 40) collectionViewLayout:fl];
+        self.bannerCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, innerWidth, innerHeight) collectionViewLayout:fl];
         self.bannerCollectionView.backgroundColor = [UIColor whiteColor];
         [self addSubview:self.bannerCollectionView];
         self.bannerCollectionView.pagingEnabled = YES;
         self.bannerCollectionView.delegate = self;
         self.bannerCollectionView.dataSource = self;
-        [self.bannerCollectionView  registerClass:[TLBannerCell class] forCellWithReuseIdentifier:XNBannerCellID];
         self.bannerCollectionView.showsHorizontalScrollIndicator = NO;
-        [self.bannerCollectionView  setContentOffset:CGPointMake(self.frame.size.width, 0)];
-        
+        [self.bannerCollectionView  setContentOffset:CGPointMake(ITEM_WIDTH, 0)];
         self.bannerCollectionView.layer.cornerRadius = 10;
         self.bannerCollectionView.layer.masksToBounds = YES;
         self.bannerCollectionView.clipsToBounds = YES;
+        
+        
+        [self.bannerCollectionView  registerClass:[TLBannerCell class] forCellWithReuseIdentifier:XNBannerCellID];
+
 
     }
     
@@ -121,17 +130,13 @@ static NSString * const XNBannerCellID = @"XNBannerCellID ";
             }];
             
             //添加
-            CGFloat pageControlHeight = 35;
+            CGFloat pageControlHeight = PAGE_CONTROL_HEIGHT;
             UIPageControl *tmpPageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.frame.size.height - pageControlHeight, self.frame.size.width, pageControlHeight)];
             [self addSubview:tmpPageControl];
             tmpPageControl.hidesForSinglePage = YES;
-            
             tmpPageControl.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-            
             tmpPageControl.pageIndicatorTintColor = [UIColor colorWithHexString:@"#cecece"];
             tmpPageControl.currentPageIndicatorTintColor = [UIColor colorWithHexString:@"#8a8a8a"];
-            
-
             
             //
             if (self.urls.count - 2 >= 2) {
@@ -162,7 +167,6 @@ static NSString * const XNBannerCellID = @"XNBannerCellID ";
             __weak typeof(self) weakself = self;
             
             NSTimer *tmpTimer = [NSTimer timerWithTimeInterval:SCROLL_TIME_INTERVAL target:weakself selector:@selector(pageScroll) userInfo:nil repeats:YES];
-//
             [[NSRunLoop currentRunLoop] addTimer:tmpTimer forMode:NSRunLoopCommonModes];
             self.timer = tmpTimer;
             
@@ -170,21 +174,10 @@ static NSString * const XNBannerCellID = @"XNBannerCellID ";
         
     
         [self.bannerCollectionView reloadData];
-        
     }
     
 }
 
-//- (void)setIsAuto:(BOOL)isAuto
-//{
-//    _isAuto = isAuto;
-//    if (!_isAuto) {
-//        
-//        [self.timer invalidate];
-//        self.timer = nil;
-//    }
-//    
-//}
 
 - (void)pageScroll
 {
@@ -194,7 +187,7 @@ static NSString * const XNBannerCellID = @"XNBannerCellID ";
     
     _currentPage ++;
     
-    [self.bannerCollectionView  setContentOffset:CGPointMake(_currentPage * self.frame.size.width, 0) animated:YES];
+    [self.bannerCollectionView  setContentOffset:CGPointMake(_currentPage * ITEM_WIDTH, 0) animated:YES];
     
     if (_currentPage == self.urls.count - 1) {
         
@@ -207,14 +200,16 @@ static NSString * const XNBannerCellID = @"XNBannerCellID ";
 #pragma mark - scrollView delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    if (self.bannerCollectionView .contentOffset.x < self.bannerCollectionView .frame.size.width) {
-        if (self.bannerCollectionView .contentOffset.x != 0) {
+    if (self.bannerCollectionView.contentOffset.x < self.bannerCollectionView.frame.size.width) {
+        
+        if (self.bannerCollectionView.contentOffset.x != 0) {
             return;
         }
+        
     }
 
     
-    NSInteger index = (self.bannerCollectionView .contentOffset.x )/self.frame.size.width;
+    NSInteger index = self.bannerCollectionView.contentOffset.x / ITEM_WIDTH;
     _currentPage = index - 1;
  
 //    //不循环
@@ -223,31 +218,32 @@ static NSString * const XNBannerCellID = @"XNBannerCellID ";
     self.pageControl.currentPage = _currentPage;
     //最后一个
     if (index == self.urls.count - 1) {
-        [self.bannerCollectionView  setContentOffset:CGPointMake(self.frame.size.width, 0) ];
-
+        
+        [self.bannerCollectionView  setContentOffset:CGPointMake(ITEM_WIDTH, 0) ];
         return;
+        
     }
 
     //滑动到前面
     if (index == 0) {
-        [self.bannerCollectionView  setContentOffset:CGPointMake(self.frame.size.width*(self.urls.count - 2), 0)];
+        [self.bannerCollectionView  setContentOffset:CGPointMake(ITEM_WIDTH*(self.urls.count - 2), 0)];
         return;
     }
     
 }
 
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-//    XNLog(@"开始拖动");
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
+    
     self.timer.fireDate = [NSDate distantFuture];
-
+    
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
     self.timer.fireDate = [NSDate distantPast];
-//    XNLog(@"结束拖动");
+
 }
+
 
 #pragma  mark - collectionView 点击事件
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
@@ -280,6 +276,7 @@ static NSString * const XNBannerCellID = @"XNBannerCellID ";
 
 }
 
+
 #pragma  mark - DataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
@@ -290,66 +287,11 @@ static NSString * const XNBannerCellID = @"XNBannerCellID ";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     TLBannerCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:XNBannerCellID forIndexPath:indexPath];
-//    cell.backgroundColor = [UIColor grayColor];
-
     cell.urlString = self.urls[indexPath.row];
 
     return cell;
 }
 
-//- (instancetype)initWithFrame:(CGRect)frame urlString:(NSArray <NSString *>*)urls
-//{
-//    if (self = [super initWithFrame:frame]) {
-//        
-//        _urls = [[NSMutableArray alloc] initWithArray:urls];
-//        _isAuto = YES;
-//        
-//        //1.对URL进行处理
-//        if(urls.count > 1){
-//            [_urls insertObject:[urls lastObject] atIndex:0];
-//            [_urls insertObject:[urls firstObject] atIndex:_urls.count];
-//            _currentPage = 1;
-//            
-//            NSTimer *tmpTimer = [NSTimer scheduledTimerWithTimeInterval:SCROLL_TIME_INTERVAL target:self selector:@selector(pageScroll) userInfo:nil repeats:YES];
-//            [[NSRunLoop currentRunLoop] addTimer:tmpTimer forMode:NSRunLoopCommonModes];
-//            self.timer = tmpTimer;
-//        }
-//        
-//        
-//        //2.创建
-//        UICollectionViewFlowLayout *fl = [[UICollectionViewFlowLayout alloc] init];
-//        fl.itemSize = frame.size;
-//        fl.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-//        fl.minimumLineSpacing = 0.0;
-//        fl.minimumInteritemSpacing = 0.0;
-//        
-//        self.bannerCollectionView = [[UICollectionView alloc] initWithFrame:self.bounds collectionViewLayout:fl];
-//        [self addSubview:self.bannerCollectionView];
-//        self.bannerCollectionView.pagingEnabled = YES;
-//        self.bannerCollectionView.delegate = self;
-//        self.bannerCollectionView.dataSource = self;
-//        [self.bannerCollectionView  registerClass:[TLBannerCell class] forCellWithReuseIdentifier:XNBannerCellID];
-//        self.bannerCollectionView .showsHorizontalScrollIndicator = NO;
-//        [self.bannerCollectionView  setContentOffset:CGPointMake(self.frame.size.width, 0)];
-//    }
-//    
-//    
-//    if (_isAuto) {
-//        
-//        CGFloat pageControlHeight = 25.0;
-//        UIPageControl *tmpPageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, self.frame.size.height - pageControlHeight, self.frame.size.width, pageControlHeight)];
-//        [self addSubview:tmpPageControl];
-//        _pageControl = tmpPageControl;
-//        _pageControl.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-//        _pageControl.currentPageIndicatorTintColor = [UIColor grayColor];
-//        _pageControl.pageIndicatorTintColor = [UIColor redColor];
-//        _pageControl.numberOfPages = self.urls.count - 2;
-//        [self addSubview:_pageControl];
-//        
-//    }
-//    
-//    return self;
-//    
-//}
+
 
 @end

@@ -28,6 +28,9 @@ typedef NS_ENUM(NSUInteger, TLProductType) {
 @property (nonatomic, assign, readonly) TLProductType productType;
 
 
+@property (nonatomic, assign) NSNumber *processFee; //加工费
+@property (nonatomic, strong) NSNumber *loss; //面料消耗
+
 //advPic = "2_1502863432270.jpg";
 //code = MO201708161448405541;
 //createDatetime = "May 26, 2017 9:45:57 AM";

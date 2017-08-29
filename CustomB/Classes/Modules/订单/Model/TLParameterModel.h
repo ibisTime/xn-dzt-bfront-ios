@@ -26,7 +26,7 @@
 
 @property (nonatomic, copy,readonly) NSString *selectPic; //未选中图片
 @property (nonatomic, copy) NSString *advPic; //未选中图片
-@property (nonatomic, strong) NSNumber *price;
+@property (nonatomic, strong) NSNumber *price; //对应的价格
 
 //"code":"GY201708231211313165",
 //"type":"1-3",

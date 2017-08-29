@@ -19,6 +19,7 @@
 #import "TLOrderDetailVC.h"
 #import "TLOrderDetailVC2.h"
 #import "TLProductChooseVC.h"
+#import "TLConfirmPriceVC.h"
 
 @interface TLOrderCategoryVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -89,7 +90,7 @@
             
         case TLOrderStatusWillSubmit: {
             
-            helper.parameters[@"status"] = kOrderStatusWillSubmit;
+            helper.parameters[@"status"] = kOrderStatusDidPay;
             
         } break;
             
@@ -169,25 +170,27 @@
         
     } else {
         
-        
-    
         TLOrderModel *order = self.orderGroups[indexPath.row];
-        
+    
         if ([order getOrderType] == TLOrderTypeProductUnChoose ){
             //产品未选择
             
-            TLProductChooseVC *vc = [[TLProductChooseVC alloc] init];
-            vc.order = self.orderGroups[indexPath.row];
+            
+            //            TLProductChooseVC *vc = [[TLProductChooseVC alloc] init];
+            //            vc.order = order;
+            //            [self.navigationController pushViewController:vc animated:YES];
+            TLConfirmPriceVC *vc = [[TLConfirmPriceVC alloc] init];
+            vc.order = order;
             [self.navigationController pushViewController:vc animated:YES];
             
         } else {
             
             //衬衫或者H+
             TLOrderDetailVC2 *vc = [[TLOrderDetailVC2 alloc] init];
-            vc.orderCode = self.orderGroups[indexPath.row].code;
+            vc.orderCode = order.code;
+//            vc.productCode = order
             [self.navigationController pushViewController:vc
                                                  animated:YES];
-        
         }
         
         

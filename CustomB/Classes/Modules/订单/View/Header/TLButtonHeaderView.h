@@ -17,6 +17,9 @@
 
 @interface TLButtonHeaderView : UICollectionReusableView
 
+
++ (NSString *)headerReuseIdentifier;
+
 @property (nonatomic, assign) NSInteger section;
 
 @property (nonatomic, weak) id<TLButtonHeaderViewDelegate> delegate;

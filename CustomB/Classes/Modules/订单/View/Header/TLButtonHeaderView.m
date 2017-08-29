@@ -20,29 +20,54 @@
 
 @implementation TLButtonHeaderView
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
+- (instancetype)initWithFrame:(CGRect)frame {
+
+    if (self = [super initWithFrame:frame]) {
         
-        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectZero
-                                                  title:@"确定"
-                                        backgroundColor:[UIColor themeColor]
-                                           cornerRadius:10];
+        
+        UIButton *btn = [[UIButton alloc] init];
         [self addSubview:btn];
-        [btn addTarget:self action:@selector(action) forControlEvents:UIControlEventTouchUpInside];
+//                UIButton *btn = [[UIButton alloc] initWithFrame:CGRectZero
+//                                                          title:@"确定"
+//                                                backgroundColor:[UIColor themeColor]
+//                                                   cornerRadius:10];
+//                [self addSubview:btn];
+//        
+                [btn addTarget:self action:@selector(action) forControlEvents:UIControlEventTouchUpInside];
+        self.btn = btn;
+        [btn setTitle:@"确定" forState:UIControlStateNormal];
+        btn.titleLabel.font = [UIFont systemFontOfSize:14];
+        btn.backgroundColor = [UIColor themeColor];
+        btn.layer.cornerRadius = 5;
+        btn.layer.masksToBounds = YES;
+                [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.equalTo(self.mas_left).offset(30);
+                    make.right.equalTo(self.mas_right).offset(-30);
+                    make.bottom.equalTo(self.mas_bottom).offset(-20);
+                    make.height.mas_equalTo(35);
+        
+                }];
         
     }
+    
     return self;
+}
+
++ (NSString *)headerReuseIdentifier {
+    
+    
+    return     [NSString stringWithFormat:@"%@ID",NSStringFromClass(self)];
+    
 }
 
 - (void)setTitle:(NSString *)title {
 
     _title = [title copy];
-    [self.btn setTitle:title forState:UIControlStateNormal];
+    [self.btn setTitle:_title forState:UIControlStateNormal];
     
 }
 
+//
 - (void)action {
 
     if (self.delegate && [self.delegate respondsToSelector:@selector(didSelected:section:)]) {

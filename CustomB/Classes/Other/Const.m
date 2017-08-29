@@ -14,7 +14,7 @@
  NSString * const kOrderStatusDidDingJia = @"2"; //待支付
  NSString * const kOrderStatusWillMeasurement = @"1"; //待量体
  NSString * const kOrderStatusWillCheck = @"4"; //待复核
- NSString * const kOrderStatusWillSubmit = @"3"; //待复核
+ NSString * const kOrderStatusDidPay = @"3"; //待复核
 
  NSString * const kOrderStatusWillShengChan = @"5"; //待生产
  NSString * const kOrderStatusShengChanIng = @"6"; //生产中

@@ -34,9 +34,11 @@
 #import "TLChooseDataModel.h"
 #import "TLUser.h"
 #import "TLAlert.h"
+#import "TLButtonHeaderView.h"
+#import "TLUserHeaderView.h"
 
 
-@interface TLOrderDetailVC2 ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,TLOrderEditHeaderDelegate>
+@interface TLOrderDetailVC2 ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,TLOrderEditHeaderDelegate,TLButtonHeaderViewDelegate>
 
 @property (nonatomic, strong)  TLOrderDataManager *dataManager;
 @property (nonatomic, strong) UICollectionView *orderDetailCollectionView;
@@ -48,18 +50,7 @@
 @implementation TLOrderDetailVC2
 - (void)submit {
 
-    @try {
-        
-        [self trueSubmit];
-        
-    } @catch (NSException *exception) {
-        
-        [TLAlert alertWithError:exception.name];
-        NSLog(@"%@",exception);
-        
-    } @finally {
-        
-    }
+
 }
 #pragma mark- 提交
 - (void)trueSubmit {
@@ -71,22 +62,21 @@
     NSMutableDictionary *measureDict = [[NSMutableDictionary alloc] init];
     req.parameters[@"map"] = measureDict;
     
-    if (self.operationType == OrderOperationTypeHAddDingJia) {
-    
-        req.code = @"620205";
-        req.parameters[@"orderCode"] = self.order.code;
-        req.parameters[@"quantity"] = @"1";
-        req.parameters[@"updater"] = [TLUser user].userId;
-        req.parameters[@"remark"] = @"iOS 量体师 H+ 定价";
-        [otherArr addObject:self.productCode];
-
-        
-    } else {
+//    if (self.operationType == OrderOperationTypeHAddDingJia) {
+//    
+//        req.code = @"620205";
+//        req.parameters[@"orderCode"] = self.order.code;
+//        req.parameters[@"quantity"] = @"1";
+//        req.parameters[@"updater"] = [TLUser user].userId;
+//        req.parameters[@"remark"] = @"iOS 量体师 H+ 定价";
+//        [otherArr addObject:self.productCode];
+//
+//        
+//    } else {
         //数据录入
-    
         req.code = @"620207";
         req.parameters[@"orderCode"] = self.order.code;
-        req.parameters[@"remark"] = @"ios 提交";
+        req.parameters[@"remark"] = self.dataManager.remarkValue;
         req.parameters[@"updater"] = [TLUser user].userId;
 
         [self.dataManager.measureDataRoom enumerateObjectsUsingBlock:^(TLInputDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -104,19 +94,18 @@
         }];
         
         //2.形体信息（可选）
-        [self.dataManager.xingTiRoom enumerateObjectsUsingBlock:^(TLChooseDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            
-            [obj.parameterModelRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull parameterModel, NSUInteger idx, BOOL * _Nonnull stop) {
-                
-                    measureDict[parameterModel.type] = parameterModel.code;
-                    *stop = YES;
-                
-            }];
-            
-        }];
+    [self.dataManager.xingTiRoom enumerateObjectsUsingBlock:^(TLChooseDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
+        if (obj.typeValue) {
+            
+            measureDict[obj.type] = obj.typeValue;
+            
+        }
+        
+    }];
+    
 
-    }
+//    }
     
     //刺绣内容, 如果刺绣内容不为空， 那么刺绣
     NSString *cixiuType = @"5-01";
@@ -279,75 +268,78 @@
     //11.刺绣字体
     [self.dataManager.fontRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        if (!obj.isSelected) {
+        if (cixiuValue) {
             
-            if (cixiuValue && idx == self.dataManager.fontRoom.count - 1) {
+            if (!obj.isSelected) {
                 
-                @throw [NSException
-                        exceptionWithName:@"请选择刺字体" reason:nil userInfo:nil];
+                if ( idx == self.dataManager.fontRoom.count - 1) {
+                    
+                    @throw [NSException
+                            exceptionWithName:@"请选择刺字体" reason:nil userInfo:nil];
+                }
+                
+            } else {
+                
+                [otherArr addObject:obj.code];
+                *stop = YES;
             }
             
-        } else {
-            
-            [otherArr addObject:obj.code];
-            *stop = YES;
         }
-        
+   
     }];
     
     //12.位置
     [self.dataManager.ciXiuLocationRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        if (!obj.isSelected) {
+        if (cixiuValue) {
             
-            if (cixiuValue &&  idx == self.dataManager.ciXiuLocationRoom.count - 1) {
-                        @throw [NSException
-                        exceptionWithName:@"请选择刺绣位置" reason:nil userInfo:nil];
+            if (!obj.isSelected) {
+                
+                if (cixiuValue &&  idx == self.dataManager.ciXiuLocationRoom.count - 1) {
+                    @throw [NSException
+                            exceptionWithName:@"请选择刺绣位置" reason:nil userInfo:nil];
+                }
+                
+            } else {
+                
+                [otherArr addObject:obj.code];
+                *stop = YES;
+                
             }
-           
-        } else {
-        
-            [otherArr addObject:obj.code];
-            *stop = YES;
-            
         }
+    
         
     }];
     
     //13.颜色
     [self.dataManager.ciXiuColorRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        if (!obj.isSelected) {
+        if (cixiuValue) {
             
-            if ( cixiuValue &&  idx == self.dataManager.ciXiuColorRoom.count - 1) {
-                @throw [NSException
-                        exceptionWithName:@"请选择刺绣颜色" reason:nil userInfo:nil];
+            if (!obj.isSelected) {
+                
+                if ( idx == self.dataManager.ciXiuColorRoom.count - 1) {
+                    @throw [NSException
+                            exceptionWithName:@"请选择刺绣颜色" reason:nil userInfo:nil];
+                }
+                
+            } else {
+                
+                [otherArr addObject:obj.code];
+                *stop = YES;
             }
             
-        } else {
-            
-            [otherArr addObject:obj.code];
-            *stop = YES;
         }
+     
     }];
     
-    //14.备注
     req.parameters[@"codeList"] = otherArr;
 
-    
     [req startWithSuccess:^(__kindof NBBaseRequest *request) {
         
         [TLProgressHUD dismiss];
-        
-        if (self.operationType == OrderOperationTypeHAddDingJia) {
-            
-            [TLAlert alertWithSucces:@"H+定价成功"];
+        [TLAlert alertWithSucces:@"录入成功"];
 
-        } else {
-        
-            [TLAlert alertWithSucces:@"录入成功"];
-
-        }
         //
         [self.navigationController popToRootViewControllerAnimated:YES];
         
@@ -364,33 +356,27 @@
 
     [super viewDidLoad];
 
-    //
-    if (self.operationType == OrderOperationTypeHAddDingJia) {
-        self.title = @"H+定价";
+   self.title = @"订单详情";
 
-         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"H+定价" style:UIBarButtonItemStylePlain target:self action:@selector(submit)];
-        
-    } else {
-        
-         self.title = @"订单详情";
-         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"提交" style:UIBarButtonItemStylePlain target:self action:@selector(submit)];
-        
-    }
-   
     
     //获取全部选择参数，除布料外
     if (!self.productCode) {
         NSLog(@"产品编号不能为空");
     }
     
+    [TLProgressHUD showWithStatus:nil];
     NBCDRequest *orderReq = [[NBCDRequest alloc] init];
     orderReq.code = @"620234";
     orderReq.parameters[@"code"] = self.orderCode;
     [orderReq startWithSuccess:^(__kindof NBBaseRequest *request) {
         
+        [TLProgressHUD dismiss];
         //先获取订单信息，在获取其它信息
         self.order = [TLOrderModel tl_objectWithDictionary:request.responseObject[@"data"]];
         
+        //根据产品获取产品code
+        self.productCode = self.order.productList[0].modelCode;
+
         //
         NBCDRequest *req = [[NBCDRequest alloc] init];
         req.code = @"620054";
@@ -448,11 +434,52 @@
         
     } failure:^(__kindof NBBaseRequest *request) {
         
-        
+        [TLProgressHUD dismiss];
+
     }];
 
 }
 
+#pragma mark- delegate  按钮点击事件,底部按钮点击事件
+- (void)didSelected:(TLButtonHeaderView *)btnHeaderView section:(NSInteger)secction {
+
+    if ([btnHeaderView.title isEqualToString:@"提交复合"]) {
+        
+        [TLProgressHUD showWithStatus:nil];
+        NBCDRequest *req = [[NBCDRequest alloc] init];
+        req.code = @"620209";
+        req.parameters[@"orderCode"] = self.order.code;
+        req.parameters[@"updater"] = [TLUser user].userId;
+        [req startWithSuccess:^(__kindof NBBaseRequest *request) {
+            [TLProgressHUD dismiss];
+            
+            [TLAlert alertWithSucces:@"提交复合成功"];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            
+        } failure:^(__kindof NBBaseRequest *request) {
+            
+            [TLProgressHUD dismiss];
+            
+        }];
+        
+    } else if ([btnHeaderView.title isEqualToString:@"提交数据"]) {
+    
+        @try {
+            
+            [self trueSubmit];
+            
+        } @catch (NSException *exception) {
+            
+            [TLAlert alertWithError:exception.name];
+            NSLog(@"%@",exception);
+            //
+        } @finally {
+            
+        }
+    
+    }
+
+}
 
 
 - (void)configModel {
@@ -461,6 +488,19 @@
     CGSize headerBigSize = CGSizeMake(SCREEN_WIDTH, 75);
     CGSize headerMiddleSize = CGSizeMake(SCREEN_WIDTH, 45);
     CGSize headerSmallSize = CGSizeMake(SCREEN_WIDTH, 45);
+    
+    
+    //顶部用户信息
+    TLGroup *topUserGroup = [[TLGroup alloc] init];
+    topUserGroup.dataModelRoom = [NSMutableArray new];
+    [self.dataManager.groups addObject:topUserGroup];
+    topUserGroup.title = [NSString stringWithFormat:@"%@|%@",self.order.ltName,self.order.applyMobile];
+    topUserGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
+    topUserGroup.headerReuseIdentifier = [TLUserHeaderView headerReuseIdentifier];
+    topUserGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 40);
+    topUserGroup.minimumLineSpacing = 0;
+    topUserGroup.minimumInteritemSpacing = 0;
+    topUserGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 30);
     
     //***********订单信息******************************//
     TLGroup *orderInfoGroup = [[TLGroup alloc] init];
@@ -525,9 +565,6 @@
     userInfoGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
     userInfoGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 30);
     
-    if (self.operationType != OrderOperationTypeHAddDingJia) {
-        //H+定价此类信息不展示
-        
         //*********** 量体信息 ******************************//
         TLGroup *measureGroup = [[TLGroup alloc] init];
         [self.dataManager.groups addObject:measureGroup];
@@ -563,8 +600,6 @@
         bodyTypeGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
         bodyTypeGroup.itemSize = CGSizeMake(measureWidth, 30);
 
-        
-    }
     
     
     //***********定制信息 ******************************//
@@ -609,6 +644,7 @@
     }
     mianLiaoRoom.dataModelRoom = self.dataManager.mianLiaoRoom;
     mianLiaoRoom.title = @"面料";
+    mianLiaoRoom.content = self.dataManager.mianLiaoValue;
     mianLiaoRoom.headerSize = headerSmallSize;
     mianLiaoRoom.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
     mianLiaoRoom.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
@@ -830,9 +866,49 @@
     remarkGroup.cellReuseIdentifier = [TLCiXiuTextInputCell cellReuseIdentifier];
     remarkGroup.minimumLineSpacing = horizonMargin;
     remarkGroup.minimumInteritemSpacing = middleMargin;
-    remarkGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, 50, paramterEdgeInsets.right);
+    remarkGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, 20, paramterEdgeInsets.right);
     remarkGroup.editingEdgeInsets = remarkGroup.editedEdgeInsets;
     remarkGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 45);
+    
+    //确定按钮-》数据提交
+    TLGroup *confirmBtnGroup = [[TLGroup alloc] init];
+    confirmBtnGroup.canEdit = NO;
+    confirmBtnGroup.dataModelRoom = [NSMutableArray new];
+    
+    if ([self.order canSubmitData]) {
+        
+        [self.dataManager.groups addObject:confirmBtnGroup];
+
+    }
+    confirmBtnGroup.title = @"提交数据";
+    confirmBtnGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 60);
+    confirmBtnGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
+    confirmBtnGroup.headerReuseIdentifier = [TLButtonHeaderView headerReuseIdentifier];
+    confirmBtnGroup.minimumLineSpacing = horizonMargin;
+    confirmBtnGroup.minimumInteritemSpacing = middleMargin;
+    confirmBtnGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
+    confirmBtnGroup.editingEdgeInsets = paramterEdgeInsets;
+    confirmBtnGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
+    
+    //提价复合, 已支付，可提交数据
+    TLGroup *submitCheckBtnGroup = [[TLGroup alloc] init];
+    submitCheckBtnGroup.canEdit = NO;
+    submitCheckBtnGroup.dataModelRoom = [NSMutableArray new];
+    if ([self.order canSubmitCheck]) {
+        
+        [self.dataManager.groups addObject:submitCheckBtnGroup];
+
+    }
+    submitCheckBtnGroup.title = @"提交复合";
+    submitCheckBtnGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 60);
+    submitCheckBtnGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
+    submitCheckBtnGroup.headerReuseIdentifier = [TLButtonHeaderView headerReuseIdentifier];
+    submitCheckBtnGroup.minimumLineSpacing = horizonMargin;
+    submitCheckBtnGroup.minimumInteritemSpacing = middleMargin;
+    submitCheckBtnGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
+    submitCheckBtnGroup.editingEdgeInsets = paramterEdgeInsets;
+    submitCheckBtnGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
+    
 }
 
 - (void)setUpUI {
@@ -862,6 +938,10 @@
     
     [self.orderDetailCollectionView registerClass:[TLOrderDoubleTitleHeader class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:[TLOrderDoubleTitleHeader headerReuseIdentifier]];
     
+    
+     [self.orderDetailCollectionView registerClass:[TLButtonHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:[TLButtonHeaderView headerReuseIdentifier]];
+    
+     [self.orderDetailCollectionView registerClass:[TLUserHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:[TLUserHeaderView headerReuseIdentifier]];
     
     
     
@@ -937,7 +1017,8 @@
                 [xingTiChooseModel.parameterModelRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     obj.yuSelected = idx == index;
                 }];
-                xingTiChooseModel.typeValue = xingTiChooseModel.parameterModelRoom[index].name;
+                xingTiChooseModel.typeValue = xingTiChooseModel.parameterModelRoom[index].code;
+                xingTiChooseModel.typeValueName = xingTiChooseModel.parameterModelRoom[index].name;
                 
                 [UIView animateWithDuration:0 animations:^{
                     [self.orderDetailCollectionView  performBatchUpdates:^{
@@ -1125,7 +1206,20 @@
         TLOrderDoubleTitleHeader *trueHeader = header;
         trueHeader.title = self.dataManager.groups[indexPath.section].title;
         
+    } else if ([header isKindOfClass:[TLButtonHeaderView class]]) {
+        
+        TLButtonHeaderView *trueHeader = header;
+        trueHeader.section = indexPath.section;
+        trueHeader.delegate = self;
+        trueHeader.title = self.dataManager.groups[indexPath.section].title;
+        
+    } else if ([header isKindOfClass:[TLUserHeaderView class]]) {
+    
+        TLUserHeaderView *trueHeader = header;
+        trueHeader.title = self.dataManager.groups[indexPath.section].title;
+        
     }
+
     
     return header;
     
