@@ -35,13 +35,12 @@
     [super viewDidAppear:animated];
         if (self.isFirst) {
     
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.25 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
     
                 [self.customerTableView beginRefreshing];
                 self.isFirst = NO;
     
             });
-    
     
         }
     
@@ -54,7 +53,15 @@
 
 }
 
+//
+- (void)tl_placeholderOperation {
 
+    
+    [self.customerTableView beginRefreshing];
+    
+}
+
+//
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isFirst = YES;
@@ -71,7 +78,11 @@
     helper.parameters[@"systemCode"] = [AppConfig config].systemCode;
     helper.parameters[@"companyCode"] = [AppConfig config].systemCode;
     helper.parameters[@"kind"] = @"C";
-    helper.parameters[@"frequent"] = self.status;
+    if (self.status && self.status.length > 0) {
+        
+        helper.parameters[@"frequent"] = self.status;
+
+    }
     
     helper.isDeliverCompanyCode = NO;
     helper.tableView = self.customerTableView;

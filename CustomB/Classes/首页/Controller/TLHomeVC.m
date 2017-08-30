@@ -27,6 +27,7 @@
 #import "TLPageDataHelper.h"
 #import "Const.h"
 #import "TLConfirmPriceVC.h"
+#import "TLAlert.h"
 
 @interface TLHomeVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -206,20 +207,24 @@
         
         TLOrderModel *order = self.orderGroup[indexPath.row];
     
-//        TLConfirmPriceVC *vc = [[TLConfirmPriceVC alloc] init];
-//        vc.order = order;
-//        [self.navigationController pushViewController:vc animated:YES];
-//        
-//        
-//        return;
+//        if ([order getOrderType] == TLOrderTypeCancle) {
+//            
+//            TLOrderDetailVC2 *vc = [[TLOrderDetailVC2 alloc] init];
+//            vc.orderCode = order.code;
+//            [self.navigationController pushViewController:vc
+//                                                 animated:YES];
+//            
+//        } else
+        if ([order.status isEqualToString:kOrderStatusCancle]) {
+            
+            [TLAlert alertWithInfo:@"该订单已取消"];
+            return;
+            
+        }
         
         if ([order getOrderType] == TLOrderTypeProductUnChoose ){
+            
             //产品未选择
-            
-            
-//            TLProductChooseVC *vc = [[TLProductChooseVC alloc] init];
-//            vc.order = order;
-//            [self.navigationController pushViewController:vc animated:YES];
             TLConfirmPriceVC *vc = [[TLConfirmPriceVC alloc] init];
             vc.order = order;
             [self.navigationController pushViewController:vc animated:YES];
@@ -231,16 +236,16 @@
             vc.orderCode = order.code;
             [self.navigationController pushViewController:vc
                                                  animated:YES];
+            
         }
         
     } else {
         
         TLChatRoomVC *vc = [[TLChatRoomVC alloc] init];
-        vc.otherUserId = self.liuYanRoom[0].commenter;
-        vc.otherName = self.liuYanRoom[0].commentName;
+        vc.otherUserId = [self.liuYanRoom[indexPath.row] otherUserId];
+        vc.otherName = [self.liuYanRoom[indexPath.row] otherUserName];
         [self.navigationController pushViewController:vc animated:YES];
         
-
     }
 
 }
@@ -299,11 +304,7 @@
     }
     __weak typeof(self) weakSelf = self;
     [v setAction:^(NSInteger section){
-        
-        TLConfirmPriceVC *vc = [[TLConfirmPriceVC alloc] init];
-        [weakSelf.navigationController pushViewController:vc animated:YES];
-        return ;
-        
+
         if (section == 0) {
         
             TLLiuYanController *vc = [[TLLiuYanController alloc] init];

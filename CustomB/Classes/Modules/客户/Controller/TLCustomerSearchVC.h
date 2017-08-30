@@ -10,4 +10,6 @@
 
 @interface TLCustomerSearchVC : TLBaseVC
 
+@property (nonatomic, copy) NSString *searchInfo;
+
 @end

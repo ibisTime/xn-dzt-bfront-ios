@@ -17,6 +17,9 @@
 
 @interface CustomPayPwdVC ()
 
+@property (nonatomic, strong) CustomInputView *phoneInputView;
+
+//
 @property (nonatomic, strong) CustomInputView *nPwdInputView;
 @property (nonatomic, strong) CustomInputView *reNewPwdInputView;
 @property (nonatomic, strong) UIScrollView *bgSV;
@@ -34,9 +37,15 @@
     self.bgSV = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)];
     [self.view addSubview:self.bgSV];
     
-    
+    //手机号
+    self.phoneInputView = [[CustomInputView alloc] initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH, 45)];
+    [self.bgSV addSubview:self.phoneInputView];
+    self.phoneInputView.leftTitleLbl.text = @"手机号码";
+    self.phoneInputView.textField.text = [TLUser user].mobile;
+    self.phoneInputView.textField.userInteractionEnabled = NO;
+
     //验证码
-    CustomCaptchaView *captchaView = [[CustomCaptchaView alloc] initWithFrame:CGRectMake(0,  10, SCREEN_WIDTH, 45)];
+    CustomCaptchaView *captchaView = [[CustomCaptchaView alloc] initWithFrame:CGRectMake(0,  self.phoneInputView.yy + 10, SCREEN_WIDTH, 45)];
     [self.bgSV addSubview:captchaView];
     self.captchaView = captchaView;
     captchaView.textField.keyboardType = UIKeyboardTypeNumberPad;
@@ -45,10 +54,13 @@
     self.nPwdInputView = [[CustomInputView alloc] initWithFrame:CGRectMake(0,captchaView.bottom + 10, SCREEN_WIDTH, 45)];
     [self.bgSV addSubview:self.nPwdInputView];
     self.nPwdInputView.leftTitleLbl.text = @"支付密码";
+    self.nPwdInputView.textField.secureTextEntry = YES;
     
     self.reNewPwdInputView = [[CustomInputView alloc] initWithFrame:CGRectMake(0, self.nPwdInputView.yy  + 10, SCREEN_WIDTH, 45)];
     [self.bgSV addSubview:self.reNewPwdInputView];
     self.reNewPwdInputView.leftTitleLbl.text = @"重复密码";
+    self.reNewPwdInputView.textField.secureTextEntry = YES;
+
 
     
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, self.reNewPwdInputView.yy + 30, SCREEN_WIDTH - 40, 44) title:@"确定" backgroundColor:[UIColor colorWithHexString:@"9ba9b5"] cornerRadius:5];
@@ -83,13 +95,14 @@
     
     if (!(self.nPwdInputView.textField.text &&self.nPwdInputView.textField.text.length > 5)) {
         
-        [TLAlert alertWithHUDText:@"请输入支付密码"];
+        [TLAlert alertWithInfo:@"请输入支付密码"];
         return;
     }
     
-    if (![self.reNewPwdInputView.textField.text isEqualToString:self.reNewPwdInputView.textField.text]) {
+    
+    if (![self.reNewPwdInputView.textField.text isEqualToString:self.nPwdInputView.textField.text]) {
         
-        [TLAlert alertWithHUDText:@"输入的密码不一致"];
+        [TLAlert alertWithInfo:@"输入的密码不一致"];
         return;
         
     }
@@ -97,17 +110,15 @@
     
     if (![self.captchaView.textField.text valid]) {
         
-        [TLAlert alertWithHUDText:@"请输入验证码"];
+        [TLAlert alertWithInfo:@"请输入验证码"];
         return;
     }
- 
     
 
     
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
-    
-    http.code = @"805066"; //  805067重置支付密码
+    http.code = @"805066";//  805067重置支付密码
     http.parameters[@"smsCaptcha"] = self.captchaView.textField.text;
     http.parameters[@"tradePwd"] = self.nPwdInputView.textField.text;
     http.parameters[@"token"] = [TLUser user].token;

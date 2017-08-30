@@ -197,6 +197,12 @@
 //        _placeholderV = _placeholderView();
 //        [self addSubview:_placeholderV];
         
+        if ( ABS((CGRectGetMinY(self.placeHolderView.frame) - CGRectGetHeight(self.tableHeaderView.frame))) > 1 ) {
+            
+            CGRect frame = self.placeHolderView.frame;
+            frame.origin.y = self.tableHeaderView.frame.size.height;
+            self.placeHolderView.frame = frame;
+        }
         [self addSubview:self.placeHolderView];
         
     }else{

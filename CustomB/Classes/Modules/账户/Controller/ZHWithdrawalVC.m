@@ -18,11 +18,20 @@
 #import "NSNumber+TLAdd.h"
 #import "NSString+Extension.h"
 
-#define WITHDRAW_RULE_MAX_KEY @"QXDBZDJE"
-#define WITHDRAW_RULE_MAX_COUNT_KEY @"CUSERMONTIMES"
-#define WITHDRAW_RULE_BEI_SHU_KEY @"CUSERQXBS"
-#define WITHDRAW_RULE_PROCEDURE_FEE_KEY @"CUSERQXFL"
+//#define WITHDRAW_RULE_MAX_KEY @"QXDBZDJE"
 
+
+#define WITHDRAW_RULE_SHI_XIAO @"BUSERQXSX"
+//
+#define WITHDRAW_RULE_MAX_COUNT_KEY @"BUSERMONTIMES"
+#define WITHDRAW_RULE_BEI_SHU_KEY @"BUSERQXBS"
+#define WITHDRAW_RULE_PROCEDURE_FEE_KEY @"BUSERQXFL"
+
+
+//BUSERQXBS  着装顾问取现倍数
+//BUSERQXFL  着装顾问取现费率
+//BUSERQXSX  着装顾问取现时效
+//BUSERMONTIMES   着装顾问每月取现次数
 
 @interface ZHWithdrawalVC ()
 
@@ -40,7 +49,8 @@
 @property (nonatomic,strong) NSMutableArray <ZHBankCard *>*banks;
 @property (nonatomic,strong) TLTextField *tradePwdTf;
 
-@property (nonatomic, strong) NSNumber *maxMoney;
+@property (nonatomic, strong) NSNumber *shiXiao;
+
 @property (nonatomic, strong) NSNumber *beiShu;
 @property (nonatomic, strong) NSNumber *maxCount;
 @property (nonatomic, strong) NSNumber *produceFee;
@@ -90,7 +100,7 @@
     dispatch_group_enter(_group);
     TLNetworking *ruleHttp = [TLNetworking new];
     ruleHttp.code = @"802028";
-    ruleHttp.parameters[@"keyList"] = @[WITHDRAW_RULE_MAX_KEY,
+    ruleHttp.parameters[@"keyList"] = @[WITHDRAW_RULE_SHI_XIAO,
                                         WITHDRAW_RULE_MAX_COUNT_KEY,
                                         WITHDRAW_RULE_BEI_SHU_KEY,
                                         WITHDRAW_RULE_PROCEDURE_FEE_KEY];
@@ -102,7 +112,7 @@
         
         self.beiShu = responseObject[@"data"][WITHDRAW_RULE_BEI_SHU_KEY];
         self.maxCount = responseObject[@"data"][WITHDRAW_RULE_MAX_COUNT_KEY];
-        self.maxMoney = responseObject[@"data"][WITHDRAW_RULE_MAX_KEY];
+        self.shiXiao = responseObject[@"data"][WITHDRAW_RULE_SHI_XIAO];
         self.produceFee = responseObject[@"data"][WITHDRAW_RULE_PROCEDURE_FEE_KEY];
         
     } failure:^(NSError *error) {
@@ -170,7 +180,7 @@
                 
                NSString *flStr = [NSString stringWithFormat:@"%.f",[self.produceFee floatValue]*100];
                 
-                NSAttributedString *attr = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"取现规则：\n1.每月最大取现次数：%@\n2.提现金额必须是%@的倍数，单笔最高%@\n3.取现手续费率 %@%%",self.maxCount,self.beiShu,self.maxMoney,flStr ]attributes:@{NSParagraphStyleAttributeName : paragraphyStyle}];
+                NSAttributedString *attr = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"取现规则：\n1.每月最大取现次数：%@\n2.提现时效%@%@\n3.取现手续费率 %@%%",self.maxCount,self.beiShu,self.shiXiao,flStr ]attributes:@{NSParagraphStyleAttributeName : paragraphyStyle}];
                 
                 
                 

@@ -75,7 +75,7 @@
             weakSelf.banks = objs;
             [weakSelf.bankCardTV reloadData_tl];
             
-            if (weakSelf.banks > 0) {
+            if (weakSelf.banks.count > 0) {
                 self.bankCardTV.tableFooterView = nil;
             } else {
             
@@ -126,7 +126,6 @@
     addBtn.layer.borderColor = [UIColor colorWithHexString:@"#b2b2b2"].CGColor;
     //
     [addBtn setTitleColor:[UIColor colorWithHexString:@"#b2b2b2"] forState:UIControlStateNormal];
-    
     //
     [addBtn mas_makeConstraints:^(MASConstraintMaker *make) {
         

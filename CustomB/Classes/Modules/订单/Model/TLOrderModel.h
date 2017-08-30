@@ -16,8 +16,8 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
     
     TLOrderTypeChenShan,
     TLOrderTypeHAdd,
-    TLOrderTypeProductUnChoose,
-    TLOrderTypeCancle
+    TLOrderTypeProductUnChoose
+    
 
     
 };
@@ -28,7 +28,8 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 @property (nonatomic, copy) NSString *createDatetime;
 
 @property (nonatomic, copy) NSString *status;
-@property (nonatomic, copy) NSString *applyName;
+
+@property (nonatomic, copy) NSString *ltName;
 
 //量体信息
 @property (nonatomic, copy) NSString *ltProvince;
@@ -36,7 +37,8 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 @property (nonatomic, copy) NSString *ltArea;
 @property (nonatomic, copy) NSString *ltAddress;
 @property (nonatomic, copy) NSString *ltDatetime;
-@property (nonatomic, copy) NSString *ltName;
+
+@property (nonatomic, copy) NSString *applyName;
 @property (nonatomic, copy) NSString *applyMobile;
 
 //
@@ -44,6 +46,10 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 @property (nonatomic, copy) NSString *deliveryDatetime;
 @property (nonatomic, copy) NSString *logisticsCode;
 @property (nonatomic, copy) NSString *logisticsCompany;
+
+//产品信息
+@property (nonatomic, copy) NSString *modelCode;
+@property (nonatomic, copy) NSString *modelName;
 
 
 @property (nonatomic, strong) NSNumber *amount;
@@ -70,7 +76,11 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 
 - (NSString *)getStatusName;
 
-- (BOOL)canEdit;
+
+/**
+ 定制信息是否可以改变
+ */
+- (BOOL)canEditDingZhi;
 
 /**
  形体是否可以编辑
@@ -78,7 +88,7 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 - (BOOL)canEditXingTi;
 
 /**
- 是否可以提交复合
+ 是否可以提交复核
  */
 - (BOOL)canSubmitCheck;
 

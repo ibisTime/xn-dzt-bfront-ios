@@ -27,11 +27,6 @@
 //0为衬衫订单，1为H+ 为空时
 - (TLOrderType)getOrderType {
 
-    if (self.status == kOrderStatusCancle) {
-        
-        return TLOrderTypeCancle;
-        
-    }
     
     if (self.type == nil) {
         
@@ -50,8 +45,8 @@
 
     }
     
-
 }
+
 
 - (NSString *)getDetailAddress {
 
@@ -82,16 +77,20 @@
 
 }
 
+
 - (BOOL)canEditXingTi {
 
-    return ![self.status isEqualToString:kOrderStatusWillShengChan] &&
-           ![self.status isEqualToString:kOrderStatusShengChanIng] &&
-    ![self.status isEqualToString:kOrderStatusDidSend] &&
-    ![self.status isEqualToString:kOrderStatusDidReceive] &&
-    ![self.status isEqualToString:kOrderStatusDidComment] &&
-    ![self.status isEqualToString:kOrderStatusDidSave]
-    ;
-
+    //已支付=待录入，的可以编辑形体信息
+    return [self.status isEqualToString:kOrderStatusDidPay] ;
+    
+//    return ![self.status isEqualToString:kOrderStatusWillShengChan] &&
+//           ![self.status isEqualToString:kOrderStatusShengChanIng] &&
+//    ![self.status isEqualToString:kOrderStatusDidSend] &&
+//    ![self.status isEqualToString:kOrderStatusDidReceive] &&
+//    ![self.status isEqualToString:kOrderStatusDidComment] &&
+//    ![self.status isEqualToString:kOrderStatusDidSave]
+//    ;
+    
 }
 
 
@@ -108,10 +107,29 @@
 
 }
 
+- (BOOL)canEditDingZhi {
+
+    
+    if ([self getOrderType] == TLOrderTypeChenShan) {
+        //普通衬衫, 已支付 可以进行编辑，
+        return [self.status isEqualToString:kOrderStatusDidPay];
+        
+        
+    } else {
+    
+        //H+, 确定价格后就不能改变
+        return NO;
+    
+    }
+
+    
+}
+
 
 
 - (BOOL)canEdit {
     
+    return YES;
     if ([self getOrderType] == TLOrderTypeChenShan) {
             //普通衬衫
         return [self.status isEqualToString:kOrderStatusWillMeasurement] ||

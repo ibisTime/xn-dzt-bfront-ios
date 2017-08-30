@@ -10,4 +10,6 @@
 
 @interface OrderSearchVC : TLBaseVC
 
+@property (nonatomic, copy) NSString *searchInfo;
+
 @end

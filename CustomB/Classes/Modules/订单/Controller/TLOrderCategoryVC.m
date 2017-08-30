@@ -20,6 +20,7 @@
 #import "TLOrderDetailVC2.h"
 #import "TLProductChooseVC.h"
 #import "TLConfirmPriceVC.h"
+#import "TLAlert.h"
 
 @interface TLOrderCategoryVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -43,7 +44,7 @@
     [super viewDidAppear:animated];
     if (self.isFirst) {
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             
             [self.orderTableView beginRefreshing];
             self.isFirst = NO;
@@ -101,7 +102,11 @@
         } break;
             
  
-        default:
+        default: {
+        
+            
+        
+        }
             break;
     }
 
@@ -172,13 +177,17 @@
         
         TLOrderModel *order = self.orderGroups[indexPath.row];
     
-        if ([order getOrderType] == TLOrderTypeProductUnChoose ){
+        if ([order.status isEqualToString:kOrderStatusCancle]) {
+            
+            [TLAlert alertWithInfo:@"该订单已取消"];
+            return;
+            
+        }
+        
+            
+            if ([order getOrderType] == TLOrderTypeProductUnChoose ){
+            
             //产品未选择
-            
-            
-            //            TLProductChooseVC *vc = [[TLProductChooseVC alloc] init];
-            //            vc.order = order;
-            //            [self.navigationController pushViewController:vc animated:YES];
             TLConfirmPriceVC *vc = [[TLConfirmPriceVC alloc] init];
             vc.order = order;
             [self.navigationController pushViewController:vc animated:YES];
@@ -188,9 +197,9 @@
             //衬衫或者H+
             TLOrderDetailVC2 *vc = [[TLOrderDetailVC2 alloc] init];
             vc.orderCode = order.code;
-//            vc.productCode = order
             [self.navigationController pushViewController:vc
                                                  animated:YES];
+            
         }
         
         

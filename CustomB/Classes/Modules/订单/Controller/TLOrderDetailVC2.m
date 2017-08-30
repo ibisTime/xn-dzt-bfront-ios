@@ -61,19 +61,7 @@
 
     NSMutableDictionary *measureDict = [[NSMutableDictionary alloc] init];
     req.parameters[@"map"] = measureDict;
-    
-//    if (self.operationType == OrderOperationTypeHAddDingJia) {
-//    
-//        req.code = @"620205";
-//        req.parameters[@"orderCode"] = self.order.code;
-//        req.parameters[@"quantity"] = @"1";
-//        req.parameters[@"updater"] = [TLUser user].userId;
-//        req.parameters[@"remark"] = @"iOS 量体师 H+ 定价";
-//        [otherArr addObject:self.productCode];
-//
-//        
-//    } else {
-        //数据录入
+
         req.code = @"620207";
         req.parameters[@"orderCode"] = self.order.code;
         req.parameters[@"remark"] = self.dataManager.remarkValue;
@@ -107,7 +95,7 @@
 
 //    }
     
-    //刺绣内容, 如果刺绣内容不为空， 那么刺绣
+    //刺绣内容, 如果刺绣内容不为空
     NSString *cixiuType = @"5-01";
     NSString *cixiuValue = self.dataManager.ciXiuTextRoom[0].value;
     measureDict[cixiuType] = cixiuValue;
@@ -339,7 +327,6 @@
         
         [TLProgressHUD dismiss];
         [TLAlert alertWithSucces:@"录入成功"];
-
         //
         [self.navigationController popToRootViewControllerAnimated:YES];
         
@@ -383,13 +370,6 @@
         req.parameters[@"modelCode"] = self.order.productList.count ? self.order.productList[0].modelCode : self.productCode;
         req.parameters[@"status"] = @"1";
         
-        //获取， 
-        NBCDRequest *parameterReq = [[NBCDRequest alloc] init];
-        parameterReq.code = @"620906";
-        parameterReq.parameters[@"parentKey"] = @"measure";
-        parameterReq.parameters[@"systemCode"] = [AppConfig config].systemCode;
-        parameterReq.parameters[@"companyCode"] = [AppConfig config].systemCode;
-        
         //获取形体数据
         NBCDRequest *xingTiReq = [[NBCDRequest alloc] init];
         xingTiReq.code = @"620908";
@@ -401,15 +381,13 @@
         mianLiaoReq.parameters[@"status"] = @"1";
         
         
-        NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[req,parameterReq,xingTiReq,mianLiaoReq]];
+        NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[req,xingTiReq,mianLiaoReq]];
         [batchReq startWithSuccess:^(NBBatchReqest *batchRequest) {
             
             NBCDRequest *chooseReq = (NBCDRequest *)batchRequest.reqArray[0];
-            NBCDRequest *measureDict = (NBCDRequest *)batchRequest.reqArray[1];
-            
             //形体所有选项
-            NBCDRequest *xingTiReq = (NBCDRequest *)batchRequest.reqArray[2];
-            NBCDRequest *mianLiaoReq = (NBCDRequest *)batchRequest.reqArray[3];
+            NBCDRequest *xingTiReq = (NBCDRequest *)batchRequest.reqArray[1];
+            NBCDRequest *mianLiaoReq = (NBCDRequest *)batchRequest.reqArray[2];
     
             //初始化
             self.dataManager = [[TLOrderDataManager alloc] initWithOrder:self.order];
@@ -443,7 +421,7 @@
 #pragma mark- delegate  按钮点击事件,底部按钮点击事件
 - (void)didSelected:(TLButtonHeaderView *)btnHeaderView section:(NSInteger)secction {
 
-    if ([btnHeaderView.title isEqualToString:@"提交复合"]) {
+    if ([btnHeaderView.title isEqualToString:@"提交复核"]) {
         
         [TLProgressHUD showWithStatus:nil];
         NBCDRequest *req = [[NBCDRequest alloc] init];
@@ -453,7 +431,7 @@
         [req startWithSuccess:^(__kindof NBBaseRequest *request) {
             [TLProgressHUD dismiss];
             
-            [TLAlert alertWithSucces:@"提交复合成功"];
+            [TLAlert alertWithSucces:@"提交复核成功"];
             [self.navigationController popToRootViewControllerAnimated:YES];
             
         } failure:^(__kindof NBBaseRequest *request) {
@@ -471,7 +449,6 @@
         } @catch (NSException *exception) {
             
             [TLAlert alertWithError:exception.name];
-            NSLog(@"%@",exception);
             //
         } @finally {
             
@@ -621,7 +598,7 @@
     [self.dataManager.groups addObject:styleGroup];
     styleGroup.dataModelRoom = self.dataManager.zhuoZhuangFengGeRoom;
     styleGroup.title = @"风格";
-    styleGroup.canEdit = [self.order canEdit];
+    styleGroup.canEdit = [self.order canEditDingZhi];
     styleGroup.content = self.dataManager.zhuoZhuangFengGeValue;
     styleGroup.headerSize = headerSmallSize;
     styleGroup.cellReuseIdentifier = [TLOrderStyleCell cellReuseIdentifier];
@@ -637,7 +614,7 @@
 
     
     TLGroup *mianLiaoRoom = [[TLGroup alloc] init];
-    mianLiaoRoom.canEdit = [self.order canEdit];
+    mianLiaoRoom.canEdit = [self.order canEditDingZhi];
     if (mianLiaoRoom.canEdit) {
         [self.dataManager.groups addObject:mianLiaoRoom];
 
@@ -660,7 +637,7 @@
     parameterGroup.dataModelRoom = self.dataManager.guiGeRoom;
     parameterGroup.title = @"规格";
     parameterGroup.content = self.dataManager.guiGeValue;
-    parameterGroup.canEdit = [self.order canEdit];
+    parameterGroup.canEdit = [self.order canEditDingZhi];
 
 
     parameterGroup.headerSize = headerSmallSize;
@@ -677,7 +654,7 @@
     [self.dataManager.groups addObject:doorGroup];
     doorGroup.dataModelRoom = self.dataManager.menJinRoom;
     doorGroup.title = @"门禁";
-    doorGroup.canEdit = [self.order canEdit];
+    doorGroup.canEdit = [self.order canEditDingZhi];
     doorGroup.content = self.dataManager.menJinValue;
     doorGroup.headerSize = headerSmallSize;
     doorGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
@@ -694,7 +671,7 @@
     [self.dataManager.groups addObject:lingXingGroup];
     lingXingGroup.dataModelRoom = self.dataManager.lingXingRoom;
     lingXingGroup.title = @"领型";
-    lingXingGroup.canEdit = [self.order canEdit];
+    lingXingGroup.canEdit = [self.order canEditDingZhi];
     lingXingGroup.content = self.dataManager.lingXingValue;
     lingXingGroup.headerSize = headerSmallSize;
     lingXingGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
@@ -711,7 +688,7 @@
     [self.dataManager.groups addObject:xiuXingGroup];
     xiuXingGroup.dataModelRoom = self.dataManager.xiuXingRoom;
     xiuXingGroup.title = @"袖型";
-    xiuXingGroup.canEdit = [self.order canEdit];
+    xiuXingGroup.canEdit = [self.order canEditDingZhi];
     xiuXingGroup.content = self.dataManager.xiuXingValue;
 
     xiuXingGroup.headerSize = headerSmallSize;
@@ -729,7 +706,7 @@
     [self.dataManager.groups addObject:koudaiGroup];
     koudaiGroup.dataModelRoom = self.dataManager.kouDaiRoom;
     koudaiGroup.title = @"口袋";
-    koudaiGroup.canEdit = [self.order canEdit];
+    koudaiGroup.canEdit = [self.order canEditDingZhi];
     koudaiGroup.content = self.dataManager.kouDaiValue;
     koudaiGroup.headerSize = headerSmallSize;
     koudaiGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
@@ -746,7 +723,7 @@
     [self.dataManager.groups addObject:shouXingGroup];
     shouXingGroup.dataModelRoom = self.dataManager.shouXingRoom;
     shouXingGroup.title = @"收省";
-    shouXingGroup.canEdit = [self.order canEdit];
+    shouXingGroup.canEdit = [self.order canEditDingZhi];
     shouXingGroup.content = self.dataManager.shouXingValue;
     shouXingGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
     shouXingGroup.headerSize = headerSmallSize;
@@ -773,7 +750,7 @@
     [arr addObject:@1];
     ciXiuTextGroup.dataModelRoom = self.dataManager.ciXiuTextRoom;
     ciXiuTextGroup.title = @"刺绣内容";
-    ciXiuTextGroup.canEdit = [self.order canEdit];
+    ciXiuTextGroup.canEdit = [self.order canEditDingZhi];
     ciXiuTextGroup.content = self.dataManager.ciXiuTextValue;
     ciXiuTextGroup.headerSize = headerSmallSize;
     ciXiuTextGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
@@ -791,7 +768,7 @@
     [self.dataManager.groups addObject:ciXiuFontGroup];
     ciXiuFontGroup.dataModelRoom = self.dataManager.fontRoom;
     ciXiuFontGroup.title = @"刺绣字体";
-    ciXiuFontGroup.canEdit = [self.order canEdit];
+    ciXiuFontGroup.canEdit = [self.order canEditDingZhi];
     ciXiuFontGroup.content = self.dataManager.fontValue;
     ciXiuFontGroup.headerSize = headerSmallSize;
     ciXiuFontGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
@@ -807,7 +784,7 @@
     [self.dataManager.groups addObject:ciXiuLocationGroup];
     ciXiuLocationGroup.dataModelRoom = self.dataManager.ciXiuLocationRoom;
     ciXiuLocationGroup.title = @"刺绣位置";
-    ciXiuLocationGroup.canEdit = [self.order canEdit];
+    ciXiuLocationGroup.canEdit = [self.order canEditDingZhi];
     ciXiuLocationGroup.content = self.dataManager.ciXiuLocationValue;
     ciXiuLocationGroup.headerSize = headerSmallSize;
     ciXiuLocationGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
@@ -826,7 +803,7 @@
     ciXiuColorGroup.content = self.dataManager.ciXiuColorValue;
     ciXiuColorGroup.headerSize = headerSmallSize;
     ciXiuColorGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
-    ciXiuColorGroup.canEdit = [self.order canEdit];
+    ciXiuColorGroup.canEdit = [self.order canEditDingZhi];
     ciXiuColorGroup.cellReuseIdentifier = [TLColorChooseCell cellReuseIdentifier];
     ciXiuColorGroup.minimumLineSpacing = 11;
     ciXiuColorGroup.minimumInteritemSpacing = 15;
@@ -838,7 +815,7 @@
     
     //收货地址
     TLGroup *receiveGroup = [[TLGroup alloc] init];
-    if (self.order.canEdit) {
+    if (self.order.canEditDingZhi) {
         [self.dataManager.groups addObject:receiveGroup];
     }
     receiveGroup.dataModelRoom = self.dataManager.shouHuoAddressRoom;
@@ -870,7 +847,7 @@
     remarkGroup.editingEdgeInsets = remarkGroup.editedEdgeInsets;
     remarkGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 45);
     
-    //确定按钮-》数据提交
+    //*********************  提交数据 和 提交复核按钮 **************************//
     TLGroup *confirmBtnGroup = [[TLGroup alloc] init];
     confirmBtnGroup.canEdit = NO;
     confirmBtnGroup.dataModelRoom = [NSMutableArray new];
@@ -880,6 +857,7 @@
         [self.dataManager.groups addObject:confirmBtnGroup];
 
     }
+    
     confirmBtnGroup.title = @"提交数据";
     confirmBtnGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 60);
     confirmBtnGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
@@ -897,9 +875,9 @@
     if ([self.order canSubmitCheck]) {
         
         [self.dataManager.groups addObject:submitCheckBtnGroup];
-
+        
     }
-    submitCheckBtnGroup.title = @"提交复合";
+    submitCheckBtnGroup.title = @"提交复核";
     submitCheckBtnGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 60);
     submitCheckBtnGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
     submitCheckBtnGroup.headerReuseIdentifier = [TLButtonHeaderView headerReuseIdentifier];
@@ -908,7 +886,7 @@
     submitCheckBtnGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
     submitCheckBtnGroup.editingEdgeInsets = paramterEdgeInsets;
     submitCheckBtnGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
-    
+    //
 }
 
 - (void)setUpUI {

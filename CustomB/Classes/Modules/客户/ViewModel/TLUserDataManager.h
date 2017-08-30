@@ -27,7 +27,7 @@
  */
 - (void)handleUserInfo:(id)resp;
 @property (nonatomic, strong) NSMutableArray<TLDataModel *> *userInfoRoom;
-@property (nonatomic, strong) NSMutableArray<TLDataModel *> *vipInfoRoom;
+@property (nonatomic, strong) NSMutableArray<TLInputDataModel *> *vipInfoRoom;
 
 
 //形体

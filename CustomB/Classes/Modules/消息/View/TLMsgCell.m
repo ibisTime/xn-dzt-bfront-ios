@@ -45,19 +45,49 @@
 - (void)setSysMsg:(TLSysMsg *)sysMsg {
 
     _sysMsg = sysMsg;
-    self.timeLbl.text = [_sysMsg.createDatetime convertDate];
+    self.timeLbl.text = [_sysMsg.createDatetime convertToDetailDate];
     self.userInfoLbl.text = _sysMsg.smsTitle;
     self.contentLbl.text = _sysMsg.smsContent;
     
 }
 
+
+//这里是留言
 - (void)setModel:(CustomLiuYanModel *)model {
 
     _model = model;
 
-    self.timeLbl.text = [model.commentDatetime convertDate];
+    self.timeLbl.text = [model.commentDatetime convertToDetailDate];
+    
+    if (_model.chatType == ChatModelTypeMe) {
+        
+        if (!model.receiveMobile) {
+            
+            self.userInfoLbl.text = model.receiveName;
+            
+        } else {
+            
+            self.userInfoLbl.text = [NSString stringWithFormat:@"%@|%@",model.receiveName,model.receiveMobile];
+            
+        }
+  
+        //
+    } else {
+    
+        if (!model.commentMobile) {
+            
+            self.userInfoLbl.text = model.commentName;
+            
+        } else {
+            
+            self.userInfoLbl.text = [NSString stringWithFormat:@"%@|%@",model.commentName,model.commentMobile];
+            
+        }
+        
+    }
+
+    
     //
-    self.userInfoLbl.text = [NSString stringWithFormat:@"%@|%@",model.commentName,model.commentMobile];
     self.contentLbl.text = _model.content;
 }
 

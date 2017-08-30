@@ -17,16 +17,35 @@
 #import "NSNumber+TLAdd.h"
 #import "ZHBillVC.h"
 #import "ZHWithdrawalVC.h"
+#import "TLTableView.h"
 
 @interface TLBalanceVC ()<UITableViewDelegate,UITableViewDataSource>
 
 @property (nonatomic, strong) UILabel *balanceLbl;
 @property (nonatomic, strong) NSMutableArray <NSDictionary *> *dataArray;
 @property (nonatomic, strong) NSMutableArray <ZHCurrencyModel *>*currencyRoom;
+@property (nonatomic, strong) TLTableView *balanceTableView;
+
+@property (nonatomic, assign) BOOL isFirst;
 
 @end
 
 @implementation TLBalanceVC
+
+
+- (void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+    if (self.isFirst) {
+        
+        self.isFirst = NO;
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self.balanceTableView beginRefreshing];
+        });
+    }
+    
+
+}
 
 - (void)goDetail {
 
@@ -49,6 +68,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.isFirst = YES;
     self.title = @"账户余额";
     self.dataArray = [[NSMutableArray alloc] initWithCapacity:2];
     [self setUpUI];
@@ -58,42 +78,46 @@
                                  }];
     
     
-    [TLProgressHUD showWithStatus:nil];
-    NBCDRequest *balanceReq = [[NBCDRequest alloc] init];
-    balanceReq.code = @"802503";
-    balanceReq.parameters[@"token"] = [TLUser user].token;
-    balanceReq.parameters[@"userId"] = [TLUser user].userId;
-    
-    NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[balanceReq]];
-    [batchReq startWithSuccess:^(NBBatchReqest *batchRequest) {
-        [TLProgressHUD dismiss];
-     NBCDRequest *balance = (NBCDRequest *)batchRequest.reqArray[0];
-     self.currencyRoom = [ZHCurrencyModel tl_objectArrayWithDictionaryArray:balance.responseObject[@"data"]];
-        [self.currencyRoom enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([obj.currency isEqualToString:kCNY]) {
-                
-                self.balanceLbl.text =  [NSString stringWithFormat:@"￥%@",[obj.amount convertToRealMoney]];
+    __weak typeof(self) weakself = self;
+    [self.balanceTableView addRefreshAction:^{
+       
+        NBCDRequest *balanceReq = [[NBCDRequest alloc] init];
+        balanceReq.code = @"802503";
+        balanceReq.parameters[@"token"] = [TLUser user].token;
+        balanceReq.parameters[@"userId"] = [TLUser user].userId;
+        
+        NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[balanceReq]];
+        [batchReq startWithSuccess:^(NBBatchReqest *batchRequest) {
+            
+            [weakself.balanceTableView endRefreshHeader];
+            NBCDRequest *balance = (NBCDRequest *)batchRequest.reqArray[0];
+            weakself.currencyRoom = [ZHCurrencyModel tl_objectArrayWithDictionaryArray:balance.responseObject[@"data"]];
+            [weakself.currencyRoom enumerateObjectsUsingBlock:^(ZHCurrencyModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([obj.currency isEqualToString:kCNY]) {
+                    
+                    weakself.balanceLbl.text =  [NSString stringWithFormat:@"￥%@",[obj.amount convertToRealMoney]];
+                    [weakself.dataArray removeAllObjects];
+                    
+                    
+                    //
+                    [weakself.dataArray addObject:@{@"总收入" : [obj.inAmount convertToRealMoney]}];
+                    [weakself.dataArray addObject:@{@"已提现金额" : [obj.outAmount convertToRealMoney]}];
 
-            }
+                    [weakself.balanceTableView reloadData_tl];
+                    
+                }
+                
+            }];
+            
+        } failure:^(NBBatchReqest *batchRequest) {
+            
+            [weakself.balanceTableView endRefreshHeader];
             
         }];
         
-        //    cell.rightLbl.text = @"已提现金额";
-        
-  
-        
-        
-        
-
-    } failure:^(NBBatchReqest *batchRequest) {
-        
-        [TLProgressHUD dismiss];
-
     }];
-    
-
-    
 }
+
 
 - (void)goWithdraw {
 
@@ -139,15 +163,13 @@
 //
 - (void)setUpUI {
 
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 60) style:UITableViewStylePlain];
-    [self.view addSubview:tableView];
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    tableView.rowHeight = 60;
+    self.balanceTableView =  [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 60) delegate:self dataSource:self];
+    [self.view addSubview:self.balanceTableView];
+    self.balanceTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.balanceTableView.rowHeight = 60;
     
     //
-    UIButton *withdrawBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, tableView.yy, SCREEN_WIDTH - 36, 40) title:@"提现" backgroundColor:[UIColor themeColor] cornerRadius:5];
+    UIButton *withdrawBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.balanceTableView.yy, SCREEN_WIDTH - 36, 40) title:@"提现" backgroundColor:[UIColor themeColor] cornerRadius:5];
     [self.view addSubview:withdrawBtn];
     [withdrawBtn setBackgroundColor:[UIColor themeColor] forState:UIControlStateNormal];
     [withdrawBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -156,7 +178,7 @@
     
     //
     UIView *contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 300)];
-    tableView.tableHeaderView = contentView;
+    self.balanceTableView.tableHeaderView = contentView;
     
     
     //

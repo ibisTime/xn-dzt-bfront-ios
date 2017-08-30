@@ -51,8 +51,8 @@
 
 
     TLChatRoomVC *vc = [[TLChatRoomVC alloc] init];
-    vc.otherUserId = self.liuYanRoom[indexPath.row].commenter;
-    vc.otherName = self.liuYanRoom[indexPath.row].commentName;
+    vc.otherUserId = [self.liuYanRoom[indexPath.row] otherUserId];
+    vc.otherName = [self.liuYanRoom[indexPath.row] otherUserName];
     [self.navigationController pushViewController:vc animated:YES];
     
 
@@ -68,12 +68,12 @@
     self.liuYanTableView.estimatedRowHeight = 50;
     self.liuYanTableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无留言"];
     
-//    __weak typeof(self) weakSelf = self;
+    //
     TLPageDataHelper *pageDataHelper = [[TLPageDataHelper alloc] init];
     pageDataHelper.code = @"620148";
-    
     pageDataHelper.parameters[@"receiver"] = [TLUser user].userId;
     pageDataHelper.parameters[@"type"] = @"1";
+    
     pageDataHelper.tableView = self.liuYanTableView;
     [pageDataHelper modelClass:[CustomLiuYanModel class]];
     [self.liuYanTableView addRefreshAction:^{
@@ -83,6 +83,7 @@
             
             weakself.liuYanRoom = objs;
             [weakself.liuYanTableView reloadData_tl];
+     
             
         } failure:^(NSError *error) {
             
@@ -97,6 +98,7 @@
             weakself.liuYanRoom = objs;
             [weakself.liuYanTableView reloadData_tl];
             
+ 
         } failure:^(NSError *error) {
             
         }];

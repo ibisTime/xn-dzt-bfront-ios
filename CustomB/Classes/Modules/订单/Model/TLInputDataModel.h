@@ -10,6 +10,10 @@
 
 @interface TLInputDataModel : NSObject
 
+- (instancetype)init;
+
+@property (nonatomic, assign) BOOL canEdit;
+
 @property (nonatomic, copy) NSString *keyName;
 @property (nonatomic, copy) NSString *keyCode; //1-4
 @property (nonatomic, copy) NSString *value;

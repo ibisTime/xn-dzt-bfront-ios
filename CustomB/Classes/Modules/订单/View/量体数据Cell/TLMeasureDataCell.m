@@ -126,7 +126,7 @@
         TLInputDataModel *dataModel = model;
         self.leftTitleLbl.text = dataModel.keyName;
         self.textField.text = dataModel.value;
-        self.textField.userInteractionEnabled = YES;
+        self.textField.userInteractionEnabled = dataModel.canEdit;
         self.arrowImageView.hidden = YES;
         
     } else if ([model isKindOfClass:[TLChooseDataModel class]]) {

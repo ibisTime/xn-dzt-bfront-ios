@@ -31,12 +31,13 @@
 #pragma mark- 搜索
 - (void)search {
 
-    if ([self.searchView.textField.text valid]) {
+    if (![self.searchView.textField.text valid]) {
         [TLAlert alertWithInfo:@"请输入搜索内容"];
         return;
     }
     //
     OrderSearchVC *vc = [[OrderSearchVC alloc] init];
+    vc.searchInfo = self.searchView.textField.text;
     [self.navigationController pushViewController:vc animated:YES];
 
 }

@@ -25,6 +25,7 @@
 #import "NSString+Extension.h"
 #import "TLSysMsgVC.h"
 #import <MJRefresh/MJRefresh.h>
+#import "NBNetwork.h"
 
 @interface TLMineVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -42,6 +43,10 @@
 @property (nonatomic, assign) BOOL isFirst;
 
 
+@property (nonatomic, strong) UIView *footerView;
+@property (nonatomic, strong) UILabel *phoneLbl;
+@property (nonatomic, strong) UILabel *timeLbl;
+
 @end
 
 @implementation TLMineVC
@@ -58,17 +63,13 @@
         self.isFirst = NO;
     }
     
-//    serviceTime服务时间
-//    telephone服务电话
+    
+    
+
+ 
     
 }
 
-
-//- (void)tl_placeholderOperation {
-//
-//    
-//
-//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -113,14 +114,47 @@
     
     [self setUpUI];
     [self changeInfo];
+    [self getPhoneAndTime];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeInfo) name:kUserInfoChange object:nil];
 
-    
 }
 
 
+- (void)getPhoneAndTime {
 
+    NBCDRequest *timeReq = [[NBCDRequest alloc] init];
+    timeReq.code = @"805917";
+    timeReq.parameters[@"ckey"] = @"serviceTime" ; // @"telephone";
+    timeReq.parameters[@"systemCode"] = [AppConfig config].systemCode;
+    timeReq.parameters[@"companyCode"] = [AppConfig config].systemCode;
+    
+    NBCDRequest *phoneReq = [[NBCDRequest alloc] init];
+    phoneReq.code = @"805917";
+    phoneReq.parameters[@"ckey"] = @"telephone" ; // @"telephone";
+    phoneReq.parameters[@"systemCode"] = [AppConfig config].systemCode;
+    phoneReq.parameters[@"companyCode"] = [AppConfig config].systemCode;
+    
+    NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[timeReq,phoneReq]];
+    
+    [batchReq startWithSuccess:^(NBBatchReqest *batchRequest) {
+        
+        NBCDRequest *time =  (NBCDRequest *)batchRequest.reqArray[0];
+        NBCDRequest *phone = (NBCDRequest *)batchRequest.reqArray[1];
+        //
+        NSString *timeStr =  time.responseObject[@"data"][@"cvalue"];
+        NSString *phoneStr =  phone.responseObject[@"data"][@"cvalue"];
+        
+        //
+        self.phoneLbl.text = phoneStr;
+        self.timeLbl.text = [NSString stringWithFormat:@"服务时间：%@",timeStr];
+        //
+        
+    } failure:^(NBBatchReqest *batchRequest) {
+        
+    }];
+
+}
 
 - (void)changeInfo {
     
@@ -204,7 +238,7 @@
     }];
     
     //
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.3 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
         [self.mineTableView.mj_header endRefreshing];
         [[TLUser user] updateUserInfo];
@@ -212,6 +246,17 @@
         
     });
 
+}
+
+- (void)daDianHua {
+
+    if ([self.phoneLbl.text valid]) {
+        
+       NSString  *str =[[NSMutableString alloc] initWithFormat:@"telprompt://%@",self.phoneLbl.text];
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:str]];
+     
+    }
+    
 }
 
 - (void)setUpUI {
@@ -224,6 +269,48 @@
     self.mineTableView.dataSource = self;
     self.mineTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.mineTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+    //
+    self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 380 - 49)];
+    self.footerView.backgroundColor = [UIColor clearColor];
+    self.mineTableView.tableFooterView = self.footerView;
+    
+//    UITapGestureRecognizer *daDianHuaTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(daDianHua)];
+//    [self.footerView addGestureRecognizer:daDianHuaTap];
+//    self.footerView.userInteractionEnabled = YES;
+    
+    //
+    //电话
+    self.phoneLbl = [UILabel labelWithFrame:CGRectZero textAligment:NSTextAlignmentCenter backgroundColor:[UIColor clearColor]
+                                          font:[UIFont systemFontOfSize:16]
+                                     textColor:[UIColor themeColor]];
+    [self.footerView addSubview:self.phoneLbl];
+    
+    self.timeLbl = [UILabel labelWithFrame:CGRectZero textAligment:NSTextAlignmentCenter backgroundColor:[UIColor clearColor]
+                                          font:[UIFont systemFontOfSize:16]
+                                     textColor:[UIColor themeColor]];
+    [self.footerView addSubview:self.timeLbl];
+    
+    [self.timeLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.footerView.mas_bottom).offset(-30);
+        make.centerX.equalTo(self.footerView.mas_centerX);
+    }];
+    [self.phoneLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.centerX.equalTo(self.timeLbl.mas_centerX);
+        make.bottom.equalTo(self.timeLbl.mas_top).offset(-8);
+        
+    }];
+    
+      UIButton *btn = [[UIButton alloc] init];
+    [self.footerView addSubview:btn];
+    [btn addTarget:self action:@selector(daDianHua) forControlEvents:UIControlEventTouchUpInside];
+    [btn mas_makeConstraints:^(MASConstraintMaker *make) {
+        
+        make.left.right.equalTo(self.footerView);
+        make.top.equalTo(self.phoneLbl.mas_top);
+        make.bottom.equalTo(self.timeLbl.mas_bottom);
+        
+    }];
     
     //
     UIImageView *topImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0,SCREEN_WIDTH , 205)];

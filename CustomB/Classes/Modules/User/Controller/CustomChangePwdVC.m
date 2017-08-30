@@ -27,9 +27,7 @@
 @implementation CustomChangePwdVC
 
 - (void)viewDidLoad {
-    [super viewDidLoad];
-    self.title = @"修改登录密码";
-    
+    [super viewDidLoad];    
     
     self.title = @"修改登录密码";
     self.bgSV = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)];
@@ -39,15 +37,21 @@
     self.oldPwdInputView = [[CustomInputView alloc] initWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, 45)];
     [self.bgSV addSubview:self.oldPwdInputView];
     self.oldPwdInputView.leftTitleLbl.text = @"旧登录密码";
+    self.oldPwdInputView.textField.secureTextEntry = YES;
     
     //
     self.nPwdInputView = [[CustomInputView alloc] initWithFrame:CGRectMake(0,  self.oldPwdInputView.yy + 10, SCREEN_WIDTH, 45)];
     [self.bgSV addSubview:self.nPwdInputView];
     self.nPwdInputView.leftTitleLbl.text = @"新登录密码";
+    self.nPwdInputView.textField.secureTextEntry = YES;
+    
+
     
     self.reNewPwdInputView = [[CustomInputView alloc] initWithFrame:CGRectMake(0, self.nPwdInputView.yy  + 10, SCREEN_WIDTH, 45)];
     [self.bgSV addSubview:self.reNewPwdInputView];
     self.reNewPwdInputView.leftTitleLbl.text = @"重复新密码";
+    self.reNewPwdInputView.textField.secureTextEntry = YES;
+
     
     //
     UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, self.reNewPwdInputView.yy + 30, SCREEN_WIDTH - 40, 44) title:@"确定" backgroundColor:[UIColor colorWithHexString:@"9ba9b5"] cornerRadius:5];
@@ -62,7 +66,7 @@
 
     if (!(self.oldPwdInputView.textField.text &&self.oldPwdInputView.textField.text.length > 5)) {
         
-        [TLAlert alertWithHUDText:@"请输原密码"];
+        [TLAlert alertWithHUDText:@"请输入6位以上密码"];
         return;
     }
     
@@ -72,7 +76,7 @@
         return;
     }
     
-    if (![self.reNewPwdInputView.textField.text isEqualToString:self.reNewPwdInputView.textField.text]) {
+    if (![self.nPwdInputView.textField.text isEqualToString:self.reNewPwdInputView.textField.text]) {
         
         [TLAlert alertWithHUDText:@"输入的密码不一致"];
         return;

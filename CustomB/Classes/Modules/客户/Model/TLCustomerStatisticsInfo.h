@@ -11,13 +11,15 @@
 
 @interface TLCustomerStatisticsInfo : TLBaseModel
 
-@property (nonatomic, strong) NSString *address;
-@property (nonatomic, strong) NSString *days;
-@property (nonatomic, strong) NSString *jfAmount;
-@property (nonatomic, strong) NSString *jyAmount;
+@property (nonatomic, copy) NSString *address;
+@property (nonatomic, copy) NSString *days;
+@property (nonatomic, copy) NSString *jfAmount;
+@property (nonatomic, copy) NSString *jyAmount;
 
-@property (nonatomic, strong) NSString *mobile;
-@property (nonatomic, strong) NSString *realName;
+@property (nonatomic, copy) NSString *mobile;
+@property (nonatomic, copy) NSString *realName;
+@property (nonatomic, copy) NSString *level;
+
 
 //@property (nonatomic, strong) NSArray <NSDictionary *>*sizeDataList;
 

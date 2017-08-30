@@ -92,7 +92,7 @@
 //        [self.measureDataRoom addObject:model];
         
         TLInputDataModel *model = [[TLInputDataModel alloc] init];
-        
+        model.canEdit = [self.order canEditXingTi];
         model.keyCode = obj.allKeys[0]; //1-2
         model.keyName = obj[model.keyCode];
         model.value = @"-";
@@ -148,12 +148,11 @@
     
     [xingArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        
         TLChooseDataModel *chooseDataModel = [[TLChooseDataModel alloc] init];
         chooseDataModel.type =  obj.allKeys[0];
         chooseDataModel.typeName = obj[chooseDataModel.type];
         chooseDataModel.parameterModelRoom = [[NSMutableArray alloc] init];
-        chooseDataModel.canEdit = self.order.canEditXingTi;
+        chooseDataModel.canEdit = [self.order canEditXingTi];
         
         //形体对应的类
         NSDictionary *valueDict = self.order.resultMap.TIXIN[chooseDataModel.type];
@@ -559,13 +558,13 @@
         [productInfoArr addObject:@{@"订单价格":priceStr}];
     }
     
-    if (self.order.payAmount) {
-        
-        NSString *turePriceStr =  [NSString stringWithFormat:@"￥%@",[self.order.payAmount convertToRealMoney]];
-        [productInfoArr addObject:@{@"价格优惠":turePriceStr}];
-    }
+//    if (self.order.payAmount) {
+//        
+//        NSString *turePriceStr =  [NSString stringWithFormat:@"￥%@",[self.order.payAmount convertToRealMoney]];
+//        [productInfoArr addObject:@{@"价格优惠":turePriceStr}];
+//    }
     
-    //--//
+    //
     NSMutableArray *productInfoArrDataModelRoom = [[NSMutableArray alloc] init];
     [productInfoArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
@@ -592,9 +591,9 @@
         return [NSMutableArray new];
     }
     
-    TLInputDataModel *remarkDataModel =  [[TLInputDataModel alloc] init];
-    remarkDataModel.value = self.order.remark;
-    self.remarkRoom = [[NSMutableArray alloc] initWithArray:@[remarkDataModel]];
+//    TLInputDataModel *remarkDataModel =  [[TLInputDataModel alloc] init];
+//    remarkDataModel.value = self.order.remark;
+//    self.remarkRoom = [[NSMutableArray alloc] initWithArray:@[remarkDataModel]];
     
     NSString *shouHuoStr = nil;
     shouHuoStr = @"未收货";
@@ -609,8 +608,22 @@
         
     }
     
+NSDictionary *kuaiDiDcit =   @{
+      
+      @"EMS" : @"邮政EMS",
+      @"STO" : @"申通快递",
+      @"ZTO" : @"中通快递",
+      @"YTO" : @"圆通快递",
+      @"HTKY" : @"汇通快递",
+      @"ZJS" : @"宅急送",
+      @"SF" : @"顺丰快递",
+      @"TTKD" : @"天天快递"
+
+      };
+    
+    
     NSMutableArray <NSDictionary *> *orderInfoArr = [  @[
-@{@"物流公司" : self.order.logisticsCompany},
+  @{@"物流公司" : kuaiDiDcit[self.order.logisticsCompany] ? : self.order.logisticsCompany},
 @{@"发货时间" : [self.order.deliveryDatetime convertToDetailDate]},
 @{@"快递单号" : self.order.logisticsCode},
 @{@"收货确认" : shouHuoStr},
@@ -640,23 +653,30 @@
     
     TLInputDataModel *shouHuoDiZHi = [[TLInputDataModel alloc] init];
     self.shouHuoAddressRoom = [@[shouHuoDiZHi] mutableCopy];
-    if (self.order.resultMap.QITA[@"6-04"]) {
+    if (self.order.resultMap.QITA[kShouHuoDiZhiType]) {
         
-        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-04"];
-        shouHuoDiZHi.keyCode = @"6-04";
+        NSDictionary *selelctParaDict = self.order.resultMap.QITA[kShouHuoDiZhiType];
+        shouHuoDiZHi.keyCode = kShouHuoDiZhiType;
         shouHuoDiZHi.keyName = @"收货地址";
         shouHuoDiZHi.value = selelctParaDict[@"code"];
         
+    } else {
+        
+        shouHuoDiZHi.keyCode = kShouHuoDiZhiType;
+        shouHuoDiZHi.keyName = @"收货地址";
+        shouHuoDiZHi.value =  [self.order getDetailAddress];
+    
     }
     
    
-    
     TLInputDataModel *remarkDataModel =  [[TLInputDataModel alloc] init];
     remarkDataModel.value = self.order.remark;
     self.remarkRoom = [[NSMutableArray alloc] initWithArray:@[remarkDataModel]];
+    self.remarkValue = self.order.remark;
     
+    //
     NSMutableArray <NSDictionary *> *orderInfoArr = [[NSMutableArray alloc] initWithArray:   @[
-                                      @{@"客户姓名" : self.order.ltName},
+                                      @{@"客户姓名" : self.order.applyName},
                                       @{@"联系电话" : self.order.applyMobile}
                                       ]];
     
@@ -686,11 +706,15 @@
     }
     
     //
-    if (self.order.resultMap.QITA[@"6-04"]) {
+    if (self.order.resultMap.QITA[kShouHuoDiZhiType]) {
         
-        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-04"];
+        NSDictionary *selelctParaDict = self.order.resultMap.QITA[kShouHuoDiZhiType];
         [orderInfoArr addObject:@{@"收货地址" : selelctParaDict[@"code"]}];
         
+    } else {
+    
+        [orderInfoArr addObject:@{@"收货地址" : [self.order getDetailAddress]}];
+       
     }
     
   

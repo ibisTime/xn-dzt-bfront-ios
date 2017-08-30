@@ -41,6 +41,7 @@
         self.textField.layer.borderWidth = 0.7;
         self.textField.layer.cornerRadius = 5;
         self.textField.layer.masksToBounds = YES;
+        self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
         [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
 //            make.height.equalTo(self);
             make.left.equalTo(self.leftTitleLbl.mas_right).offset(17);

@@ -314,7 +314,6 @@
 #pragma mark- TLButtonHeaderViewDelegate
 - (void)didSelected:(TLButtonHeaderView *)btnHeaderView section:(NSInteger)secction {
 
-    
     @try {
         
         [self trueSubmit];
@@ -332,19 +331,10 @@
     
 }
 
+- (void)tl_placeholderOperation {
 
-- (void)viewDidLoad {
-    
-    [super viewDidLoad];
-    self.title = @"工艺选择";
-    
-    //获取全部选择参数，除布料外
-    if (!self.productCode) {
-        NSLog(@"产品编号不能为空");
-    }
-    
-    
     //获取刺绣和 定制信息的选项, 根据不通的产品获得
+    [TLProgressHUD showWithStatus:nil];
     NBCDRequest *req = [[NBCDRequest alloc] init];
     req.code = @"620054";
     req.parameters[@"modelCode"] =  self.productCode;
@@ -359,6 +349,9 @@
     NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[req,mianLiaoReq]];
     [batchReq startWithSuccess:^(NBBatchReqest *batchRequest) {
         
+        [self removePlaceholderView];
+        [TLProgressHUD dismiss];
+
         NBCDRequest *chooseReq = (NBCDRequest *)batchRequest.reqArray[0];
         NBCDRequest *mianLiaoReq = (NBCDRequest *)batchRequest.reqArray[1];
         
@@ -380,11 +373,28 @@
         
     } failure:^(NBBatchReqest *batchRequest) {
         
-        
+        [TLProgressHUD dismiss];
+        [self addPlaceholderView];
+
     }];
-    
+
+
 }
 
+- (void)viewDidLoad {
+    
+    [super viewDidLoad];
+    self.title = @"工艺选择";
+    
+    //获取全部选择参数，除布料外
+    if (!self.productCode) {
+        NSLog(@"产品编号不能为空");
+    }
+    [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
+    
+    [self tl_placeholderOperation];
+    
+}
 
 
 - (void)configModel {

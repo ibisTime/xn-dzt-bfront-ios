@@ -236,15 +236,25 @@
     if (self.customerStatisticsInfo.address) {
         [userInfoInfoArr addObject:@{@"收货地址" : self.customerStatisticsInfo.address}];
     }
-    
-    
-    if (1 || self.customerStatisticsInfo.address) {
-        
-        [userInfoInfoArr addObject:@{@"身高" : @""}];
-        [userInfoInfoArr addObject:@{@"体重" : @""}];
 
-    }
+    //
+    if (self.customerStatisticsInfo.resultMap.QITA[@"6-02"]) {
+            
+        
+            [userInfoInfoArr addObject:@{@"身高" : [NSString stringWithFormat:@"%@ cm",self.customerStatisticsInfo.resultMap.QITA[@"6-02"]]}];
+            
+      }
+        
+     //
+     if (self.customerStatisticsInfo.resultMap.QITA[@"6-03"]) {
+            
+         
+            [userInfoInfoArr addObject:@{@"体重" : [NSString stringWithFormat:@"%@ kg",self.customerStatisticsInfo.resultMap.QITA[@"6-03"]]}];
+            
+      }
+    //
     
+
     [userInfoInfoArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         TLDataModel *model = [[TLDataModel alloc] init];
@@ -258,9 +268,12 @@
     
     //
     NSMutableArray <NSDictionary *> *vipInfoInfoArr = [  @[
-                                                            @{@"会员等级" : @""},
+                                                            @{@"会员等级" : self.customerStatisticsInfo.level},
                                                             @{@"会员成长经验" : self.customerStatisticsInfo.jyAmount},
                                                             @{@"会员天数" : self.customerStatisticsInfo.days},
+                                                              @{@"升级所需经验" : self.customerStatisticsInfo.sjAmount},
+                                                             @{@"剩余积分" : self.customerStatisticsInfo.jfAmount},
+                                                            
                                                             ] mutableCopy];
     
     
@@ -268,7 +281,7 @@
 
     [vipInfoInfoArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        TLDataModel *model = [[TLDataModel alloc] init];
+        TLInputDataModel *model = [[TLInputDataModel alloc] init];
         model.keyName = obj.allKeys[0];
         model.value = obj[model.keyName];
         [self.vipInfoRoom addObject:model];

@@ -69,8 +69,9 @@
     helper.code = @"805120";
     helper.parameters[@"systemCode"] = [AppConfig config].systemCode;
     helper.parameters[@"companyCode"] = [AppConfig config].systemCode;
-    helper.parameters[@"kind"] = @"B";
-//    helper.parameters[@"frequent"] = self.status;
+    helper.parameters[@"kind"] = @"C";
+    helper.parameters[@"userName"] = self.searchInfo;
+    //
     helper.isDeliverCompanyCode = NO;
     //    helper.parameters[@"frequent"] = @"";
     helper.tableView = self.customerTableView;

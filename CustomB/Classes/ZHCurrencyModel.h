@@ -16,6 +16,7 @@
 @property (nonatomic,strong) NSNumber *amount; //总额
 
 @property (nonatomic, strong) NSNumber *outAmount;
+@property (nonatomic, strong) NSNumber *inAmount;
 
 //
 @property (nonatomic,copy) NSString *createDatetime;

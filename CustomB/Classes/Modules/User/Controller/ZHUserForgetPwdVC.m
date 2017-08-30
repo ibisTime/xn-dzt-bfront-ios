@@ -74,13 +74,13 @@
         [TLAlert alertWithHUDText:@"请输入6位以上密码"];
         return;
     }
-    
-    if (![self.pwdTf.text isEqualToString:self.rePwdTf.text]) {
-        
-        [TLAlert alertWithHUDText:@"输入的密码不一致"];
-        return;
-        
-    }
+//    
+//    if (![self.pwdTf.text isEqualToString:self.rePwdTf.text]) {
+//        
+//        [TLAlert alertWithHUDText:@"输入的密码不一致"];
+//        return;
+//        
+//    }
     
     
     

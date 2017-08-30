@@ -133,8 +133,13 @@
         BOOL stillHave = YES;
         if(self.start*self.limit >= [responseObject[@"data"][@"totalCount"] integerValue]){
            //告诉外界没有数据
+            
             if (loadMore) {
                 stillHave = NO;
+                //简便方法
+                if (!stillHave && self.tableView) {
+                    [self.tableView endRefreshingWithNoMoreData_tl];
+                }
                 loadMore(self.objs,stillHave);
             }
             
@@ -148,10 +153,7 @@
             
         }
         
-        //简便方法
-        if (!stillHave && self.tableView) {
-            [self.tableView endRefreshingWithNoMoreData_tl];
-        }
+       
         
     } failure:^(NSError *error) {
         

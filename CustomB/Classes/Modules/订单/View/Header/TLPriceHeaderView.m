@@ -55,6 +55,10 @@
 
     _group = group;
     self.titleLbl.text = group.title;
+    
+    self.contentLbl.text = _group.content;
+    self.titleLbl.text = _group.title;
+    self.arrowImageView.hidden = !_group.canEdit;
 }
 
 

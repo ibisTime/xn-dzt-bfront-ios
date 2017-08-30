@@ -313,20 +313,28 @@
     userInfoGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
     userInfoGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 30);
     
+    
+    
+    CGFloat singleW = 340;
+    CGFloat measureWidth = singleW/2.0;
+    CGFloat measureLeftMargin = (SCREEN_WIDTH - singleW)/2.0;
     //***********会员信息******************************//
     TLGroup *vipInfoGroup = [[TLGroup alloc] init];
     [self.dataManager.groups addObject:vipInfoGroup];
     vipInfoGroup.dataModelRoom = self.dataManager.vipInfoRoom;
+    
     vipInfoGroup.title = @"会员信息";
+    vipInfoGroup.editting = YES;
     vipInfoGroup.headerSize = headerMiddleSize;
-    vipInfoGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
+    vipInfoGroup.cellReuseIdentifier = [TLMeasureDataCell cellReuseIdentifier];
     vipInfoGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
     vipInfoGroup.minimumLineSpacing = 0;
     vipInfoGroup.minimumInteritemSpacing = 0;
-    vipInfoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 0, 20, 0);
-    vipInfoGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
-    vipInfoGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 30);
+    vipInfoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, measureLeftMargin, 0, measureLeftMargin);
+    vipInfoGroup.editingEdgeInsets =  vipInfoGroup.editedEdgeInsets;
+    vipInfoGroup.itemSize = CGSizeMake(measureWidth, 35);
 
+  
     //*********** 量体信息 ******************************//
         TLGroup *measureGroup = [[TLGroup alloc] init];
         [self.dataManager.groups addObject:measureGroup];
@@ -338,12 +346,6 @@
         measureGroup.dataModelRoom = self.dataManager.measureDataRoom;
         measureGroup.minimumLineSpacing = 0;
         measureGroup.minimumInteritemSpacing = 0;
-        
-        CGFloat singleW = 300;
-        CGFloat measureWidth = singleW/2.0;
-        CGFloat measureLeftMargin = (SCREEN_WIDTH - singleW)/2.0;
-        
-        //量体边距
         measureGroup.editedEdgeInsets = UIEdgeInsetsMake(0, measureLeftMargin, 0, measureLeftMargin);
         measureGroup.editingEdgeInsets =  measureGroup.editedEdgeInsets;
         measureGroup.itemSize = CGSizeMake(measureWidth, 35);
@@ -363,7 +365,7 @@
     bodyTypeGroup.itemSize = CGSizeMake(measureWidth, 30);
     
     //
-    //提价复合, 已支付，可提交数据
+    //提交复合, 已支付，可提交数据
     TLGroup *submitDataBtnGroup = [[TLGroup alloc] init];
     submitDataBtnGroup.canEdit = NO;
     submitDataBtnGroup.dataModelRoom = [NSMutableArray new];

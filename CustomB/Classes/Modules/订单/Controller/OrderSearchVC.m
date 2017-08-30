@@ -74,42 +74,7 @@
     TLPageDataHelper *helper = [[TLPageDataHelper alloc] init];
     helper.code = @"620230";
     helper.parameters[@"ltUser"] = [TLUser user].userId;
-    //    helper.parameters[@"applyUser"] = [TLUser user].userId;
-    
-//    switch (self.status) {
-//        case TLOrderStatusWillMeasurement: {
-//            
-//            helper.parameters[@"status"] = kOrderStatusWillMeasurement;
-//            
-//        } break;
-//        case TLOrderStatusWillPay: {
-//            
-//            helper.parameters[@"status"] = kOrderStatusDidDingJia;
-//            
-//        } break;
-//            
-//        case TLOrderStatusWillSubmit: {
-//            
-//            helper.parameters[@"status"] = kOrderStatusWillSubmit;
-//            
-//        } break;
-//            
-//        case TLOrderStatusWillCheck: {
-//            
-//            helper.parameters[@"status"] = kOrderStatusWillCheck;
-//            
-//        } break;
-//            
-//            
-//        default:
-//            break;
-//    }
-    
-    //    1待支付 2 已支付待发货 3 已发货待收货 4 已收货 91用户取消 92 商户取消 93 快递异常
-    
-    //    if (self.statusCode) {
-    //        helper.parameters[@"status"] = self.statusCode;
-    //    }
+    helper.parameters[@"burry"] = self.searchInfo;
     helper.tableView = self.orderTableView;
     [helper modelClass:[TLOrderModel class]];
     

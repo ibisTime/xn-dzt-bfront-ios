@@ -16,6 +16,7 @@
 #import "AppConfig.h"
 #import "TLSysMsgVC.h"
 #import "TLSysMsgVC.h"
+#import "TLPlaceholderView.h"
 
 @interface TLSysMsgVC()<UITableViewDelegate,UITableViewDataSource>
 
@@ -54,6 +55,7 @@
     [self.view addSubview:self.liuYanTableView];
     self.liuYanTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.liuYanTableView.estimatedRowHeight = 50;
+    self.liuYanTableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无消息"];
     
     TLPageDataHelper *pageDataHelper = [[TLPageDataHelper alloc] init];
     pageDataHelper.code = @"804040";
@@ -74,7 +76,7 @@
         [pageDataHelper refresh:^(NSMutableArray *objs, BOOL stillHave) {
             
             weakself.sysMsgRoom = objs;
-            [weakself.liuYanTableView reloadData];
+            [weakself.liuYanTableView reloadData_tl];
             
         } failure:^(NSError *error) {
             
@@ -87,7 +89,7 @@
         [pageDataHelper loadMore:^(NSMutableArray *objs, BOOL stillHave) {
             
             weakself.sysMsgRoom = objs;
-            [weakself.liuYanTableView reloadData];
+            [weakself.liuYanTableView reloadData_tl];
             
         } failure:^(NSError *error) {
             

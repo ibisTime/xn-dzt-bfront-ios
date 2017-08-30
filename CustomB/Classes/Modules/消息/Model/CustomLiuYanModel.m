@@ -21,4 +21,32 @@
     return ChatModelTypeOther;
 
 }
+
+- (NSString *)otherUserName {
+
+    if (self.chatType == ChatModelTypeMe) {
+        
+        return self.receiveName;
+        
+    } else {
+    
+        return self.commentName;
+        
+    }
+
+}
+
+- (NSString *)otherUserId {
+
+    if (self.chatType == ChatModelTypeMe) {
+        
+        return self.receiver;
+        
+    } else {
+        
+        return self.commenter;
+        
+    }
+
+}
 @end

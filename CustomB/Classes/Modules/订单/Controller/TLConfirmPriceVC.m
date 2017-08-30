@@ -103,7 +103,7 @@
     //面料单耗
     TLGroup *mianLiaoXiaoHaoGroup = [[TLGroup alloc] init];
     self.mianLiaoCountGroup = mianLiaoXiaoHaoGroup;
-    mianLiaoXiaoHaoGroup.canEdit = YES;
+    mianLiaoXiaoHaoGroup.canEdit = NO;
     mianLiaoXiaoHaoGroup.content =  @"0";
     mianLiaoXiaoHaoGroup.dataModelRoom = [NSMutableArray new];
     [self.dataManager.groups addObject:mianLiaoXiaoHaoGroup];
@@ -168,10 +168,10 @@
     baoZhuangPriceGroup.editingEdgeInsets = paramterEdgeInsets;
     baoZhuangPriceGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     
-    //公益费
+    //工艺费
     TLGroup *gongYiPriceGroup = [[TLGroup alloc] init];
     self.gongYiPriceGroup = gongYiPriceGroup;
-    gongYiPriceGroup.canEdit = NO;
+    gongYiPriceGroup.canEdit = YES;
     gongYiPriceGroup.dataModelRoom = [NSMutableArray new];
     [self.dataManager.groups addObject:gongYiPriceGroup];
     gongYiPriceGroup.title = @"工艺费";
@@ -218,8 +218,6 @@
     confirmBtnGroup.editingEdgeInsets = paramterEdgeInsets;
     confirmBtnGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     
-    
-
 }
 
 - (void)didSelected:(NSInteger)section {
@@ -295,60 +293,19 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.calculatePriceManager = [[TLCalculatePriceManager alloc] init];
     
-    
-//    //
-//    self.productRoom =  [NSMutableArray new];
-//    //
-//    self.dataManager = [[TLOrderDataManager alloc] init];
-//    //
-//    [self setUpUI];
-//    [self registerClass];
-//    [self configModel];
-//    return;
-//    
-    
-    //
-//     KDF("KDF", "快递费"), BZF("BZF", "包装费")
-    
-//    [TLProgressHUD showWithStatus:nil];
-//    NBCDRequest *kuaiDiReq = [[NBCDRequest alloc] init];
-//    kuaiDiReq.code = @"620906";
-//    kuaiDiReq.parameters[@"dkey"] = @"KDF";
-//    kuaiDiReq.parameters[@"systemCode"] = [AppConfig config].systemCode;
-//    [kuaiDiReq startWithSuccess:^(__kindof NBBaseRequest *request) {
-//        
-//        [TLProgressHUD dismiss];
-//        
-//    } failure:^(__kindof NBBaseRequest *request) {
-//        [TLProgressHUD dismiss];
-//        
-//    }];
-    
-    
     [TLProgressHUD showWithStatus:nil];
     NBCDRequest *kuaiDiReq2 = [[NBCDRequest alloc] init];
     kuaiDiReq2.code = @"620918";
     kuaiDiReq2.parameters[@"keyList"] = @[@"KDF",@"BZF"]; ;
     kuaiDiReq2.parameters[@"companyCode"] = [AppConfig config].systemCode;
     kuaiDiReq2.parameters[@"systemCode"] = [AppConfig config].systemCode;
-//    [kuaiDiReq2 startWithSuccess:^(__kindof NBBaseRequest *request) {
-//        
-//        [TLProgressHUD dismiss];
-//
-//
-//    } failure:^(__kindof NBBaseRequest *request) {
-//        [TLProgressHUD dismiss];
-//        
-//    }];
     
-    //
-    [TLProgressHUD showWithStatus:nil];
+    //获取产品列表
     NBCDRequest *xhReq = [[NBCDRequest alloc] init];
     xhReq.code = @"620012";
     xhReq.parameters[@"status"] = @"1";
     
     //
-    [TLProgressHUD showWithStatus:nil];
     NBCDRequest *orderReq = [[NBCDRequest alloc] init];
     orderReq.code = @"620234";
     orderReq.parameters[@"code"] = self.order.code;
@@ -363,7 +320,7 @@
         NBCDRequest *xhReq = (NBCDRequest *)batchRequest.reqArray[1];
         NBCDRequest *orderReq = (NBCDRequest *)batchRequest.reqArray[2];
 
-      TLOrderModel *orderModel = [TLOrderModel tl_objectWithDictionary:orderReq.responseObject[@"data"]];
+        TLOrderModel *orderModel = [TLOrderModel tl_objectWithDictionary:orderReq.responseObject[@"data"]];
         self.calculatePriceManager.times = [orderModel.times floatValue];
         //
         self.baoZhuangFei = [kuaiDiReq2.responseObject[@"data"][@"BZF"] floatValue];
@@ -447,7 +404,26 @@
 #pragma mark- TLButtonHeaderView delegate 代理方法
 - (void)didSelected:(TLButtonHeaderView *)btnHeaderView section:(NSInteger)secction {
 
+    if (self.currentProductModel && self.currentProductModel.productType == TLProductTypeChenShan) {
+        //衬衫定价
+        NBCDRequest *req = [[NBCDRequest alloc] init];
+        req.code = @"620203";
+        req.parameters[@"modelCode"] = self.currentProductModel.code;
+        req.parameters[@"orderCode"] = self.order.code;
+        req.parameters[@"quantity"] = @"1";
+        req.parameters[@"updater"] = [TLUser user].userId;
+        [req startWithSuccess:^(__kindof NBBaseRequest *request) {
+            
+            [TLAlert alertWithSucces:@"定价成功"];
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            
+        } failure:^(__kindof NBBaseRequest *request) {
+            
+        }];
+        return;
+    }
 
+    //h+ 定价
     if(!self.currentDict) {
     
         [TLAlert alertWithMsg:@"请选择工艺"];
@@ -462,9 +438,7 @@
     req.parameters[@"map"] = self.currentDict;
     req.parameters[@"orderCode"] = self.order.code;
     req.parameters[@"quantity"] = @"1";
-    req.parameters[@"updater"] = [TLUser user].userId;
-    req.parameters[@"remark"] = @"iOS 量体师 H+ 定价";
-    
+    req.parameters[@"updater"] = [TLUser user].userId;    
     __block TLParameterModel *currentChooseModel = nil;
     [self.dataManager.groups[0].dataModelRoom enumerateObjectsUsingBlock:^(TLParameterModel  *obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
@@ -609,7 +583,6 @@
             
             TLGroup *group = self.dataManager.groups[reusableView.section];
             
-                //
                 //以下是选择
                 NSMutableArray <TLParameterModel *>*models =  group.dataModelRoom;
                 [models enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -619,8 +592,15 @@
                         group.content = obj.name;
                         //
                         TLProduct *currentProduct = self.productRoom[idx];
+                        //当前选中的_产品
+                        self.currentProductModel = currentProduct;
+
+                        //
                         if (currentProduct.productType == TLProductTypeHAdd) {
                             
+                            //工艺是否可编辑
+                            self.gongYiPriceGroup.canEdit = YES;
+
                             //改变面料单消耗
                             self.mianLiaoCountGroup.content = [NSString stringWithFormat:@"%@",currentProduct.loss];
                             self.calculatePriceManager.mianLiaoCount = [currentProduct.loss integerValue];
@@ -629,41 +609,20 @@
                             self.jiaGongPriceGroup.content = [NSString stringWithFormat:@"%@",[self.productRoom[idx].processFee convertToRealMoney]];
                             self.calculatePriceManager.jiaGongPrice = [[currentProduct.processFee convertToRealMoney] floatValue];
                             //
-                            self.kuaiDiFeiGroup.content = [NSString stringWithFormat:@"%.f2",self.kuaiDiFei];
+                            self.kuaiDiFeiGroup.content = [NSString stringWithFormat:@"%.2f",self.kuaiDiFei];
                             self.baoZhuangFeiGroup.content = [NSString stringWithFormat:@"%.2f",self.baoZhuangFei];
                             self.calculatePriceManager.kuaiDiPrice = self.kuaiDiFei;
                             self.calculatePriceManager.baoZhuangPrice = self.baoZhuangFei;
                             
                         } else {
-                            
                             //选择的为衬衫
+                            //工艺是否可编辑
+                            self.gongYiPriceGroup.canEdit = NO;
                             [self chooseChenShanChangePrice];
-                            
                         }
-                       
-
-                        //当前选中的_产品
-                        self.currentProductModel = self.productRoom[idx];
-
-                        //
-//                        if (self.currentProductModel) {
-//                            //
-//                            if ([self.productModel.code isEqualToString:obj.code]) {
-//                                //相同产品，不用刷新下面的信息
-//                                
-//                            } else {
-//                                //不通产品，下面费用信息进行清除
-//
-//                            }
-//                            
-//                        } else {
-//                        
-//                            self.productModel = obj;
-//                            //刷新费用产品信息
-//
-//                        }
                         
                     } else {
+                        
                         obj.isSelected = NO;
                         
                     }
@@ -672,7 +631,9 @@
                             
             //
             [UIView animateWithDuration:0 animations:^{
+                
                 [self.orderDetailCollectionView  reloadData];
+                
             }];
             
         } break;
@@ -719,9 +680,7 @@
         TLPriceHeaderView *trueHeader = header;
         trueHeader.section = indexPath.section;
         trueHeader.delegate = self;
-        trueHeader.contentLbl.text = self.dataManager.groups[indexPath.section].content;
-        trueHeader.titleLbl.text = self.dataManager.groups[indexPath.section].title;
-        trueHeader.arrowImageView.hidden = indexPath.section != 5;
+        trueHeader.group = self.dataManager.groups[indexPath.section];
         
     } else if ([header isKindOfClass:[TLButtonHeaderView class]]) {
     

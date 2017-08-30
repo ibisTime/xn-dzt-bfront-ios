@@ -24,6 +24,9 @@
  NSString * const kOrderStatusDidSave = @"10"; //评价
 
 
+//****************** 收货地址 *********************//
+NSString * const kShouHuoDiZhiType = @"6-04";
+
 
 @implementation Const
 

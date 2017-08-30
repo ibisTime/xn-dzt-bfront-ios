@@ -44,7 +44,7 @@
 
     _order = order;
     self.codeLbl.text = _order.code;
-    self.timeLbl.text = [_order.createDatetime convertDate];
+    self.timeLbl.text = [_order.createDatetime convertToDetailDate];
     
     //
     self.userInfoLbl.text = [NSString stringWithFormat:@"%@|%@",_order.applyName,_order.applyMobile];
@@ -52,7 +52,8 @@
     
     if (_order.amount) {
         
-        self.productInfoLbl.text = [NSString stringWithFormat:@"￥%@%@",@"",[_order.amount convertToRealMoney]];
+        
+        self.productInfoLbl.text = [NSString stringWithFormat:@"%@|￥%@",_order.modelName,[_order.amount convertToRealMoney]];
         
     } else {
     

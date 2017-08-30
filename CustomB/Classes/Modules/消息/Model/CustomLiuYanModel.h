@@ -24,13 +24,15 @@ typedef NS_ENUM(NSUInteger, ChatModelType) {
 @property (nonatomic, copy) NSString *commenter;
 
 @property (nonatomic, copy) NSString *content;
+@property (nonatomic, copy) NSString *receiver;
 @property (nonatomic, copy) NSString *receivePhoto;
 @property (nonatomic, copy) NSString *receiveName;
 @property (nonatomic, copy) NSString *receiveMobile;
 
 @property (nonatomic, assign,readonly) ChatModelType chatType;
 
-
+- (NSString *)otherUserName;
+- (NSString *)otherUserId;
 
 
 //code = JL201708271917079706;

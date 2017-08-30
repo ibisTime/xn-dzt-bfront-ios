@@ -29,17 +29,15 @@
 //    http://oss.dzt.hichengdai.com/main.html
     
 //    http://www.cnblogs.com/wjblogs/p/5367052.html 删除
-    
     [AppConfig config].runEnv = RunEnvTest;
-    
-    
+    //
     if([AppConfig config].runEnv == RunEnvDev) {
     
-          [NBNetworkConfig config].baseUrl = @"http://121.43.101.148:8901/forward-service/api";
+        [NBNetworkConfig config].baseUrl = @"http://121.43.101.148:8901/forward-service/api";
     
     } else {
         
-          [NBNetworkConfig config].baseUrl = @"http://118.178.124.16:3301/forward-service/api";
+        [NBNetworkConfig config].baseUrl = @"http://118.178.124.16:3301/forward-service/api";
         
     }
   
@@ -48,7 +46,10 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    
+    //
+    [[UINavigationBar appearance] setShadowImage:[UIImage new]];
+    [[UINavigationBar appearance] setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+
     //
     IQKeyboardManager *manager = [IQKeyboardManager sharedManager];
     manager.enable = YES;

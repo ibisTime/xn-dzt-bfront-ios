@@ -42,18 +42,6 @@
         
         
     }];
-    
-    
-//    TLNetworking *http = [TLNetworking new];
-//    http.showView = self.view;
-//    http.code = @"620906";
-//    http.parameters[@"parentKey"] = @"measure";
-//    [http postWithSuccess:^(id responseObject) {
-//        
-//        
-//    } failure:^(NSError *error) {
-//        
-//    }];
 
     
   self.orderArr =  @[

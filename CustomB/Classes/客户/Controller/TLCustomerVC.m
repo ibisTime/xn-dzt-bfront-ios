@@ -35,12 +35,13 @@
 
 - (void)search {
     
-    if ([self.searchView.textField.text valid]) {
+    if (![self.searchView.textField.text valid]) {
         [TLAlert alertWithInfo:@"请输入搜索内容"];
         return;
     }
     
     TLCustomerSearchVC *vc = [[TLCustomerSearchVC alloc] init];
+    vc.searchInfo = self.searchView.textField.text;
     [self.navigationController pushViewController:vc animated:YES];
     
     //
@@ -55,11 +56,12 @@
     // [self setUpSearchView];
     self.searchView = [[TLSearchView alloc] initWithFrame:CGRectMake(0, 0,SCREEN_WIDTH, 88)];
     [self.view addSubview:self.searchView];
+    self.searchView.textField.placeholder = @"请输入客户姓名、昵称或手机号";
     [self.searchView.searchBtn addTarget:self action:@selector(search) forControlEvents:UIControlEventTouchUpInside];
 
     
-    NSArray *typeNames =  @[@"新用户",@"老客户",@"活跃老客户",@"非常活跃老客户",@"预流失客户",@"流失客户"];
-    self.statusRoom = @[@"1",@"2",@"3",@"4",@"5",@"6"];
+    NSArray *typeNames =  @[@"全部客户",@"新用户",@"老客户",@"活跃老客户",@"非常活跃老客户",@"预流失客户",@"流失客户"];
+    self.statusRoom = @[@"",@"1",@"2",@"3",@"4",@"5",@"6"];
     self.isHaveChildVC = [NSMutableArray array];
     for (NSInteger i = 0; i < typeNames.count; i ++) {
         if (i == 0) {

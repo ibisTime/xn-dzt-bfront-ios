@@ -83,36 +83,50 @@
     pageDataHelper.parameters[@"receiver"] = [TLUser user].userId;
     pageDataHelper.parameters[@"commenter"] = self.otherUserId;
 //    pageDataHelper.limit = 1;
-    pageDataHelper.tableView = self.chatTableView;
+//    pageDataHelper.tableView = self.chatTableView;
     [pageDataHelper modelClass:[CustomLiuYanModel class]];
     [self.chatTableView addRefreshAction:^{
     
         [pageDataHelper refresh:^(NSMutableArray *objs, BOOL stillHave) {
             
+            [weakSelf.chatTableView endRefreshHeader];
+
             weakSelf.chatModelRoom = objs;
             [weakSelf.chatTableView reloadData];
-            [weakSelf.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow: weakSelf.chatModelRoom.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+            if (weakSelf.chatModelRoom.count) {
+                
+                  [weakSelf.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow: weakSelf.chatModelRoom.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+            }
+          
+            [weakSelf.chatTableView resetNoMoreData_tl];
             
         } failure:^(NSError *error) {
             
+            [weakSelf.chatTableView endRefreshHeader];
+
         }];
-    
-        
-   
-        
+  
     }];
     
     [self.chatTableView addLoadMoreAction:^{
      
         [pageDataHelper loadMore:^(NSMutableArray *objs, BOOL stillHave) {
             
-            weakSelf.chatModelRoom = objs;
-            [weakSelf.chatTableView reloadData];
-            [weakSelf.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow: weakSelf.chatModelRoom.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+            [weakSelf.chatTableView endRefreshFooter];
 
             
+            weakSelf.chatModelRoom = objs;
+            [weakSelf.chatTableView reloadData];
+            if (weakSelf.chatModelRoom.count) {
+                
+                  [weakSelf.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow: weakSelf.chatModelRoom.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+            }
+          
+
         } failure:^(NSError *error) {
             
+            [weakSelf.chatTableView endRefreshFooter];
+
         }];
         
   

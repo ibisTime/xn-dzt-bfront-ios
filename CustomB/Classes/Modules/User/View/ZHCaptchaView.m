@@ -33,7 +33,7 @@
     self.captchaTf.rightViewMode = UITextFieldViewModeAlways;
     
     //获得验证码按钮
-    UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 90, frame.size.height)];
+    UIView *rightView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 110, frame.size.height)];
     
     TLTimeButton *captchaBtn = [[TLTimeButton alloc] initWithFrame:CGRectMake(0, 0, 100, frame.size.height - 15) totalTime:60.0];
     captchaBtn.backgroundColor = [UIColor orangeColor];
