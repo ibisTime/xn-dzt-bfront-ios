@@ -71,7 +71,7 @@
 @property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*ciXiuTextRoom;
 @property (nonatomic, strong) NSString  *ciXiuTextValue;
 
-//
+//备注
 @property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*remarkRoom;
 @property (nonatomic, strong) NSString  *remarkValue;
 

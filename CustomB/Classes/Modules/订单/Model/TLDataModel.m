@@ -19,4 +19,28 @@
     return self;
 }
 
+//
+- (CGSize)itemSize {
+
+    return CGSizeMake([UIScreen mainScreen].bounds.size.width, [self contentFrame].size.height + 10);
+
+}
+
+- ( CGRect )contentFrame {
+
+    if (!self.value) {
+        return CGRectZero;
+    }
+    CGSize stringSize;
+    NSDictionary *dict = @{
+                           NSFontAttributeName:[UIFont systemFontOfSize:12],
+                           };
+    stringSize = [self.value boundingRectWithSize:CGSizeMake([UIScreen mainScreen].bounds.size.width - 98 - 16 - 40, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:dict context:nil].size;
+   
+    stringSize.height =  stringSize.height  > 20 ?  stringSize.height + 5 : 20;
+    return CGRectMake(114, 10, ceilf(stringSize.width) ,ceilf(stringSize.height));
+    
+   
+}
+
 @end

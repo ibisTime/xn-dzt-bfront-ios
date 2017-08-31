@@ -15,8 +15,11 @@
  
  */
 - (float)calculate {
-
-    float price = 1.76*(self.mianLiaoPrice*self.mianLiaoCount + self.jiaGongPrice + self.gongYiPrice) + 2.06*(self.kuaiDiPrice + self.baoZhuangPrice);
+    
+    float price1 = 2.06*(self.kuaiDiPrice + self.baoZhuangPrice);
+    float price2 = 1.76*(self.mianLiaoPrice*self.mianLiaoCount + self.jiaGongPrice + self.gongYiPrice);
+ 
+    float price =  price1 + price2;
     return  price*self.times;
     
 }

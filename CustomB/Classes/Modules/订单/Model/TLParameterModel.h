@@ -28,6 +28,9 @@
 @property (nonatomic, copy) NSString *advPic; //未选中图片
 @property (nonatomic, strong) NSNumber *price; //对应的价格
 
+@property (nonatomic, copy) NSString *modelNum;
+
+
 //"code":"GY201708231211313165",
 //"type":"1-3",
 //"name":"大尖领",

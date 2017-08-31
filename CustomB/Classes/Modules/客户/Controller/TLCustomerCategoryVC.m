@@ -17,7 +17,7 @@
 #import "AppConfig.h"
 #import "TLCustomer.h"
 #import "TLCustomerDetailVC.h"
-#import "TLCustomerDetailVC.h"
+#import <MJRefresh/MJRefresh.h>
 
 @interface TLCustomerCategoryVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -122,6 +122,9 @@
     
     [self.customerTableView endRefreshingWithNoMoreData_tl];
     
+    self.customerTableView.contentInset = UIEdgeInsetsMake(24, 0, 0, 0);
+    self.customerTableView.mj_header.ignoredScrollViewContentInsetTop = 24;
+
 }
 
 

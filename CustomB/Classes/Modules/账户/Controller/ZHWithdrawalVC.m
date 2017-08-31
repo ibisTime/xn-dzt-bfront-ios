@@ -17,6 +17,7 @@
 #import "TLAlert.h"
 #import "NSNumber+TLAdd.h"
 #import "NSString+Extension.h"
+#import "CustomPayPwdVC.h"
 
 //#define WITHDRAW_RULE_MAX_KEY @"QXDBZDJE"
 
@@ -43,7 +44,7 @@
 //--//
 //@property (nonatomic,strong) UILabel *hinLbl;
 @property (nonatomic, strong) UILabel *withdrawRuleLbl;
-@property (nonatomic, strong) UIButton *setPwdBtn;
+//@property (nonatomic, strong) UIButton *setPwdBtn;
 
 @property (nonatomic,strong) UITextField *moneyTf;
 @property (nonatomic,strong) NSMutableArray <ZHBankCard *>*banks;
@@ -67,6 +68,135 @@
 
 }
 
+- (void)tl_placeholderOperation {
+
+    if ([[TLUser user].tradepwdFlag isEqual:@0]) {
+        //1.先判断是否设置了支付密码
+        [self setPlaceholderViewTitle:@"未设置支付密码" operationTitle:@"前往设置"];
+        [self addPlaceholderView];
+        CustomPayPwdVC *tradeVC = [[CustomPayPwdVC alloc] init];
+            tradeVC.success = ^() {
+        
+                [self removePlaceholderView];
+                [self tl_placeholderOperation];
+                
+         };
+         [self.navigationController pushViewController:tradeVC animated:YES];
+        
+    } else {
+        
+        //2.判断是否绑定了银行卡
+        [TLProgressHUD showWithStatus:nil];
+        __block NSInteger successCount = 0;
+        
+        dispatch_group_enter(_group);
+        TLNetworking *ruleHttp = [TLNetworking new];
+        ruleHttp.code = @"802028";
+        ruleHttp.parameters[@"keyList"] = @[WITHDRAW_RULE_SHI_XIAO,
+                                            WITHDRAW_RULE_MAX_COUNT_KEY,
+                                            WITHDRAW_RULE_BEI_SHU_KEY,
+                                            WITHDRAW_RULE_PROCEDURE_FEE_KEY];
+        
+        [ruleHttp postWithSuccess:^(id responseObject) {
+            
+            dispatch_group_leave(_group);
+            successCount ++;
+            
+            self.beiShu = responseObject[@"data"][WITHDRAW_RULE_BEI_SHU_KEY];
+            self.maxCount = responseObject[@"data"][WITHDRAW_RULE_MAX_COUNT_KEY];
+            self.shiXiao = responseObject[@"data"][WITHDRAW_RULE_SHI_XIAO];
+            self.produceFee = responseObject[@"data"][WITHDRAW_RULE_PROCEDURE_FEE_KEY];
+            
+        } failure:^(NSError *error) {
+            
+            dispatch_group_leave(_group);
+            
+        }];
+        
+        //
+        dispatch_group_enter(_group);
+        TLNetworking *http = [TLNetworking new];
+        http.code = @"802016";
+        http.parameters[@"userId"] = [TLUser user].userId;
+        http.parameters[@"token"] = [TLUser user].token;
+        [http postWithSuccess:^(id responseObject) {
+            
+            dispatch_group_leave(_group);
+            successCount ++;
+            
+            NSArray *banks = responseObject[@"data"];
+            self.banks = [ZHBankCard tl_objectArrayWithDictionaryArray:banks];
+            
+            
+        } failure:^(NSError *error) {
+            dispatch_group_leave(_group);
+            
+            
+        }];
+        
+        
+        //
+        dispatch_group_notify(_group, dispatch_get_main_queue(), ^{
+            
+            [TLProgressHUD dismiss];
+            if (successCount == 2) {
+                self.getBankCardSuccess = YES;
+                
+                [self addPlaceholderView];
+                
+                if (self.banks.count > 0 ) {
+
+                    //
+                    [self setUpUI];
+                    self.procedureFeeLbl.text = @"本次提现手续费：0.00";
+                    
+                    //时间
+                    [self.moneyTf addTarget:self action:@selector(moneyChange:) forControlEvents:UIControlEventEditingChanged];
+                    
+                    //余额进行初始化
+                    self.balanceLbl.text = [NSString stringWithFormat:@"可用余额：%@",[self.balance convertToRealMoney]];
+                    
+                    
+                    NSMutableParagraphStyle *paragraphyStyle = [[NSMutableParagraphStyle alloc] init];
+                    paragraphyStyle.lineSpacing = 5;
+                    
+                    NSString *flStr = [NSString stringWithFormat:@"%.f",[self.produceFee floatValue]*100];
+                    
+                    NSAttributedString *attr = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"取现规则：\n1.每月最大取现次数：%@\n2.提现时效%@\n3.取现手续费率 %@%%\n4.取现必须为%@的倍数",self.maxCount,self.shiXiao,flStr,self.beiShu]attributes:@{NSParagraphStyleAttributeName : paragraphyStyle}];
+                    
+                    
+                    
+                    //
+                    self.withdrawRuleLbl.attributedText = attr;
+                    
+                } else { //无卡
+                    
+                    [self setPlaceholderViewTitle:@"您还未添加银行卡" operationTitle:@"前往添加"];
+                    [self addPlaceholderView];
+                    ZHBankCardAddVC *addVC = [[ZHBankCardAddVC alloc] init];
+                    addVC.addSuccess = ^(ZHBankCard *card){
+                        
+                        [self tl_placeholderOperation];
+                        
+                    };
+                    
+                    [self.navigationController pushViewController:addVC animated:YES];
+                    
+                }
+                
+            } else{
+                
+                [self removePlaceholderView];
+                
+            }
+            
+        });
+        
+
+    }
+
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"提现";
@@ -76,7 +206,16 @@
     
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     //
-    [self beginLoad];
+//    [self beginLoad];
+    
+    [self tl_placeholderOperation];
+    
+//    if ([[TLUser user].tradepwdFlag isEqualToString:@"0"]) {
+//        //1.先判断是否设置了支付密码
+//        [self setPlaceholderViewTitle:@"未设置支付密码" operationTitle:@"前往设置"];
+//        
+//    }
+    //2.判断是否绑定了银行卡
     
 }
 
@@ -84,13 +223,13 @@
 
 
 
-- (void)hiddenSetPwdbtn {
-
-    
-    self.setPwdBtn.hidden = YES;
-    self.setPwdBtn.height = 0.1;
-
-}
+//- (void)hiddenSetPwdbtn {
+//
+//    
+//    self.setPwdBtn.hidden = YES;
+//    self.setPwdBtn.height = 0.1;
+//
+//}
 
 - (void)beginLoad {
     
@@ -162,7 +301,7 @@
 //                if ([[TLUser user].tradepwdFlag isEqualToString:@"1"]) {
 //                    
 //                }
-                [self hiddenSetPwdbtn];
+//                [self hiddenSetPwdbtn];
 
                 
                 self.procedureFeeLbl.text = @"本次提现手续费：0.00";
@@ -200,7 +339,7 @@
 
         }
         
-    });;
+    });
 
     
 }
@@ -210,8 +349,6 @@
 
     if (moneyTf.text.length) {
         
-//        self.procedureFeeLbl.text = @"本次提现手续费：100";
-
         CGFloat num = [self.produceFee floatValue];
         
         self.procedureFeeLbl.text = [NSString stringWithFormat:@"本次提现手续费：%.2f",[moneyTf.text floatValue]*num];
@@ -223,33 +360,32 @@
 
     }
     
- 
 
 }
 
 
-#pragma mark- 站位图行为
-- (void)tl_placeholderOperation {
-
-    if (!self.getBankCardSuccess) {
-        
-        [self beginLoad];
-        return;
-    }
-
-    ZHBankCardAddVC *addVC = [[ZHBankCardAddVC alloc] init];
-    addVC.addSuccess = ^(ZHBankCard *card){
-        
-        [self beginLoad];
-        
-    };
-    
-    [self.navigationController pushViewController:addVC animated:YES];
-    
-}
-
-#pragma mark- 设置交易密码
-- (void)setTrade:(UIButton *)btn {
+//#pragma mark- 站位图行为
+//- (void)tl_placeholderOperation {
+//
+//    if (!self.getBankCardSuccess) {
+//        
+//        [self beginLoad];
+//        return;
+//    }
+//
+//    ZHBankCardAddVC *addVC = [[ZHBankCardAddVC alloc] init];
+//    addVC.addSuccess = ^(ZHBankCard *card){
+//        
+//        [self beginLoad];
+//        
+//    };
+//    
+//    [self.navigationController pushViewController:addVC animated:YES];
+//    
+//}
+//
+//#pragma mark- 设置交易密码
+//- (void)setTrade:(UIButton *)btn {
 
 //    ZHPwdRelatedVC *tradeVC = [[ZHPwdRelatedVC alloc] initWith:ZHPwdTypeTradeReset];
 //    tradeVC.success = ^() {
@@ -258,7 +394,7 @@
 //    };
 //    [self.navigationController pushViewController:tradeVC animated:YES];
 
-}
+//}
 
 - (void)setUpUI {
 
@@ -286,12 +422,12 @@
     [withdrawalBtn addTarget:self action:@selector(withdrawal) forControlEvents:UIControlEventTouchUpInside];
     
     //
-    UIButton *setPwdBtn = [[UIButton alloc] initWithFrame:CGRectMake(15, withdrawalBtn.yy + 10, SCREEN_WIDTH - 30, 30) title:@"您还未设置支付密码,前往设置->" backgroundColor:[UIColor clearColor]];
-    [self.view addSubview:setPwdBtn];
-    [setPwdBtn setTitleColor:[UIColor textColor] forState:UIControlStateNormal];
-    setPwdBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [setPwdBtn addTarget:self action:@selector(setTrade:) forControlEvents:UIControlEventTouchUpInside];
-    self.setPwdBtn = setPwdBtn;
+//    UIButton *setPwdBtn = [[UIButton alloc] initWithFrame:CGRectMake(15, withdrawalBtn.yy + 10, SCREEN_WIDTH - 30, 30) title:@"您还未设置支付密码,前往设置->" backgroundColor:[UIColor clearColor]];
+//    [self.view addSubview:setPwdBtn];
+//    [setPwdBtn setTitleColor:[UIColor textColor] forState:UIControlStateNormal];
+//    setPwdBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+//    [setPwdBtn addTarget:self action:@selector(setTrade:) forControlEvents:UIControlEventTouchUpInside];
+//    self.setPwdBtn = setPwdBtn;
     
     //
     //
@@ -305,7 +441,7 @@
     
     
     //
-    UILabel *hinLbl2 = [UILabel labelWithFrame:CGRectMake(15, setPwdBtn.yy + 3, SCREEN_WIDTH - 30, 20)
+    UILabel *hinLbl2 = [UILabel labelWithFrame:CGRectMake(15, withdrawalBtn.yy + 20, SCREEN_WIDTH - 30, 20)
                                   textAligment:NSTextAlignmentLeft
                                backgroundColor:[UIColor clearColor]
                                           font:FONT(12)
@@ -315,7 +451,7 @@
     self.withdrawRuleLbl.numberOfLines = 0;
     [hinLbl2 mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.view.mas_left).offset(15);
-        make.top.equalTo(setPwdBtn.mas_bottom).offset(3);
+        make.top.equalTo(withdrawalBtn.mas_bottom).offset(13);
         make.right.equalTo(self.view.mas_right).offset(-15);
     }];
     
@@ -330,9 +466,8 @@
     self.bankPickTf.tagNames = bankCards;
     self.bankPickTf.text = bankCards[0];
     
-  
-
 }
+
 
 - (void)withdrawal {
     
@@ -430,9 +565,6 @@
 //                        "1",
 //                        "2"
 //                        ]
-
-
-
 }
 
 - (UIView *)withdrawalView {

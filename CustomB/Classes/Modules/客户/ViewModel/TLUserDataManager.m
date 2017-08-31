@@ -284,6 +284,7 @@
         TLInputDataModel *model = [[TLInputDataModel alloc] init];
         model.keyName = obj.allKeys[0];
         model.value = obj[model.keyName];
+        model.canEdit = NO;
         [self.vipInfoRoom addObject:model];
         
     }];

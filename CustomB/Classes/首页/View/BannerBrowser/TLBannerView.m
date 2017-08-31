@@ -51,8 +51,8 @@ static NSString * const XNBannerCellID = @"XNBannerCellID ";
         UICollectionViewFlowLayout *fl = [[UICollectionViewFlowLayout alloc] init];
         fl.itemSize = CGSizeMake(innerWidth, innerHeight);
         fl.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        fl.minimumLineSpacing = 0.0;
-        fl.minimumInteritemSpacing = 0.0;
+        fl.minimumLineSpacing = 0.01;
+        fl.minimumInteritemSpacing = 0.01;
         
         self.bannerCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, innerWidth, innerHeight) collectionViewLayout:fl];
         self.bannerCollectionView.backgroundColor = [UIColor whiteColor];

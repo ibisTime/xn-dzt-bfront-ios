@@ -16,11 +16,12 @@
 #import "TLNetworking.h"
 #import "TLOrderCell.h"
 #import "Const.h"
-#import "TLOrderDetailVC.h"
 #import "TLOrderDetailVC2.h"
 #import "TLProductChooseVC.h"
 #import "TLConfirmPriceVC.h"
 #import "TLAlert.h"
+#import <MJRefresh/MJRefresh.h>
+#import "TLRefreshEngine.h"
 
 @interface TLOrderCategoryVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -51,9 +52,27 @@
             
         });
         
-        
     }
     
+}
+
+//
+- (void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+    [TLRefreshEngine engine].outMark = NSStringFromClass([self class]);
+    if ([[TLRefreshEngine engine] canRefresh]) {
+        
+        [self.orderTableView beginRefreshing];
+        [[TLRefreshEngine engine] clear];
+        
+    } else {
+    
+        [[TLRefreshEngine engine] clear];
+
+    }
+
+
 }
 
 
@@ -66,7 +85,9 @@
     [self.view addSubview:tableView];
     tableView.backgroundColor = [UIColor whiteColor];
 //    tableView.contentOffset = CGPointMake(0, -24);
-//    tableView.contentInset = UIEdgeInsetsMake(24, 0, 0, 0);
+    tableView.contentInset = UIEdgeInsetsMake(24, 0, 0, 0);
+
+    
     
     self.orderTableView = tableView;
     tableView.placeHolderView = [TLPlaceholderView placeholderViewWithText:@"暂无订单"];
@@ -153,6 +174,9 @@
     
     [self.orderTableView endRefreshingWithNoMoreData_tl];
     
+    
+    self.orderTableView.mj_header.ignoredScrollViewContentInsetTop = 24;
+    
 }
 
 
@@ -166,14 +190,7 @@
 #pragma mark- delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (0) {
-        
-        TLOrderDetailVC *vc = [[TLOrderDetailVC alloc] init];
-        vc.order  = self.orderGroups[indexPath.row];
-        [self.navigationController pushViewController:vc
-                                             animated:YES];
-        
-    } else {
+
         
         TLOrderModel *order = self.orderGroups[indexPath.row];
     
@@ -183,9 +200,10 @@
             return;
             
         }
-        
-            
-            if ([order getOrderType] == TLOrderTypeProductUnChoose ){
+    
+    [TLRefreshEngine engine].inMark = NSStringFromClass([self class]);
+    
+         if ([order getOrderType] == TLOrderTypeProductUnChoose ){
             
             //产品未选择
             TLConfirmPriceVC *vc = [[TLConfirmPriceVC alloc] init];
@@ -201,9 +219,7 @@
                                                  animated:YES];
             
         }
-        
-        
-    }
+    
 
     
 }

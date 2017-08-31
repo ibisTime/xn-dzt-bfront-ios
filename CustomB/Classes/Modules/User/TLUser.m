@@ -146,6 +146,7 @@ NSString *const kUserInfoChange = @"kUserInfoChange_zh";
     self.province = dict[@"province"];
     self.city = dict[@"city"];
     self.area = dict[@"area"];
+//    self.tradepwdFlag =  [NSString stringWithFormat:@"%@",dict[@"tradepwdFlag"]];
 
 
 

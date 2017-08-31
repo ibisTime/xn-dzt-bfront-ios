@@ -136,6 +136,8 @@ FOUNDATION_EXTERN NSString * const kOrderStatusDidSave; //评价
 
 //
 FOUNDATION_EXTERN NSString * const kShouHuoDiZhiType; //收货地址
+FOUNDATION_EXTERN NSString * const kBeiZhuType; //收货地址
+
 
 
 

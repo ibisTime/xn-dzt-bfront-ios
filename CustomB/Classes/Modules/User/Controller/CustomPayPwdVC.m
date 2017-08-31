@@ -128,6 +128,11 @@
         
         [TLAlert alertWithInfo:@"操作成功"];
         [[TLUser user] updateUserInfo];
+        [TLUser user].tradepwdFlag = @"1";
+        if (self.success) {
+            self.success();
+        }
+
         [self.navigationController popViewControllerAnimated:YES];
         
     } failure:^(NSError *error) {

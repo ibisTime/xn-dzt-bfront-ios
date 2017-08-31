@@ -57,7 +57,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isFirst = YES;
-    
+    self.title = @"客户搜索";
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     TLTableView *tableView = [TLTableView tableViewWithframe:self.view.bounds delegate:self dataSource:self];
     [self.view addSubview:tableView];

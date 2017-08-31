@@ -66,6 +66,7 @@
     TLDataModel *dataModel = model;
     self.titleLbl.text = dataModel.keyName;
     self.contentLbl.text = dataModel.value;
+    self.contentLbl.frame =  dataModel.contentFrame;
     
     if (dataModel.isStatus) {
         self.contentLbl.hidden = YES;

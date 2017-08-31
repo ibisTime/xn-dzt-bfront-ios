@@ -14,8 +14,10 @@
 
 typedef NS_ENUM(NSUInteger, TLOrderType) {
     
-    TLOrderTypeChenShan,
-    TLOrderTypeHAdd,
+    TLOrderTypeChenShanDidDingJia,
+    TLOrderTypeChenShanUnDingJia,
+    TLOrderTypeHAddDidDingJia,
+    TLOrderTypeHAddUnDingJia,
     TLOrderTypeProductUnChoose
     
 

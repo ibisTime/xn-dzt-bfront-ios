@@ -28,8 +28,8 @@
 @property (nonatomic, copy) NSString *ljAmount;
 @property (nonatomic, copy) NSString *loginName;
 @property (nonatomic, copy) NSString *nickname;
-//0 未设置交易密码 1已设置
-@property (nonatomic, copy) NSString *tradepwdFlag;
+//0 未设置交易密码 1已设置  
+@property (nonatomic, strong) NSNumber *tradepwdFlag;
 @property (nonatomic, copy) NSString *realName;
 @property (nonatomic, copy) NSString *idNo;
 

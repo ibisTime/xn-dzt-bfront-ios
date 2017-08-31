@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+#import <UIKit/UIKit.h>
 @interface TLDataModel : NSObject
 
 @property (nonatomic, copy) NSString *keyName;
@@ -16,5 +17,9 @@
 
 //该model 是非为状态
 @property (nonatomic, assign) BOOL isStatus;
+
+@property (nonatomic, assign, readonly) CGRect contentFrame;
+@property (nonatomic, assign, readonly) CGSize itemSize;
+
 
 @end

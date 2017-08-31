@@ -36,12 +36,16 @@
 - (void)viewWillAppear:(BOOL)animated {
 
     [super viewWillAppear:animated];
+    
+    [self.navigationController.navigationBar setShadowImage:[[UIColor colorWithHexString:@"#cccccc"] convertToImage]];
+
     if (self.isFirst) {
         
         self.isFirst = NO;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [self.balanceTableView beginRefreshing];
         });
+        
     }
     
 
@@ -65,6 +69,7 @@
 }
 
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -77,7 +82,7 @@
     [self.dataArray addObject:@{ @"已提现金额" : @"￥--"
                                  }];
     
-    
+    //
     __weak typeof(self) weakself = self;
     [self.balanceTableView addRefreshAction:^{
        
@@ -98,7 +103,6 @@
                     weakself.balanceLbl.text =  [NSString stringWithFormat:@"￥%@",[obj.amount convertToRealMoney]];
                     [weakself.dataArray removeAllObjects];
                     
-                    
                     //
                     [weakself.dataArray addObject:@{@"总收入" : [obj.inAmount convertToRealMoney]}];
                     [weakself.dataArray addObject:@{@"已提现金额" : [obj.outAmount convertToRealMoney]}];
@@ -116,6 +120,7 @@
         }];
         
     }];
+    
 }
 
 

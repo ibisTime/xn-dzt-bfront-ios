@@ -36,6 +36,8 @@
 #import "TLAlert.h"
 #import "TLButtonHeaderView.h"
 #import "TLUserHeaderView.h"
+#import "TLRefreshEngine.h"
+#import "Const.h"
 
 
 @interface TLOrderDetailVC2 ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,TLOrderEditHeaderDelegate,TLButtonHeaderViewDelegate>
@@ -64,7 +66,6 @@
 
         req.code = @"620207";
         req.parameters[@"orderCode"] = self.order.code;
-        req.parameters[@"remark"] = self.dataManager.remarkValue;
         req.parameters[@"updater"] = [TLUser user].userId;
 
         [self.dataManager.measureDataRoom enumerateObjectsUsingBlock:^(TLInputDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -105,16 +106,18 @@
     NSString *addressValue = self.dataManager.shouHuoAddressRoom[0].value;
     measureDict[addressType] = addressValue;
     
+    //备注
+    measureDict[kBeiZhuType] = self.dataManager.remarkRoom[0].value;
+    
     
     //3.风格
     [self.dataManager.zhuoZhuangFengGeRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        
 
         if (!obj.isSelected) {
             
             if (idx == self.dataManager.zhuoZhuangFengGeRoom.count - 1) {
                 @throw [NSException
-                        exceptionWithName:[NSString  stringWithFormat:@"请选择%@",@"风格"] reason:nil userInfo:nil];
+                        exceptionWithName:[NSString  stringWithFormat:@"请选择%@",@"着装风格"] reason:nil userInfo:nil];
             }
             
         } else {
@@ -322,14 +325,13 @@
     }];
     
     req.parameters[@"codeList"] = otherArr;
-
     [req startWithSuccess:^(__kindof NBBaseRequest *request) {
         
         [TLProgressHUD dismiss];
         [TLAlert alertWithSucces:@"录入成功"];
+        
         //
         [self.navigationController popToRootViewControllerAnimated:YES];
-        
         //
     } failure:^(__kindof NBBaseRequest *request) {
         [TLProgressHUD dismiss];
@@ -339,17 +341,7 @@
     
 }
 
-- (void)viewDidLoad {
-
-    [super viewDidLoad];
-
-   self.title = @"订单详情";
-
-    
-    //获取全部选择参数，除布料外
-    if (!self.productCode) {
-        NSLog(@"产品编号不能为空");
-    }
+- (void)tl_placeholderOperation {
     
     [TLProgressHUD showWithStatus:nil];
     NBCDRequest *orderReq = [[NBCDRequest alloc] init];
@@ -357,13 +349,13 @@
     orderReq.parameters[@"code"] = self.orderCode;
     [orderReq startWithSuccess:^(__kindof NBBaseRequest *request) {
         
-        [TLProgressHUD dismiss];
+        [self removePlaceholderView];
         //先获取订单信息，在获取其它信息
         self.order = [TLOrderModel tl_objectWithDictionary:request.responseObject[@"data"]];
         
         //根据产品获取产品code
         self.productCode = self.order.productList[0].modelCode;
-
+        
         //
         NBCDRequest *req = [[NBCDRequest alloc] init];
         req.code = @"620054";
@@ -384,11 +376,13 @@
         NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[req,xingTiReq,mianLiaoReq]];
         [batchReq startWithSuccess:^(NBBatchReqest *batchRequest) {
             
+            [TLProgressHUD dismiss];
+
             NBCDRequest *chooseReq = (NBCDRequest *)batchRequest.reqArray[0];
             //形体所有选项
             NBCDRequest *xingTiReq = (NBCDRequest *)batchRequest.reqArray[1];
             NBCDRequest *mianLiaoReq = (NBCDRequest *)batchRequest.reqArray[2];
-    
+            
             //初始化
             self.dataManager = [[TLOrderDataManager alloc] initWithOrder:self.order];
             
@@ -408,14 +402,37 @@
             
         } failure:^(NBBatchReqest *batchRequest) {
             
+            [TLProgressHUD dismiss];
+            
         }];
         
     } failure:^(__kindof NBBaseRequest *request) {
         
+        [self addPlaceholderView];
         [TLProgressHUD dismiss];
-
+        
     }];
 
+    
+
+}
+
+- (void)viewDidLoad {
+
+    [super viewDidLoad];
+
+    self.title = @"订单详情";
+    [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
+
+    
+    //获取全部选择参数，除布料外
+    if (!self.productCode) {
+        NSLog(@"产品编号不能为空");
+    }
+    
+    //
+    [self tl_placeholderOperation];
+   
 }
 
 #pragma mark- delegate  按钮点击事件,底部按钮点击事件
@@ -432,6 +449,7 @@
             [TLProgressHUD dismiss];
             
             [TLAlert alertWithSucces:@"提交复核成功"];
+            [TLRefreshEngine engine].refreshTag = 10;
             [self.navigationController popToRootViewControllerAnimated:YES];
             
         } failure:^(__kindof NBBaseRequest *request) {
@@ -471,7 +489,7 @@
     TLGroup *topUserGroup = [[TLGroup alloc] init];
     topUserGroup.dataModelRoom = [NSMutableArray new];
     [self.dataManager.groups addObject:topUserGroup];
-    topUserGroup.title = [NSString stringWithFormat:@"%@|%@",self.order.ltName,self.order.applyMobile];
+    topUserGroup.title = [NSString stringWithFormat:@"%@ | %@",self.order.ltName,self.order.applyMobile];
     topUserGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
     topUserGroup.headerReuseIdentifier = [TLUserHeaderView headerReuseIdentifier];
     topUserGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 40);
@@ -491,7 +509,7 @@
     orderInfoGroup.minimumInteritemSpacing = 0;
     orderInfoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 0, 20, 0);
     orderInfoGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
-    orderInfoGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 30);
+    orderInfoGroup.itemSize = CGSizeZero;
     
     //伪头部
     TLGroup *falseGroup = [[TLGroup alloc] init];
@@ -524,7 +542,7 @@
     logisticsInfoGroup.minimumInteritemSpacing = 0;
     logisticsInfoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 0, 20, 0);
     logisticsInfoGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
-    logisticsInfoGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 30);
+    logisticsInfoGroup.itemSize = CGSizeZero;
 
     
     //***********客户信息******************************//
@@ -540,7 +558,7 @@
     userInfoGroup.minimumInteritemSpacing = 0;
     userInfoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 0, 20, 0);
     userInfoGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
-    userInfoGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 30);
+    userInfoGroup.itemSize = CGSizeZero;
     
         //*********** 量体信息 ******************************//
         TLGroup *measureGroup = [[TLGroup alloc] init];
@@ -597,7 +615,7 @@
     TLGroup *styleGroup = [[TLGroup alloc] init];
     [self.dataManager.groups addObject:styleGroup];
     styleGroup.dataModelRoom = self.dataManager.zhuoZhuangFengGeRoom;
-    styleGroup.title = @"风格";
+    styleGroup.title = @"着装风格";
     styleGroup.canEdit = [self.order canEditDingZhi];
     styleGroup.content = self.dataManager.zhuoZhuangFengGeValue;
     styleGroup.headerSize = headerSmallSize;
@@ -950,7 +968,7 @@
     UICollectionViewCell *cell = [collectionView cellForItemAtIndexPath:indexPath];
     if ([cell isKindOfClass:[TLColorChooseCell class]] || [cell isKindOfClass:[TLOrderParameterCell class]]) {
         
-        //颜色选择
+        //颜色选择, 和 ,其它
         NSMutableArray <TLParameterModel *>*models = self.dataManager.groups[indexPath.section].dataModelRoom;
         [models enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
@@ -1042,7 +1060,21 @@
 #pragma mark- UICollectionViewDelegateFlowLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
 
+    BOOL isZero = CGSizeEqualToSize(self.dataManager.groups[indexPath.section].itemSize, CGSizeZero);
+    if (isZero) {
+        TLDataModel *dataModel = (TLDataModel *)self.dataManager.groups[indexPath.section].dataModelRoom[indexPath.row];
+        
+        if ([dataModel isKindOfClass:[TLDataModel class]]) {
+            
+            return dataModel.itemSize;
+            
+        }
+        
+        return self.dataManager.groups[indexPath.section].itemSize;
+        
+    }
     return self.dataManager.groups[indexPath.section].itemSize;
+    
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {

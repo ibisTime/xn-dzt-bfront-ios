@@ -33,17 +33,49 @@
         //未选择产品
         return TLOrderTypeProductUnChoose;
         
-    } else if ([self.type isEqualToString:@"0"]) {
+    }
     
-        //产品为衬衫
-        return TLOrderTypeChenShan;
+    //选择衬衫价格固定
+    if ([self.type isEqualToString:@"0"]) {
+        // H+
+        if (self.amount) {
+            
+            return TLOrderTypeChenShanDidDingJia;
+            
+        } else {
+            
+            return TLOrderTypeChenShanUnDingJia;
+            
+        }
 
     } else {
+        // H+
+        if (self.amount) {
+            
+            return TLOrderTypeHAddDidDingJia;
+            
+        } else {
+            
+            return TLOrderTypeHAddUnDingJia;
+        
+        }
     
-        //产品
-        return TLOrderTypeHAdd;
-
     }
+    
+    
+    
+//    
+//    //
+//    if ([self.type isEqualToString:@"0"]) {
+//    
+//        //产品为衬衫
+//        return TLOrderTypeChenShanDidDingJia;
+//
+//    } else {
+//        return TLOrderTypeHAddDidDingJia;
+//
+//        //产品
+//    }
     
 }
 
@@ -110,7 +142,7 @@
 - (BOOL)canEditDingZhi {
 
     
-    if ([self getOrderType] == TLOrderTypeChenShan) {
+    if ([self getOrderType] == TLOrderTypeChenShanDidDingJia) {
         //普通衬衫, 已支付 可以进行编辑，
         return [self.status isEqualToString:kOrderStatusDidPay];
         
@@ -130,22 +162,22 @@
 - (BOOL)canEdit {
     
     return YES;
-    if ([self getOrderType] == TLOrderTypeChenShan) {
-            //普通衬衫
-        return [self.status isEqualToString:kOrderStatusWillMeasurement] ||
-        [self.status isEqualToString:kOrderStatusDidPay] ||
-        [self.status isEqualToString:kOrderStatusDidDingJia] ||
-        [self.status isEqualToString:kOrderStatusWillCheck];
-        
-    } else if([self getOrderType] == TLOrderTypeHAdd){
-        //H+
-        return [self.status isEqualToString:kOrderStatusWillMeasurement];
-    
-    } else {
-    
-        NSLog(@"根据订单判断不出，产品类型");
-        return YES;
-    }
+//    if ([self getOrderType] == TLOrderTypeChenShanDidDingJia) {
+//            //普通衬衫
+//        return [self.status isEqualToString:kOrderStatusWillMeasurement] ||
+//        [self.status isEqualToString:kOrderStatusDidPay] ||
+//        [self.status isEqualToString:kOrderStatusDidDingJia] ||
+//        [self.status isEqualToString:kOrderStatusWillCheck];
+//        
+//    } else if([self getOrderType] == TLOrderTyp){
+//        //H+
+//        return [self.status isEqualToString:kOrderStatusWillMeasurement];
+//    
+//    } else {
+//    
+//        NSLog(@"根据订单判断不出，产品类型");
+//        return YES;
+//    }
 
 
     

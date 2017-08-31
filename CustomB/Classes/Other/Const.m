@@ -26,6 +26,7 @@
 
 //****************** 收货地址 *********************//
 NSString * const kShouHuoDiZhiType = @"6-04";
+NSString * const kBeiZhuType = @"6-05";
 
 
 @implementation Const

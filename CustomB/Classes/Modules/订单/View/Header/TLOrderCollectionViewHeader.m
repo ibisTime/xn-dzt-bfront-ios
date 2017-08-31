@@ -145,6 +145,7 @@
     [self.titleLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.mas_centerY);
         make.left.equalTo(self.mas_left).offset(18);
+        make.width.mas_greaterThanOrEqualTo(60);
         
     }];
     

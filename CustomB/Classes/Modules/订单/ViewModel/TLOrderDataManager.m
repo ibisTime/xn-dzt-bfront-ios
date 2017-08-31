@@ -200,7 +200,7 @@
     //
     [self.mianLiaoRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        obj.name = [obj.code copy];
+        obj.name = [obj.modelNum copy];
         if (self.order.resultMap.DINGZHI[@"1-02"]) {
             
             NSDictionary *selelctParaDict = self.order.resultMap.DINGZHI[@"1-02"];
@@ -209,7 +209,7 @@
                 
                 obj.isSelected = YES;
                 obj.yuSelected = YES;
-                self.mianLiaoValue = obj.code;
+                self.mianLiaoValue = obj.modelNum;
                 
             }
             
@@ -548,7 +548,7 @@
         
         NSDictionary *selelctParaDict = self.order.resultMap.DINGZHI[@"1-02"];
         
-        [productInfoArr addObject:@{@"面料编号" : selelctParaDict[@"code"]}];
+        [productInfoArr addObject:@{@"面料编号" : selelctParaDict[@"modelNum"]}];
         
     }
     
@@ -558,11 +558,13 @@
         [productInfoArr addObject:@{@"订单价格":priceStr}];
     }
     
-//    if (self.order.payAmount) {
-//        
+    if (self.order.payAmount) {
+        
+        
 //        NSString *turePriceStr =  [NSString stringWithFormat:@"￥%@",[self.order.payAmount convertToRealMoney]];
 //        [productInfoArr addObject:@{@"价格优惠":turePriceStr}];
-//    }
+        
+    }
     
     //
     NSMutableArray *productInfoArrDataModelRoom = [[NSMutableArray alloc] init];
@@ -660,6 +662,7 @@ NSDictionary *kuaiDiDcit =   @{
         shouHuoDiZHi.keyName = @"收货地址";
         shouHuoDiZHi.value = selelctParaDict[@"code"];
         
+
     } else {
         
         shouHuoDiZHi.keyCode = kShouHuoDiZhiType;
@@ -668,11 +671,17 @@ NSDictionary *kuaiDiDcit =   @{
     
     }
     
-   
+    //
     TLInputDataModel *remarkDataModel =  [[TLInputDataModel alloc] init];
-    remarkDataModel.value = self.order.remark;
     self.remarkRoom = [[NSMutableArray alloc] initWithArray:@[remarkDataModel]];
-    self.remarkValue = self.order.remark;
+    if (self.order.resultMap.QITA[kBeiZhuType]) {
+        
+        NSDictionary *selelctParaDict = self.order.resultMap.QITA[kBeiZhuType];
+        remarkDataModel.value = selelctParaDict[@"code"];
+        self.remarkValue = self.order.remark;
+    }
+    
+  
     
     //
     NSMutableArray <NSDictionary *> *orderInfoArr = [[NSMutableArray alloc] initWithArray:   @[
@@ -711,6 +720,10 @@ NSDictionary *kuaiDiDcit =   @{
         NSDictionary *selelctParaDict = self.order.resultMap.QITA[kShouHuoDiZhiType];
         [orderInfoArr addObject:@{@"收货地址" : selelctParaDict[@"code"]}];
         
+//        [orderInfoArr addObject:@{@"收货地址" : @"我是很长的收货地址痕迹发件方啦房间爱了就爱了放假了福利卡机"}];
+
+//        shouHuoDiZHi.value = ;
+
     } else {
     
         [orderInfoArr addObject:@{@"收货地址" : [self.order getDetailAddress]}];

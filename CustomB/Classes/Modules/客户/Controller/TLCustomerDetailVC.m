@@ -178,85 +178,6 @@
 
     }];
     
-    //
-//    [userInfo startWithSuccess:^(__kindof NBBaseRequest *request) {
-//        [TLProgressHUD dismiss];
-//        
-//        self.customerStatisticsInfo = [TLCustomerStatisticsInfo tl_objectWithDictionary:request.responseObject[@"data"]];
-//        self.dataManager = [[TLUserDataManager alloc] init];
-//        self.dataManager.customerStatisticsInfo = self.customerStatisticsInfo;
-//        
-//        [self.dataManager handleUserInfo:nil];
-//        [self.dataManager handMeasureDataWithResp:nil];
-//        [self.dataManager configXingTiDataModelWithResp:nil];
-//        
-//        [self setUpUI];
-//        [self registerClass];
-//        //            //配置Model
-//        [self configModel];
-//        
-//    } failure:^(__kindof NBBaseRequest *request) {
-//        [TLProgressHUD dismiss];
-//        
-//        
-//    }];
-    
-//    return;
-//        
-//        //
-////        NBCDRequest *req = [[NBCDRequest alloc] init];
-////        req.code = @"620054";
-////        req.parameters[@"modelCode"] =  self.productCode;
-////        req.parameters[@"status"] = @"1";
-//    
-//        NBCDRequest *parameterReq = [[NBCDRequest alloc] init];
-//        parameterReq.code = @"620906";
-//        parameterReq.parameters[@"parentKey"] = @"measure";
-//        parameterReq.parameters[@"systemCode"] = [AppConfig config].systemCode;
-//        parameterReq.parameters[@"companyCode"] = [AppConfig config].systemCode;
-//
-//    
-//        NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[parameterReq,userInfo]];
-//        [batchReq startWithSuccess:^(NBBatchReqest *batchRequest) {
-//            
-//           NBCDRequest *userReq = (NBCDRequest *)batchRequest.reqArray[1];
-//            
-//            
-//            self.dataManager = [[TLUserDataManager alloc] init];
-//            self.customerStatisticsInfo = [TLCustomerStatisticsInfo tl_objectWithDictionary:userReq.responseObject[@"data"]];
-//            self.dataManager.customerStatisticsInfo = self.customerStatisticsInfo;
-//            
-//            [self.dataManager handleUserInfo:nil];
-//            [self.dataManager handMeasureDataWithResp:nil];
-//            
-////            NBCDRequest *chooseReq = (NBCDRequest *)batchRequest.reqArray[0];
-////            NBCDRequest *measureDict = (NBCDRequest *)batchRequest.reqArray[1];
-////            //形体所有选项
-////            NBCDRequest *xingTiReq = (NBCDRequest *)batchRequest.reqArray[2];
-////            NBCDRequest *mianLiaoReq = (NBCDRequest *)batchRequest.reqArray[3];
-////            
-////            //初始化
-////            self.dataManager = [[TLOrderDataManager alloc] init];
-////            
-////            //
-////            [self.dataManager handleParameterData:chooseReq.responseObject];
-////            [self.dataManager handMeasureDataWithResp:nil];
-////            [self.dataManager configXingTiDataModelWithResp:xingTiReq.responseObject];
-////            
-////            [self.dataManager handleMianLiaoData:mianLiaoReq.responseObject];
-////            
-////            //
-////            [self setUpUI];
-////            [self registerClass];
-////            //配置Model
-//            [self configModel];
-//            //
-//            
-//        } failure:^(NBBatchReqest *batchRequest) {
-//            
-//        }];
-    
-    
 }
 
 
@@ -272,7 +193,7 @@
     TLGroup *topUserGroup = [[TLGroup alloc] init];
     topUserGroup.dataModelRoom = [NSMutableArray new];
     [self.dataManager.groups addObject:topUserGroup];
-    topUserGroup.title = [NSString stringWithFormat:@"%@|%@",self.customerStatisticsInfo.realName,self.customerStatisticsInfo.mobile];
+    topUserGroup.title = [NSString stringWithFormat:@"%@ | %@",self.customerStatisticsInfo.realName,self.customerStatisticsInfo.mobile];
     topUserGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
     topUserGroup.headerReuseIdentifier = [TLUserHeaderView headerReuseIdentifier];
     topUserGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 40);
@@ -297,7 +218,7 @@
     orderInfoGroup.minimumInteritemSpacing = 0;
     orderInfoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 0, 20, 0);
     orderInfoGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
-    orderInfoGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 30);
+    orderInfoGroup.itemSize = CGSizeZero;
 
     //***********客户信息******************************//
     TLGroup *userInfoGroup = [[TLGroup alloc] init];
@@ -311,7 +232,7 @@
     userInfoGroup.minimumInteritemSpacing = 0;
     userInfoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 0, 20, 0);
     userInfoGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
-    userInfoGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 30);
+    userInfoGroup.itemSize = CGSizeZero;
     
     
     
@@ -322,7 +243,6 @@
     TLGroup *vipInfoGroup = [[TLGroup alloc] init];
     [self.dataManager.groups addObject:vipInfoGroup];
     vipInfoGroup.dataModelRoom = self.dataManager.vipInfoRoom;
-    
     vipInfoGroup.title = @"会员信息";
     vipInfoGroup.editting = YES;
     vipInfoGroup.headerSize = headerMiddleSize;
@@ -332,7 +252,7 @@
     vipInfoGroup.minimumInteritemSpacing = 0;
     vipInfoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, measureLeftMargin, 0, measureLeftMargin);
     vipInfoGroup.editingEdgeInsets =  vipInfoGroup.editedEdgeInsets;
-    vipInfoGroup.itemSize = CGSizeMake(measureWidth, 35);
+    vipInfoGroup.itemSize = CGSizeMake(measureWidth, 30);
 
   
     //*********** 量体信息 ******************************//
@@ -539,7 +459,21 @@
 #pragma mark- UICollectionViewDelegateFlowLayout
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     
+    BOOL isZero = CGSizeEqualToSize(self.dataManager.groups[indexPath.section].itemSize, CGSizeZero);
+    if (isZero) {
+        TLDataModel *dataModel = (TLDataModel *)self.dataManager.groups[indexPath.section].dataModelRoom[indexPath.row];
+        
+        if ([dataModel isKindOfClass:[TLDataModel class]]) {
+            
+            return dataModel.itemSize;
+            
+        }
+        
+        return self.dataManager.groups[indexPath.section].itemSize;
+        
+    }
     return self.dataManager.groups[indexPath.section].itemSize;
+    
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {

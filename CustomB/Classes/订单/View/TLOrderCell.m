@@ -47,18 +47,18 @@
     self.timeLbl.text = [_order.createDatetime convertToDetailDate];
     
     //
-    self.userInfoLbl.text = [NSString stringWithFormat:@"%@|%@",_order.applyName,_order.applyMobile];
+    self.userInfoLbl.text = [NSString stringWithFormat:@"%@ | %@",_order.applyName,_order.applyMobile];
     
     
     if (_order.amount) {
         
         
-        self.productInfoLbl.text = [NSString stringWithFormat:@"%@|￥%@",_order.modelName,[_order.amount convertToRealMoney]];
+        self.productInfoLbl.text = [NSString stringWithFormat:@"%@ | ￥%@",_order.modelName,[_order.amount convertToRealMoney]];
         
     } else {
     
-        self.productInfoLbl.text = nil;
-        
+        self.productInfoLbl.text = [NSString stringWithFormat:@"%@",_order.modelName ? : @""];
+
     }
 
     //

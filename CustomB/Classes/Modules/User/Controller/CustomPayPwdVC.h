@@ -10,4 +10,7 @@
 
 @interface CustomPayPwdVC : TLBaseVC
 
+@property (nonatomic, copy) void(^success)();
+
+
 @end

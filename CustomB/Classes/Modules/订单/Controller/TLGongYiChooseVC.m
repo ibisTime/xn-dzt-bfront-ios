@@ -219,7 +219,7 @@
     
     //10.刺绣内容
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    NSString *cixiuValue = self.dataManager.ciXiuTextRoom[0].value;
+    NSString *cixiuValue = self.dataManager.ciXiuTextValue;
     dict[@"5-01"] = cixiuValue;
     
     
@@ -422,7 +422,7 @@
     TLGroup *styleGroup = [[TLGroup alloc] init];
     [self.dataManager.groups addObject:styleGroup];
     styleGroup.dataModelRoom = self.dataManager.zhuoZhuangFengGeRoom;
-    styleGroup.title = @"风格";
+    styleGroup.title = @"着装风格";
     styleGroup.canEdit = YES;
     styleGroup.content = self.dataManager.zhuoZhuangFengGeValue;
     styleGroup.headerSize = headerSmallSize;

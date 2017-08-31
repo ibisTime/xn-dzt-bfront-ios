@@ -370,8 +370,9 @@
     }];
     
     [self.nameLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        
         make.left.equalTo(self.userPhotoImageView.mas_right).offset(30);
-        make.bottom.equalTo(self.userPhotoImageView.mas_centerY).offset(5);
+        make.centerY.equalTo(self.userPhotoImageView.mas_centerY);
         
     }];
     

@@ -17,7 +17,6 @@
 #import "TLNetworking.h"
 #import "TLOrderCell.h"
 #import "Const.h"
-#import "TLOrderDetailVC.h"
 #import "TLOrderDetailVC2.h"
 #import "TLProductChooseVC.h"
 
@@ -59,6 +58,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isFirst = YES;
+    self.title = @"订单搜索";
     
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 40) delegate:self dataSource:self];
@@ -125,14 +125,6 @@
 #pragma mark- delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    if (0) {
-        
-        TLOrderDetailVC *vc = [[TLOrderDetailVC alloc] init];
-        vc.order  = self.orderGroups[indexPath.row];
-        [self.navigationController pushViewController:vc
-                                             animated:YES];
-        
-    } else {
         
         
         
@@ -154,11 +146,7 @@
                                                  animated:YES];
             
         }
-        
-        
-    }
-    
-    
+
 }
 
 

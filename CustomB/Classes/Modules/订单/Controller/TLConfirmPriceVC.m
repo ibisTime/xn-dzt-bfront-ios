@@ -23,6 +23,7 @@
 #import "NSNumber+TLAdd.h"
 #import "TLCalculatePriceManager.h"
 #import "AppConfig.h"
+#import "TLRefreshEngine.h"
 
 @interface TLConfirmPriceVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,TLOrderEditHeaderDelegate,TLPriceHeaderViewDelegate,TLButtonHeaderViewDelegate,TLGongYiChooseVCDelegate>
 
@@ -74,23 +75,43 @@
     
     //
     NSMutableArray *productMutableArr = [[NSMutableArray alloc] init];
-    [self.productRoom enumerateObjectsUsingBlock:^(TLProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
-        parameterModel.code = obj.code;
-        parameterModel.name = obj.name;
-        parameterModel.pic = obj.advPic;
-        [productMutableArr addObject:parameterModel];
-        
-    }];
+    
+        //前端从产品界面进入，预约的时候已经有产品
+        [self.productRoom enumerateObjectsUsingBlock:^(TLProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            if (self.order.modelName && [self.order.modelCode isEqualToString:obj.code]) {
+
+                TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
+                parameterModel.code = obj.code;
+                parameterModel.name = obj.name;
+                parameterModel.pic = obj.advPic;
+                parameterModel.yuSelected = YES;
+                parameterModel.isSelected = YES;
+                [productMutableArr addObject:parameterModel];
+                self.currentProductModel = obj;
+                
+            } else {
+            
+                TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
+                parameterModel.code = obj.code;
+                parameterModel.name = obj.name;
+                parameterModel.pic = obj.advPic;
+                [productMutableArr addObject:parameterModel];
+            }
+      
+            
+        }];
+ 
     
     //
     TLGroup *productGroup = [[TLGroup alloc] init];
-    productGroup.canEdit = YES;
+    productGroup.canEdit =  YES;
     productGroup.editting = YES;
     productGroup.dataModelRoom = productMutableArr;
     [self.dataManager.groups addObject:productGroup];
-    productGroup.title = @"请选择产品";
+    productGroup.title =  @"请选择产品";
+    productGroup.content = self.order.modelName ?  : nil;
+
     productGroup.headerSize = headerSmallSize;
     productGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
     productGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
@@ -330,10 +351,13 @@
         self.productRoom =  [TLProduct tl_objectArrayWithDictionaryArray:arr];
         //
         self.dataManager = [[TLOrderDataManager alloc] init];
+        self.dataManager.order = self.order;
+        
         //
         [self setUpUI];
         [self registerClass];
         [self configModel];
+        [self chooseProductAfter];
         
     } failure:^(NBBatchReqest *batchRequest) {
         [TLProgressHUD dismiss];
@@ -377,12 +401,11 @@
         } else {
         
             //为衬衫 H+ 进行价格计算
-
             self.calculatePriceManager.mianLiaoPrice = mianLiaoPrice;
             self.calculatePriceManager.gongYiPrice = gongYiPrice;
             //获取快递 和 包装费
-            self.calculatePriceManager.kuaiDiPrice = 10;
-            self.calculatePriceManager.baoZhuangPrice = 10;
+            self.calculatePriceManager.kuaiDiPrice = self.kuaiDiFei;
+            self.calculatePriceManager.baoZhuangPrice = self.baoZhuangFei;
             //计算价格 -------- 选择产品后需要计算，改变公益后需要计算
             float totalPrice = [self.calculatePriceManager calculate];
             
@@ -415,6 +438,7 @@
         [req startWithSuccess:^(__kindof NBBaseRequest *request) {
             
             [TLAlert alertWithSucces:@"定价成功"];
+            [TLRefreshEngine engine].refreshTag = 10;
             [self.navigationController popToRootViewControllerAnimated:YES];
             
         } failure:^(__kindof NBBaseRequest *request) {
@@ -462,6 +486,7 @@
         
         [TLProgressHUD dismiss];
         [TLAlert alertWithSucces:@"定价成功"];
+        [TLRefreshEngine engine].refreshTag = 10;
         [self.navigationController popViewControllerAnimated:YES];
         
     } failure:^(__kindof NBBaseRequest *request) {
@@ -558,6 +583,44 @@
 
 }
 
+#pragma mark- 必须在配置完 模型 和 产品之后调用
+- (void)chooseProductAfter {
+
+    if (!self.currentProductModel) {
+        
+        NSLog(@"还未选择产品");
+        return;
+        
+    }
+    
+    //
+    if ( self.currentProductModel.productType == TLProductTypeHAdd) {
+        
+        //工艺是否可编辑
+        self.gongYiPriceGroup.canEdit = YES;
+        
+        //改变面料单消耗
+        self.mianLiaoCountGroup.content = [NSString stringWithFormat:@"%@",self.currentProductModel.loss];
+        self.calculatePriceManager.mianLiaoCount = [self.currentProductModel.loss integerValue];
+        
+        //改变加工费
+        self.jiaGongPriceGroup.content = [NSString stringWithFormat:@"%@",[self.currentProductModel.processFee convertToRealMoney]];
+        self.calculatePriceManager.jiaGongPrice = [[self.currentProductModel.processFee convertToRealMoney] floatValue];
+        //
+        self.kuaiDiFeiGroup.content = [NSString stringWithFormat:@"%.2f",self.kuaiDiFei];
+        self.baoZhuangFeiGroup.content = [NSString stringWithFormat:@"%.2f",self.baoZhuangFei];
+        self.calculatePriceManager.kuaiDiPrice = self.kuaiDiFei;
+        self.calculatePriceManager.baoZhuangPrice = self.baoZhuangFei;
+        
+    } else {
+        //选择的为衬衫
+        //工艺是否可编辑
+        self.gongYiPriceGroup.canEdit = NO;
+        [self chooseChenShanChangePrice];
+    }
+
+}
+
 #pragma mark-  TLOrderEditHeaderDelegate
 - (void)actionWithView:(TLOrderCollectionViewHeader *)reusableView type:(EditType)type {
     
@@ -595,31 +658,7 @@
                         //当前选中的_产品
                         self.currentProductModel = currentProduct;
 
-                        //
-                        if (currentProduct.productType == TLProductTypeHAdd) {
-                            
-                            //工艺是否可编辑
-                            self.gongYiPriceGroup.canEdit = YES;
-
-                            //改变面料单消耗
-                            self.mianLiaoCountGroup.content = [NSString stringWithFormat:@"%@",currentProduct.loss];
-                            self.calculatePriceManager.mianLiaoCount = [currentProduct.loss integerValue];
-                            
-                            //改变加工费
-                            self.jiaGongPriceGroup.content = [NSString stringWithFormat:@"%@",[self.productRoom[idx].processFee convertToRealMoney]];
-                            self.calculatePriceManager.jiaGongPrice = [[currentProduct.processFee convertToRealMoney] floatValue];
-                            //
-                            self.kuaiDiFeiGroup.content = [NSString stringWithFormat:@"%.2f",self.kuaiDiFei];
-                            self.baoZhuangFeiGroup.content = [NSString stringWithFormat:@"%.2f",self.baoZhuangFei];
-                            self.calculatePriceManager.kuaiDiPrice = self.kuaiDiFei;
-                            self.calculatePriceManager.baoZhuangPrice = self.baoZhuangFei;
-                            
-                        } else {
-                            //选择的为衬衫
-                            //工艺是否可编辑
-                            self.gongYiPriceGroup.canEdit = NO;
-                            [self chooseChenShanChangePrice];
-                        }
+                        [self chooseProductAfter];
                         
                     } else {
                         
@@ -654,6 +693,8 @@
     }
     
 }
+
+
 
 
 #pragma mark- UICollectionViewDataSource

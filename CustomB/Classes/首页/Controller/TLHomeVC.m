@@ -28,6 +28,7 @@
 #import "Const.h"
 #import "TLConfirmPriceVC.h"
 #import "TLAlert.h"
+#import "TLRefreshEngine.h"
 
 @interface TLHomeVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -54,6 +55,22 @@
         [self.homeTableView beginRefreshing];
         self.isFirst =  NO;
     }
+    
+    
+    
+   [TLRefreshEngine engine].outMark = NSStringFromClass([self class]);
+   if ([[TLRefreshEngine engine] canRefresh]) {
+            
+       [self.homeTableView beginRefreshing];
+       [[TLRefreshEngine engine] clear];
+             
+   } else {
+            
+      [[TLRefreshEngine engine] clear];
+            
+   }
+        
+        
     
 }
 
@@ -146,10 +163,11 @@
     }];
     
     //tableView
-    UIView *bannerBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 200)];
+    CGFloat h = (SCREEN_WIDTH - 19*2)*430/750 + 35;
+    UIView *bannerBgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, h)];
     self.homeTableView.tableHeaderView = bannerBgView;
 
-    TLBannerView *bannerView = [[TLBannerView alloc] initWithFrame:CGRectMake(19, 10, SCREEN_WIDTH - 38, 200)];
+    TLBannerView *bannerView = [[TLBannerView alloc] initWithFrame:CGRectMake(19, 10, SCREEN_WIDTH - 38, bannerBgView.height)];
     [bannerBgView addSubview:bannerView];
 
     self.bannerView = bannerView;
@@ -222,7 +240,9 @@
             
         }
         
-        if ([order getOrderType] == TLOrderTypeProductUnChoose ){
+        if ([order getOrderType] == TLOrderTypeProductUnChoose ||
+            [order getOrderType] == TLOrderTypeHAddUnDingJia ||
+            [order getOrderType] == TLOrderTypeChenShanUnDingJia){
             
             //产品未选择
             TLConfirmPriceVC *vc = [[TLConfirmPriceVC alloc] init];
