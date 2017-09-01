@@ -12,7 +12,7 @@
 
 - (NSString *)getDetailAddress {
 
-    return [NSString stringWithFormat:@"%@%@%@",self.province,self.city,self.area];
+    return [NSString stringWithFormat:@"%@%@%@",self.province? : @"",self.city? : @"",self.area? : @""];
 
 }
 

@@ -14,7 +14,8 @@
 #import "TLUIHeader.h"
 #import "CustomLiuYanModel.h"
 #import "TLPageDataHelper.h"
-
+#import "TLAlert.h"
+#import "TLProgressHUD.h"
 
 @interface TLChatRoomVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -177,14 +178,15 @@
 
 - (void)sendMsg {
 
-
+    [TLProgressHUD showWithStatus:nil];
             NBCDRequest *req = [[NBCDRequest alloc] init];
             req.code = @"620141";
             req.parameters[@"commenter"] = [TLUser user].userId;
             req.parameters[@"content"] = self.textView.text;
             req.parameters[@"receiver"] = self.otherUserId;
             [req startWithSuccess:^(__kindof NBBaseRequest *request) {
-    
+                [TLProgressHUD dismiss];
+
                 CustomLiuYanModel *model = [[CustomLiuYanModel alloc] init];
                 model.commenter = [TLUser user].userId;
                 model.commentPhoto = [TLUser user].photo;
@@ -197,7 +199,8 @@
                 
             } failure:^(__kindof NBBaseRequest *request) {
                 
-                
+                [TLProgressHUD dismiss];
+
             }];
     
 }

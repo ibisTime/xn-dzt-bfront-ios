@@ -47,6 +47,8 @@
     
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
+    [self.navigationController.navigationBar setShadowImage:[[UIColor colorWithHexString:@"#cccccc"] convertToImage]];
+
 }
 
 - (void)viewDidLoad {

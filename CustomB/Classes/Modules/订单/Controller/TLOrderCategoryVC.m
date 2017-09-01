@@ -72,7 +72,6 @@
 
     }
 
-
 }
 
 
@@ -203,22 +202,24 @@
     
     [TLRefreshEngine engine].inMark = NSStringFromClass([self class]);
     
-         if ([order getOrderType] == TLOrderTypeProductUnChoose ){
-            
-            //产品未选择
-            TLConfirmPriceVC *vc = [[TLConfirmPriceVC alloc] init];
-            vc.order = order;
-            [self.navigationController pushViewController:vc animated:YES];
-            
-        } else {
-            
-            //衬衫或者H+
-            TLOrderDetailVC2 *vc = [[TLOrderDetailVC2 alloc] init];
-            vc.orderCode = order.code;
-            [self.navigationController pushViewController:vc
-                                                 animated:YES];
-            
-        }
+    if ([order getOrderType] == TLOrderTypeProductUnChoose ||
+        [order getOrderType] == TLOrderTypeHAddUnDingJia ||
+        [order getOrderType] == TLOrderTypeChenShanUnDingJia){
+        
+        //产品未选择
+        TLConfirmPriceVC *vc = [[TLConfirmPriceVC alloc] init];
+        vc.order = order;
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    } else {
+        
+        //衬衫或者H+
+        TLOrderDetailVC2 *vc = [[TLOrderDetailVC2 alloc] init];
+        vc.orderCode = order.code;
+        [self.navigationController pushViewController:vc
+                                             animated:YES];
+        
+    }
     
 
     

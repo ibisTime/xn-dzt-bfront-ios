@@ -79,7 +79,7 @@
         
         model.keyCode = obj.allKeys[0]; //1-2
         model.keyName = obj[model.keyCode];
-        model.value = @"-";
+//        model.value = @"-";
 //        model.value = @"111";
 
         
@@ -229,7 +229,7 @@
     //用户信息
     NSMutableArray <NSDictionary *> *userInfoInfoArr = [  @[
                                                          @{@"客户姓名" : self.customerStatisticsInfo.realName},
-                                                         @{@"联系电话" : self.customerStatisticsInfo.mobile}
+                                                         @{@"联系电话" : self.customerStatisticsInfo.mobile ? : @""}
                 
                                                          ] mutableCopy];
     

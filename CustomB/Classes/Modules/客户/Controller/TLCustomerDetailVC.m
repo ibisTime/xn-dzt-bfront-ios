@@ -57,7 +57,6 @@
     } @catch (NSException *exception) {
         
         [TLAlert alertWithError:exception.name];
-        NSLog(@"%@",exception);
         
     } @finally {
         

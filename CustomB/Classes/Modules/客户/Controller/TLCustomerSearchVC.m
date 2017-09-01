@@ -41,11 +41,8 @@
             
         });
         
-        
     }
-    
 }
-
 
 - (void)viewDidLayoutSubviews {
     
@@ -73,7 +70,6 @@
     helper.parameters[@"userName"] = self.searchInfo;
     //
     helper.isDeliverCompanyCode = NO;
-    //    helper.parameters[@"frequent"] = @"";
     helper.tableView = self.customerTableView;
     [helper modelClass:[TLCustomer class]];
     
@@ -151,8 +147,5 @@
     return cell;
     
 }
-
-
-
 
 @end

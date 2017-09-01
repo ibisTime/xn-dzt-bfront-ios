@@ -7,7 +7,6 @@
 //
 
 #import "TLUser.h"
-#import "TLUserExt.h"
 #import "APICodeHeader.h"
 #import "TLNetworking.h"
 
@@ -35,17 +34,6 @@ NSString *const kUserInfoChange = @"kUserInfoChange_zh";
 
 }
 
-#pragma mark- 调用keyChainStore
-- (void)keyChainStore {
-
-//    UICKeyChainStore *keyChainStore = [UICKeyChainStore keyChainStoreWithService:@"zh_bound_id"];
-//    
-//    //存值
-//    [keyChainStore setString:@"" forKey:@""];
-//    //取值
-//    [keyChainStore stringForKey:@""];
-
-}
 
 - (void)setUserId:(NSString *)userId {
 
@@ -87,19 +75,32 @@ NSString *const kUserInfoChange = @"kUserInfoChange_zh";
 
 
 - (void)loginOut {
-
-    self.userId = nil;
-    self.token = nil;
-    self.mobile = nil;
-    self.nickname = nil;
-    self.tradepwdFlag = nil;
-    self.photo = nil;
+    
+    unsigned int count;// 记录属性个数
+    objc_property_t *properties = class_copyPropertyList([TLUser class], &count);
+    // 遍历
+    for (int i = 0; i < count; i++) {
+        
+        objc_property_t property = properties[i];
+        // 获取属性的名称
+        const char *cName = property_getName(property);
+        // 转换为Objective
+        NSString *name = [NSString stringWithCString:cName encoding:NSUTF8StringEncoding];
+        
+        //基础数据类型，不能置为nil
+//        if ([name isEqualToString:@"isReg"] || [name isEqualToString:@"haveShopInfo"]) {
+//            
+//            continue;
+//        }
+        
+        [self setValue:nil forKeyPath:name];
+    }
+    
     
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_ID_KEY];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:TOKEN_ID_KEY];
     [[NSUserDefaults standardUserDefaults] removeObjectForKey:USER_INFO_DICT_KEY];
 
-//    [[NSNotificationCenter defaultCenter] postNotificationName:@"user_login_out_notification" object:nil];
 }
 
 
@@ -135,23 +136,16 @@ NSString *const kUserInfoChange = @"kUserInfoChange_zh";
 
 
 - (void)setUserInfoWithDict:(NSDictionary *)dict {
-
-    self.mobile = dict[@"mobile"];
-    self.nickname = dict[@"nickname"];
-    self.realName = dict[@"realName"];
-    self.idNo = dict[@"idNo"];
-    self.tradepwdFlag = dict[@"tradepwdFlag"];
-    self.createDatetime = dict[@"createDatetime"];
-    self.photo = dict[@"photo"];
-    self.province = dict[@"province"];
-    self.city = dict[@"city"];
-    self.area = dict[@"area"];
-//    self.tradepwdFlag =  [NSString stringWithFormat:@"%@",dict[@"tradepwdFlag"]];
-
-
-
     
+    [self setValuesForKeysWithDictionary:dict];
+ 
     
+}
+
+// 处理一些基本数据类型
+- (void)setValue:(id)value forUndefinedKey:(NSString *)key {
+
+
 }
 
 

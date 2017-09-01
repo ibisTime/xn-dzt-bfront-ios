@@ -27,6 +27,8 @@
 #define WITHDRAW_RULE_MAX_COUNT_KEY @"BUSERMONTIMES"
 #define WITHDRAW_RULE_BEI_SHU_KEY @"BUSERQXBS"
 #define WITHDRAW_RULE_PROCEDURE_FEE_KEY @"BUSERQXFL"
+#define WITHDRAW_RULE_MAX_JIN_E @"QXDBZDJE"
+
 
 
 //BUSERQXBS  着装顾问取现倍数
@@ -55,6 +57,7 @@
 @property (nonatomic, strong) NSNumber *beiShu;
 @property (nonatomic, strong) NSNumber *maxCount;
 @property (nonatomic, strong) NSNumber *produceFee;
+@property (nonatomic, strong) NSNumber *maxJinE;
 
 @property (nonatomic, assign) BOOL getBankCardSuccess;
 
@@ -95,7 +98,8 @@
         ruleHttp.parameters[@"keyList"] = @[WITHDRAW_RULE_SHI_XIAO,
                                             WITHDRAW_RULE_MAX_COUNT_KEY,
                                             WITHDRAW_RULE_BEI_SHU_KEY,
-                                            WITHDRAW_RULE_PROCEDURE_FEE_KEY];
+                                            WITHDRAW_RULE_PROCEDURE_FEE_KEY,
+                                            WITHDRAW_RULE_MAX_JIN_E];
         
         [ruleHttp postWithSuccess:^(id responseObject) {
             
@@ -106,6 +110,7 @@
             self.maxCount = responseObject[@"data"][WITHDRAW_RULE_MAX_COUNT_KEY];
             self.shiXiao = responseObject[@"data"][WITHDRAW_RULE_SHI_XIAO];
             self.produceFee = responseObject[@"data"][WITHDRAW_RULE_PROCEDURE_FEE_KEY];
+            self.maxJinE = responseObject[@"data"][WITHDRAW_RULE_MAX_JIN_E];
             
         } failure:^(NSError *error) {
             
@@ -162,7 +167,7 @@
                     
                     NSString *flStr = [NSString stringWithFormat:@"%.f",[self.produceFee floatValue]*100];
                     
-                    NSAttributedString *attr = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"取现规则：\n1.每月最大取现次数：%@\n2.提现时效%@\n3.取现手续费率 %@%%\n4.取现必须为%@的倍数",self.maxCount,self.shiXiao,flStr,self.beiShu]attributes:@{NSParagraphStyleAttributeName : paragraphyStyle}];
+                    NSAttributedString *attr = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"取现规则：\n1.每月最大取现次数：%@\n2.提现时效%@\n3.取现手续费率 %@%%\n4.取现必须为%@的倍数\n5.单笔最大取现金额%@",self.maxCount,self.shiXiao,flStr,self.beiShu,self.maxJinE]attributes:@{NSParagraphStyleAttributeName : paragraphyStyle}];
                     
                     
                     
@@ -205,31 +210,10 @@
     _group = dispatch_group_create();
     
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
-    //
-//    [self beginLoad];
     
     [self tl_placeholderOperation];
     
-//    if ([[TLUser user].tradepwdFlag isEqualToString:@"0"]) {
-//        //1.先判断是否设置了支付密码
-//        [self setPlaceholderViewTitle:@"未设置支付密码" operationTitle:@"前往设置"];
-//        
-//    }
-    //2.判断是否绑定了银行卡
-    
 }
-
-
-
-
-
-//- (void)hiddenSetPwdbtn {
-//
-//    
-//    self.setPwdBtn.hidden = YES;
-//    self.setPwdBtn.height = 0.1;
-//
-//}
 
 - (void)beginLoad {
     
@@ -296,14 +280,6 @@
 
                 //
                 [self setUpUI];
-                
-                //
-//                if ([[TLUser user].tradepwdFlag isEqualToString:@"1"]) {
-//                    
-//                }
-//                [self hiddenSetPwdbtn];
-
-                
                 self.procedureFeeLbl.text = @"本次提现手续费：0.00";
                 
                 //时间
@@ -320,10 +296,7 @@
                NSString *flStr = [NSString stringWithFormat:@"%.f",[self.produceFee floatValue]*100];
                 
                 NSAttributedString *attr = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"取现规则：\n1.每月最大取现次数：%@\n2.提现时效%@%@\n3.取现手续费率 %@%%",self.maxCount,self.beiShu,self.shiXiao,flStr ]attributes:@{NSParagraphStyleAttributeName : paragraphyStyle}];
-                
-                
-                
-                //
+
                 self.withdrawRuleLbl.attributedText = attr;
                 
             } else { //无卡
@@ -364,38 +337,6 @@
 }
 
 
-//#pragma mark- 站位图行为
-//- (void)tl_placeholderOperation {
-//
-//    if (!self.getBankCardSuccess) {
-//        
-//        [self beginLoad];
-//        return;
-//    }
-//
-//    ZHBankCardAddVC *addVC = [[ZHBankCardAddVC alloc] init];
-//    addVC.addSuccess = ^(ZHBankCard *card){
-//        
-//        [self beginLoad];
-//        
-//    };
-//    
-//    [self.navigationController pushViewController:addVC animated:YES];
-//    
-//}
-//
-//#pragma mark- 设置交易密码
-//- (void)setTrade:(UIButton *)btn {
-
-//    ZHPwdRelatedVC *tradeVC = [[ZHPwdRelatedVC alloc] initWith:ZHPwdTypeTradeReset];
-//    tradeVC.success = ^() {
-//    
-//        [self hiddenSetPwdbtn];    
-//    };
-//    [self.navigationController pushViewController:tradeVC animated:YES];
-
-//}
-
 - (void)setUpUI {
 
     self.bankPickTf = [[TLPickerTextField alloc] initWithframe:CGRectMake(0, 10, SCREEN_WIDTH, 50)
@@ -420,26 +361,7 @@
     UIButton *withdrawalBtn = [UIButton zhBtnWithFrame:CGRectMake(15, tradePwdTf.yy + 30, SCREEN_WIDTH - 30, 45) title:@"提现"];
     [self.view addSubview:withdrawalBtn];
     [withdrawalBtn addTarget:self action:@selector(withdrawal) forControlEvents:UIControlEventTouchUpInside];
-    
-    //
-//    UIButton *setPwdBtn = [[UIButton alloc] initWithFrame:CGRectMake(15, withdrawalBtn.yy + 10, SCREEN_WIDTH - 30, 30) title:@"您还未设置支付密码,前往设置->" backgroundColor:[UIColor clearColor]];
-//    [self.view addSubview:setPwdBtn];
-//    [setPwdBtn setTitleColor:[UIColor textColor] forState:UIControlStateNormal];
-//    setPwdBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-//    [setPwdBtn addTarget:self action:@selector(setTrade:) forControlEvents:UIControlEventTouchUpInside];
-//    self.setPwdBtn = setPwdBtn;
-    
-    //
-    //
-//    self.hinLbl = [UILabel labelWithFrame:CGRectMake(15, setPwdBtn.yy, SCREEN_WIDTH - 30, 20)
-//                             textAligment:NSTextAlignmentLeft
-//                          backgroundColor:[UIColor whiteColor]
-//                                     font:FONT(12)
-//                                textColor:[UIColor themeColor]];
-//    [self.view addSubview:self.hinLbl];
-//    self.hinLbl.text = @"每月最大取现次数:--";
-    
-    
+
     //
     UILabel *hinLbl2 = [UILabel labelWithFrame:CGRectMake(15, withdrawalBtn.yy + 20, SCREEN_WIDTH - 30, 20)
                                   textAligment:NSTextAlignmentLeft
@@ -532,18 +454,6 @@
         }
     }];
 
-
-    
-//    //银行卡号
-//    http.parameters[@"bankcardCode"] = self.bankPickTf.text; //实体账户编号,
-//    //    正数表示实体转虚拟；负数表示虚拟转实体
-//
-//    //批量虚拟账户
-//    http.parameters[@"accountNumberList"] = @[self.accountNum];
-////    11 充值 -11取现；19 红冲 -19 蓝补；
-//    http.parameters[@"bizType"] = @"-11"; //虚拟账户
-//    http.parameters[@"bizNote"] = @"1"; //虚拟账户
-
     [http postWithSuccess:^(id responseObject) {
         
         [TLAlert alertWithHUDText:@"提现成功,我们将会对该交易进行审核"];
@@ -555,16 +465,7 @@
     } failure:^(NSError *error) {
         
     }];
-    
-//    "bankcardCode": "1",
-//    "transAmount": "1",
-//    "accountNumber": "1",
-//    "bizType": "1",
-//    "bizNote": "1",
-//    "channelTypeList": [
-//                        "1",
-//                        "2"
-//                        ]
+
 }
 
 - (UIView *)withdrawalView {
@@ -624,19 +525,6 @@
     return bgV;
 
 }
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    
-}
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

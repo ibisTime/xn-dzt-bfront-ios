@@ -77,6 +77,7 @@
     self.addressLbl.text = [_customer getDetailAddress];
     self.customerTypeLbl.text = [_customer getCustomerTitle];
     
+    
 }
 
 

@@ -20,6 +20,8 @@
 @property (nonatomic, strong) UILabel *userInfoLbl;
 @property (nonatomic, strong) UILabel *productInfoLbl;
 @property (nonatomic, strong) TLStatusView *statusView;
+@property (nonatomic, strong) UILabel *addressLbl;
+
 
 @end
 
@@ -49,6 +51,7 @@
     //
     self.userInfoLbl.text = [NSString stringWithFormat:@"%@ | %@",_order.applyName,_order.applyMobile];
     
+    self.addressLbl.text = [NSString stringWithFormat:@"%@%@%@%@",_order.ltProvince,_order.ltCity,_order.ltArea,_order.ltAddress];
     
     if (_order.amount) {
         
@@ -128,6 +131,14 @@
     [self.contentView addSubview:self.productInfoLbl];
     
     //
+    self.addressLbl = [UILabel labelWithFrame:CGRectZero
+                                     textAligment:NSTextAlignmentRight
+                                  backgroundColor:[UIColor whiteColor]
+                                             font:FONT(12)
+                                        textColor:[UIColor textColor]];
+    [self.contentView addSubview:self.addressLbl];
+    
+    //
     self.statusView = [[TLStatusView alloc] init];
     [self.contentView addSubview:self.statusView];
     
@@ -162,10 +173,20 @@
     
     
     [self.statusView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.contentView.mas_right).offset(-35);
+        make.top.equalTo(self.userInfoLbl.mas_bottom).offset(10);
+        make.bottom.equalTo(self.contentView.mas_bottom).offset(-17);
+        make.height.equalTo(@18);
+    }];
+    
+    //
+    [self.addressLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        
         make.left.equalTo(self.codeLbl.mas_left);
         make.top.equalTo(self.userInfoLbl.mas_bottom).offset(10);
         make.bottom.equalTo(self.contentView.mas_bottom).offset(-17);
         make.height.equalTo(@18);
+        
     }];
 
 }

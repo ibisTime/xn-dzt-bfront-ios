@@ -114,7 +114,6 @@
 		2E8C8AC81F4A8A5100974F85 /* ZHAccountTf.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C8AC71F4A8A5100974F85 /* ZHAccountTf.m */; };
 		2E8C8ACB1F4A8A9000974F85 /* UIView+Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C8ACA1F4A8A9000974F85 /* UIView+Frame.m */; };
 		2E8C8AD01F4A8B2400974F85 /* TLUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C8ACD1F4A8B2400974F85 /* TLUser.m */; };
-		2E8C8AD11F4A8B2400974F85 /* TLUserExt.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C8ACF1F4A8B2400974F85 /* TLUserExt.m */; };
 		2E8C8AD41F4A8B8900974F85 /* TLBaseModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C8AD31F4A8B8900974F85 /* TLBaseModel.m */; };
 		2E8C8AD71F4A947F00974F85 /* UILable+convience.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C8AD61F4A947F00974F85 /* UILable+convience.m */; };
 		2E8C8AE01F4A94DC00974F85 /* TLNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C8ADB1F4A94DC00974F85 /* TLNetworking.m */; };
@@ -372,8 +371,6 @@
 		2E8C8ACA1F4A8A9000974F85 /* UIView+Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Frame.m"; sourceTree = "<group>"; };
 		2E8C8ACC1F4A8B2400974F85 /* TLUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLUser.h; sourceTree = "<group>"; };
 		2E8C8ACD1F4A8B2400974F85 /* TLUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLUser.m; sourceTree = "<group>"; };
-		2E8C8ACE1F4A8B2400974F85 /* TLUserExt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLUserExt.h; sourceTree = "<group>"; };
-		2E8C8ACF1F4A8B2400974F85 /* TLUserExt.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLUserExt.m; sourceTree = "<group>"; };
 		2E8C8AD21F4A8B8900974F85 /* TLBaseModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLBaseModel.h; sourceTree = "<group>"; };
 		2E8C8AD31F4A8B8900974F85 /* TLBaseModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLBaseModel.m; sourceTree = "<group>"; };
 		2E8C8AD51F4A947F00974F85 /* UILable+convience.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILable+convience.h"; sourceTree = "<group>"; };
@@ -1097,8 +1094,6 @@
 				2E8C8AC11F4A898B00974F85 /* Model */,
 				2E8C8ACC1F4A8B2400974F85 /* TLUser.h */,
 				2E8C8ACD1F4A8B2400974F85 /* TLUser.m */,
-				2E8C8ACE1F4A8B2400974F85 /* TLUserExt.h */,
-				2E8C8ACF1F4A8B2400974F85 /* TLUserExt.m */,
 				2E8C8AC21F4A898B00974F85 /* View */,
 			);
 			path = User;
@@ -1475,7 +1470,6 @@
 				2E8C8B321F4ABB7800974F85 /* TLBannerView.m in Sources */,
 				2E1F27ED1F52F9F10003717D /* TLLiuYanController.m in Sources */,
 				2E1F27E41F52D1740003717D /* BillDateChooseVC.m in Sources */,
-				2E8C8AD11F4A8B2400974F85 /* TLUserExt.m in Sources */,
 				2E3072271F4C6D3B0003ADD9 /* TLOrderCollectionViewHeader.m in Sources */,
 				2E3072301F4C74810003ADD9 /* TLOrderDoubleTitleHeader.m in Sources */,
 				2E30728F1F51B3AB0003ADD9 /* CustomCaptchaView.m in Sources */,

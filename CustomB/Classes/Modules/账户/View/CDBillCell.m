@@ -15,6 +15,8 @@
 @interface CDBillCell()
 
 @property (nonatomic, strong) UILabel *dateTopLbl;
+@property (nonatomic, strong) UILabel *dateBottomLbl;
+
 @property (nonatomic, strong) UILabel *moneyChangeLbl;
 @property (nonatomic, strong) UILabel *detailLbl;
 
@@ -48,20 +50,22 @@
     
     NSDate *date01 = [formatter dateFromString:_billModel.createDatetime];
     
-    formatter.dateFormat = @"dd日";
+    formatter.dateFormat = @"MM-dd";
     formatter.locale = [NSLocale currentLocale];
     
     //得到日期1
     NSString *dateStr1 = [formatter stringFromDate:date01];
     
     //得到日期2
-    formatter.dateFormat = @"HH:mm";
+    formatter.dateFormat = @"HH:mm:ss";
     NSString *dateStr2 = [formatter stringFromDate:date01];
 
     
     
     
     self.dateTopLbl.text = dateStr1;
+    self.dateBottomLbl.text = dateStr2;
+
     
     //
     if ([_billModel.transAmount longLongValue] > 0) {
@@ -91,6 +95,14 @@
     [self.contentView addSubview:self.dateTopLbl];
     
     //
+    self.dateBottomLbl = [UILabel labelWithFrame:CGRectZero
+                                 textAligment:NSTextAlignmentCenter
+                              backgroundColor:[UIColor whiteColor]
+                                         font:FONT(12)
+                                    textColor:[UIColor textColor]];
+    [self.contentView addSubview:self.dateBottomLbl];
+    
+    //
     self.detailLbl = [UILabel labelWithFrame:CGRectZero
                                 textAligment:NSTextAlignmentCenter
                              backgroundColor:[UIColor whiteColor]
@@ -114,10 +126,14 @@
         make.top.equalTo(self.contentView.mas_top).offset(14);
     }];
  
+    [self.dateBottomLbl mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.contentView.mas_left).offset(20);
+        make.top.equalTo(self.dateTopLbl.mas_bottom).offset(8);
+    }];
     
     [self.detailLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.contentView.mas_left).offset(80);
+        make.left.equalTo(self.contentView.mas_left).offset(85);
         make.top.equalTo(self.dateTopLbl.mas_top);
         make.right.lessThanOrEqualTo(self.contentView.mas_right);
         

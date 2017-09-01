@@ -117,7 +117,7 @@
     
     if (self.displayHeader) {
         
-        self.title = @"今日账单";
+        self.title = @"账单";
 
     }
     

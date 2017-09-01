@@ -36,6 +36,7 @@
 #import "TLAlert.h"
 #import "TLButtonHeaderView.h"
 #import "NSNumber+TLAdd.h"
+#import "NSString+Extension.h"
 
 
 @interface TLGongYiChooseVC ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,TLOrderEditHeaderDelegate,TLButtonHeaderViewDelegate>
@@ -45,6 +46,8 @@
 @property (nonatomic, strong) TLOrderModel *order;
 
 @property (nonatomic, strong) TLGroup *totalPriceGroup;
+
+@property (nonatomic, strong) TLGroup *cixiuGroup;
 
 @end
 
@@ -219,14 +222,15 @@
     
     //10.刺绣内容
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    NSString *cixiuValue = self.dataManager.ciXiuTextValue;
+    NSString *cixiuValue = self.cixiuGroup.content;
     dict[@"5-01"] = cixiuValue;
+    BOOL isHaveCiXiuValue = [cixiuValue valid];
     
     
     //11.刺绣字体
     [self.dataManager.fontRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        if (cixiuValue) {
+        if (isHaveCiXiuValue) {
            
             if (!obj.isSelected) {
                 
@@ -251,7 +255,7 @@
     //12.位置
     [self.dataManager.ciXiuLocationRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        if (cixiuValue) {
+        if (isHaveCiXiuValue) {
             
             if (!obj.isSelected) {
                 
@@ -276,7 +280,7 @@
     //13.颜色
     [self.dataManager.ciXiuColorRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        if (cixiuValue) {
+        if (isHaveCiXiuValue) {
             
             if (!obj.isSelected) {
                 
@@ -563,6 +567,7 @@
     [self.dataManager.groups addObject:ciXiuTextGroup];
     NSMutableArray *arr =  [[NSMutableArray alloc] initWithCapacity:1];
     [arr addObject:@1];
+    self.cixiuGroup = ciXiuTextGroup;
     ciXiuTextGroup.dataModelRoom = self.dataManager.ciXiuTextRoom;
     ciXiuTextGroup.title = @"刺绣内容";
     ciXiuTextGroup.canEdit = YES;

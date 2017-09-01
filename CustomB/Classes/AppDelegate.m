@@ -21,6 +21,7 @@
 
 @end
 
+
 @implementation AppDelegate
 
 
@@ -30,6 +31,7 @@
     
 //    http://www.cnblogs.com/wjblogs/p/5367052.html 删除
     [AppConfig config].runEnv = RunEnvTest;
+    
     //
     if([AppConfig config].runEnv == RunEnvDev) {
     

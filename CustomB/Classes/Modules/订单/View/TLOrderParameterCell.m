@@ -38,23 +38,14 @@
     NSString *str = [parameterModel.pic convertImageUrl];
     [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:str]];
     
-    self.testLbl.text = [parameterModel.price stringValue];
-//    if (0 && parameterModel.yuSelected) {
-//        
-//        NSString *str = [parameterModel.selectPic convertImageUrl];
-//        [self.selectMarkImageView sd_setImageWithURL:[NSURL URLWithString:str]];
-//        self.selectMarkImageView.layer.cornerRadius = 0;
-//        self.selectMarkImageView.layer.masksToBounds = NO;
-//        self.selectMarkImageView.layer.borderWidth = 0;
-//        
-//    } else {
+//    self.testLbl.text = [parameterModel.price stringValue];
+
     
         self.selectMarkImageView.layer.cornerRadius = 10;
         self.selectMarkImageView.layer.masksToBounds = YES;
         self.selectMarkImageView.layer.borderColor = [UIColor themeColor].CGColor;
         self.selectMarkImageView.layer.borderWidth = 2;
-    
-//    }
+
     
     if (parameterModel.yuSelected) {
         
@@ -65,8 +56,6 @@
         self.selectMarkImageView.hidden = YES;
         
     }
-    
-//    self.selectMarkImageView.hidden = !parameterModel.isSelected;
     
 }
 
@@ -103,10 +92,10 @@
 //        }];
         
 
-        UILabel *testLbl = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 20)];
-        testLbl.textColor = [UIColor blackColor];
-        self.testLbl = testLbl;
-        [self addSubview:testLbl];
+//        UILabel *testLbl = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 100, 20)];
+//        testLbl.textColor = [UIColor blackColor];
+//        self.testLbl = testLbl;
+//        [self addSubview:testLbl];
       
         
     }

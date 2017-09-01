@@ -95,7 +95,7 @@
         model.canEdit = [self.order canEditXingTi];
         model.keyCode = obj.allKeys[0]; //1-2
         model.keyName = obj[model.keyCode];
-        model.value = @"-";
+//        model.value = @"-";
         
         if (!resp) {
             //查询订单中信息进行赋值
@@ -551,6 +551,7 @@
         [productInfoArr addObject:@{@"面料编号" : selelctParaDict[@"modelNum"]}];
         
     }
+    //
     
     //订单价格
     if (self.order.amount) {
@@ -558,11 +559,11 @@
         [productInfoArr addObject:@{@"订单价格":priceStr}];
     }
     
-    if (self.order.payAmount) {
+    if (self.order.originalAmount) {
         
-        
-//        NSString *turePriceStr =  [NSString stringWithFormat:@"￥%@",[self.order.payAmount convertToRealMoney]];
-//        [productInfoArr addObject:@{@"价格优惠":turePriceStr}];
+        NSNumber *p = @([self.order.originalAmount longLongValue] -  [self.order.amount longLongValue]);
+        NSString *turePriceStr =  [NSString stringWithFormat:@"￥%@",[p convertToRealMoney]];
+        [productInfoArr addObject:@{@"价格优惠":turePriceStr}];
         
     }
     
@@ -623,10 +624,9 @@ NSDictionary *kuaiDiDcit =   @{
 
       };
     
-    
     NSMutableArray <NSDictionary *> *orderInfoArr = [  @[
   @{@"物流公司" : kuaiDiDcit[self.order.logisticsCompany] ? : self.order.logisticsCompany},
-@{@"发货时间" : [self.order.deliveryDatetime convertToDetailDate]},
+@{@"发货时间" : [self.order.deliveryDatetime convertDate]},
 @{@"快递单号" : self.order.logisticsCode},
 @{@"收货确认" : shouHuoStr},
 

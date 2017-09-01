@@ -133,6 +133,8 @@
     pageDataHelper.code = @"620230";
     pageDataHelper.parameters[@"ltUser"] = [TLUser user].userId;
     pageDataHelper.tableView = self.homeTableView;
+    //
+    pageDataHelper.parameters[@"statusList"] = @[kOrderStatusDidPay,kOrderStatusWillMeasurement,kOrderStatusDidDingJia,kOrderStatusWillCheck];
     [pageDataHelper modelClass:[TLOrderModel class]];
     [self.homeTableView addRefreshAction:^{
         [weakself getBanner];
@@ -149,6 +151,7 @@
         
     }];
     
+    //
     [self.homeTableView addLoadMoreAction:^{
         
         [pageDataHelper loadMore:^(NSMutableArray *objs, BOOL stillHave) {
@@ -240,6 +243,8 @@
             
         }
         
+        [TLRefreshEngine engine].inMark = NSStringFromClass([self class]);
+
         if ([order getOrderType] == TLOrderTypeProductUnChoose ||
             [order getOrderType] == TLOrderTypeHAddUnDingJia ||
             [order getOrderType] == TLOrderTypeChenShanUnDingJia){

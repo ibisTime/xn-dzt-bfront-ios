@@ -104,7 +104,7 @@
                     [weakself.dataArray removeAllObjects];
                     
                     //
-                    [weakself.dataArray addObject:@{@"总收入" : [obj.inAmount convertToRealMoney]}];
+                    [weakself.dataArray addObject:@{@"总收入" : [obj.addAmount convertToRealMoney]}];
                     [weakself.dataArray addObject:@{@"已提现金额" : [obj.outAmount convertToRealMoney]}];
 
                     [weakself.balanceTableView reloadData_tl];

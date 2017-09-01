@@ -107,8 +107,8 @@
 
         }
         
-        if (!self.kind || self.kind.length <= 0 ) {
-            
+        NSString *kind =  self.parameters[@"kind"];
+        if (!kind || kind.length <=0 ) {
             self.parameters[@"kind"] = [[self class] kindType];
 
         }

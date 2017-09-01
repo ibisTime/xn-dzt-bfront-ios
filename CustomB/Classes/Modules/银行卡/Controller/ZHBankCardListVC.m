@@ -117,13 +117,29 @@
     //
     UIView *addView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 70)];
     
+    //
+    
     UIButton *addBtn = [[UIButton alloc] init];
     [addView addSubview:addBtn];
     [addBtn setTitle:@"新增银行卡" forState:UIControlStateNormal];
-    addBtn.layer.borderWidth = 1;
-    addBtn.layer.masksToBounds = YES;
-    addBtn.layer.cornerRadius = 5;
-    addBtn.layer.borderColor = [UIColor colorWithHexString:@"#b2b2b2"].CGColor;
+//    addBtn.layer.borderWidth = 1;
+//    addBtn.layer.masksToBounds = YES;
+//    addBtn.layer.cornerRadius = 5;
+//    addBtn.layer.borderColor = [UIColor colorWithHexString:@"#b2b2b2"].CGColor;
+    
+    //
+    
+    UIBezierPath *bPath = [UIBezierPath bezierPathWithRoundedRect:CGRectMake(0, 0, SCREEN_WIDTH - 36, 60) cornerRadius:5];
+    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+    shapeLayer.frame = addBtn.bounds;
+    shapeLayer.path = bPath.CGPath;
+    shapeLayer.lineWidth = 1;
+    shapeLayer.strokeColor = [UIColor colorWithHexString:@"#b2b2b2"].CGColor;
+    shapeLayer.fillColor = [UIColor whiteColor].CGColor;
+  shapeLayer.lineDashPattern = @[@5,@8];
+    [addBtn.layer addSublayer:shapeLayer];
+    
+    
     //
     [addBtn setTitleColor:[UIColor colorWithHexString:@"#b2b2b2"] forState:UIControlStateNormal];
     //
@@ -135,7 +151,7 @@
         make.height.mas_equalTo(60);
         
     }];
-    
+    //
     [addBtn addTarget:self action:@selector(addBankCard) forControlEvents:UIControlEventTouchUpInside];
     
     return addView;

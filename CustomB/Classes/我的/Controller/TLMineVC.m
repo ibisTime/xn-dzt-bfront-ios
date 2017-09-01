@@ -158,7 +158,7 @@
 
 - (void)changeInfo {
     
-    self.nameLbl.text = [TLUser user].nickname;
+    self.nameLbl.text = [TLUser user].mobile;
     [self.userPhotoImageView sd_setImageWithURL:[NSURL URLWithString:[[TLUser user].photo convertImageUrl]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
     
     

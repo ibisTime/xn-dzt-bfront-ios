@@ -7,9 +7,6 @@
 //
 
 #import "TLBaseModel.h"
-#import "TLUserExt.h"
-
-@class TLUserExt;
 
 @interface TLUser : TLBaseModel
 
@@ -47,12 +44,6 @@
 @property (nonatomic,copy) NSString *province;
 @property (nonatomic,copy) NSString *city;
 @property (nonatomic,copy) NSString *area;
-
-//@property (nonatomic, strong) TLUserExt *userExt;
-
-
-
-
 
 //是否为需要登录，如果已登录，取出用户信息
 - (BOOL)isLogin;

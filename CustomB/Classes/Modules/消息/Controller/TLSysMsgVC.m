@@ -37,6 +37,8 @@
         self.isFirst = NO;
     }
     
+    [self.navigationController.navigationBar setShadowImage:[[UIColor colorWithHexString:@"#cccccc"] convertToImage]];
+
 }
 
 - (void)viewDidLoad {
@@ -44,8 +46,15 @@
     [super viewDidLoad];
     self.title = @"系统消息";
     self.isFirst = YES;
+    [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     [self setUpUI];
     
+}
+
+- (void)tl_placeholderOperation {
+
+    [self.liuYanTableView beginRefreshing];
+
 }
 
 - (void)setUpUI {
@@ -75,11 +84,12 @@
         
         [pageDataHelper refresh:^(NSMutableArray *objs, BOOL stillHave) {
             
+            [weakself removePlaceholderView];
             weakself.sysMsgRoom = objs;
             [weakself.liuYanTableView reloadData_tl];
             
         } failure:^(NSError *error) {
-            
+            [weakself addPlaceholderView];
         }];
         
     }];

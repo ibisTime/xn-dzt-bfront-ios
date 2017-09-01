@@ -56,6 +56,7 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 
 @property (nonatomic, strong) NSNumber *amount;
 @property (nonatomic, strong) NSNumber *payAmount;
+@property (nonatomic, strong) NSNumber *originalAmount;
 
 
 @property (nonatomic, copy) NSString *remark;

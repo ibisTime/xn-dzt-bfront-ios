@@ -38,6 +38,7 @@
 #import "TLUserHeaderView.h"
 #import "TLRefreshEngine.h"
 #import "Const.h"
+#import "NSString+Extension.h"
 
 
 @interface TLOrderDetailVC2 ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,TLOrderEditHeaderDelegate,TLButtonHeaderViewDelegate>
@@ -45,6 +46,8 @@
 @property (nonatomic, strong)  TLOrderDataManager *dataManager;
 @property (nonatomic, strong) UICollectionView *orderDetailCollectionView;
 @property (nonatomic, strong) TLOrderModel *order;
+@property (nonatomic, strong) TLGroup *ciXiuTextGroup;
+
 
 @end
 
@@ -70,7 +73,7 @@
 
         [self.dataManager.measureDataRoom enumerateObjectsUsingBlock:^(TLInputDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
-            if (!obj.value || [obj.value isEqualToString:@"-"] || obj.value.length <=0) {
+            if (!obj.value  || obj.value.length <=0) {
                 
             @throw [NSException
                        exceptionWithName:[NSString  stringWithFormat:@"请填写%@",obj.keyName] reason:nil userInfo:nil];
@@ -98,8 +101,10 @@
     
     //刺绣内容, 如果刺绣内容不为空
     NSString *cixiuType = @"5-01";
-    NSString *cixiuValue = self.dataManager.ciXiuTextRoom[0].value;
+    NSString *cixiuValue = self.ciXiuTextGroup.content;
     measureDict[cixiuType] = cixiuValue;
+    BOOL isHaveCiXiuValue = [cixiuValue valid];
+
     
     //收货地址
     NSString *addressType = @"6-04";
@@ -259,7 +264,7 @@
     //11.刺绣字体
     [self.dataManager.fontRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        if (cixiuValue) {
+        if (isHaveCiXiuValue) {
             
             if (!obj.isSelected) {
                 
@@ -282,7 +287,7 @@
     //12.位置
     [self.dataManager.ciXiuLocationRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        if (cixiuValue) {
+        if (isHaveCiXiuValue) {
             
             if (!obj.isSelected) {
                 
@@ -305,7 +310,7 @@
     //13.颜色
     [self.dataManager.ciXiuColorRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        if (cixiuValue) {
+        if (isHaveCiXiuValue) {
             
             if (!obj.isSelected) {
                 
@@ -768,6 +773,8 @@
     [arr addObject:@1];
     ciXiuTextGroup.dataModelRoom = self.dataManager.ciXiuTextRoom;
     ciXiuTextGroup.title = @"刺绣内容";
+    self.ciXiuTextGroup = ciXiuTextGroup;
+
     ciXiuTextGroup.canEdit = [self.order canEditDingZhi];
     ciXiuTextGroup.content = self.dataManager.ciXiuTextValue;
     ciXiuTextGroup.headerSize = headerSmallSize;

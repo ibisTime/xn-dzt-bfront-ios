@@ -45,9 +45,13 @@
 @property (nonatomic, strong) TLGroup *jiaGongPriceGroup;
 @property (nonatomic, strong) TLGroup *kuaiDiFeiGroup;
 @property (nonatomic, strong) TLGroup *baoZhuangFeiGroup;
+@property (nonatomic, strong) TLGroup *mianLiaoDanJiaGroup;
 
+//
 @property (nonatomic, assign) float kuaiDiFei;
 @property (nonatomic, assign) float baoZhuangFei;
+
+@property (nonatomic, strong) TLGongYiChooseVC *gongYiChooseVC;
 
 @end
 
@@ -55,6 +59,18 @@
 @implementation TLConfirmPriceVC
 
 
+- (TLGongYiChooseVC *)gongYiChooseVC {
+
+    if (!_gongYiChooseVC) {
+        
+        _gongYiChooseVC = [[TLGongYiChooseVC alloc] init];
+    }
+    
+    return _gongYiChooseVC;
+
+}
+
+//
 - (void)configModel {
 
     if (!self.productRoom || self.productRoom.count <= 0) {
@@ -206,6 +222,24 @@
     gongYiPriceGroup.editingEdgeInsets = paramterEdgeInsets;
     gongYiPriceGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     
+    
+    //面料单价
+    TLGroup *mianLiaoDanJiaGroup = [[TLGroup alloc] init];
+    self.mianLiaoDanJiaGroup = mianLiaoDanJiaGroup;
+    mianLiaoDanJiaGroup.canEdit = NO;
+    mianLiaoDanJiaGroup.dataModelRoom = [NSMutableArray new];
+    [self.dataManager.groups addObject:mianLiaoDanJiaGroup];
+    mianLiaoDanJiaGroup.title = @"面料单价";
+    mianLiaoDanJiaGroup.content =  @"0";
+    mianLiaoDanJiaGroup.headerSize = headerSmallSize;
+    mianLiaoDanJiaGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
+    mianLiaoDanJiaGroup.headerReuseIdentifier = [TLPriceHeaderView headerReuseIdentifier];
+    mianLiaoDanJiaGroup.minimumLineSpacing = horizonMargin;
+    mianLiaoDanJiaGroup.minimumInteritemSpacing = middleMargin;
+    mianLiaoDanJiaGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
+    mianLiaoDanJiaGroup.editingEdgeInsets = paramterEdgeInsets;
+    mianLiaoDanJiaGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
+    
     //总价
     TLGroup *zongJiaGroup = [[TLGroup alloc] init];
     self.totalPriceGroup = zongJiaGroup;
@@ -265,11 +299,11 @@
             
             
             //需要处理工艺
-            TLGongYiChooseVC *vc = [[TLGongYiChooseVC alloc] init];
+//            TLGongYiChooseVC *vc = [[TLGongYiChooseVC alloc] init];
             //需要确定的
-            vc.delegate = self;
-            vc.productCode = currentChooseModel.code;
-            [self.navigationController pushViewController:vc animated:YES];
+            self.gongYiChooseVC.delegate = self;
+            self.gongYiChooseVC.productCode = currentChooseModel.code;
+            [self.navigationController pushViewController:self.gongYiChooseVC animated:YES];
             
         }
 
@@ -412,6 +446,8 @@
             //改变数据模型
             self.gongYiPriceGroup.content = [NSString stringWithFormat:@"%.2f",gongYiPrice];
             self.totalPriceGroup.content = [NSString stringWithFormat:@"%.2f",totalPrice];
+            
+            self.mianLiaoDanJiaGroup.content = [NSString stringWithFormat:@"%.2f",mianLiaoPrice];
             //刷新数据
             [self.orderDetailCollectionView reloadData];
         
@@ -577,6 +613,7 @@
     self.gongYiPriceGroup.content = @"0";
     self.totalPriceGroup.content = [self.currentProductModel.price convertToRealMoney];
     self.mianLiaoCountGroup.content = @"0";
+    self.mianLiaoDanJiaGroup.content = @"0";
     self.jiaGongPriceGroup.content = @"0";
     self.kuaiDiFeiGroup.content =  @"0";
     self.baoZhuangFeiGroup.content = @"0";

@@ -19,11 +19,14 @@
 #import "NSString+Extension.h"
 #import "CustomInputView.h"
 #import "CustomBankCardChooseView.h"
+#import "AppConfig.h"
 
 @interface ZHBankCardAddVC ()
 
 @property (nonatomic,strong) CustomInputView *realNameInputView; //户名
 @property (nonatomic,strong) CustomBankCardChooseView *bankInputView; //开户行
+@property (nonatomic,strong) CustomBankCardChooseView *subbranchInputView; //支行
+
 @property (nonatomic,strong) CustomInputView *bankCardNumInputView; //银行卡号
 @property (nonatomic,strong) CustomInputView *pwdInputView; //银行卡号
 
@@ -63,8 +66,13 @@
     [self.bgSV addSubview:self.bankInputView];
     self.bankInputView.leftTitleLbl.text = @"开户行";
     
+    //支行
+    self.subbranchInputView = [[CustomBankCardChooseView alloc] initWithFrame:CGRectMake(0, self.bankInputView.yy + 10, SCREEN_WIDTH, 45)];
+    [self.bgSV addSubview:self.subbranchInputView];
+    self.subbranchInputView.leftTitleLbl.text = @"开户支行";
+    
     //卡号
-    self.bankCardNumInputView = [[CustomInputView alloc] initWithFrame:CGRectMake(0, self.bankInputView.yy  + 10, SCREEN_WIDTH, 45)];
+    self.bankCardNumInputView = [[CustomInputView alloc] initWithFrame:CGRectMake(0, self.subbranchInputView.yy  + 10, SCREEN_WIDTH, 45)];
     [self.bgSV addSubview:self.bankCardNumInputView];
     self.bankCardNumInputView.leftTitleLbl.text = @"卡号";
     self.bankCardNumInputView.textField.keyboardType = UIKeyboardTypeNumberPad;
@@ -105,6 +113,7 @@
         self.realNameInputView.textField.text = self.bankCard.realName;
         self.bankInputView.textField.text = self.bankCard.bankName;
         self.bankCardNumInputView.textField.text = self.bankCard.bankcardNumber;
+        self.subbranchInputView.textField.text  = self.bankCard.subbranch;
         [self.operationBtn setTitle:@"修改" forState:UIControlStateNormal];
         self.title = @"修改银行卡";
         
@@ -156,6 +165,11 @@
         return;
     }
     
+    if (![self.subbranchInputView.textField.text valid]) {
+        [TLAlert alertWithMsg:@"请填写开户支行"];
+        return;
+    }
+    
     //
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
@@ -178,10 +192,12 @@
        http.code = @"802010";
     
     }
-
+    
     http.parameters[@"token"] = [TLUser user].token;
     http.parameters[@"userId"] = [TLUser user].userId;
     http.parameters[@"realName"] = self.realNameInputView.textField.text;
+    http.parameters[@"subbranch"] = self.subbranchInputView.textField.text;
+
     NSString *bankName = self.bankInputView.textField.text;
   __block  ZHBank *bank = nil;
     [self.banks enumerateObjectsUsingBlock:^(ZHBank * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -205,6 +221,7 @@
         return;
     }
     
+    http.parameters[@"systemCode"] = [AppConfig config].systemCode;
     http.parameters[@"bankName"] = self.bankInputView.textField.text;
     http.parameters[@"bankCode"] = bankCode;
     http.parameters[@"bankcardNumber"] = self.bankCardNumInputView.textField.text; //卡号
