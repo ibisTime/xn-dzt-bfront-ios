@@ -8,8 +8,6 @@
 
 #import "TLBaseVC.h"
 
-
-
 @interface TLCustomerCategoryVC : TLBaseVC
 
 @property (nonatomic,copy) NSString *status;

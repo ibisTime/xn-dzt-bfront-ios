@@ -334,10 +334,9 @@
         
         [TLProgressHUD dismiss];
         [TLAlert alertWithSucces:@"录入成功"];
+        //
+//      [self.navigationController popToRootViewControllerAnimated:YES];
         
-        //
-        [self.navigationController popToRootViewControllerAnimated:YES];
-        //
     } failure:^(__kindof NBBaseRequest *request) {
         [TLProgressHUD dismiss];
         
@@ -840,9 +839,7 @@
     
     //收货地址
     TLGroup *receiveGroup = [[TLGroup alloc] init];
-    if (self.order.canEditDingZhi) {
-        [self.dataManager.groups addObject:receiveGroup];
-    }
+    [self.dataManager.groups addObject:receiveGroup];
     receiveGroup.dataModelRoom = self.dataManager.shouHuoAddressRoom;
     receiveGroup.title = @"收货地址";
     receiveGroup.content = self.dataManager.shouHuoValue;
@@ -912,6 +909,7 @@
     submitCheckBtnGroup.editingEdgeInsets = paramterEdgeInsets;
     submitCheckBtnGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     //
+    
 }
 
 - (void)setUpUI {

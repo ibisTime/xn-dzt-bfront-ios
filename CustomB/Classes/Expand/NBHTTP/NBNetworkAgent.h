@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+
 @class NBBaseRequest;
 
 @interface NBNetworkAgent : NSObject
@@ -15,5 +16,6 @@
 + (instancetype)defaultAgent;
 
 - (void)startReq:(__kindof NBBaseRequest *)req;
+
 
 @end

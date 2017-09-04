@@ -42,6 +42,8 @@
 // 金卡会员，银卡会员
 - (NSString *)getVipName;
 
+@property (nonatomic, assign) BOOL is;
+
 //area = "\U4f59\U676d\U533a";
 //city = "\U676d\U5dde\U5e02";
 //companyCode = "CD-CDZT000009";

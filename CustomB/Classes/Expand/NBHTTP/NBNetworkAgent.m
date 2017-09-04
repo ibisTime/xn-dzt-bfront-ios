@@ -58,7 +58,6 @@
 
     AFHTTPSessionManager *manager = [NBNetworkAgent HTTPSessionManager];
 //    id manager = nil;
-    
     //转换URLString
     NSString *URLString = nil;
     id parameters = req.parameters;
@@ -71,7 +70,7 @@
     
         if ([NBNetworkConfig config].baseUrl) {
             
-            if ([req.URLString hasPrefix:@"http"] || [req.URLString hasPrefix:@"http"]) {
+            if ([req.URLString hasPrefix:@"http"] || [req.URLString hasPrefix:@"https"]) {
                 
                 URLString = req.URLString;
                 
@@ -89,9 +88,6 @@
     
     }
     
-
-
-    
     //转换parameters
     if ([req respondsToSelector:@selector(convertParameters)]) {
         
@@ -102,13 +98,14 @@
         @throw [NSException exceptionWithName:@"请实现 convertParameters 方法" reason:nil userInfo:nil];
     
     }
-    NSLog(@"%@\n%@",URLString,parameters);
+//    NSLog(@"%@\n%@",URLString,parameters);
     //请求
+    
+    //此处请求开始的回调
     switch (req.HTTPMethod) {
         
         case NBRequestMethodPOST: {
         
-//            [manager POSt];
             [manager POST:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
                 
                 [self handleSuccessWithReq:req task:task responseObject:responseObject];
@@ -119,8 +116,7 @@
 
 
             }];
-     
-            
+           
         }  break;
         
             
@@ -137,10 +133,9 @@
                 
             }];
           
-            
         }  break;
 
-        
+        //
         default: {
         
             @throw [NSException exceptionWithName:@"不支持的请求方法" reason:nil userInfo:nil];
@@ -149,7 +144,6 @@
            
     }
     
- 
 }
 
 
@@ -159,43 +153,29 @@
     req.task = task;
     req.error = nil;
     
-  
+    //请求结束的回调
     
-    //0.是否满则全局单一成功过滤,满足
-    if ([req isKindOfClass:[NBCDRequest class]]) {
-        //我方请求
-  
-        if([responseObject[@"errorCode"] isEqual:@"0"]){ //成功
+    if (req.isHandleRespByDelegate) {
+       
+        //实现了代理让代理，去处理返回对象
+        if ([NBNetworkConfig config].respDelegate && [[NBNetworkConfig config].respDelegate respondsToSelector:@selector(handleHttpSuccessWithReq:task:resp:)]) {
             
-            if(req.success){
-                req.success(req);
-            }
+            [[NBNetworkConfig config].respDelegate handleHttpSuccessWithReq:req task:task resp:responseObject];
             
         } else {
             
-         
-            
-            if (req.failure) {
-                req.failure(req);
-            }
-            
-            if ([responseObject[@"errorCode"] isEqual:@"4"]) {
-                //token错误  4
-                
-//                [TLAlert alertWithTitile:nil message:@"为了您的账户安全，请重新登录" confirmAction:^{
-//                    [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginOutNotification object:nil];
-//                }];
-//                return;
-                
-            }
-            
-                [TLAlert alertWithInfo:responseObject[@"errorInfo"]];
-                
-            
+            @throw [NSException exceptionWithName:@"[NBNetworkConfig config].respDelegate 未发现代理" reason:@"[NBNetworkConfig config].respDelegate 为配置代理对象" userInfo:nil];
+        
         }
         
+    } else {
+    
+       if (req.success) {
         
-        return;
+          req.success(req);
+        
+       }
+        
     }
     
     if (!req.ignoreCache) {
@@ -204,13 +184,7 @@
         
     }
     
-    
-    if (req.success) {
-        
-        req.success(req);
-        [req clearCompletionBlock];
-
-    }
+    [req clearCompletionBlock];
 
 }
 
@@ -221,12 +195,31 @@
     req.task = task;
     req.error = error;
     
-    if (req.failure) {
-        
-        req.failure(req);
-        
-    }
+    //请求结束的回调
+
     
+    if (req.isHandleRespByDelegate) {
+        
+        //实现了代理让代理，去处理返回对象
+        if ([NBNetworkConfig config].respDelegate && [[NBNetworkConfig config].respDelegate respondsToSelector:@selector(handleHttpFailureWithReq:task:error:)]) {
+            
+            [[NBNetworkConfig config].respDelegate handleHttpFailureWithReq:req task:task error:error];
+            
+        } else {
+        
+            @throw [NSException exceptionWithName:@"[NBNetworkConfig config].respDelegate 未发现代理" reason:@"[NBNetworkConfig config].respDelegate 为配置代理对象" userInfo:nil];
+
+        }
+        
+    } else {
+    
+        if (req.failure) {
+            
+            req.failure(req);
+            
+        }
+    }
+
     //
     [req clearCompletionBlock];
 

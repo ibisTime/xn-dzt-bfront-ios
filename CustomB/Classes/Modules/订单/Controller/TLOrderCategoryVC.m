@@ -40,6 +40,13 @@
     
 }
 
+- (void)refresh {
+    
+    [self.orderTableView beginRefreshing];
+
+
+}
+
 - (void)viewDidAppear:(BOOL)animated {
     
     [super viewDidAppear:animated];
@@ -129,7 +136,7 @@
         }
             break;
     }
-
+    
     
     //    1待支付 2 已支付待发货 3 已发货待收货 4 已收货 91用户取消 92 商户取消 93 快递异常
     

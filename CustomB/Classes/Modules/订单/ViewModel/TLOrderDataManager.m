@@ -52,7 +52,7 @@
   @{  @"2-05" : @"臀围"},
   @{  @"2-06" : @"大腿围"},
   @{  @"2-07" : @"通档"},
-  @{  @"2-08" :  @"臀围"},
+  @{  @"2-08" :  @"臂围"},
   @{  @"2-09" :  @"总肩宽"},
   @{  @"2-10" :  @"袖长"},
   @{  @"2-11" : @"前肩宽"},
@@ -450,6 +450,7 @@
     
     //刺绣内容
     TLInputDataModel *cixiuTextModel = [[TLInputDataModel alloc] init];
+    cixiuTextModel.canEdit = [self.order canSubmitData];
     self.ciXiuTextRoom = [[NSMutableArray alloc] initWithArray:@[cixiuTextModel]];
     self.ciXiuTextValue = @"";
     if (self.order.resultMap.CIXIU[@"5-01"]) {
@@ -594,9 +595,6 @@
         return [NSMutableArray new];
     }
     
-//    TLInputDataModel *remarkDataModel =  [[TLInputDataModel alloc] init];
-//    remarkDataModel.value = self.order.remark;
-//    self.remarkRoom = [[NSMutableArray alloc] initWithArray:@[remarkDataModel]];
     
     NSString *shouHuoStr = nil;
     shouHuoStr = @"未收货";
@@ -654,7 +652,8 @@ NSDictionary *kuaiDiDcit =   @{
     }
     
     TLInputDataModel *shouHuoDiZHi = [[TLInputDataModel alloc] init];
-    self.shouHuoAddressRoom = [@[shouHuoDiZHi] mutableCopy];
+    self.shouHuoAddressRoom = [[NSMutableArray alloc] initWithObjects:shouHuoDiZHi, nil];
+    shouHuoDiZHi.canEdit = [self.order canSubmitData];
     if (self.order.resultMap.QITA[kShouHuoDiZhiType]) {
         
         NSDictionary *selelctParaDict = self.order.resultMap.QITA[kShouHuoDiZhiType];
@@ -662,7 +661,6 @@ NSDictionary *kuaiDiDcit =   @{
         shouHuoDiZHi.keyName = @"收货地址";
         shouHuoDiZHi.value = selelctParaDict[@"code"];
         
-
     } else {
         
         shouHuoDiZHi.keyCode = kShouHuoDiZhiType;
@@ -673,16 +671,17 @@ NSDictionary *kuaiDiDcit =   @{
     
     //
     TLInputDataModel *remarkDataModel =  [[TLInputDataModel alloc] init];
+    //可提交 就可编辑
+    remarkDataModel.canEdit = [self.order canSubmitData];
     self.remarkRoom = [[NSMutableArray alloc] initWithArray:@[remarkDataModel]];
     if (self.order.resultMap.QITA[kBeiZhuType]) {
         
         NSDictionary *selelctParaDict = self.order.resultMap.QITA[kBeiZhuType];
         remarkDataModel.value = selelctParaDict[@"code"];
         self.remarkValue = self.order.remark;
+        
     }
-    
-  
-    
+
     //
     NSMutableArray <NSDictionary *> *orderInfoArr = [[NSMutableArray alloc] initWithArray:   @[
                                       @{@"客户姓名" : self.order.applyName},
@@ -715,24 +714,9 @@ NSDictionary *kuaiDiDcit =   @{
     }
     
     //
-    if (self.order.resultMap.QITA[kShouHuoDiZhiType]) {
-        
-        NSDictionary *selelctParaDict = self.order.resultMap.QITA[kShouHuoDiZhiType];
-        [orderInfoArr addObject:@{@"收货地址" : selelctParaDict[@"code"]}];
-        
-//        [orderInfoArr addObject:@{@"收货地址" : @"我是很长的收货地址痕迹发件方啦房间爱了就爱了放假了福利卡机"}];
+    [orderInfoArr addObject:@{@"量体地址" : [self.order getDetailAddress]}];
 
-//        shouHuoDiZHi.value = ;
-
-    } else {
-    
-        [orderInfoArr addObject:@{@"收货地址" : [self.order getDetailAddress]}];
-       
-    }
-    
-  
-
-    
+    //
     NSMutableArray *thenArr = [[NSMutableArray alloc] init];
     [orderInfoArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         

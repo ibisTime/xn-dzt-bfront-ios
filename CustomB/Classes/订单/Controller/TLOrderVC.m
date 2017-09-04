@@ -22,6 +22,8 @@
 @property (nonatomic, strong) UIScrollView *switchScrollView;
 @property (nonatomic, strong) TLSearchView *searchView;
 
+@property (nonatomic, strong) TLOrderCategoryVC *allVC;
+
 @property (nonatomic, copy) NSArray<NSNumber *> *orderStatusArr;
 
 @end
@@ -74,9 +76,21 @@
     
     TLOrderCategoryVC *vc = [[TLOrderCategoryVC alloc] init];
     vc.status = [self.orderStatusArr[0] integerValue];
+    self.allVC = vc;
     [self addChildViewController:vc];
     vc.view.frame = CGRectMake(0, 0, SCREEN_WIDTH, self.switchScrollView.height);
     [self.switchScrollView addSubview:vc.view];
+    
+    //
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshAll) name:@"refreshOrderAll" object:nil];
+    
+}
+
+- (void)refreshAll {
+
+    [self.switchScrollView setContentOffset:CGPointMake(0, 0) animated:YES];
+    [self.allVC refresh];
+
     
 }
 

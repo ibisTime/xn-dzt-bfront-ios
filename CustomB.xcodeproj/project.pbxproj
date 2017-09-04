@@ -141,18 +141,10 @@
 		2E8C8B311F4ABB7800974F85 /* TLBannerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C8B2C1F4ABB7800974F85 /* TLBannerCell.m */; };
 		2E8C8B321F4ABB7800974F85 /* TLBannerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C8B2E1F4ABB7800974F85 /* TLBannerView.m */; };
 		2E8C8B361F4ABBBD00974F85 /* NSTimer+tlNoCycle.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C8B351F4ABBBD00974F85 /* NSTimer+tlNoCycle.m */; };
+		2E8DCCDC1F5D2E8300C9B39F /* RespHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8DCCDB1F5D2E8300C9B39F /* RespHandler.m */; };
+		2E8DCCDF1F5D440300C9B39F /* TLNetworkingConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8DCCDE1F5D440300C9B39F /* TLNetworkingConfig.m */; };
 		D0C9E4DDDA4D08742E080DD8 /* libPods-CustomB.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 49AA13F7A4F0E82CFDA0CF74 /* libPods-CustomB.a */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		2E30726B1F4FE5900003ADD9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2E8C8A761F4A851B00974F85 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2E8C8A7D1F4A851B00974F85;
-			remoteInfo = CustomB;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1531B65D53931CD08FC8A97E /* Pods-CustomB.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomB.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CustomB/Pods-CustomB.debug.xcconfig"; sourceTree = "<group>"; };
@@ -323,7 +315,6 @@
 		2E30725D1F4EBF6B0003ADD9 /* TLUserParameterMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLUserParameterMap.m; sourceTree = "<group>"; };
 		2E30725F1F4FC6A00003ADD9 /* ZHCurrencyModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZHCurrencyModel.h; sourceTree = "<group>"; };
 		2E3072601F4FC6A00003ADD9 /* ZHCurrencyModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHCurrencyModel.m; sourceTree = "<group>"; };
-		2E3072661F4FE5900003ADD9 /* CustomBUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CustomBUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E3072741F4FF14A0003ADD9 /* TLBalanceVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLBalanceVC.h; sourceTree = "<group>"; };
 		2E3072751F4FF14A0003ADD9 /* TLBalanceVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLBalanceVC.m; sourceTree = "<group>"; };
 		2E3072771F4FF2010003ADD9 /* TLUserSettingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLUserSettingCell.h; sourceTree = "<group>"; };
@@ -427,18 +418,15 @@
 		2E8C8B2E1F4ABB7800974F85 /* TLBannerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLBannerView.m; sourceTree = "<group>"; };
 		2E8C8B341F4ABBBD00974F85 /* NSTimer+tlNoCycle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSTimer+tlNoCycle.h"; sourceTree = "<group>"; };
 		2E8C8B351F4ABBBD00974F85 /* NSTimer+tlNoCycle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSTimer+tlNoCycle.m"; sourceTree = "<group>"; };
+		2E8DCCDA1F5D2E8300C9B39F /* RespHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RespHandler.h; sourceTree = "<group>"; };
+		2E8DCCDB1F5D2E8300C9B39F /* RespHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RespHandler.m; sourceTree = "<group>"; };
+		2E8DCCDD1F5D440300C9B39F /* TLNetworkingConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLNetworkingConfig.h; sourceTree = "<group>"; };
+		2E8DCCDE1F5D440300C9B39F /* TLNetworkingConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLNetworkingConfig.m; sourceTree = "<group>"; };
 		49AA13F7A4F0E82CFDA0CF74 /* libPods-CustomB.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-CustomB.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		738FA1BA76ECA6586E1AF5F9 /* Pods-CustomB.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CustomB.release.xcconfig"; path = "Pods/Target Support Files/Pods-CustomB/Pods-CustomB.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		2E3072631F4FE5900003ADD9 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		2E8C8A7B1F4A851B00974F85 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -636,7 +624,6 @@
 			isa = PBXGroup;
 			children = (
 				2E3071EB1F4C00410003ADD9 /* BatchReq */,
-				2E3071EE1F4C00410003ADD9 /* filter */,
 				2E3071EF1F4C00410003ADD9 /* NBNetwork.h */,
 				2E3071F01F4C00410003ADD9 /* NBNetworkAgent.h */,
 				2E3071F11F4C00410003ADD9 /* NBNetworkAgent.m */,
@@ -654,13 +641,6 @@
 				2E3071ED1F4C00410003ADD9 /* NBBatchReqest.m */,
 			);
 			path = BatchReq;
-			sourceTree = "<group>";
-		};
-		2E3071EE1F4C00410003ADD9 /* filter */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = filter;
 			sourceTree = "<group>";
 		};
 		2E3071F41F4C00410003ADD9 /* Req */ = {
@@ -808,7 +788,6 @@
 			isa = PBXGroup;
 			children = (
 				2E8C8A7E1F4A851B00974F85 /* CustomB.app */,
-				2E3072661F4FE5900003ADD9 /* CustomBUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -842,6 +821,8 @@
 				2E8C8A9A1F4A863600974F85 /* AppDelegate.m */,
 				2E30725F1F4FC6A00003ADD9 /* ZHCurrencyModel.h */,
 				2E3072601F4FC6A00003ADD9 /* ZHCurrencyModel.m */,
+				2E8DCCDA1F5D2E8300C9B39F /* RespHandler.h */,
+				2E8DCCDB1F5D2E8300C9B39F /* RespHandler.m */,
 				2E8C8A9B1F4A863600974F85 /* Modules */,
 				2E8C8A9C1F4A863600974F85 /* Other */,
 				2E8C8A9D1F4A863600974F85 /* 客户 */,
@@ -1150,6 +1131,8 @@
 				2E8C8ADD1F4A94DC00974F85 /* TLPageDataHelper.m */,
 				2E8C8ADE1F4A94DC00974F85 /* TLUploadManager.h */,
 				2E8C8ADF1F4A94DC00974F85 /* TLUploadManager.m */,
+				2E8DCCDD1F5D440300C9B39F /* TLNetworkingConfig.h */,
+				2E8DCCDE1F5D440300C9B39F /* TLNetworkingConfig.m */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -1287,24 +1270,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2E3072651F4FE5900003ADD9 /* CustomBUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 2E30726D1F4FE5900003ADD9 /* Build configuration list for PBXNativeTarget "CustomBUITests" */;
-			buildPhases = (
-				2E3072621F4FE5900003ADD9 /* Sources */,
-				2E3072631F4FE5900003ADD9 /* Frameworks */,
-				2E3072641F4FE5900003ADD9 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				2E30726C1F4FE5900003ADD9 /* PBXTargetDependency */,
-			);
-			name = CustomBUITests;
-			productName = CustomBUITests;
-			productReference = 2E3072661F4FE5900003ADD9 /* CustomBUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 		2E8C8A7D1F4A851B00974F85 /* CustomB */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2E8C8A951F4A851B00974F85 /* Build configuration list for PBXNativeTarget "CustomB" */;
@@ -1334,12 +1299,6 @@
 				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = " tianlei";
 				TargetAttributes = {
-					2E3072651F4FE5900003ADD9 = {
-						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 7K7EFNFZWL;
-						ProvisioningStyle = Automatic;
-						TestTargetID = 2E8C8A7D1F4A851B00974F85;
-					};
 					2E8C8A7D1F4A851B00974F85 = {
 						CreatedOnToolsVersion = 8.3.3;
 						DevelopmentTeam = 2MYU2SXZPB;
@@ -1361,19 +1320,11 @@
 			projectRoot = "";
 			targets = (
 				2E8C8A7D1F4A851B00974F85 /* CustomB */,
-				2E3072651F4FE5900003ADD9 /* CustomBUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		2E3072641F4FE5900003ADD9 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		2E8C8A7C1F4A851B00974F85 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1434,13 +1385,6 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		2E3072621F4FE5900003ADD9 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		2E8C8A7A1F4A851B00974F85 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1515,6 +1459,7 @@
 				2E8C8AA51F4A876B00974F85 /* TLTabBarController.m in Sources */,
 				2E8C8ABE1F4A892A00974F85 /* UIColor+Extension.m in Sources */,
 				2E1F27DB1F52B2D30003717D /* CDBillCell.m in Sources */,
+				2E8DCCDC1F5D2E8300C9B39F /* RespHandler.m in Sources */,
 				2E30719C1F4AC3400003ADD9 /* ZHSegmentView.m in Sources */,
 				2E10D98E1F53E3F400811AB1 /* TLSysMsg.m in Sources */,
 				2E3072041F4C00410003ADD9 /* NBBaseRequest.m in Sources */,
@@ -1525,6 +1470,7 @@
 				2E8C8AC51F4A89FC00974F85 /* TLUserLoginVC.m in Sources */,
 				2E8C8B1C1F4AAE8D00974F85 /* TLStatusView.m in Sources */,
 				2E8C8B161F4A99BD00974F85 /* TLCustomerVC.m in Sources */,
+				2E8DCCDF1F5D440300C9B39F /* TLNetworkingConfig.m in Sources */,
 				2E8C8AE71F4A952E00974F85 /* TLTableView.m in Sources */,
 				2E3072331F4D115D0003ADD9 /* TLDataModel.m in Sources */,
 				2E3071DB1F4BFA570003ADD9 /* TLOrderDetailVC2.m in Sources */,
@@ -1582,14 +1528,6 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
-/* Begin PBXTargetDependency section */
-		2E30726C1F4FE5900003ADD9 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2E8C8A7D1F4A851B00974F85 /* CustomB */;
-			targetProxy = 2E30726B1F4FE5900003ADD9 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
-
 /* Begin PBXVariantGroup section */
 		2E8C8A8F1F4A851B00974F85 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
@@ -1602,30 +1540,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		2E30726E1F4FE5900003ADD9 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEVELOPMENT_TEAM = 7K7EFNFZWL;
-				INFOPLIST_FILE = CustomBUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = tian.CustomBUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = CustomB;
-			};
-			name = Debug;
-		};
-		2E30726F1F4FE5900003ADD9 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DEVELOPMENT_TEAM = 7K7EFNFZWL;
-				INFOPLIST_FILE = CustomBUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = tian.CustomBUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_TARGET_NAME = CustomB;
-			};
-			name = Release;
-		};
 		2E8C8A931F4A851B00974F85 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1749,15 +1663,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2E30726D1F4FE5900003ADD9 /* Build configuration list for PBXNativeTarget "CustomBUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				2E30726E1F4FE5900003ADD9 /* Debug */,
-				2E30726F1F4FE5900003ADD9 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		2E8C8A791F4A851B00974F85 /* Build configuration list for PBXProject "CustomB" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

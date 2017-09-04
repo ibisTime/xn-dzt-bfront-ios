@@ -13,8 +13,8 @@
 
 @property (nonatomic, copy) NSString *address;
 @property (nonatomic, copy) NSString *days;
-@property (nonatomic, copy) NSString *jfAmount;
-@property (nonatomic, copy) NSString *jyAmount;
+@property (nonatomic, strong) NSNumber *jfAmount;
+@property (nonatomic, strong) NSNumber *jyAmount;
 
 @property (nonatomic, copy) NSString *mobile;
 @property (nonatomic, copy) NSString *realName;
@@ -25,8 +25,7 @@
 
 @property (nonatomic, strong)  TLUserParameterMap *resultMap;
 
-@property (nonatomic, strong) NSString *sjAmount;
-
+@property (nonatomic, strong) NSNumber *sjAmount;
 
 //address	地址	string
 //days	成为会员天数	string

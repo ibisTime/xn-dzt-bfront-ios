@@ -29,6 +29,7 @@
     
     TLInputDataModel *inputModel = model;
     self.textField.text = inputModel.value;
+    self.textField.enabled = inputModel.canEdit;
     
 }
 

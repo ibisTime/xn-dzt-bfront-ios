@@ -7,8 +7,16 @@
 //
 
 #import <Foundation/Foundation.h>
-@class NBRespFilter;
 
+@class NBBaseRequest;
+
+@protocol NBRespDelegate <NSObject>
+
+- (void)handleHttpSuccessWithReq:(NBBaseRequest *)req task:(NSURLSessionDataTask *)task resp:(id)responseObject  ;
+
+- (void)handleHttpFailureWithReq:(NBBaseRequest *)req task:(NSURLSessionDataTask *)task error:(NSError *)error ;
+
+@end
 
 @interface NBNetworkConfig : NSObject
 
@@ -17,17 +25,9 @@
 @property (nonatomic, copy) NSString *baseUrl;
 
 /**
- 成功过滤，请求满足这个，过滤器直接进行回调
+ 响应处理的delegate
  */
-@property (nonatomic, strong) NBRespFilter *successFilter;
-
-/**
- 异常，为所有请求过滤数据
- */
-@property (nonatomic, strong) NBRespFilter *abnormalRespFilter;
-
-
-//@property (nonatomic, strong) NSMutableArray <NBRespFilter *> *abnormalRespFilter;
+@property (nonatomic, weak)  id<NBRespDelegate> respDelegate;
 
 
 @end

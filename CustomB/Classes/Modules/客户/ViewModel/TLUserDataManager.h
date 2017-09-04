@@ -10,6 +10,7 @@
 #import "TLCustomerStatisticsInfo.h"
 #import "TLDataModel.h"
 #import "TLGroup.h"
+#import "TLCustomer.h"
 @class TLChooseDataModel;
 @class TLInputDataModel;
 
@@ -19,7 +20,7 @@
 
 - (instancetype)init;
 @property (nonatomic, strong) TLCustomerStatisticsInfo *customerStatisticsInfo;
-
+@property (nonatomic, strong) TLCustomer *customer;
 
 
 /**

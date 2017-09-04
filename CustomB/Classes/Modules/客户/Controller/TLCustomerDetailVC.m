@@ -160,6 +160,7 @@
         self.customerStatisticsInfo = [TLCustomerStatisticsInfo tl_objectWithDictionary:infoReq.responseObject[@"data"]];
         self.dataManager = [[TLUserDataManager alloc] init];
         self.dataManager.customerStatisticsInfo = self.customerStatisticsInfo;
+//        self.dataManager.customer = self.customer;
         
         //
         [self.dataManager handleUserInfo:nil];
@@ -192,7 +193,8 @@
     TLGroup *topUserGroup = [[TLGroup alloc] init];
     topUserGroup.dataModelRoom = [NSMutableArray new];
     [self.dataManager.groups addObject:topUserGroup];
-    topUserGroup.title = [NSString stringWithFormat:@"%@ | %@",self.customerStatisticsInfo.realName,self.customerStatisticsInfo.mobile];
+    
+    topUserGroup.title = [NSString stringWithFormat:@"%@ | %@",self.customerStatisticsInfo.realName,self.customerStatisticsInfo.mobile ? : @""];
     topUserGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
     topUserGroup.headerReuseIdentifier = [TLUserHeaderView headerReuseIdentifier];
     topUserGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 40);
@@ -238,6 +240,8 @@
     CGFloat singleW = 340;
     CGFloat measureWidth = singleW/2.0;
     CGFloat measureLeftMargin = (SCREEN_WIDTH - singleW)/2.0;
+    
+  
     //***********会员信息******************************//
     TLGroup *vipInfoGroup = [[TLGroup alloc] init];
     [self.dataManager.groups addObject:vipInfoGroup];

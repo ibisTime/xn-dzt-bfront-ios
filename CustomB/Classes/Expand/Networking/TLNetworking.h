@@ -20,14 +20,10 @@
 @property (nonatomic,strong) UIView *showView; //hud展示superView
 @property (nonatomic,assign) BOOL isShowMsg; //是否展示警告信息
 
-
 @property (nonatomic,assign) BOOL isDeliverCompanyCode; //是否传递companyCode
-
 
 @property (nonatomic,copy) NSString *url;
 @property (nonatomic,copy) NSString *kind;
-
-
 
 - (NSURLSessionDataTask *)postWithSuccess:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
 
@@ -44,7 +40,5 @@
                   abnormality:(void (^)())abnormality
                       failure:(void (^)(NSError *error))failure;
 
-//支付之前获取IP
-+ (NSString *)ipUrl;
 
 @end

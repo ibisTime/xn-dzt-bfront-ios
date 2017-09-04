@@ -9,6 +9,7 @@
 #import "TLUserDataManager.h"
 #import "TLChooseDataModel.h"
 #import "TLInputDataModel.h"
+#import "NSNumber+TLAdd.h"
 
 @implementation TLUserDataManager
 
@@ -36,7 +37,7 @@
                                          @{  @"2-05" : @"臀围"},
                                          @{  @"2-06" : @"大腿围"},
                                          @{  @"2-07" : @"通档"},
-                                         @{  @"2-08" :  @"臀围"},
+                                         @{  @"2-08" :  @"臂围"},
                                          @{  @"2-09" :  @"总肩宽"},
                                          @{  @"2-10" :  @"袖长"},
                                          @{  @"2-11" : @"前肩宽"},
@@ -264,18 +265,43 @@
         
     }];
     
-    
+    NSDictionary *vipDict = @{
+                           
+                           @"1": @"普通用户",
+                           @"2": @"银卡会员",
+                           @"3": @"金卡会员",
+                           @"4": @"铂金会员",
+                           @"5": @"钻石会员"
+                           
+                           };
     
     //
-    NSMutableArray <NSDictionary *> *vipInfoInfoArr = [  @[
-                                                            @{@"会员等级" : self.customerStatisticsInfo.level},
-                                                            @{@"会员成长经验" : self.customerStatisticsInfo.jyAmount},
-                                                            @{@"会员天数" : self.customerStatisticsInfo.days},
-                                                              @{@"升级所需经验" : self.customerStatisticsInfo.sjAmount},
-                                                             @{@"剩余积分" : self.customerStatisticsInfo.jfAmount},
-                                                            
-                                                            ] mutableCopy];
+    NSMutableArray <NSDictionary *> *vipInfoInfoArr = nil;
     
+    if ([self.customerStatisticsInfo.level isEqualToString:@"1"]) {
+        
+        vipInfoInfoArr  = [  @[
+                               @{@"会员等级" :vipDict[self.customerStatisticsInfo.level]},
+                               @{@"会员天数" : self.customerStatisticsInfo.days}
+
+                               ] mutableCopy];
+        
+    } else {
+        
+      vipInfoInfoArr  = [  @[
+               @{@"会员等级" :vipDict[self.customerStatisticsInfo.level]},
+               @{@"会员成长经验" :     [self convertBigDigital: self.customerStatisticsInfo.jyAmount]},
+               @{@"会员天数" : self.customerStatisticsInfo.days},
+               @{@"升级所需经验" : [self convertBigDigital:self.customerStatisticsInfo.sjAmount]},
+               @{@"剩余积分" : [self convertBigDigital:self.customerStatisticsInfo.jfAmount]},
+               
+               ] mutableCopy];
+        
+    
+    
+    }
+    
+
     
 
 
@@ -300,6 +326,23 @@
     
     //sjAmount	升级积分
 
+}
+
+- (NSString *)convertBigDigital:(NSNumber *)digital {
+
+    long long digitalNumber = [digital longLongValue];
+    
+    if (digitalNumber > 10000*1000) {
+        
+        
+//        return [NSString stringWithFormat:@"%.2f万",digitalNumber/(10000.0*1000)];
+        return [NSString stringWithFormat:@"%.f",[digital longLongValue]/(1000.0)];
+
+    } else {
+    
+        return [NSString stringWithFormat:@"%.f",[digital longLongValue]/(1000.0)];
+        
+    }
 
 }
 

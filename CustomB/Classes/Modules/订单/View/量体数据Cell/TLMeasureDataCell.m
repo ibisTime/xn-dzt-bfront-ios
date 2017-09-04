@@ -67,10 +67,10 @@
         
         //从右到左布局
         [line mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self.contentView.mas_right).offset(-20);
+            make.right.equalTo(self.contentView.mas_right).offset(-15);
             make.height.mas_equalTo(0.75);
             make.bottom.equalTo(self.mas_bottom);
-            make.width.mas_equalTo(60);
+            make.width.mas_equalTo(65);
         }];
         
         

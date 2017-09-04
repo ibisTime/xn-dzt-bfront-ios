@@ -24,17 +24,4 @@
 
 }
 
-
-//- (NSMutableArray<NBRespFilter *> *)abnormalRespFilter {
-//
-//    if (!_abnormalRespFilter) {
-//        
-//        _abnormalRespFilter = [[NSMutableArray alloc] init];
-//        
-//    }
-//    
-//    return _abnormalRespFilter;
-//
-//}
-
 @end

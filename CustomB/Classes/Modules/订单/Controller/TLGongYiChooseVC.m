@@ -43,7 +43,6 @@
 
 @property (nonatomic, strong)  TLOrderDataManager *dataManager;
 @property (nonatomic, strong) UICollectionView *orderDetailCollectionView;
-@property (nonatomic, strong) TLOrderModel *order;
 
 @property (nonatomic, strong) TLGroup *totalPriceGroup;
 
@@ -54,7 +53,17 @@
 
 @implementation TLGongYiChooseVC
 
+- (TLOrderDataManager *)dataManager {
 
+    if (!_dataManager) {
+        
+        _dataManager = [[TLOrderDataManager alloc] init];
+        _dataManager.order = self.order;
+    }
+    
+    return _dataManager;
+
+}
 #pragma mark- 提交
 - (void)trueSubmit {
  
@@ -64,7 +73,6 @@
     
     //3.风格
     [self.dataManager.zhuoZhuangFengGeRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        
         
         if (!obj.isSelected) {
             
@@ -360,7 +368,7 @@
         NBCDRequest *mianLiaoReq = (NBCDRequest *)batchRequest.reqArray[1];
         
         //初始化
-        self.dataManager = [[TLOrderDataManager alloc] init];
+       
         
         //定制信息
         [self.dataManager handleParameterData:chooseReq.responseObject];
@@ -444,6 +452,7 @@
     [self.dataManager.groups addObject:mianLiaoRoom];
     mianLiaoRoom.dataModelRoom = self.dataManager.mianLiaoRoom;
     mianLiaoRoom.title = @"面料";
+    mianLiaoRoom.content = self.dataManager.mianLiaoValue;
     mianLiaoRoom.headerSize = headerSmallSize;
     mianLiaoRoom.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
     mianLiaoRoom.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
@@ -558,6 +567,7 @@
     TLGroup *ciXiuGroup = [[TLGroup alloc] init];
     [self.dataManager.groups addObject:ciXiuGroup];
     ciXiuGroup.dataModelRoom = [self.dataManager configDefaultModel];
+    
     ciXiuGroup.title = @"刺绣定制信息";
     ciXiuGroup.headerSize = headerMiddleSize;
     ciXiuGroup.headerReuseIdentifier = [TLOrderBGTitleHeader headerReuseIdentifier];
@@ -569,6 +579,10 @@
     [arr addObject:@1];
     self.cixiuGroup = ciXiuTextGroup;
     ciXiuTextGroup.dataModelRoom = self.dataManager.ciXiuTextRoom;
+    //单独处理，与订单的处理方式不同
+    TLInputDataModel *dataModelRoomOneModel = ciXiuTextGroup.dataModelRoom[0];
+    dataModelRoomOneModel.canEdit = YES;
+
     ciXiuTextGroup.title = @"刺绣内容";
     ciXiuTextGroup.canEdit = YES;
     ciXiuTextGroup.content = self.dataManager.ciXiuTextValue;

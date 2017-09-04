@@ -64,6 +64,8 @@
     if (!_gongYiChooseVC) {
         
         _gongYiChooseVC = [[TLGongYiChooseVC alloc] init];
+        //只能初始化的时候赋值
+        _gongYiChooseVC.order = self.order;
     }
     
     return _gongYiChooseVC;
@@ -95,7 +97,7 @@
         //前端从产品界面进入，预约的时候已经有产品
         [self.productRoom enumerateObjectsUsingBlock:^(TLProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
-            if (self.order.modelName && [self.order.modelCode isEqualToString:obj.code]) {
+            if ( (self.order.productList && self.order.productList.count > 0) && [self.order.productList[0].modelCode isEqualToString:obj.code]) {
 
                 TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
                 parameterModel.code = obj.code;
@@ -303,6 +305,7 @@
             //需要确定的
             self.gongYiChooseVC.delegate = self;
             self.gongYiChooseVC.productCode = currentChooseModel.code;
+            
             [self.navigationController pushViewController:self.gongYiChooseVC animated:YES];
             
         }
@@ -376,6 +379,7 @@
         NBCDRequest *orderReq = (NBCDRequest *)batchRequest.reqArray[2];
 
         TLOrderModel *orderModel = [TLOrderModel tl_objectWithDictionary:orderReq.responseObject[@"data"]];
+        self.order = orderModel;
         self.calculatePriceManager.times = [orderModel.times floatValue];
         //
         self.baoZhuangFei = [kuaiDiReq2.responseObject[@"data"][@"BZF"] floatValue];
@@ -398,25 +402,6 @@
         
     }];
     
-//    [xhReq startWithSuccess:^(__kindof NBBaseRequest *request) {
-//        
-//        [TLProgressHUD dismiss];
-//        NSArray *arr = request.responseObject[@"data"];
-//        self.productRoom =  [TLProduct tl_objectArrayWithDictionaryArray:arr];
-//        //
-//        self.dataManager = [[TLOrderDataManager alloc] init];
-//        
-//        //
-//        [self setUpUI];
-//        [self registerClass];
-//        [self configModel];
-//
-//        
-//        
-//    } failure:^(__kindof NBBaseRequest *request) {
-//        [TLProgressHUD dismiss];
-//        
-//    }];
     
 }
 
@@ -629,6 +614,10 @@
         return;
         
     }
+    //产品切换，把数据清除掉
+    self.gongYiChooseVC = nil;
+    self.currentArr = nil;
+    self.currentDict = nil;
     
     //
     if ( self.currentProductModel.productType == TLProductTypeHAdd) {
@@ -638,7 +627,14 @@
         
         //改变面料单消耗
         self.mianLiaoCountGroup.content = [NSString stringWithFormat:@"%@",self.currentProductModel.loss];
-        self.calculatePriceManager.mianLiaoCount = [self.currentProductModel.loss integerValue];
+        self.calculatePriceManager.mianLiaoCount = [self.currentProductModel.loss floatValue];
+        
+        //是否有面料费
+        if (self.order.resultMap && self.order.resultMap.DINGZHI && self.order.resultMap.DINGZHI[@"1-02"]) {
+            NSDictionary *dict =  self.order.resultMap.DINGZHI[@"1-02"];
+            self.mianLiaoDanJiaGroup.content = [dict[@"price"] convertToRealMoney];
+            
+        }
         
         //改变加工费
         self.jiaGongPriceGroup.content = [NSString stringWithFormat:@"%@",[self.currentProductModel.processFee convertToRealMoney]];
@@ -648,7 +644,8 @@
         self.baoZhuangFeiGroup.content = [NSString stringWithFormat:@"%.2f",self.baoZhuangFei];
         self.calculatePriceManager.kuaiDiPrice = self.kuaiDiFei;
         self.calculatePriceManager.baoZhuangPrice = self.baoZhuangFei;
-        
+        self.totalPriceGroup.content = @"0";
+
     } else {
         //选择的为衬衫
         //工艺是否可编辑

@@ -8,14 +8,11 @@
 
 #import "TLNetworking.h"
 #import "TLProgressHUD.h"
-#import "AppConfig.h"
 #import "TLAlert.h"
 #import "TLUser.h"
-//#import "TLHeader.h"
-//#import "ZHUser.h"
+#import "TLNetworkingConfig.h"
 
 @implementation TLNetworking
-
 
 
 + (AFHTTPSessionManager *)HTTPSessionManager
@@ -35,37 +32,36 @@
     return manager;
 }
 
-+ (NSString *)serveUrl {
-    
-    return [[self baseUrl] stringByAppendingString:@"/forward-service/api"];
-}
 
-+ (NSString *)ipUrl {
-
-    return [[self baseUrl] stringByAppendingString:@"/forward-service/ip"];
-
-}
+//+ (NSString *)serveUrl {
+//    
+//    return [TLNetworkingConfig config].baseUrl;
+////    return [[self baseUrl] stringByAppendingString:@"/forward-service/api"];
+//}
 
 
-+ (NSString *)baseUrl {
 
-    return [AppConfig config].addr;
-    
-}
-
-
-+ (NSString *)systemCode {
-    
-    return [AppConfig config].systemCode;
-    
-}
+//+ (NSString *)baseUrl {
+//
+//    return [AppConfig config].addr;
+//    
+//}
 
 
-+ (NSString *)kindType {
-    
-    return @"B";
-    
-}
+//
+//+ (NSString *)systemCode {
+//    
+//    return [TLNetworkingConfig config].systemCode;
+////    return [AppConfig config].systemCode;
+//}
+
+
+//
+//+ (NSString *)kindType {
+//    
+//    return [TLNetworkingConfig config].kind;
+//    
+//}
 
 - (instancetype)init{
 
@@ -95,21 +91,21 @@
     
         if (!(self.url && self.url.length > 0)) {
             
-            self.url = [[self class] serveUrl];
+            self.url = [TLNetworkingConfig config].baseUrl;
         }
         
-        self.parameters[@"systemCode"] = [[self class] systemCode];
+        self.parameters[@"systemCode"] = [TLNetworkingConfig config].systemCode;
      
 #warning -- 公司编码，祸害
         if (self.isDeliverCompanyCode) {
             
-            self.parameters[@"companyCode"] = [[self class] systemCode];
+            self.parameters[@"companyCode"] = [TLNetworkingConfig config].systemCode;
 
         }
         
         NSString *kind =  self.parameters[@"kind"];
         if (!kind || kind.length <=0 ) {
-            self.parameters[@"kind"] = [[self class] kindType];
+            self.parameters[@"kind"] = [TLNetworkingConfig config].kind;
 
         }
         
@@ -206,13 +202,7 @@
 
 }
 
-- (void)hundleSuccess:(id)responseObj {
 
-    if([responseObj[@"success"] isEqual:@1]){
-    
-        
-    }
-}
 
 
 + (NSURLSessionDataTask *)POST:(NSString *)URLString
@@ -247,8 +237,7 @@
                        parameters:(NSDictionary *)parameters
                           success:(void (^)(id responseObject))success
                       abnormality:(void (^)(NSString *msg))abnormality
-                          failure:(void (^)(NSError * _Nullable  error))failure;
-{
+                          failure:(void (^)(NSError * _Nullable  error))failure {
     //先检查网络
     
     AFHTTPSessionManager *manager = [self HTTPSessionManager];
@@ -276,7 +265,6 @@
 {
     AFHTTPSessionManager *manager = [self HTTPSessionManager];
     
-    
     return [manager GET:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         if (success) {
@@ -290,7 +278,6 @@
         }
         
     }];
-    
     
 }
 

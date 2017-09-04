@@ -16,9 +16,12 @@
 #import "NBNetwork.h"
 #import <IQKeyboardManager/IQKeyboardManager.h>
 #import "TLChatRoomVC.h"
+#import "RespHandler.h"
+#import "TLNetworkingConfig.h"
 
 @interface AppDelegate ()
 
+@property (nonatomic, strong) RespHandler *respHandler;
 @end
 
 
@@ -28,22 +31,27 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
 //    http://oss.dzt.hichengdai.com/main.html
-    
 //    http://www.cnblogs.com/wjblogs/p/5367052.html 删除
+//    http://118.178.124.16:3308/main.html
+    
+    //1.配置应用运行环境
     [AppConfig config].runEnv = RunEnvTest;
     
+    //2.新版本请求
+    [NBNetworkConfig config].baseUrl = [NSString stringWithFormat:@"%@%@",[AppConfig config].addr,@"/forward-service/api"];
+
+    //3.兼容以前 老版本
+    [TLNetworkingConfig config].baseUrl = [NSString stringWithFormat:@"%@%@",[AppConfig config].addr,@"/forward-service/api"];
     //
-    if([AppConfig config].runEnv == RunEnvDev) {
+    [TLNetworkingConfig config].systemCode = [AppConfig config].systemCode;
+    [TLNetworkingConfig config].companyCode = [AppConfig config].systemCode;
+    [TLNetworkingConfig config].kind = [AppConfig config].kind;
     
-        [NBNetworkConfig config].baseUrl = @"http://121.43.101.148:8901/forward-service/api";
+    //配置网络请求 响应处理对象
+    self.respHandler = [[RespHandler alloc] init];
+    [NBNetworkConfig config].respDelegate = self.respHandler;
     
-    } else {
-        
-        [NBNetworkConfig config].baseUrl = @"http://118.178.124.16:3301/forward-service/api";
-        
-    }
   
-    
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];

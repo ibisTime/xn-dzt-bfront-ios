@@ -23,5 +23,5 @@ typedef NS_ENUM(NSInteger,TLOrderStatus){
 @interface TLOrderCategoryVC : TLBaseVC
 
 @property (nonatomic,assign) TLOrderStatus status;
-
+- (void)refresh;
 @end

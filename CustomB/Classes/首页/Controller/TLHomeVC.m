@@ -91,7 +91,7 @@
     self.orderGroup  = [[NSMutableArray alloc] init];
     
     [self setUpUI];
-    [self getBanner];
+//    [self getBanner];
     
 
     
@@ -195,14 +195,40 @@
 
     //广告图
     __weak typeof(self) weakSelf = self;
-    TLNetworking *http = [TLNetworking new];
-    http.code = @"805805";
-    http.parameters[@"type"] = @"2";
-    http.parameters[@"start"] = @"1";
-    http.parameters[@"limit"] = @"1000";
-    [http postWithSuccess:^(id responseObject) {
+//    TLNetworking *http = [TLNetworking new];
+//    http.code = @"805805";
+//    http.parameters[@"type"] = @"2";
+//    http.parameters[@"start"] = @"1";
+//    http.parameters[@"limit"] = @"1000";
+//    [http postWithSuccess:^(id responseObject) {
+//        
+//        weakSelf.bannerRoom = [ZHBannerModel tl_objectArrayWithDictionaryArray:responseObject[@"data"][@"list"]];
+//        //组装数据
+//        weakSelf.bannerPics = [NSMutableArray arrayWithCapacity:weakSelf.bannerRoom.count];
+//        
+//        //取出图片
+//        [weakSelf.bannerRoom enumerateObjectsUsingBlock:^(ZHBannerModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//            [weakSelf.bannerPics addObject:[obj.pic convertImageUrl]];
+//        }];
+//        
+//        weakSelf.bannerView.imgUrls = weakSelf.bannerPics;
+//        
+//    } failure:^(NSError *error) {
+//        
+//        
+//    }];
+    
+    NBCDRequest *bannerReq =  [[NBCDRequest alloc] init];
+    bannerReq.code = @"805806";
+    bannerReq.parameters[@"type"] = @"2";
+    bannerReq.parameters[@"companyCode"] = [AppConfig config].systemCode;
+    bannerReq.parameters[@"systemCode"] = [AppConfig config].systemCode;
+
+    
+    
+    [bannerReq startWithSuccess:^(__kindof NBBaseRequest *request) {
         
-        weakSelf.bannerRoom = [ZHBannerModel tl_objectArrayWithDictionaryArray:responseObject[@"data"][@"list"]];
+        weakSelf.bannerRoom = [ZHBannerModel tl_objectArrayWithDictionaryArray:request.responseObject[@"data"]];
         //组装数据
         weakSelf.bannerPics = [NSMutableArray arrayWithCapacity:weakSelf.bannerRoom.count];
         
@@ -213,7 +239,7 @@
         
         weakSelf.bannerView.imgUrls = weakSelf.bannerPics;
         
-    } failure:^(NSError *error) {
+    } failure:^(__kindof NBBaseRequest *request) {
         
         
     }];
@@ -338,6 +364,9 @@
         } else {
             
             weakSelf.tabBarController.selectedIndex = 1;
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshOrderAll" object:nil];
+//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshAll) name:@"refreshOrderAll" object:nil];
+
         
         }
     }];

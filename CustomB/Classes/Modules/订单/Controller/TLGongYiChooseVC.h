@@ -7,6 +7,7 @@
 //
 
 #import "TLBaseVC.h"
+#import "TLOrderModel.h"
 
 @protocol TLGongYiChooseVCDelegate <NSObject>
 
@@ -16,6 +17,7 @@
 @interface TLGongYiChooseVC : TLBaseVC
 
 @property (nonatomic, copy) NSString *productCode;
+@property (nonatomic, strong) TLOrderModel *order;
 @property (nonatomic, assign) id<TLGongYiChooseVCDelegate> delegate;
 
 

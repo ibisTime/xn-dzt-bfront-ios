@@ -69,6 +69,11 @@ void TLLog(NSString *format, ...) {
     
 }
 
+- (NSString *)kind {
+
+    return @"B";
+}
+
 - (NSString *)systemCode {
 
     return @"CD-CDZT000009";

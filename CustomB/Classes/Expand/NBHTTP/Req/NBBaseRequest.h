@@ -28,11 +28,8 @@ typedef void(^NBRequestCompletionBlock)(__kindof NBBaseRequest *request);
 //************************请求***************************//
 @property (nonatomic, assign) NBRequestMethod HTTPMethod;
 
-//default is YES,不进行缓存
+//default is YES,不进行缓存, NO进行缓存
 @property (nonatomic, assign) BOOL ignoreCache;
-
-
-
 
 @property (nonatomic, copy) NSString *URLString;
 @property (nonatomic, strong) NSMutableDictionary <NSString *,id> *parameters;
@@ -43,26 +40,10 @@ typedef void(^NBRequestCompletionBlock)(__kindof NBBaseRequest *request);
 @property (nonatomic, strong) id responseObject;
 @property (nonatomic, strong) NSError *error;
 
-
 /**
- 是否接受 config 配置的结果过滤, default is YES. 全局的过滤
+ 是否由 NBNetworkConfig 配置的delegate 去进行想响应过滤, default is Yes
  */
-//@property (nonatomic, assign) BOOL whetherSupportSuccessFilterByConfig;
-//@property (nonatomic, assign) BOOL whetherSupportAbnormalFilterByConfig;
-
-
-
-/**
- 是否接受 config 配置的结果过滤, default is YES. 全局的过滤
- */
-//@property (nonatomic, assign) BOOL isFilterRespByConfig;
-
-
-/**
- 指定过滤的请求
- */
-@property (nonatomic, copy) NSArray <NBRespFilter *> *respFilter;
-
+@property (nonatomic, assign) BOOL isHandleRespByDelegate;
 
 /**
  成功回调
@@ -90,12 +71,10 @@ typedef void(^NBRequestCompletionBlock)(__kindof NBBaseRequest *request);
  */
 - (void)clearCompletionBlock;
 
-
 /**
  子类继承进行参数转化
  */
 - (NSDictionary <NSString *,NSString *> *)convertParameters;
-
 
 /**
  缓存数据

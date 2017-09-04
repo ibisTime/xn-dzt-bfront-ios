@@ -111,8 +111,6 @@
         } failure:^(__kindof NBBaseRequest *request) {
             
         }];
-
-        
         
     } else {
     
