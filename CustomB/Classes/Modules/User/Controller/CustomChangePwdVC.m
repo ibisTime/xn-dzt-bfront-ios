@@ -12,6 +12,8 @@
 #import "TLAlert.h"
 #import "TLNetworking.h"
 #import "TLUser.h"
+#import "NBCDRequest.h"
+#import "AppConfig.h"
 
 @interface CustomChangePwdVC ()
 
@@ -54,7 +56,11 @@
 
     
     //
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, self.reNewPwdInputView.yy + 30, SCREEN_WIDTH - 40, 44) title:@"确定" backgroundColor:[UIColor colorWithHexString:@"9ba9b5"] cornerRadius:5];
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, self.reNewPwdInputView.yy + 30, SCREEN_WIDTH - 40, 44) ];
+    [btn setTitle:@"确定" forState:UIControlStateNormal];
+    btn.backgroundColor = [UIColor colorWithHexString:@"9ba9b5"];
+    btn.layer.cornerRadius = 5;
+    btn.layer.masksToBounds = YES;
     [self.view addSubview:btn];
     btn.centerX = SCREEN_WIDTH/2.0;
     [btn addTarget:self action:@selector(confirm) forControlEvents:UIControlEventTouchUpInside];
@@ -84,7 +90,29 @@
     }
     
     
+//    NBCDRequest *changePwd = [[NBCDRequest alloc] init];
+//    changePwd.code = @"805064";
+//    changePwd.parameters[@"newLoginPwd"] = self.nPwdInputView.textField.text;
+//    changePwd.parameters[@"oldLoginPwd"] = self.oldPwdInputView.textField.text;
+//    changePwd.parameters[@"token"] = [TLUser user].token;
+//    changePwd.parameters[@"userId"] = [TLUser user].userId;
+//    changePwd.parameters[@"systemCode"] = [AppConfig config].systemCode;
+//    changePwd.parameters[@"companyCode"] = [AppConfig config].systemCode;
+//    changePwd.parameters[@"kind"] = [AppConfig config].kind;
+//    [changePwd startWithSuccess:^(__kindof NBBaseRequest *request) {
+//        
+//        [TLAlert alertWithInfo:@"修改成功"];
+//        [self.navigationController popViewControllerAnimated:YES];
+//        if (self.success) {
+//            self.success();
+//        }
+//        
+//    } failure:^(__kindof NBBaseRequest *request) {
+//        
+//    }];
     
+    
+    //
     TLNetworking *http = [TLNetworking new];
     http.showView = self.view;
     

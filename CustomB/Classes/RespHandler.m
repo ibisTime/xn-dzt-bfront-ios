@@ -20,7 +20,6 @@
 
 - (void)handleHttpSuccessWithReq:(NBBaseRequest *)req task:(NSURLSessionDataTask *)task resp:(id)responseObject {
 
-    
     if ([req isKindOfClass:[NBCDRequest class]]) {
         //我方请求
         
@@ -32,7 +31,7 @@
             
         } else {
             
-            
+            //先回调_然后Alert, 避免有dismiss 把 alert 也hidden掉 eg:SVProgressHUD
             if (req.failure) {
                 req.failure(req);
             }
@@ -49,13 +48,13 @@
             
             [TLAlert alertWithInfo:responseObject[@"errorInfo"]];
             
-            
         }
-        
         
         return;
     }
     
+    //其它普通请求
+    req.success(req);
 
 }
 

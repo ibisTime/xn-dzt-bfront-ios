@@ -13,6 +13,9 @@
 #import "TLAlert.h"
 #import "TLUIHeader.h"
 #import "NSString+Extension.h"
+#import "NBNetwork.h"
+#import "AppConfig.h"
+#import "TLProgressHUD.h"
 
 @interface ZHUserForgetPwdVC ()
 
@@ -21,12 +24,9 @@
 @property (nonatomic,strong) ZHAccountTf *pwdTf;
 @property (nonatomic,strong) ZHAccountTf *rePwdTf;
 
-
 @end
 
 @implementation ZHUserForgetPwdVC
-
-
 
 - (void)sendCaptcha {
     
@@ -37,20 +37,25 @@
         return;
     }
     
-    TLNetworking *http = [TLNetworking new];
-    http.showView = self.view;
-    http.code = @"805950";
-    http.parameters[@"bizType"] = @"805063";
-    http.parameters[@"mobile"] = self.phoneTf.text;
-    
-    [http postWithSuccess:^(id responseObject) {
+    [TLProgressHUD showWithStatus:nil];
+    NBCDRequest *sendCaptchaReq = [[NBCDRequest alloc] init];
+    sendCaptchaReq.code = @"805950";
+    sendCaptchaReq.parameters[@"bizType"] = @"805063";
+    sendCaptchaReq.parameters[@"mobile"] = self.phoneTf.text;
+    sendCaptchaReq.parameters[@"systemCode"] = [AppConfig config].systemCode;
+    sendCaptchaReq.parameters[@"companyCode"] = [AppConfig config].systemCode;
+    sendCaptchaReq.parameters[@"kind"] = [AppConfig config].kind;
+    [sendCaptchaReq startWithSuccess:^(__kindof NBBaseRequest *request) {
         
+        [TLProgressHUD dismiss];
         [self.captchaView.captchaBtn begin];
         
-    } failure:^(NSError *error) {
+    } failure:^(__kindof NBBaseRequest *request) {
         
-        
+        [TLProgressHUD dismiss];
+
     }];
+    
     
 }
 
@@ -74,34 +79,48 @@
         [TLAlert alertWithHUDText:@"请输入6位以上密码"];
         return;
     }
-//    
-//    if (![self.pwdTf.text isEqualToString:self.rePwdTf.text]) {
-//        
-//        [TLAlert alertWithHUDText:@"输入的密码不一致"];
-//        return;
-//        
-//    }
+
     
-    
-    
-    TLNetworking *http = [TLNetworking new];
-    http.showView = self.view;
-    http.code = @"805063";
-    http.parameters[@"mobile"] = self.phoneTf.text;
-    http.parameters[@"smsCaptcha"] = self.captchaView.captchaTf.text;
-    http.parameters[@"loginPwdStrength"] = @"2";
-    http.parameters[@"newLoginPwd"] = self.pwdTf.text;
-    
-    [http postWithSuccess:^(id responseObject) {
-        
-        [self.navigationController popViewControllerAnimated:YES];
-    } failure:^(NSError *error) {
-        
-        
+    [TLProgressHUD showWithStatus:nil];
+    NBCDRequest *changePwd = [[NBCDRequest alloc] init];
+    changePwd.code = @"805063";
+    changePwd.parameters[@"mobile"] = self.phoneTf.text;
+    changePwd.parameters[@"smsCaptcha"] = self.captchaView.captchaTf.text;
+    changePwd.parameters[@"loginPwdStrength"] = @"2";
+    changePwd.parameters[@"newLoginPwd"] = self.pwdTf.text;
+    changePwd.parameters[@"systemCode"] = [AppConfig config].systemCode;
+    changePwd.parameters[@"companyCode"] = [AppConfig config].systemCode;
+    changePwd.parameters[@"kind"] = [AppConfig config].kind;
+    [changePwd startWithSuccess:^(__kindof NBBaseRequest *request) {
+       [TLProgressHUD dismiss];
+            [TLAlert alertWithInfo:@"修改成功"];
+            [self.navigationController popViewControllerAnimated:YES];
+
+    } failure:^(__kindof NBBaseRequest *request) {
+            [TLProgressHUD dismiss];
+
     }];
     
     
+//    TLNetworking *http = [TLNetworking new];
+//    http.showView = self.view;
+//    http.code = @"805063";
+//    http.parameters[@"mobile"] = self.phoneTf.text;
+//    http.parameters[@"smsCaptcha"] = self.captchaView.captchaTf.text;
+//    http.parameters[@"loginPwdStrength"] = @"2";
+//    http.parameters[@"newLoginPwd"] = self.pwdTf.text;
+//    
+//    [http postWithSuccess:^(id responseObject) {
+//        
+//        [self.navigationController popViewControllerAnimated:YES];
+//    } failure:^(NSError *error) {
+//        
+//        
+//    }];
+    
+    
 }
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -130,7 +149,6 @@
     self.captchaView = captchaView;
     self.captchaView.centerX = self.bgSV.centerX;
 
-    
     //密码
     ZHAccountTf *pwdTf = [[ZHAccountTf alloc] initWithFrame:CGRectMake(margin, captchaView.yy + middleMargin, w, h)];
     pwdTf.secureTextEntry = YES;
@@ -151,7 +169,13 @@
     self.rePwdTf.centerX = self.bgSV.centerX;
 
     //xiu gai
-    UIButton *confirmBtn = [[UIButton alloc] initWithFrame:CGRectMake(margin,pwdTf.yy + 10, w, h) title:@"确认" backgroundColor:[UIColor colorWithHexString:@"#b2b2b2"] cornerRadius:5];
+    UIButton *confirmBtn = [[UIButton alloc] initWithFrame:CGRectMake(margin,pwdTf.yy + 10, w, h)];
+    
+    [confirmBtn setTitle:@"确认" forState:UIControlStateNormal];
+    confirmBtn.layer.cornerRadius = 5;
+    confirmBtn.layer.masksToBounds = YES;
+    confirmBtn.backgroundColor = [UIColor colorWithHexString:@"#b2b2b2"];
+    
     [self.bgSV addSubview:confirmBtn];
 
 
@@ -162,19 +186,6 @@
     
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

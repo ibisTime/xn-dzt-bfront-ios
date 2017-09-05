@@ -17,15 +17,17 @@
 #import "APICodeHeader.h"
 #import "TLUIHeader.h"
 #import "UIButton+convience.h"
+#import "SVProgressHUD.h"
+#import "AppConfig.h"
+#import "NBNetwork.h"
+#import "TLProgressHUD.h"
 
 #define KEY_CHAIN_USER_NAME_KEY @"KEYCHAIN_USER_NAME_KEY_ZH"
 #define KEY_CHAIN_USER_PASS_WORD_KEY @"KEYCHAIN_USER_PASS_WORD_KEY_ZH"
 
-
 //#define ACCOUNT_MARGIN 20;
 //#define ACCOUNT_HEIGHT 45;
 //#define ACCOUNT_MIDDLE_MARGIN 20;
-
 @interface TLUserLoginVC ()
 
 @property (nonatomic,strong) ZHAccountTf *phoneTf;
@@ -38,21 +40,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"登录";
-
-    [self setUpUI];
-    
-    
-//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"取消" style:UIBarButtonItemStylePlain target:self action:@selector(back)];
+    //
+    [self setUpUI];    
     
     //登录成功之后，给予回调
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(login) name:kUserLoginNotification object:nil];
     
     //是否有存储的账号密码
     UICKeyChainStore *keyChainStore = [UICKeyChainStore keyChainStoreWithService:[UICKeyChainStore defaultService]];
-    NSString *userName =  [keyChainStore stringForKey:KEY_CHAIN_USER_NAME_KEY];
-    NSString *passWord =  [keyChainStore stringForKey:KEY_CHAIN_USER_PASS_WORD_KEY];
-
-
+    NSString *userName = [keyChainStore stringForKey:KEY_CHAIN_USER_NAME_KEY];
+    NSString *passWord = [keyChainStore stringForKey:KEY_CHAIN_USER_PASS_WORD_KEY];
+    
     if (userName) {
         self.phoneTf.text = userName;
         
@@ -64,12 +62,9 @@
         
     }
     
- 
-    
     [self.pwdTf addTarget:self action:@selector(valueChange:) forControlEvents:UIControlEventEditingChanged];
-    //
 //    [self.pwdTf addObserver:self forKeyPath:@"text" options:NSKeyValueObservingOptionNew context:NULL];
-
+    
 }
 
 - (void)valueChange:(UITextField *)tf {
@@ -83,10 +78,10 @@
 
 }
 
-- (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary<NSString*, id> *)change context:(nullable void *)context {
-
-    NSLog(@"909090909");
-}
+//- (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary<NSString*, id> *)change context:(nullable void *)context {
+//
+//    NSLog(@"909090909");
+//}
 
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
@@ -129,10 +124,88 @@
 
 
 - (void)goLogin {
+//    
+//    if (1) {
+//    dispatch_async(dispatch_get_main_queue()
+//                   , ^{
+//                       
+//                       NSLog(@"异步添 加到 主队列（只含有主线程）");
+//
+//                       
+//                   });
+//        
+//    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//       
+//        dispatch_sync(dispatch_get_main_queue(), ^{
+//            
+//            NSLog(@"异步中 同步添加到 主队列（只含有主线程）");
+//            
+//        });
+//        
+//    });
+//        
+//        dispatch_sync(dispatch_get_main_queue(), ^{
+//           
+//            NSLog(@"同步添加到 主队列（只含有主线程）");
+//            
+//        });
+//        
+////        NSLog(@"同步添加之后");
+//        
+//        return;
+//    }
     
+//    if ([AppConfig config].runEnv == RunEnvTest) {
     
-//    [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginNotification object:nil];
+//        [SVProgressHUD showInfoWithStatus:@""];
+//        [SVProgressHUD showErrorWithStatus:@""];
+//        [SVProgressHUD showSuccessWithStatus:@""];
+//        [SVProgressHUD showProgress:0.2];
+        
+        
+        //1.progress   不会自动hiden add mainQueue ,需要下一次runloop执行
+//        [SVProgressHUD showWithStatus:@"1"];
+//        [SVProgressHUD showWithStatus:@"22"];
+//        
+//        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+//            // time-consuming task
+//            dispatch_async(dispatch_get_main_queue(), ^{
+//                
+//                [SVProgressHUD popActivity];
+//                
+//            });
+//            
+//        });
 
+    
+//        NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
+//        [mainQueue addOperationWithBlock:^{
+//            
+//            NSLog(@"m 1 -threat:%@",[NSThread currentThread]);
+//        }];
+//        
+//        [mainQueue addOperationWithBlock:^{
+//            
+//            NSLog(@"m 2 -threat:%@",[NSThread currentThread]);
+//            
+//        }];
+//        
+//        NSOperationQueue *queue = [[NSOperationQueue alloc] init];
+//        [queue addOperationWithBlock:^{
+//            for (int i = 0; i < 5; i ++) {
+//                NSLog(@"q 1-thread:%@",[NSThread currentThread]);
+//            }
+//        }];
+//        
+//        [queue addOperationWithBlock:^{
+//            for (int i = 0; i < 5; i ++) {
+//                NSLog(@"q 2-thread:%@",[NSThread currentThread]);
+//            }
+//        }];
+//        
+//        NSLog(@"任务添加之后的代码");
+//        return;
+//    }
     
     if (!(self.phoneTf.text &&self.phoneTf.text.length > 5)) {
         
@@ -146,58 +219,53 @@
         [TLAlert alertWithHUDText:@"请输入6位以上密码"];
         return;
     }
-
-    TLNetworking *http = [TLNetworking new];
-    http.showView = self.view;
-    http.code = USER_LOGIN_CODE;
-
-    http.parameters[@"loginName"] = self.phoneTf.text;
-    http.parameters[@"loginPwd"] = self.pwdTf.text;
-    [http postWithSuccess:^(id responseObject) {
+    
+    //
+    [TLProgressHUD showWithStatus:nil];
+    NBCDRequest *loginReq = [[NBCDRequest alloc] init];
+    loginReq.code = @"805050";
+    loginReq.parameters[@"loginName"] = self.phoneTf.text;
+    loginReq.parameters[@"loginPwd"] = self.pwdTf.text;
+    loginReq.parameters[@"systemCode"] = [AppConfig config].systemCode;
+    loginReq.parameters[@"companyCode"] = [AppConfig config].systemCode;
+    loginReq.parameters[@"kind"] = [AppConfig config].kind;
+    [loginReq startWithSuccess:^(__kindof NBBaseRequest *request) {
+        [TLProgressHUD dismiss];
         
-       NSString *token = responseObject[@"data"][@"token"];
-       NSString *userId = responseObject[@"data"][@"userId"];
-
-       //1.获取用户信息
-        TLNetworking *http = [TLNetworking new];
-        http.showView = self.view;
-        http.code = USER_INFO;
-        http.parameters[@"userId"] = userId;
-        http.parameters[@"token"] = token;
-        [http postWithSuccess:^(id responseObject) {
-          
-         NSDictionary *userInfo = responseObject[@"data"];
-         [TLUser user].userId = userId;
-         [TLUser user].token = token;
-         [[TLUser user] saveUserInfo:userInfo];
-         [[TLUser user] setUserInfoWithDict:userInfo];
-            
-         [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginNotification object:nil];
+        NSString *token = request.responseObject[@"data"][@"token"];
+        NSString *userId = request.responseObject[@"data"][@"userId"];
         
-         //记住密码，保存在较为安全的钥匙串中
-          UICKeyChainStore *keyChainStore = [UICKeyChainStore keyChainStoreWithService:[UICKeyChainStore defaultService]];
-          [keyChainStore setString:self.phoneTf.text forKey:KEY_CHAIN_USER_NAME_KEY error:nil];
-          [keyChainStore setString:self.pwdTf.text forKey:KEY_CHAIN_USER_PASS_WORD_KEY error:nil];
-        
-         
-
-            } failure:^(NSError *error) {
-                
-                
-            }];
+        NBCDRequest *userInfoReq = [[NBCDRequest alloc] init];
+        userInfoReq.code = @"805121";
+        userInfoReq.parameters[@"userId"] = userId;
+        userInfoReq.parameters[@"token"] = token;
+        [userInfoReq startWithSuccess:^(__kindof NBBaseRequest *request) {
             
-        } failure:^(NSError *error) {
+            NSDictionary *userInfo = request.responseObject[@"data"];
+            [TLUser user].userId = userId;
+            [TLUser user].token = token;
+            [[TLUser user] saveUserInfo:userInfo];
+            [[TLUser user] setUserInfoWithDict:userInfo];
             
+            [[NSNotificationCenter defaultCenter] postNotificationName:kUserLoginNotification object:nil];
+            //记住密码，保存在较为安全的钥匙串中
+            UICKeyChainStore *keyChainStore = [UICKeyChainStore keyChainStoreWithService:[UICKeyChainStore defaultService]];
+            [keyChainStore setString:self.phoneTf.text forKey:KEY_CHAIN_USER_NAME_KEY error:nil];
+            [keyChainStore setString:self.pwdTf.text forKey:KEY_CHAIN_USER_PASS_WORD_KEY error:nil];
+            
+        } failure:^(__kindof NBBaseRequest *request) {
             
         }];
-
- 
-    
+        
+    } failure:^(__kindof NBBaseRequest *request) {
+        [TLProgressHUD dismiss];
+        
+    }];
+  
 }
 
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    
     
     [self.view endEditing:YES];
     
@@ -205,7 +273,6 @@
 
 
 - (void)setUpUI {
-    
     
     UIScrollView *bgSV = self.bgSV;
     
@@ -235,8 +302,12 @@
     
     //登陆
     
-    UIButton *loginBtn = [[UIButton alloc] initWithFrame:CGRectMake(margin,pwdTf.yy + 10, w, h) title:@"登录" backgroundColor:[UIColor colorWithHexString:@"#b2b2b2"] cornerRadius:5];
-                          
+    UIButton *loginBtn = [[UIButton alloc] initWithFrame:CGRectMake(margin,pwdTf.yy + 10, w, h) ];
+    [loginBtn setTitle:@"登录" forState:UIControlStateNormal];
+    loginBtn.layer.cornerRadius = 5;
+    loginBtn.layer.masksToBounds = YES;
+    loginBtn.backgroundColor = [UIColor colorWithHexString:@"#b2b2b2"];
+                              
                           
     [bgSV addSubview:loginBtn];
     [loginBtn addTarget:self action:@selector(goLogin) forControlEvents:UIControlEventTouchUpInside];

@@ -15,7 +15,6 @@
 @property (nonatomic,strong) NSMutableArray *objs;
 @property (nonatomic,assign) BOOL refreshed;
 
-
 @end
 
 @implementation TLPageDataHelper
@@ -106,9 +105,6 @@
 
 - (void)loadMore:(void(^)(NSMutableArray *objs,BOOL stillHave))loadMore failure:(void(^)(NSError *error))failure{
     
-//    if (!self.refreshed) {
-//        return;
-//    }
     
     TLNetworking *http = [TLNetworking new];
     http.code = self.code;

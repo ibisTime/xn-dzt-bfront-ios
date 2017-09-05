@@ -7,17 +7,8 @@
 //
 
 #import "NBNetworkAgent.h"
-#import "TLAlert.h"
-
-//#if __has_include(<AFNetworking/AFNetworking.h>)
-//#import <AFNetworking/AFNetworking.h>
-//#else
-//#import "AFNetworking.h"
-//#endif
-
 #import <AFNetworking/AFNetworking.h>
 #import "NBNetworkConfig.h"
-//#import "NBRespFilter.h"
 #import "NBBaseRequest.h"
 #import "NBCDRequest.h"
 
@@ -35,7 +26,6 @@
     
     return agent;
 }
-
 
 + (AFHTTPSessionManager *)HTTPSessionManager
 {
@@ -170,6 +160,7 @@
         
     } else {
     
+       //无过滤，直接处理
        if (req.success) {
         
           req.success(req);
@@ -195,8 +186,7 @@
     req.task = task;
     req.error = error;
     
-    //请求结束的回调
-
+    //此处应先隐藏掉 进度指示，然后 进行alert 提示。SVProgressHUD dismiss 会把所有的dimiss掉
     
     if (req.isHandleRespByDelegate) {
         
@@ -207,8 +197,8 @@
             
         } else {
         
-            @throw [NSException exceptionWithName:@"[NBNetworkConfig config].respDelegate 未发现代理" reason:@"[NBNetworkConfig config].respDelegate 为配置代理对象" userInfo:nil];
-
+            @throw [NSException exceptionWithName:@"[NBNetworkConfig config].respDelegate 未发现代理" reason:@"[NBNetworkConfig config].respDelegate 未配置代理对象" userInfo:nil];
+            
         }
         
     } else {
@@ -218,6 +208,7 @@
             req.failure(req);
             
         }
+        
     }
 
     //

@@ -29,6 +29,7 @@
 #import "TLConfirmPriceVC.h"
 #import "TLAlert.h"
 #import "TLRefreshEngine.h"
+#import "SVProgressHUD.h"
 
 @interface TLHomeVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -110,6 +111,15 @@
     liuYanReq.parameters[@"limit"] = @"1";
     liuYanReq.parameters[@"receiver"] = [TLUser user].userId;
     liuYanReq.parameters[@"type"] = @"1";
+    
+//    liuYanReq.ignoreCache = NO;
+//    if ([liuYanReq checkCache]) {
+//        id resp = [liuYanReq getCache];
+//        self.liuYanRoom = [CustomLiuYanModel tl_objectArrayWithDictionaryArray:resp[@"data"][@"list"]];
+//        [self.homeTableView reloadData];
+//        
+//    }
+    
     [liuYanReq startWithSuccess:^(__kindof NBBaseRequest *request) {
         
         self.liuYanRoom = [CustomLiuYanModel tl_objectArrayWithDictionaryArray:request.responseObject[@"data"][@"list"]];
@@ -195,14 +205,18 @@
 
     //广告图
     __weak typeof(self) weakSelf = self;
-//    TLNetworking *http = [TLNetworking new];
-//    http.code = @"805805";
-//    http.parameters[@"type"] = @"2";
-//    http.parameters[@"start"] = @"1";
-//    http.parameters[@"limit"] = @"1000";
-//    [http postWithSuccess:^(id responseObject) {
-//        
-//        weakSelf.bannerRoom = [ZHBannerModel tl_objectArrayWithDictionaryArray:responseObject[@"data"][@"list"]];
+    NBCDRequest *bannerReq =  [[NBCDRequest alloc] init];
+    bannerReq.code = @"805806";
+    bannerReq.parameters[@"type"] = @"2";
+    bannerReq.parameters[@"companyCode"] = [AppConfig config].systemCode;
+    bannerReq.parameters[@"systemCode"] = [AppConfig config].systemCode;
+//    bannerReq.ignoreCache = NO;
+//    
+//    if([bannerReq checkCache]) {
+//    
+//       id responseObject = [bannerReq getCache];
+//    
+//        weakSelf.bannerRoom = [ZHBannerModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
 //        //组装数据
 //        weakSelf.bannerPics = [NSMutableArray arrayWithCapacity:weakSelf.bannerRoom.count];
 //        
@@ -213,18 +227,7 @@
 //        
 //        weakSelf.bannerView.imgUrls = weakSelf.bannerPics;
 //        
-//    } failure:^(NSError *error) {
-//        
-//        
-//    }];
-    
-    NBCDRequest *bannerReq =  [[NBCDRequest alloc] init];
-    bannerReq.code = @"805806";
-    bannerReq.parameters[@"type"] = @"2";
-    bannerReq.parameters[@"companyCode"] = [AppConfig config].systemCode;
-    bannerReq.parameters[@"systemCode"] = [AppConfig config].systemCode;
-
-    
+//    }
     
     [bannerReq startWithSuccess:^(__kindof NBBaseRequest *request) {
         
@@ -249,19 +252,15 @@
 
 #pragma mark- delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+  
 
+    
     if ([[tableView cellForRowAtIndexPath:indexPath] isKindOfClass:[TLOrderCell class]]) {
         
         TLOrderModel *order = self.orderGroup[indexPath.row];
-    
-//        if ([order getOrderType] == TLOrderTypeCancle) {
-//            
-//            TLOrderDetailVC2 *vc = [[TLOrderDetailVC2 alloc] init];
-//            vc.orderCode = order.code;
-//            [self.navigationController pushViewController:vc
-//                                                 animated:YES];
-//            
-//        } else
+
         if ([order.status isEqualToString:kOrderStatusCancle]) {
             
             [TLAlert alertWithInfo:@"该订单已取消"];
@@ -365,8 +364,6 @@
             
             weakSelf.tabBarController.selectedIndex = 1;
             [[NSNotificationCenter defaultCenter] postNotificationName:@"refreshOrderAll" object:nil];
-//            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refreshAll) name:@"refreshOrderAll" object:nil];
-
         
         }
     }];

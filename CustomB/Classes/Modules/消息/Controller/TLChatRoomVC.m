@@ -162,8 +162,13 @@
     self.textView = textView;
     
     //按钮
-    UIButton *sendBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 15, 60, 30)
-    title:@"发送" backgroundColor:[UIColor themeColor] cornerRadius:5];
+    UIButton *sendBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 15, 60, 30) ];
+    [sendBtn setTitle:@"发送" forState:UIControlStateNormal];
+    sendBtn.layer.cornerRadius = 5;
+    sendBtn.layer.masksToBounds = YES;
+    sendBtn.backgroundColor = [UIColor themeColor];
+    
+    
     [bottomBgView addSubview:sendBtn];
     sendBtn.titleLabel.font = [UIFont systemFontOfSize:12];
     sendBtn.left = SCREEN_WIDTH - sendBtn.width - 18;

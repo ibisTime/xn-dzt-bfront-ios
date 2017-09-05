@@ -174,8 +174,13 @@
     self.balanceTableView.rowHeight = 60;
     
     //
-    UIButton *withdrawBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.balanceTableView.yy, SCREEN_WIDTH - 36, 40) title:@"提现" backgroundColor:[UIColor themeColor] cornerRadius:5];
+    UIButton *withdrawBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.balanceTableView.yy, SCREEN_WIDTH - 36, 40) ];
+    [withdrawBtn setTitle:@"提现" forState:UIControlStateNormal];
+    withdrawBtn.layer.cornerRadius = 5;
+    withdrawBtn.layer.masksToBounds = YES;
+    withdrawBtn.backgroundColor = [UIColor themeColor];
     [self.view addSubview:withdrawBtn];
+    
     [withdrawBtn setBackgroundColor:[UIColor themeColor] forState:UIControlStateNormal];
     [withdrawBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [withdrawBtn addTarget:self action:@selector(goWithdraw) forControlEvents:UIControlEventTouchUpInside];

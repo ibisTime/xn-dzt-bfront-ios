@@ -33,13 +33,15 @@
     self.nickNameView.leftTitleLbl.text = @"新昵称";
     
     //
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.nickNameView.yy  +15, SCREEN_WIDTH - 36, 40) title:@"确定" backgroundColor:[UIColor colorWithHexString:@"9ba9b5"] cornerRadius:5];
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.nickNameView.yy  +15, SCREEN_WIDTH - 36, 40)];
+    [btn setTitle:@"确定" forState:UIControlStateNormal];
+    btn.layer.cornerRadius = 5;
+    btn.layer.masksToBounds = YES;
+    btn.backgroundColor = [UIColor colorWithHexString:@"9ba9b5"];
     [self.view addSubview:btn];
+    
     btn.centerX = SCREEN_WIDTH/2.0;
     [btn addTarget:self action:@selector(save) forControlEvents:UIControlEventTouchUpInside];
-    
-    //
-//    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"保存" style:UIBarButtonItemStylePlain target:self action:@selector(save)];
     
     if ([TLUser user].nickname) {
         

@@ -28,17 +28,12 @@
 - (NSURLSessionDataTask *)postWithSuccess:(void (^)(id responseObject))success failure:(void (^)(NSError *error))failure;
 
 
-+ (NSURLSessionDataTask *)POST:(NSString *)URLString
-                    parameters:(NSDictionary *)parameters
-                       success:( void (^)(id responseObject))success
-                       failure: (void (^)(NSError *error))failure;
+//+ (NSURLSessionDataTask *)POST:(NSString *)URLString
+//                    parameters:(NSDictionary *)parameters
+//                       success:( void (^)(id responseObject))success
+//                       failure: (void (^)(NSError *error))failure;
 
 
-+ (NSURLSessionDataTask *)GET:(NSString *)URLString
-                   parameters:(NSDictionary *)parameters
-                      success:(void (^)(NSString *msg,id data))success
-                  abnormality:(void (^)())abnormality
-                      failure:(void (^)(NSError *error))failure;
 
 
 @end

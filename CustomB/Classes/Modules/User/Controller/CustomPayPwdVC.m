@@ -63,8 +63,13 @@
 
 
     
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, self.reNewPwdInputView.yy + 30, SCREEN_WIDTH - 40, 44) title:@"确定" backgroundColor:[UIColor colorWithHexString:@"9ba9b5"] cornerRadius:5];
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(20, self.reNewPwdInputView.yy + 30, SCREEN_WIDTH - 40, 44) ];
+    [btn setTitle:@"确定" forState:UIControlStateNormal];
+    btn.layer.cornerRadius = 5;
+    btn.layer.masksToBounds = YES;
     [self.view addSubview:btn];
+    btn.backgroundColor = [UIColor colorWithHexString:@"9ba9b5"];
+    
     btn.centerX = SCREEN_WIDTH/2.0;
     [btn addTarget:self action:@selector(confirm) forControlEvents:UIControlEventTouchUpInside];
     

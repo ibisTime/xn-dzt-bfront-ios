@@ -11,6 +11,7 @@
 #import "TLAlert.h"
 #import "TLUser.h"
 #import "TLNetworkingConfig.h"
+#import "NBNetwork.h"
 
 @implementation TLNetworking
 
@@ -77,6 +78,86 @@
 
 }
 
+//- (void)post2WithSuccess:(void (^)(id))success failure:(void (^)(NSError *))failure {
+//
+//    if(self.showView){
+//        
+//        [TLProgressHUD show];
+//    }
+//    
+//    if(self.code && self.code.length > 0){
+//        
+//        if (!(self.url && self.url.length > 0)) {
+//            
+//            self.url = [TLNetworkingConfig config].baseUrl;
+//        }
+//        
+//        self.parameters[@"systemCode"] = [TLNetworkingConfig config].systemCode;
+//        
+//#warning -- 公司编码，祸害
+//        if (self.isDeliverCompanyCode) {
+//            
+//            self.parameters[@"companyCode"] = [TLNetworkingConfig config].systemCode;
+//            
+//        }
+//        
+//        NSString *kind =  self.parameters[@"kind"];
+//        if (!kind || kind.length <=0 ) {
+//            self.parameters[@"kind"] = [TLNetworkingConfig config].kind;
+//            
+//        }
+//
+//        
+//    }
+//    
+//    if (!self.url || !self.url.length) {
+//        NSLog(@"url 不存在啊");
+//        if (self.showView) {
+//            
+//            [TLProgressHUD dismiss];
+//        }
+//        return ;
+//    }
+//    
+//    //把原来的替换掉
+//    NBCDRequest *cdReq = [[NBCDRequest alloc] init];
+//    cdReq.code = self.code;
+//    cdReq.parameters = self.parameters;
+//    [cdReq startWithSuccess:^(__kindof NBBaseRequest *request) {
+//        
+//        //确保 dismiss掉， NBCDRequest 暂时未添加进度指示功能
+//        if(self.showView){
+//            
+//            [TLProgressHUD dismiss];
+//            
+//        }
+//        
+//        if (success) {
+//            success(request.responseObject);
+//        }
+//        
+//        
+//    } failure:^(__kindof NBBaseRequest *request) {
+//        
+//        if(self.showView){
+//            [TLProgressHUD dismiss];
+//        }
+//        
+//        if (self.isShowMsg) {
+//            
+//            [TLProgressHUD showErrorWithStatus:@"网络异常"];
+//            [TLProgressHUD dismissWithDelay:3];
+//            
+//        }
+//        
+//        if (failure) {
+//            failure(request.error);
+//        }
+//        
+//    }];
+//
+//}
+
 
 - (NSURLSessionDataTask *)postWithSuccess:(void (^)(id))success failure:(void (^)(NSError *))failure
 {
@@ -125,9 +206,6 @@
         return nil;
     }
     
-    
-//  TLLog(@"%@",self.code);
-//  TLLog(@"%@",self.parameters);
   //
   return [self.manager POST:self.url parameters:self.parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
 
@@ -199,11 +277,8 @@
        }
        
    }];
-
+   
 }
-
-
-
 
 + (NSURLSessionDataTask *)POST:(NSString *)URLString
                     parameters:(NSDictionary *)parameters
@@ -233,53 +308,54 @@
 
 }
 
-+ (NSURLSessionDataTask *)POST:(NSString *)URLString
-                       parameters:(NSDictionary *)parameters
-                          success:(void (^)(id responseObject))success
-                      abnormality:(void (^)(NSString *msg))abnormality
-                          failure:(void (^)(NSError * _Nullable  error))failure {
-    //先检查网络
-    
-    AFHTTPSessionManager *manager = [self HTTPSessionManager];
-    
-    return [manager POST:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-       
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        if(failure){
-            failure(error);
-        }
-        
-    }];
-    
-}
+
+//+ (NSURLSessionDataTask *)POST:(NSString *)URLString
+//                       parameters:(NSDictionary *)parameters
+//                          success:(void (^)(id responseObject))success
+//                      abnormality:(void (^)(NSString *msg))abnormality
+//                          failure:(void (^)(NSError * _Nullable  error))failure {
+//    //先检查网络
+//    
+//    AFHTTPSessionManager *manager = [self HTTPSessionManager];
+//    
+//    return [manager POST:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        
+//       
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        
+//        if(failure){
+//            failure(error);
+//        }
+//        
+//    }];
+//    
+//}
 
 
 //#pragma mark - GET
-+ (NSURLSessionDataTask *)GET:(NSString *)URLString
-                      parameters:(NSDictionary *)parameters
-                         success:(void (^)(NSString *msg,id data))success
-                     abnormality:(void (^)())abnormality
-                         failure:(void (^)(NSError *error))failure;
-{
-    AFHTTPSessionManager *manager = [self HTTPSessionManager];
-    
-    return [manager GET:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        
-        if (success) {
-            success(@"",responseObject);
-        }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        if (failure) {
-            failure(error);
-        }
-        
-    }];
-    
-}
+//+ (NSURLSessionDataTask *)GET:(NSString *)URLString
+//                      parameters:(NSDictionary *)parameters
+//                         success:(void (^)(NSString *msg,id data))success
+//                     abnormality:(void (^)())abnormality
+//                         failure:(void (^)(NSError *error))failure;
+//{
+//    AFHTTPSessionManager *manager = [self HTTPSessionManager];
+//    
+//    return [manager GET:URLString parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        
+//        if (success) {
+//            success(@"",responseObject);
+//        }
+//        
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        
+//        if (failure) {
+//            failure(error);
+//        }
+//        
+//    }];
+//    
+//}
 
 
 
