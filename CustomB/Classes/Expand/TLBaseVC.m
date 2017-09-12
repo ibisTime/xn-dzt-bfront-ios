@@ -7,7 +7,7 @@
 //
 
 #import "TLBaseVC.h"
-#import "UIView+Frame.h"
+#import <CDCommon/UIView+Frame.h>
 #import "UIColor+Extension.h"
 #import "UIColor+theme.h"
 #import "UILable+convience.h"

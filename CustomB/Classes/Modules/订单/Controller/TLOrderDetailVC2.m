@@ -376,7 +376,6 @@
         mianLiaoReq.parameters[@"modelCode"] = self.productCode;
         mianLiaoReq.parameters[@"status"] = @"1";
         
-        
         NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[req,xingTiReq,mianLiaoReq]];
         [batchReq startWithSuccess:^(NBBatchReqest *batchRequest) {
             
@@ -417,8 +416,6 @@
         
     }];
 
-    
-
 }
 
 - (void)viewDidLoad {
@@ -430,9 +427,9 @@
 
     
     //获取全部选择参数，除布料外
-    if (!self.productCode) {
-        NSLog(@"产品编号不能为空");
-    }
+//    if (!self.productCode) {
+//        NSLog(@"产品编号不能为空");
+//    }
     
     //
     [self tl_placeholderOperation];
@@ -477,7 +474,7 @@
         }
     
     }
-
+    
 }
 
 
@@ -632,9 +629,6 @@
 //    styleGroup.itemSize = CGSizeMake(styleW, 30);
     styleGroup.itemSize = CGSizeMake(parameterCellWidth, 30);
     //
-    
-
-    
     TLGroup *mianLiaoRoom = [[TLGroup alloc] init];
     mianLiaoRoom.canEdit = [self.order canEditDingZhi];
     if (mianLiaoRoom.canEdit) {
@@ -740,7 +734,7 @@
     koudaiGroup.editingEdgeInsets = paramterEdgeInsets;
     koudaiGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     
-    //
+    //收省
     TLGroup *shouXingGroup = [[TLGroup alloc] init];
     [self.dataManager.groups addObject:shouXingGroup];
     shouXingGroup.dataModelRoom = self.dataManager.shouXingRoom;

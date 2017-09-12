@@ -11,6 +11,7 @@
 #import "TLStatusView.h"
 #import "TLCustomer.h"
 #import "NSString+Extension.h"
+#import "TLUser.h"
 
 @interface TLCustomerCell()
 
@@ -59,7 +60,8 @@
 
     _customer = customer;
     
-    self.masterLbl.text = _customer.nickname;
+    self.masterLbl.text = [TLUser user].nickname;
+//    [tluse]_customer.nickname;
     
     if (_customer.lastOrderDatetime) {
         

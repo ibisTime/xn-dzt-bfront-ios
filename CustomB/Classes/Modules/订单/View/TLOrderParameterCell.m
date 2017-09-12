@@ -11,13 +11,14 @@
 #import "TLParameterModel.h"
 #import "UIImageView+WebCache.h"
 #import "NSString+Extension.h"
+#import "ImageUtil.h"
+#import "AppConfig.h"
 
 @interface TLOrderParameterCell()
 
 @property (nonatomic, strong) UIImageView *bgImageView;
 //@property (nonatomic, strong) UIImageView *selectMarkImageView;
 @property (nonatomic, strong) UIImageView *selectMarkImageView;
-
 @property (nonatomic, strong) UILabel *testLbl;
 
 @end
@@ -35,7 +36,8 @@
     [super setModel:model];
     
     TLParameterModel *parameterModel = model;
-    NSString *str = [parameterModel.pic convertImageUrl];
+    
+    NSString *str = [ImageUtil convertImageUrl:parameterModel.pic imageServerUrl:[AppConfig config].qiniuDomain];
     [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:str]];
     
 //    self.testLbl.text = [parameterModel.price stringValue];

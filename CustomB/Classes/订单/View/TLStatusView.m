@@ -37,7 +37,8 @@
 
     if (type == TLStatusViewTypeYellow) {
         
-       self.backgroundColor = [UIColor colorWithHexString:@"#dab616"];
+//       self.backgroundColor = [UIColor colorWithHexString:@"#dab616"];
+       self.backgroundColor = [UIColor customYellowColor];
         
     } else if (type == TLStatusViewTypeTheme) {
         

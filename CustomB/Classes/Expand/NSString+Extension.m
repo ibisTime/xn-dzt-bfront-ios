@@ -61,85 +61,86 @@
     return [[NSAttributedString alloc] initWithString:self];
 
 }
-- (NSString *)convertThumbnailImageUrl{
-    //  限定长边，生成不超过 300x300 的缩略图
-    if ([self hasPrefix:@"http"] || [self hasPrefix:@"https"]) {
-        
-        return self;
-        
-    } else {
-        
-        return [NSString stringWithFormat:@"%@/%@?imageMogr2/auto-orient/strip/thumbnail/300x300/quality/50!",[AppConfig config].qiniuDomain,self];
-        
-    }
-    
-}
 
-- (NSString *)convertImageUrl {
-    
-    //auto-orient 根据原信息 旋转
-    //strip 取出图片原信息
-    
-    if ([self hasPrefix:@"http"]) {
-        
-        return self;
-        
-    } else {
-        
-        return [[NSString stringWithFormat:@"%@/%@?imageMogr2/auto-orient/strip",[AppConfig config].qiniuDomain,self] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        
-    }
-    
-}
+//- (NSString *)convertThumbnailImageUrl{
+//    //  限定长边，生成不超过 300x300 的缩略图
+//    if ([self hasPrefix:@"http"] || [self hasPrefix:@"https"]) {
+//        
+//        return self;
+//        
+//    } else {
+//        
+//        return [NSString stringWithFormat:@"%@/%@?imageMogr2/auto-orient/strip/thumbnail/300x300/quality/50!",[AppConfig config].qiniuDomain,self];
+//        
+//    }
+//    
+//}
 
-- (CGSize)imgSizeByImageName:(NSString *)imageName {
+//- (NSString *)convertImageUrl {
+//    
+//    //auto-orient 根据原信息 旋转
+//    //strip 取出图片原信息
+//    
+//    if ([self hasPrefix:@"http"]) {
+//        
+//        return self;
+//        
+//    } else {
+//        
+//        return [[NSString stringWithFormat:@"%@/%@?imageMogr2/auto-orient/strip",[AppConfig config].qiniuDomain,self] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+//        
+//    }
+//    
+//}
 
-    if ([imageName hasPrefix:@"http"]) {
-       
-        return CGSizeMake(4,3);
-        
-    } else {
-    
-        if ([imageName hasSuffix:@".jpg"] || [imageName hasSuffix:@".png"]) {
-            
-          NSString *urlName = [imageName substringWithRange:NSMakeRange(0, imageName.length - 4)];
-          NSArray *arr = [urlName componentsSeparatedByString:@"_"];
-            
-          if (arr.count > 2) {
-                
-                CGFloat h = [arr[arr.count - 1] floatValue];
-                CGFloat w = [arr[arr.count - 2] floatValue];
-                return CGSizeMake(w, h);
-          } else {
-          
-              return CGSizeMake(4, 3);
-
-          }
-            
-        } else if ([imageName hasSuffix:@".jpeg"]) {
-            
-            NSString *urlName = [imageName substringWithRange:NSMakeRange(0, imageName.length - 5)];
-            NSArray *arr = [urlName componentsSeparatedByString:@"_"];
-            
-            if (arr.count > 2) {
-                
-                CGFloat h = [arr[arr.count - 1] floatValue];
-                CGFloat w = [arr[arr.count - 2] floatValue];
-                return CGSizeMake(w, h);
-            } else {
-            
-                return CGSizeMake(4, 3);
-
-            }
-            
-        } else {
-        
-            return CGSizeMake(4, 3);
-        }
-    
-    }
-
-}
+//- (CGSize)imgSizeByImageName:(NSString *)imageName {
+//
+//    if ([imageName hasPrefix:@"http"]) {
+//       
+//        return CGSizeMake(4,3);
+//        
+//    } else {
+//    
+//        if ([imageName hasSuffix:@".jpg"] || [imageName hasSuffix:@".png"]) {
+//            
+//          NSString *urlName = [imageName substringWithRange:NSMakeRange(0, imageName.length - 4)];
+//          NSArray *arr = [urlName componentsSeparatedByString:@"_"];
+//            
+//          if (arr.count > 2) {
+//                
+//                CGFloat h = [arr[arr.count - 1] floatValue];
+//                CGFloat w = [arr[arr.count - 2] floatValue];
+//                return CGSizeMake(w, h);
+//          } else {
+//          
+//              return CGSizeMake(4, 3);
+//
+//          }
+//            
+//        } else if ([imageName hasSuffix:@".jpeg"]) {
+//            
+//            NSString *urlName = [imageName substringWithRange:NSMakeRange(0, imageName.length - 5)];
+//            NSArray *arr = [urlName componentsSeparatedByString:@"_"];
+//            
+//            if (arr.count > 2) {
+//                
+//                CGFloat h = [arr[arr.count - 1] floatValue];
+//                CGFloat w = [arr[arr.count - 2] floatValue];
+//                return CGSizeMake(w, h);
+//            } else {
+//            
+//                return CGSizeMake(4, 3);
+//
+//            }
+//            
+//        } else {
+//        
+//            return CGSizeMake(4, 3);
+//        }
+//    
+//    }
+//
+//}
 
 
 - (BOOL)isBankCardNo
@@ -299,23 +300,23 @@
 
 }
 
-- (BOOL)greaterThanOrEqual:(NSNumber *)num {
-
-    if (!self) {
-        return NO;
-    }
-    
-    CGFloat v = [self floatValue];
-    CGFloat t0 = v*1000;
-    long long money = (long long)t0;
-    if (money - [num longLongValue] >= 0) {
-        return YES;
-    } else {
-        
-        return NO;
-    }
-
-}
+//- (BOOL)greaterThanOrEqual:(NSNumber *)num {
+//
+//    if (!self) {
+//        return NO;
+//    }
+//    
+//    CGFloat v = [self floatValue];
+//    CGFloat t0 = v*1000;
+//    long long money = (long long)t0;
+//    if (money - [num longLongValue] >= 0) {
+//        return YES;
+//    } else {
+//        
+//        return NO;
+//    }
+//
+//}
 
 
 - (NSString *)convertToSysMoney {

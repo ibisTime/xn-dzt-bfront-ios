@@ -35,11 +35,11 @@
 //    http://118.178.124.16:3308/main.html
     
     //1.配置应用运行环境
-    [AppConfig config].runEnv = RunEnvTest;
-    
+    [AppConfig config].runEnv = RunEnvDev;
+     
     //2.新版本请求
     [NBNetworkConfig config].baseUrl = [NSString stringWithFormat:@"%@%@",[AppConfig config].addr,@"/forward-service/api"];
-
+    
     //3.兼容以前 老版本
     [TLNetworkingConfig config].baseUrl = [NSString stringWithFormat:@"%@%@",[AppConfig config].addr,@"/forward-service/api"];
     //

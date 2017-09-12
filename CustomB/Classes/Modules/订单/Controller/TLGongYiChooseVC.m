@@ -90,26 +90,26 @@
         
     }];
     
-   __block float mianLiaoPrice = 0;
+//   __block float mianLiaoPrice = 0;
     //面料
-    [self.dataManager.mianLiaoRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        if (!obj.isSelected) {
-            
-            if (idx == self.dataManager.mianLiaoRoom.count - 1) {
-                @throw [NSException
-                        exceptionWithName:[NSString  stringWithFormat:@"请选择%@",@"面料"] reason:nil userInfo:nil];
-            }
-            
-        } else {
-            
-            [otherArr addObject:obj.code];
-//            totalPrice += [obj.price longLongValue];
-            mianLiaoPrice = [[obj.price convertToRealMoney] floatValue];
-            *stop = YES;
-        }
-        
-    }];
+//    [self.dataManager.mianLiaoRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        
+//        if (!obj.isSelected) {
+//            
+//            if (idx == self.dataManager.mianLiaoRoom.count - 1) {
+//                @throw [NSException
+//                        exceptionWithName:[NSString  stringWithFormat:@"请选择%@",@"面料"] reason:nil userInfo:nil];
+//            }
+//            
+//        } else {
+//            
+//            [otherArr addObject:obj.code];
+////            totalPrice += [obj.price longLongValue];
+//            mianLiaoPrice = [[obj.price convertToRealMoney] floatValue];
+//            *stop = YES;
+//        }
+//        
+//    }];
     
     //4.规格
     [self.dataManager.guiGeRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -309,10 +309,10 @@
         
     }];
     
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didFinishChooseWith:dict:gongYiPrice:mianLiaoPrice:vc:)]) {
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didFinishChooseWith:dict:gongYiPrice:vc:)]) {
         
         
-        [self.delegate didFinishChooseWith:otherArr dict:dict gongYiPrice:[[@(totalPrice) convertToRealMoney] floatValue] mianLiaoPrice:mianLiaoPrice vc:self];
+        [self.delegate didFinishChooseWith:otherArr dict:dict gongYiPrice:[[@(totalPrice) convertToRealMoney] floatValue]  vc:self];
         
         
         
@@ -352,20 +352,20 @@
     req.parameters[@"modelCode"] =  self.productCode;
     req.parameters[@"status"] = @"1";
     
-    //面料
-    NBCDRequest *mianLiaoReq = [[NBCDRequest alloc] init];
-    mianLiaoReq.code = @"620032";
-    mianLiaoReq.parameters[@"modelCode"] = self.productCode;
-    mianLiaoReq.parameters[@"status"] = @"1";
+//    //面料
+//    NBCDRequest *mianLiaoReq = [[NBCDRequest alloc] init];
+//    mianLiaoReq.code = @"620032";
+//    mianLiaoReq.parameters[@"modelCode"] = self.productCode;
+//    mianLiaoReq.parameters[@"status"] = @"1";
     //
-    NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[req,mianLiaoReq]];
+    NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[req]];
     [batchReq startWithSuccess:^(NBBatchReqest *batchRequest) {
         
         [self removePlaceholderView];
         [TLProgressHUD dismiss];
 
         NBCDRequest *chooseReq = (NBCDRequest *)batchRequest.reqArray[0];
-        NBCDRequest *mianLiaoReq = (NBCDRequest *)batchRequest.reqArray[1];
+//        NBCDRequest *mianLiaoReq = (NBCDRequest *)batchRequest.reqArray[1];
         
         //初始化
        
@@ -374,7 +374,7 @@
         [self.dataManager handleParameterData:chooseReq.responseObject];
         
         //面料选择
-        [self.dataManager handleMianLiaoData:mianLiaoReq.responseObject];
+//        [self.dataManager handleMianLiaoData:mianLiaoReq.responseObject];
         
         //
         [self setUpUI];
@@ -447,20 +447,20 @@
     styleGroup.itemSize = CGSizeMake(parameterCellWidth, 30);
     
     //
-    TLGroup *mianLiaoRoom = [[TLGroup alloc] init];
-    mianLiaoRoom.canEdit = YES;
-    [self.dataManager.groups addObject:mianLiaoRoom];
-    mianLiaoRoom.dataModelRoom = self.dataManager.mianLiaoRoom;
-    mianLiaoRoom.title = @"面料";
-    mianLiaoRoom.content = self.dataManager.mianLiaoValue;
-    mianLiaoRoom.headerSize = headerSmallSize;
-    mianLiaoRoom.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
-    mianLiaoRoom.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
-    mianLiaoRoom.minimumLineSpacing = horizonMargin;
-    mianLiaoRoom.minimumInteritemSpacing = middleMargin;
-    mianLiaoRoom.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-    mianLiaoRoom.editingEdgeInsets = paramterEdgeInsets;
-    mianLiaoRoom.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
+//    TLGroup *mianLiaoRoom = [[TLGroup alloc] init];
+//    mianLiaoRoom.canEdit = YES;
+//    [self.dataManager.groups addObject:mianLiaoRoom];
+//    mianLiaoRoom.dataModelRoom = self.dataManager.mianLiaoRoom;
+//    mianLiaoRoom.title = @"面料";
+//    mianLiaoRoom.content = self.dataManager.mianLiaoValue;
+//    mianLiaoRoom.headerSize = headerSmallSize;
+//    mianLiaoRoom.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
+//    mianLiaoRoom.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
+//    mianLiaoRoom.minimumLineSpacing = horizonMargin;
+//    mianLiaoRoom.minimumInteritemSpacing = middleMargin;
+//    mianLiaoRoom.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
+//    mianLiaoRoom.editingEdgeInsets = paramterEdgeInsets;
+//    mianLiaoRoom.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     
     //
     TLGroup *parameterGroup = [[TLGroup alloc] init];

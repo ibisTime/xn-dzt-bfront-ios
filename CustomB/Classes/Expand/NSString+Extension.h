@@ -12,8 +12,6 @@
 @interface NSString (Extension)
 
 //拼接字符串
-- (NSString *)add:(NSString *)appendStr;
-- (NSAttributedString *)attrStr;
 
 - (BOOL)isBlank;
 - (BOOL)isNotBlank;
@@ -43,26 +41,18 @@
 - (NSString *)md5String;
 //基本验证 不为nil ， 且长度不为0
 - (BOOL)valid;
-
-//处理图片的url
-- (NSString *)convertThumbnailImageUrl;
-- (NSString *)convertImageUrl;
-- (CGSize)imgSizeByImageName:(NSString *)imageName;
-
 - (CGSize)calculateStringSize:(CGSize)size font:(UIFont *)font;
+
+
 
 //以元为单位的str 和以厘为单位的 钱比较大小
 - (BOOL)greaterThan:(NSNumber *)num;
-- (BOOL)greaterThanOrEqual:(NSNumber *)num;
-
 
 /*122.89元  转换为  122890厘*/
 - (NSString *)convertToSysMoney;
 
-
 //时间转换  Jan 5, 2017 12:00:00 AM -> 2016-02-02
 - (NSString *)convertToDetailDate; //带有时分秒
-//- (NSString *)converDate;
 - (NSString *)convertDate;
 
 + (NSString *)appCurrentBundleVersion;

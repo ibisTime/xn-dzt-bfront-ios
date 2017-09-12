@@ -10,6 +10,8 @@
 #import "TLUIHeader.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 #import "NSString+Extension.h"
+#import "ImageUtil.h"
+#import "AppConfig.h"
 
 @interface TLChatCell()
 
@@ -41,7 +43,10 @@
         self.leftArrowImageView.hidden = self.leftImageView.hidden;
         self.rightArrowImageView.hidden = self.rightImageView.hidden;
 
-        [self.rightImageView sd_setImageWithURL:[NSURL URLWithString:[model.commentPhoto convertImageUrl]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
+        NSString *photoUrl =  [ImageUtil convertImageUrl:model.commentPhoto imageServerUrl:[AppConfig config].qiniuDomain];
+        
+        
+        [self.rightImageView sd_setImageWithURL:[NSURL URLWithString:photoUrl] placeholderImage:[UIImage imageNamed:@"默认头像"]];
         self.contentLbl.textAlignment = NSTextAlignmentLeft;
         
         
@@ -52,7 +57,8 @@
         self.leftArrowImageView.hidden = self.leftImageView.hidden;
         self.rightArrowImageView.hidden = self.rightImageView.hidden;
         
-        [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:[model.commentPhoto convertImageUrl]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
+        NSString *photoUrl =  [ImageUtil convertImageUrl:model.commentPhoto imageServerUrl:[AppConfig config].qiniuDomain];
+        [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:photoUrl] placeholderImage:[UIImage imageNamed:@"默认头像"]];
         self.contentLbl.textAlignment = NSTextAlignmentRight;
 
     }

@@ -13,20 +13,8 @@
 //转换金额
 - (NSString *)convertToRealMoney;
 
-
-/**
- 正常转换
-*/
-- (NSString *)convertToRealMoneyRuleBySystem;
-
-
 //能去掉小数点的尽量去掉小数点
 - (NSString *)convertToSimpleRealMoney;
 
-- (NSString *)convertToRealMoneyWithCount:(NSInteger)count;
-
-//- (NSString *)covertToRealMoney;
-//
-//- (NSString *)covertToSimpleRealMoney;
 
 @end

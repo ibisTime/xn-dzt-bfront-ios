@@ -16,10 +16,8 @@
                           title:(NSString *)title
                 backgroundColor:(UIColor *)color;
 
-+ (UIButton *)zhBtnWithFrame:(CGRect) frame title:(NSString *)title;
 
 + (UIButton *)borderBtnWithFrame:(CGRect)frame title:(NSString *)title borderColor:(UIColor *)borderColor;
 
-//- ( instancetype )initWithFrame:(CGRect)frame title:(NSString *)title backgroundColor:(UIColor *)color  cornerRadius:(CGFloat)cornerRadius;
 
 @end

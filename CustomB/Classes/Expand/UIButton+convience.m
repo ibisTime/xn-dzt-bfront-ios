@@ -9,28 +9,30 @@
 #import "UIButton+convience.h"
 #import "UIColor+theme.h"
 #import "UIColor+Extension.h"
+#import "ImageUtil.h"
 
 
 @implementation UIButton (convience)
 
 
-- ( instancetype )initWithFrame:(CGRect)frame title:(NSString *)title backgroundColor:(UIColor *)color  cornerRadius:(CGFloat)cornerRadius  {
-
-    if (self = [super initWithFrame:frame]) {
-        
-        [self setBackgroundColor:color forState:UIControlStateNormal];
-        self.layer.cornerRadius = cornerRadius;
-        self.layer.masksToBounds = YES;
-        [self setTitle:title forState:UIControlStateNormal];
-    }
-    
-    return self;
-
-}
+//- ( instancetype )initWithFrame:(CGRect)frame title:(NSString *)title backgroundColor:(UIColor *)color  cornerRadius:(CGFloat)cornerRadius  {
+//
+//    if (self = [super initWithFrame:frame]) {
+//        
+//        [self setBackgroundColor:color forState:UIControlStateNormal];
+//        self.layer.cornerRadius = cornerRadius;
+//        self.layer.masksToBounds = YES;
+//        [self setTitle:title forState:UIControlStateNormal];
+//    }
+//    
+//    return self;
+//
+//}
 
 - (void)setBackgroundColor:(UIColor *)color forState:(UIControlState)state{
 
-    [self setBackgroundImage:[color convertToImage] forState:state];
+    UIImage *img = [ImageUtil convertColorToImage:color];
+    [self setBackgroundImage:img forState:state];
 
 }
 

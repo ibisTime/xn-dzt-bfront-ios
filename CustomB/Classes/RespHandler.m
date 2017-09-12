@@ -67,6 +67,8 @@
         req.failure(req);
         
     }
+    
+    [TLAlert alertWithInfo:error.localizedDescription];
 
 }
 

@@ -13,6 +13,9 @@
 
 
 + (UIColor *)themeColor;
++ (UIColor *)customYellowColor;
+
+
 + (UIColor *)textColor;
 + (UIColor *)lineColor;
 + (UIColor *)backgroundColor;

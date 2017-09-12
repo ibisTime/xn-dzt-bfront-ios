@@ -26,6 +26,7 @@
 #import "TLSysMsgVC.h"
 #import <MJRefresh/MJRefresh.h>
 #import "NBNetwork.h"
+#import "ImageUtil.h"
 
 @interface TLMineVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -159,7 +160,10 @@
 - (void)changeInfo {
     
     self.nameLbl.text = [TLUser user].mobile;
-    [self.userPhotoImageView sd_setImageWithURL:[NSURL URLWithString:[[TLUser user].photo convertImageUrl]] placeholderImage:[UIImage imageNamed:@"默认头像"]];
+
+    NSString *urlStr = [ImageUtil convertImageUrl:[TLUser user].photo imageServerUrl:[AppConfig config].qiniuDomain];
+    
+    [self.userPhotoImageView sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:[UIImage imageNamed:@"默认头像"]];
     
     
 }

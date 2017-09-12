@@ -11,7 +11,7 @@
 
 @protocol TLGongYiChooseVCDelegate <NSObject>
 
-- (void)didFinishChooseWith:(NSMutableArray *)arr dict:(NSMutableDictionary *)dict gongYiPrice:(float)price mianLiaoPrice:(float)mianLiaoPrice vc:(UIViewController *)vc ;
+- (void)didFinishChooseWith:(NSMutableArray *)arr dict:(NSMutableDictionary *)dict gongYiPrice:(float)price  vc:(UIViewController *)vc ;
 @end
 
 @interface TLGongYiChooseVC : TLBaseVC

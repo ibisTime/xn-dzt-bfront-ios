@@ -13,4 +13,8 @@
 
 @property (nonatomic, strong) ZHBankCard *bankCard;
 
+@property (nonatomic, strong) UILabel *bankNameLbl;
+@property (nonatomic, strong) UILabel *markLbl;
+@property (nonatomic, strong) UILabel *bankCardNumLbl;
+
 @end

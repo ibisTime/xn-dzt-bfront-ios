@@ -15,9 +15,9 @@
 @interface CustomBankCardCell()
 
 @property (nonatomic, strong) UIView *bgView;
-@property (nonatomic, strong) UILabel *bankNameLbl;
-@property (nonatomic, strong) UILabel *markLbl;
-@property (nonatomic, strong) UILabel *bankCardNumLbl;
+//@property (nonatomic, strong) UILabel *bankNameLbl;
+//@property (nonatomic, strong) UILabel *markLbl;
+//@property (nonatomic, strong) UILabel *bankCardNumLbl;
 
 @end
 

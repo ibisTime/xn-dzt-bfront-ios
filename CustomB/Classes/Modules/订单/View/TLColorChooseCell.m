@@ -11,6 +11,8 @@
 #import "TLParameterModel.h"
 #import "NSString+Extension.h"
 #import "UIImageView+WebCache.h"
+#import "ImageUtil.h"
+#import "AppConfig.h"
 
 
 @interface TLColorChooseCell()
@@ -35,7 +37,8 @@
     [super setModel:model];
     
     TLParameterModel *parameterModel = model;
-    NSString *str = [parameterModel.pic convertImageUrl];
+    
+    NSString *str = [ImageUtil convertImageUrl:parameterModel.pic imageServerUrl:[AppConfig config].qiniuDomain];
     [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:str]];
     if (parameterModel.yuSelected) {
         

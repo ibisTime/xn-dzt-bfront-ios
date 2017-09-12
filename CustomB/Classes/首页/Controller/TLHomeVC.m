@@ -30,6 +30,8 @@
 #import "TLAlert.h"
 #import "TLRefreshEngine.h"
 #import "SVProgressHUD.h"
+#import "ImageUtil.h"
+#import "TLMianLiaoChooseVC.h"
 
 @interface TLHomeVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -237,7 +239,9 @@
         
         //取出图片
         [weakSelf.bannerRoom enumerateObjectsUsingBlock:^(ZHBannerModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            [weakSelf.bannerPics addObject:[obj.pic convertImageUrl]];
+            
+            [weakSelf.bannerPics addObject: [ImageUtil convertImageUrl:obj.pic imageServerUrl:[AppConfig config].qiniuDomain]];
+            
         }];
         
         weakSelf.bannerView.imgUrls = weakSelf.bannerPics;
@@ -355,6 +359,10 @@
     __weak typeof(self) weakSelf = self;
     [v setAction:^(NSInteger section){
 
+        TLMianLiaoChooseVC *vc = [[TLMianLiaoChooseVC alloc] init];
+        [self.navigationController pushViewController:vc animated:YES];
+        
+        return ;
         if (section == 0) {
         
             TLLiuYanController *vc = [[TLLiuYanController alloc] init];

@@ -278,16 +278,16 @@
     //
     NSMutableArray <NSDictionary *> *vipInfoInfoArr = nil;
     
-    if ([self.customerStatisticsInfo.level isEqualToString:@"1"]) {
-        
-        vipInfoInfoArr  = [  @[
-                               @{@"会员等级" :vipDict[self.customerStatisticsInfo.level]},
-                               @{@"会员天数" : self.customerStatisticsInfo.days}
-
-                               ] mutableCopy];
-        
-    } else {
-        
+//    if ([self.customerStatisticsInfo.level isEqualToString:@"1"]) {
+//        
+//        vipInfoInfoArr  = [  @[
+//                               @{@"会员等级" :vipDict[self.customerStatisticsInfo.level]},
+//                               @{@"会员天数" : self.customerStatisticsInfo.days}
+//
+//                               ] mutableCopy];
+//        
+//    } else {
+    
       vipInfoInfoArr  = [  @[
                @{@"会员等级" :vipDict[self.customerStatisticsInfo.level]},
                @{@"会员成长经验" :     [self convertBigDigital: self.customerStatisticsInfo.jyAmount]},
@@ -299,11 +299,7 @@
         
     
     
-    }
-    
-
-    
-
+//    }
 
     [vipInfoInfoArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         

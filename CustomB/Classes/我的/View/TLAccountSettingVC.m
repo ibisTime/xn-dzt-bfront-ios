@@ -19,11 +19,12 @@
 #import "QNUploadManager.h"
 #import "TLProgressHUD.h"
 #import "TLAlert.h"
-#import "TLUploadManager.h"
 #import "ZHChangeMobileVC.h"
 #import "CustomChangePwdVC.h"
 #import "CustomPayPwdVC.h"
 #import "ZHBankCardListVC.h"
+#import "ImageUtil.h"
+#import "AppConfig.h"
 
 
 @interface TLAccountSettingVC ()<UITableViewDataSource,UITableViewDelegate>
@@ -39,15 +40,15 @@
 
 @end
 
-@implementation TLAccountSettingVC
 
+@implementation TLAccountSettingVC
 
 - (void)viewWillAppear:(BOOL)animated {
     
-    
     [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:NO animated:YES];
-    [self.navigationController.navigationBar setShadowImage:[[UIColor colorWithHexString:@"#cccccc"] convertToImage]];
+    UIImage *img = [ImageUtil convertColorToImage:[UIColor colorWithHexString:@"#cccccc"]];
+    [self.navigationController.navigationBar setShadowImage:img];
 
 }
 
@@ -63,7 +64,10 @@
     TLSettingModel *userPhotoItem = [[TLSettingModel alloc] init];
     userPhotoItem.text = @"头像";
     self.userPhotoItem  = userPhotoItem;
-        userPhotoItem.imgName = [[TLUser user].photo convertImageUrl];
+    
+    NSString *urlStr = [ImageUtil convertImageUrl:[TLUser user].photo imageServerUrl:[AppConfig config].qiniuDomain];
+
+        userPhotoItem.imgName = urlStr;
         [userPhotoItem setAction:^{
             
             [weakSelf choosePhoto];
@@ -135,8 +139,10 @@
 - (void)changeInfo {
     
     self.nicknameItem.subText = [TLUser user].nickname;
-    self.userPhotoItem.imgName = [[TLUser user].photo convertImageUrl];
+   
+    self.userPhotoItem.imgName =  [ImageUtil convertImageUrl:[TLUser user].photo imageServerUrl:[AppConfig config].qiniuDomain];
     [self.accountSettingTableView reloadData];
+    
 }
 
 - (void)loginOut {
@@ -177,7 +183,7 @@
                 UIImage *image = info[@"UIImagePickerControllerOriginalImage"];
                 NSData *imgData = UIImageJPEGRepresentation(image, 0.4);
                 
-                [uploadManager putData:imgData key:[TLUploadManager imageNameByImage:image] token:token complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
+                [uploadManager putData:imgData key:[ImageUtil imageNameByImage:image] token:token complete:^(QNResponseInfo *info, NSString *key, NSDictionary *resp) {
                     
                     [TLProgressHUD dismiss];
                     

@@ -8,6 +8,7 @@
 
 #import "TLTabBarController.h"
 #import "TLNavigationController.h"
+#import "UIColor+theme.h"
 
 @interface TLTabBarController ()<UITabBarControllerDelegate>
 
@@ -47,28 +48,22 @@
 }
 
 
-//- (void)userLogin {
-//
-//    [self unreadMsgChange];
-//    
-//}
-
-//- (void)unreadMsgChange {
-//
-//    NSInteger count = [[ChatManager defaultManager] unreadMsgCount];
-//    if (count <= 0) {
-//       
-//        self.tabBar.items[3].badgeValue = nil;
-//        
-//    } else {
-//        
-//      self.tabBar.items[3].badgeValue =  [NSString stringWithFormat:@"%ld",count];
-//
-//    }
-//    
-//   [UIApplication sharedApplication].applicationIconBadgeNumber = [ChatManager defaultManager].unreadMsgCount;
-//    
-//}
+- (UIImage *)changImageColorWithImage:(UIImage *)image  color:(UIColor *)targetColor blendModel:(CGBlendMode)mode
+{
+    //获取画布
+    UIGraphicsBeginImageContext(image.size);
+    //画笔沾取颜色
+    [targetColor setFill];
+    
+    CGRect drawRect = CGRectMake(0, 0, image.size.width, image.size.height);
+    UIRectFill(drawRect);
+    [image drawInRect:drawRect blendMode:mode alpha:1];
+    //获取图片
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
 
 
 
@@ -84,7 +79,9 @@
     UIImage *normalImage = [self getOrgImage:[UIImage imageNamed:normalImageName]];
     UIImage *selectedImage = [self getOrgImage:[UIImage imageNamed:selectedImageName]];
     
-    UITabBarItem *tabBarItem = [[UITabBarItem alloc] initWithTitle:title image:normalImage selectedImage:selectedImage];
+    UITabBarItem *tabBarItem = [[UITabBarItem alloc] initWithTitle:title
+                                                             image:normalImage
+                                                     selectedImage:selectedImage];
     tabBarItem.imageInsets = UIEdgeInsetsMake(5, 0, -5, 0);
     tabBarItem.titlePositionAdjustment = UIOffsetMake(0, 100);
     
@@ -104,6 +101,7 @@
 
 - (UIImage *)getOrgImage:(UIImage *)image
 {
+//    return image;
     return [image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
 }
 

@@ -161,7 +161,6 @@
         self.dataManager = [[TLUserDataManager alloc] init];
         self.dataManager.customerStatisticsInfo = self.customerStatisticsInfo;
 //        self.dataManager.customer = self.customer;
-        
         //
         [self.dataManager handleUserInfo:nil];
         [self.dataManager handMeasureDataWithResp:nil];

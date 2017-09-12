@@ -33,22 +33,44 @@
         }];
         
         //
-        self.textField = [[UITextField alloc] init];
-        [self addSubview:self.textField];
-        self.textField.backgroundColor = [UIColor colorWithHexString:@"#eeeeee"];
-        self.textField.font = [UIFont systemFontOfSize:14];
-        self.textField.layer.borderColor = [UIColor colorWithHexString:@"#9d9d9d"].CGColor;
-        self.textField.layer.borderWidth = 0.7;
-        self.textField.layer.cornerRadius = 5;
-        self.textField.layer.masksToBounds = YES;
-        self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
-        [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.height.equalTo(self);
+        UIView *textFieldBgView = [[UIView alloc] init];
+        [self addSubview:textFieldBgView];
+        textFieldBgView.backgroundColor = [UIColor colorWithHexString:@"#eeeeee"];
+        textFieldBgView.layer.borderColor = [UIColor colorWithHexString:@"#9d9d9d"].CGColor;
+        textFieldBgView.layer.borderWidth = 0.7;
+        textFieldBgView.layer.cornerRadius = 5;
+        textFieldBgView.layer.masksToBounds = YES;
+        [textFieldBgView mas_makeConstraints:^(MASConstraintMaker *make) {
+            //            make.height.equalTo(self);
             make.left.equalTo(self.leftTitleLbl.mas_right).offset(17);
             make.top.equalTo(self.mas_top).offset(2.5);
             make.bottom.equalTo(self.mas_bottom).offset(-2.5);
             make.right.equalTo(self.mas_right).offset(-18);
         }];
+        
+        
+        self.textField = [[UITextField alloc] init];
+        [textFieldBgView addSubview:self.textField];
+        self.textField.backgroundColor = [UIColor colorWithHexString:@"#eeeeee"];
+        self.textField.font = [UIFont systemFontOfSize:14];
+//        self.textField.layer.borderColor = [UIColor colorWithHexString:@"#9d9d9d"].CGColor;
+//        self.textField.layer.borderWidth = 0.7;
+//        self.textField.layer.cornerRadius = 5;
+//        self.textField.layer.masksToBounds = YES;
+        self.textField.clearButtonMode = UITextFieldViewModeWhileEditing;
+//        [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(self.leftTitleLbl.mas_right).offset(17);
+//            make.top.equalTo(self.mas_top).offset(2.5);
+//            make.bottom.equalTo(self.mas_bottom).offset(-2.5);
+//            make.right.equalTo(self.mas_right).offset(-18);
+//        }];
+        [self.textField mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(textFieldBgView.mas_left);
+            make.top.equalTo(textFieldBgView.mas_top);
+            make.bottom.equalTo(textFieldBgView.mas_bottom);
+            make.right.equalTo(textFieldBgView.mas_right);
+        }];
+        
     }
     return self;
 }

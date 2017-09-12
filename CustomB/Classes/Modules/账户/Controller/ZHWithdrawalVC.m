@@ -18,6 +18,7 @@
 #import "NSNumber+TLAdd.h"
 #import "NSString+Extension.h"
 #import "CustomPayPwdVC.h"
+#import "CustomBankCardCell.h"
 
 //#define WITHDRAW_RULE_MAX_KEY @"QXDBZDJE"
 
@@ -36,12 +37,12 @@
 //BUSERQXSX  着装顾问取现时效
 //BUSERMONTIMES   着装顾问每月取现次数
 
-@interface ZHWithdrawalVC ()
+@interface ZHWithdrawalVC ()<UITableViewDelegate,UITableViewDataSource>
 
-@property (nonatomic,strong) TLPickerTextField *bankPickTf;
+//@property (nonatomic,strong) TLPickerTextField *bankPickTf;ps
+@property (nonatomic, strong) UITableView *bankCardTableView;
 @property (nonatomic,strong) UILabel *balanceLbl;
 @property (nonatomic,strong) UILabel *procedureFeeLbl;
-
 
 //--//
 //@property (nonatomic,strong) UILabel *hinLbl;
@@ -102,7 +103,6 @@
                                             WITHDRAW_RULE_MAX_JIN_E];
         
         [ruleHttp postWithSuccess:^(id responseObject) {
-            
             dispatch_group_leave(_group);
             successCount ++;
             
@@ -152,6 +152,8 @@
                 if (self.banks.count > 0 ) {
 
                     //
+                    [self removePlaceholderView];
+
                     [self setUpUI];
                     self.procedureFeeLbl.text = @"本次提现手续费：0.00";
                     
@@ -214,6 +216,7 @@
     [self tl_placeholderOperation];
     
 }
+
 
 - (void)beginLoad {
     
@@ -339,14 +342,19 @@
 
 - (void)setUpUI {
 
-    self.bankPickTf = [[TLPickerTextField alloc] initWithframe:CGRectMake(0, 10, SCREEN_WIDTH, 50)
-                                                     leftTitle:@"银行卡"
-                                                    titleWidth:90
-                                                   placeholder:@"请选择银行卡"];
-    [self.view addSubview:self.bankPickTf];
-    self.bankPickTf.isSecurity = YES;
+    //银行卡
+    self.bankCardTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 120) style:UITableViewStylePlain];
+    [self.view addSubview:self.bankCardTableView];
+    self.bankCardTableView.dataSource = self;
+    self.bankCardTableView.rowHeight = 100;
+//    self.bankPickTf = [[TLPickerTextField alloc] initWithframe:CGRectMake(0, 10, SCREEN_WIDTH, 50)
+//                                                     leftTitle:@"银行卡"
+//                                                    titleWidth:90
+//                                                   placeholder:@"请选择银行卡"];
+//    [self.view addSubview:self.bankPickTf];
+//    self.bankPickTf.isSecurity = YES;
     
-    //
+    //中间部分
     UIView *mv = [self withdrawalView];
     [self.view addSubview:mv];
     
@@ -356,9 +364,16 @@
     tradePwdTf.isSecurity = YES;
     [self.view addSubview:tradePwdTf];
     self.tradePwdTf = tradePwdTf;
+    tradePwdTf.leftLbl.font = [UIFont systemFontOfSize:15];
+    tradePwdTf.leftLbl.textColor = [UIColor themeColor];
     
     //
-    UIButton *withdrawalBtn = [UIButton zhBtnWithFrame:CGRectMake(15, tradePwdTf.yy + 30, SCREEN_WIDTH - 30, 45) title:@"提现"];
+    UIButton *withdrawalBtn = [[UIButton alloc] initWithFrame:CGRectMake(15, tradePwdTf.yy + 30, SCREEN_WIDTH - 30, 45)];
+    [withdrawalBtn setTitle:@"提现" forState:UIControlStateNormal];
+    withdrawalBtn.layer.cornerRadius = 5;
+    withdrawalBtn.layer.masksToBounds = YES;
+    withdrawalBtn.backgroundColor = [UIColor themeColor];
+    
     [self.view addSubview:withdrawalBtn];
     [withdrawalBtn addTarget:self action:@selector(withdrawal) forControlEvents:UIControlEventTouchUpInside];
 
@@ -385,8 +400,8 @@
         [bankCards addObject:obj.bankcardNumber];
     }];
     
-    self.bankPickTf.tagNames = bankCards;
-    self.bankPickTf.text = bankCards[0];
+//    self.bankPickTf.tagNames = bankCards;
+//    self.bankPickTf.text = bankCards[0];
     
 }
 
@@ -396,11 +411,11 @@
 
     
     //
-    if ([self.balance isEqual:@0]) {
-       
-        [TLAlert alertWithHUDText:@"余额不足"];
-        return;
-    }
+//    if ([self.balance isEqual:@0]) {
+//       
+//        [TLAlert alertWithHUDText:@"余额不足"];
+//        return;
+//    }
 
     if(![self.moneyTf.text valid]) {
         
@@ -416,11 +431,11 @@
         return;
     }
     
-    if (![self.bankPickTf.text valid]) {
-        
-        [TLAlert alertWithHUDText:@"请选择银行卡"];
-        return;
-    }
+//    if (![self.bankPickTf.text valid]) {
+//        
+//        [TLAlert alertWithHUDText:@"请选择银行卡"];
+//        return;
+//    }
     
     if (![self.tradePwdTf.text valid]) {
         
@@ -438,21 +453,14 @@
     //
     http.parameters[@"amount"] = [self.moneyTf.text convertToSysMoney];   //@"-100";
     //银行卡号
-    http.parameters[@"payCardNo"] = self.bankPickTf.text; //开户行信息
+    http.parameters[@"payCardNo"] = self.banks[0].bankcardNumber;
     
-
+    
 
     http.parameters[@"applyUser"] = [TLUser user].userId;
     http.parameters[@"applyNote"] = @"iOS用户端取现";
     http.parameters[@"tradePwd"] = self.tradePwdTf.text;
-
-    [self.banks enumerateObjectsUsingBlock:^(ZHBankCard * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj.bankcardNumber isEqualToString:self.bankPickTf.text ]) {
-            
-            http.parameters[@"payCardInfo"] = obj.bankName; //实体账户编号,
-
-        }
-    }];
+    http.parameters[@"payCardInfo"] = self.banks[0].bankName; //实体账户编号,
 
     [http postWithSuccess:^(id responseObject) {
         
@@ -468,9 +476,32 @@
 
 }
 
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+
+    return 1;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+
+        
+        static NSString *bankCardCellId = @"bankCardCellId";
+        CustomBankCardCell *cell = [tableView dequeueReusableCellWithIdentifier:bankCardCellId];
+        if (!cell) {
+            cell = [[CustomBankCardCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:bankCardCellId];
+        }
+    
+    cell.bankCard = self.banks[indexPath.row];
+    cell.bankNameLbl.text = self.banks[indexPath.row].bankName;
+    cell.markLbl.text = @"借记卡";
+    cell.bankCardNumLbl.text = self.banks[indexPath.row].bankcardNumber;
+        
+    return cell;
+    
+}
+
 - (UIView *)withdrawalView {
 
-    UIView *bgV = [[UIView alloc] initWithFrame:CGRectMake(0, self.bankPickTf.yy + 10, SCREEN_WIDTH, 147)];
+    UIView *bgV = [[UIView alloc] initWithFrame:CGRectMake(0, self.bankCardTableView.yy + 10, SCREEN_WIDTH, 147)];
     bgV.backgroundColor = [UIColor whiteColor];
     UILabel *hintLbl = [[UILabel alloc] initWithFrame:CGRectMake(15, 18, 300, 30) textAligment:NSTextAlignmentLeft backgroundColor:[UIColor clearColor] font:[UIFont secondFont] textColor:[UIColor textColor]];
     hintLbl.text = @"提现金额";

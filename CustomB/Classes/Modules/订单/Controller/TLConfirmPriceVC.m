@@ -24,6 +24,7 @@
 #import "TLCalculatePriceManager.h"
 #import "AppConfig.h"
 #import "TLRefreshEngine.h"
+#import "TLMianLiaoChooseVC.h"
 
 @interface TLConfirmPriceVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,TLOrderEditHeaderDelegate,TLPriceHeaderViewDelegate,TLButtonHeaderViewDelegate,TLGongYiChooseVCDelegate>
 
@@ -41,15 +42,15 @@
 //需要修改的组
 @property (nonatomic, strong) TLGroup *gongYiPriceGroup;
 @property (nonatomic, strong) TLGroup *totalPriceGroup;
-@property (nonatomic, strong) TLGroup *mianLiaoCountGroup;
-@property (nonatomic, strong) TLGroup *jiaGongPriceGroup;
-@property (nonatomic, strong) TLGroup *kuaiDiFeiGroup;
-@property (nonatomic, strong) TLGroup *baoZhuangFeiGroup;
+//@property (nonatomic, strong) TLGroup *mianLiaoCountGroup;
 @property (nonatomic, strong) TLGroup *mianLiaoDanJiaGroup;
 
+//@property (nonatomic, strong) TLGroup *jiaGongPriceGroup;
+//@property (nonatomic, strong) TLGroup *kuaiDiFeiGroup;
+//@property (nonatomic, strong) TLGroup *baoZhuangFeiGroup;
 //
-@property (nonatomic, assign) float kuaiDiFei;
-@property (nonatomic, assign) float baoZhuangFei;
+//@property (nonatomic, assign) float kuaiDiFei;
+//@property (nonatomic, assign) float baoZhuangFei;
 
 @property (nonatomic, strong) TLGongYiChooseVC *gongYiChooseVC;
 
@@ -140,72 +141,72 @@
     productGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     
     //面料单耗
-    TLGroup *mianLiaoXiaoHaoGroup = [[TLGroup alloc] init];
-    self.mianLiaoCountGroup = mianLiaoXiaoHaoGroup;
-    mianLiaoXiaoHaoGroup.canEdit = NO;
-    mianLiaoXiaoHaoGroup.content =  @"0";
-    mianLiaoXiaoHaoGroup.dataModelRoom = [NSMutableArray new];
-    [self.dataManager.groups addObject:mianLiaoXiaoHaoGroup];
-    mianLiaoXiaoHaoGroup.title = @"面料单耗";
-    mianLiaoXiaoHaoGroup.headerSize = headerSmallSize;
-    mianLiaoXiaoHaoGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
-    mianLiaoXiaoHaoGroup.headerReuseIdentifier = [TLPriceHeaderView headerReuseIdentifier];
-    mianLiaoXiaoHaoGroup.minimumLineSpacing = horizonMargin;
-    mianLiaoXiaoHaoGroup.minimumInteritemSpacing = middleMargin;
-    mianLiaoXiaoHaoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-    mianLiaoXiaoHaoGroup.editingEdgeInsets = paramterEdgeInsets;
-    mianLiaoXiaoHaoGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
+//    TLGroup *mianLiaoXiaoHaoGroup = [[TLGroup alloc] init];
+//    self.mianLiaoCountGroup = mianLiaoXiaoHaoGroup;
+//    mianLiaoXiaoHaoGroup.canEdit = NO;
+//    mianLiaoXiaoHaoGroup.content =  @"0";
+//    mianLiaoXiaoHaoGroup.dataModelRoom = [NSMutableArray new];
+//    [self.dataManager.groups addObject:mianLiaoXiaoHaoGroup];
+//    mianLiaoXiaoHaoGroup.title = @"面料单耗";
+//    mianLiaoXiaoHaoGroup.headerSize = headerSmallSize;
+//    mianLiaoXiaoHaoGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
+//    mianLiaoXiaoHaoGroup.headerReuseIdentifier = [TLPriceHeaderView headerReuseIdentifier];
+//    mianLiaoXiaoHaoGroup.minimumLineSpacing = horizonMargin;
+//    mianLiaoXiaoHaoGroup.minimumInteritemSpacing = middleMargin;
+//    mianLiaoXiaoHaoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
+//    mianLiaoXiaoHaoGroup.editingEdgeInsets = paramterEdgeInsets;
+//    mianLiaoXiaoHaoGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     
     //加工费
-    TLGroup *jiaGongPriceGroup = [[TLGroup alloc] init];
-    self.jiaGongPriceGroup = jiaGongPriceGroup;
-    jiaGongPriceGroup.canEdit = NO;
-    jiaGongPriceGroup.content =  @"0";
-    jiaGongPriceGroup.dataModelRoom = [NSMutableArray new];
-    [self.dataManager.groups addObject:jiaGongPriceGroup];
-    jiaGongPriceGroup.title = @"加工费";
-    jiaGongPriceGroup.headerSize = headerSmallSize;
-    jiaGongPriceGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
-    jiaGongPriceGroup.headerReuseIdentifier = [TLPriceHeaderView headerReuseIdentifier];
-    jiaGongPriceGroup.minimumLineSpacing = horizonMargin;
-    jiaGongPriceGroup.minimumInteritemSpacing = middleMargin;
-    jiaGongPriceGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-    jiaGongPriceGroup.editingEdgeInsets = paramterEdgeInsets;
-    jiaGongPriceGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
+//    TLGroup *jiaGongPriceGroup = [[TLGroup alloc] init];
+//    self.jiaGongPriceGroup = jiaGongPriceGroup;
+//    jiaGongPriceGroup.canEdit = NO;
+//    jiaGongPriceGroup.content =  @"0";
+//    jiaGongPriceGroup.dataModelRoom = [NSMutableArray new];
+//    [self.dataManager.groups addObject:jiaGongPriceGroup];
+//    jiaGongPriceGroup.title = @"加工费";
+//    jiaGongPriceGroup.headerSize = headerSmallSize;
+//    jiaGongPriceGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
+//    jiaGongPriceGroup.headerReuseIdentifier = [TLPriceHeaderView headerReuseIdentifier];
+//    jiaGongPriceGroup.minimumLineSpacing = horizonMargin;
+//    jiaGongPriceGroup.minimumInteritemSpacing = middleMargin;
+//    jiaGongPriceGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
+//    jiaGongPriceGroup.editingEdgeInsets = paramterEdgeInsets;
+//    jiaGongPriceGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     
     //快递费
-    TLGroup *kuaiDiPriceGroup = [[TLGroup alloc] init];
-    kuaiDiPriceGroup.canEdit = NO;
-    self.kuaiDiFeiGroup = kuaiDiPriceGroup;
-    kuaiDiPriceGroup.dataModelRoom = [NSMutableArray new];
-    [self.dataManager.groups addObject:kuaiDiPriceGroup];
-    kuaiDiPriceGroup.title = @"快递费";
-    kuaiDiPriceGroup.content =  @"0";
-    kuaiDiPriceGroup.headerSize = headerSmallSize;
-    kuaiDiPriceGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
-    kuaiDiPriceGroup.headerReuseIdentifier = [TLPriceHeaderView headerReuseIdentifier];
-    kuaiDiPriceGroup.minimumLineSpacing = horizonMargin;
-    kuaiDiPriceGroup.minimumInteritemSpacing = middleMargin;
-    kuaiDiPriceGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-    kuaiDiPriceGroup.editingEdgeInsets = paramterEdgeInsets;
-    kuaiDiPriceGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
+//    TLGroup *kuaiDiPriceGroup = [[TLGroup alloc] init];
+//    kuaiDiPriceGroup.canEdit = NO;
+//    self.kuaiDiFeiGroup = kuaiDiPriceGroup;
+//    kuaiDiPriceGroup.dataModelRoom = [NSMutableArray new];
+//    [self.dataManager.groups addObject:kuaiDiPriceGroup];
+//    kuaiDiPriceGroup.title = @"快递费";
+//    kuaiDiPriceGroup.content =  @"0";
+//    kuaiDiPriceGroup.headerSize = headerSmallSize;
+//    kuaiDiPriceGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
+//    kuaiDiPriceGroup.headerReuseIdentifier = [TLPriceHeaderView headerReuseIdentifier];
+//    kuaiDiPriceGroup.minimumLineSpacing = horizonMargin;
+//    kuaiDiPriceGroup.minimumInteritemSpacing = middleMargin;
+//    kuaiDiPriceGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
+//    kuaiDiPriceGroup.editingEdgeInsets = paramterEdgeInsets;
+//    kuaiDiPriceGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     
     //包装费
-    TLGroup *baoZhuangPriceGroup = [[TLGroup alloc] init];
-    baoZhuangPriceGroup.canEdit = NO;
-    self.baoZhuangFeiGroup = baoZhuangPriceGroup;
-    baoZhuangPriceGroup.dataModelRoom = [NSMutableArray new];
-    [self.dataManager.groups addObject:baoZhuangPriceGroup];
-    baoZhuangPriceGroup.title = @"包装费";
-    baoZhuangPriceGroup.content =  @"0";
-    baoZhuangPriceGroup.headerSize = headerSmallSize;
-    baoZhuangPriceGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
-    baoZhuangPriceGroup.headerReuseIdentifier = [TLPriceHeaderView headerReuseIdentifier];
-    baoZhuangPriceGroup.minimumLineSpacing = horizonMargin;
-    baoZhuangPriceGroup.minimumInteritemSpacing = middleMargin;
-    baoZhuangPriceGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-    baoZhuangPriceGroup.editingEdgeInsets = paramterEdgeInsets;
-    baoZhuangPriceGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
+//    TLGroup *baoZhuangPriceGroup = [[TLGroup alloc] init];
+//    baoZhuangPriceGroup.canEdit = NO;
+//    self.baoZhuangFeiGroup = baoZhuangPriceGroup;
+//    baoZhuangPriceGroup.dataModelRoom = [NSMutableArray new];
+//    [self.dataManager.groups addObject:baoZhuangPriceGroup];
+//    baoZhuangPriceGroup.title = @"包装费";
+//    baoZhuangPriceGroup.content =  @"0";
+//    baoZhuangPriceGroup.headerSize = headerSmallSize;
+//    baoZhuangPriceGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
+//    baoZhuangPriceGroup.headerReuseIdentifier = [TLPriceHeaderView headerReuseIdentifier];
+//    baoZhuangPriceGroup.minimumLineSpacing = horizonMargin;
+//    baoZhuangPriceGroup.minimumInteritemSpacing = middleMargin;
+//    baoZhuangPriceGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
+//    baoZhuangPriceGroup.editingEdgeInsets = paramterEdgeInsets;
+//    baoZhuangPriceGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     
     //工艺费
     TLGroup *gongYiPriceGroup = [[TLGroup alloc] init];
@@ -228,10 +229,10 @@
     //面料单价
     TLGroup *mianLiaoDanJiaGroup = [[TLGroup alloc] init];
     self.mianLiaoDanJiaGroup = mianLiaoDanJiaGroup;
-    mianLiaoDanJiaGroup.canEdit = NO;
+    mianLiaoDanJiaGroup.canEdit = YES;
     mianLiaoDanJiaGroup.dataModelRoom = [NSMutableArray new];
     [self.dataManager.groups addObject:mianLiaoDanJiaGroup];
-    mianLiaoDanJiaGroup.title = @"面料单价";
+    mianLiaoDanJiaGroup.title = @"面料费";
     mianLiaoDanJiaGroup.content =  @"0";
     mianLiaoDanJiaGroup.headerSize = headerSmallSize;
     mianLiaoDanJiaGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
@@ -277,12 +278,13 @@
     
 }
 
+#pragma mark- PriceHeaderDelegate
 - (void)didSelected:(NSInteger)section {
 
     @try {
         
         
-        if (section == 5) {
+        if (section == 1) {
             
             __block TLParameterModel *currentChooseModel = nil;
             [self.dataManager.groups[0].dataModelRoom enumerateObjectsUsingBlock:^(TLParameterModel  *obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -307,6 +309,15 @@
             self.gongYiChooseVC.productCode = currentChooseModel.code;
             
             [self.navigationController pushViewController:self.gongYiChooseVC animated:YES];
+            
+        }
+        
+        
+        if (section == 2) {
+            //面料选择
+            
+            TLMianLiaoChooseVC *mianLiaoChooseVC =  [[TLMianLiaoChooseVC alloc] init];
+            [self.navigationController pushViewController:mianLiaoChooseVC animated:YES];
             
         }
 
@@ -352,11 +363,11 @@
     self.calculatePriceManager = [[TLCalculatePriceManager alloc] init];
     
     [TLProgressHUD showWithStatus:nil];
-    NBCDRequest *kuaiDiReq2 = [[NBCDRequest alloc] init];
-    kuaiDiReq2.code = @"620918";
-    kuaiDiReq2.parameters[@"keyList"] = @[@"KDF",@"BZF"]; ;
-    kuaiDiReq2.parameters[@"companyCode"] = [AppConfig config].systemCode;
-    kuaiDiReq2.parameters[@"systemCode"] = [AppConfig config].systemCode;
+//    NBCDRequest *kuaiDiReq2 = [[NBCDRequest alloc] init];
+//    kuaiDiReq2.code = @"620918";
+//    kuaiDiReq2.parameters[@"keyList"] = @[@"KDF",@"BZF"]; ;
+//    kuaiDiReq2.parameters[@"companyCode"] = [AppConfig config].systemCode;
+//    kuaiDiReq2.parameters[@"systemCode"] = [AppConfig config].systemCode;
     
     //获取产品列表
     NBCDRequest *xhReq = [[NBCDRequest alloc] init];
@@ -369,21 +380,22 @@
     orderReq.parameters[@"code"] = self.order.code;
     
     //
-    NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[kuaiDiReq2,xhReq,orderReq]];
+    NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[xhReq,orderReq]];
     [batchReq startWithSuccess:^(NBBatchReqest *batchRequest) {
         
         //
         [TLProgressHUD dismiss];
-        NBCDRequest *kuaiDiReq2 = (NBCDRequest *)batchRequest.reqArray[0];
-        NBCDRequest *xhReq = (NBCDRequest *)batchRequest.reqArray[1];
-        NBCDRequest *orderReq = (NBCDRequest *)batchRequest.reqArray[2];
+//        NBCDRequest *kuaiDiReq2 = (NBCDRequest *)batchRequest.reqArray[0];
+        
+        NBCDRequest *xhReq = (NBCDRequest *)batchRequest.reqArray[0];
+        NBCDRequest *orderReq = (NBCDRequest *)batchRequest.reqArray[1];
 
         TLOrderModel *orderModel = [TLOrderModel tl_objectWithDictionary:orderReq.responseObject[@"data"]];
         self.order = orderModel;
         self.calculatePriceManager.times = [orderModel.times floatValue];
         //
-        self.baoZhuangFei = [kuaiDiReq2.responseObject[@"data"][@"BZF"] floatValue];
-        self.kuaiDiFei = [kuaiDiReq2.responseObject[@"data"][@"KDF"] floatValue];
+//        self.baoZhuangFei = [kuaiDiReq2.responseObject[@"data"][@"BZF"] floatValue];
+//        self.kuaiDiFei = [kuaiDiReq2.responseObject[@"data"][@"KDF"] floatValue];
         //
         NSArray *arr = xhReq.responseObject[@"data"];
         self.productRoom =  [TLProduct tl_objectArrayWithDictionaryArray:arr];
@@ -423,8 +435,8 @@
             self.calculatePriceManager.mianLiaoPrice = mianLiaoPrice;
             self.calculatePriceManager.gongYiPrice = gongYiPrice;
             //获取快递 和 包装费
-            self.calculatePriceManager.kuaiDiPrice = self.kuaiDiFei;
-            self.calculatePriceManager.baoZhuangPrice = self.baoZhuangFei;
+//            self.calculatePriceManager.kuaiDiPrice = self.kuaiDiFei;
+//            self.calculatePriceManager.baoZhuangPrice = self.baoZhuangFei;
             //计算价格 -------- 选择产品后需要计算，改变公益后需要计算
             float totalPrice = [self.calculatePriceManager calculate];
             
@@ -467,6 +479,8 @@
         }];
         return;
     }
+    //统一改为都要选择工艺
+    
 
     //h+ 定价
     if(!self.currentDict) {
@@ -515,8 +529,8 @@
 
     }];
 
+    
 }
-
 
 - (void)setUpUI {
     
@@ -525,6 +539,7 @@
     fl.minimumLineSpacing = 0;
     fl.minimumInteritemSpacing = 0;
     
+    //
     UICollectionView *orderDetailCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0,SCREEN_WIDTH, SCREEN_HEIGHT - 64) collectionViewLayout:fl];
     [self.view addSubview:orderDetailCollectionView];
     self.orderDetailCollectionView = orderDetailCollectionView;
@@ -597,11 +612,12 @@
 
     self.gongYiPriceGroup.content = @"0";
     self.totalPriceGroup.content = [self.currentProductModel.price convertToRealMoney];
-    self.mianLiaoCountGroup.content = @"0";
-    self.mianLiaoDanJiaGroup.content = @"0";
-    self.jiaGongPriceGroup.content = @"0";
-    self.kuaiDiFeiGroup.content =  @"0";
-    self.baoZhuangFeiGroup.content = @"0";
+    
+//    self.mianLiaoCountGroup.content = @"0";
+//    self.mianLiaoDanJiaGroup.content = @"0";
+//    self.jiaGongPriceGroup.content = @"0";
+//    self.kuaiDiFeiGroup.content =  @"0";
+//    self.baoZhuangFeiGroup.content = @"0";
 
 }
 
@@ -620,13 +636,13 @@
     self.currentDict = nil;
     
     //
-    if ( self.currentProductModel.productType == TLProductTypeHAdd) {
-        
+//    if ( self.currentProductModel.productType == TLProductTypeHAdd) {
+    
         //工艺是否可编辑
         self.gongYiPriceGroup.canEdit = YES;
         
         //改变面料单消耗
-        self.mianLiaoCountGroup.content = [NSString stringWithFormat:@"%@",self.currentProductModel.loss];
+//        self.mianLiaoCountGroup.content = [NSString stringWithFormat:@"%@",self.currentProductModel.loss];
         self.calculatePriceManager.mianLiaoCount = [self.currentProductModel.loss floatValue];
         
         //是否有面料费
@@ -637,21 +653,23 @@
         }
         
         //改变加工费
-        self.jiaGongPriceGroup.content = [NSString stringWithFormat:@"%@",[self.currentProductModel.processFee convertToRealMoney]];
-        self.calculatePriceManager.jiaGongPrice = [[self.currentProductModel.processFee convertToRealMoney] floatValue];
+//        self.jiaGongPriceGroup.content = [NSString stringWithFormat:@"%@",[self.currentProductModel.processFee convertToRealMoney]];
+    
+//        self.calculatePriceManager.jiaGongPrice = [[self.currentProductModel.processFee convertToRealMoney] floatValue];
         //
-        self.kuaiDiFeiGroup.content = [NSString stringWithFormat:@"%.2f",self.kuaiDiFei];
-        self.baoZhuangFeiGroup.content = [NSString stringWithFormat:@"%.2f",self.baoZhuangFei];
-        self.calculatePriceManager.kuaiDiPrice = self.kuaiDiFei;
-        self.calculatePriceManager.baoZhuangPrice = self.baoZhuangFei;
+//        self.kuaiDiFeiGroup.content = [NSString stringWithFormat:@"%.2f",self.kuaiDiFei];
+//        self.baoZhuangFeiGroup.content = [NSString stringWithFormat:@"%.2f",self.baoZhuangFei];
+//        self.calculatePriceManager.kuaiDiPrice = self.kuaiDiFei;
+//        self.calculatePriceManager.baoZhuangPrice = self.baoZhuangFei;
+    
         self.totalPriceGroup.content = @"0";
 
-    } else {
-        //选择的为衬衫
-        //工艺是否可编辑
-        self.gongYiPriceGroup.canEdit = NO;
-        [self chooseChenShanChangePrice];
-    }
+//    } else {
+//        //选择的为衬衫
+//        //工艺是否可编辑
+//        self.gongYiPriceGroup.canEdit = NO;
+//        [self chooseChenShanChangePrice];
+//    }
 
 }
 

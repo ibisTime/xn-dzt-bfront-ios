@@ -10,8 +10,6 @@
 
 @interface UIColor (Extension)
 
-- (UIImage*)convertToImage;
 + (UIColor *)colorWithHexString:(NSString *)color;
-
 
 @end

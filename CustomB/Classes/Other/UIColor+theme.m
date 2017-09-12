@@ -15,8 +15,9 @@
 
 
 + (UIColor *)themeColor {
-
-    return [self colorWithHexString:@"#062745"];
+    return [self colorWithHexString:@"#004e7e"];
+    
+//    return [self colorWithHexString:@"#062745"];
 }
 
 + (UIColor *)textColor {
@@ -39,6 +40,16 @@
 
     return [self colorWithHexString:@"#fafafa"];
 }
+
++ (UIColor *)customYellowColor {
+    
+//    colorWithHexString:@"#dab616"
+//    return [UIColor colorWithHexString:@"#beb098"];
+
+    return [UIColor colorWithHexString:@"#dab616"];
+    
+}
+
 
 
 

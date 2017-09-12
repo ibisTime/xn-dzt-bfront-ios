@@ -18,6 +18,7 @@
 #import "ZHBillVC.h"
 #import "ZHWithdrawalVC.h"
 #import "TLTableView.h"
+#import "ImageUtil.h"
 
 @interface TLBalanceVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -37,7 +38,8 @@
 
     [super viewWillAppear:animated];
     
-    [self.navigationController.navigationBar setShadowImage:[[UIColor colorWithHexString:@"#cccccc"] convertToImage]];
+    UIImage *img = [ImageUtil convertColorToImage:[UIColor colorWithHexString:@"#cccccc"]];
+    [self.navigationController.navigationBar setShadowImage:img];
 
     if (self.isFirst) {
         
@@ -214,7 +216,7 @@
                                  textAligment:NSTextAlignmentCenter
                               backgroundColor:[UIColor whiteColor]
                                          font:FONT(36)
-                                    textColor:[UIColor colorWithHexString:@"#dab616"]];
+                                    textColor:[UIColor customYellowColor]];
     [contentView addSubview:self.balanceLbl];
     self.balanceLbl.text = @"--";
     //

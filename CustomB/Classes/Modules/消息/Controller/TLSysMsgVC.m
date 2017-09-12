@@ -17,6 +17,7 @@
 #import "TLSysMsgVC.h"
 #import "TLSysMsgVC.h"
 #import "TLPlaceholderView.h"
+#import "ImageUtil.h"
 
 @interface TLSysMsgVC()<UITableViewDelegate,UITableViewDataSource>
 
@@ -37,8 +38,9 @@
         self.isFirst = NO;
     }
     
-    [self.navigationController.navigationBar setShadowImage:[[UIColor colorWithHexString:@"#cccccc"] convertToImage]];
-
+    UIImage *img = [ImageUtil convertColorToImage:[UIColor colorWithHexString:@"#cccccc"]];
+    [self.navigationController.navigationBar setShadowImage:img];
+    
 }
 
 - (void)viewDidLoad {

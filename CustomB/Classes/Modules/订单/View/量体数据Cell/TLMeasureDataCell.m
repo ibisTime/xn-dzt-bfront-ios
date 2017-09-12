@@ -48,6 +48,7 @@
         [self.contentView addSubview:self.textField];
         self.textField.textColor = [UIColor textColor];
         self.textField.font = FONT(12);
+        self.textField.placeholder = @"-";
         self.textField.keyboardType = UIKeyboardTypeDecimalPad;
         [self.textField addTarget:self action:@selector(editChange) forControlEvents:UIControlEventEditingChanged];
 
