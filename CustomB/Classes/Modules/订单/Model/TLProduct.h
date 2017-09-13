@@ -7,6 +7,7 @@
 //  标准产品SPU
 
 #import "TLBaseModel.h"
+#import "TLInnerProduct.h"
 
 typedef NS_ENUM(NSUInteger, TLProductType) {
     
@@ -24,27 +25,15 @@ typedef NS_ENUM(NSUInteger, TLProductType) {
 @property (nonatomic, strong) NSNumber *price;
 @property (nonatomic, strong) NSString *desc;
 @property (nonatomic, copy) NSString *type;
-
 @property (nonatomic, assign, readonly) TLProductType productType;
-
-
 @property (nonatomic, assign) NSNumber *processFee; //加工费
 @property (nonatomic, strong) NSNumber *loss; //面料消耗
 
-//advPic = "2_1502863432270.jpg";
-//code = MO201708161448405541;
-//createDatetime = "May 26, 2017 9:45:57 AM";
-//description = "<p><img src=\"http://opf6b9y6y.bkt.clouddn.com/2_1502863443876.jpg\" style=\"max-width:100%\"><br></p><p>\U5b9a\U5236\U2014\U2014\U4f60\U7684\U79c1\U4eba\U4e13\U5c5e</p><p><img src=\"http://opf6b9y6y.bkt.clouddn.com/2_1502863443876.jpg\" style=\"max-width:100%\"><br></p><p>\U5b9a\U5236\U2014\U2014\U4f60\U7684\U79c1\U4eba\U4e13\U5c5e</p><p><img src=\"http://opf6b9y6y.bkt.clouddn.com/2_1502863443876.jpg\" style=\"max-width:100%\"><br></p><p>\U5b9a\U5236\U2014\U2014\U4f60\U7684\U79c1\U4eba\U4e13\U5c5e</p><p><img src=\"http://opf6b9y6y.bkt.clouddn.com/2_1502863443876.jpg\" style=\"max-width:100%\"><br></p><p>\U5b9a\U5236\U2014\U2014\U4f60\U7684\U79c1\U4eba\U4e13\U5c5e</p>";
-//location = 1;
-//name = "\U82b1\U82b1\U516c\U5b50\U886c\U886b   \U77ed\U8896";
-//orderNo = 2;
-//pic = "499_1493949069841.jpg";
-//price = 499000;
-//processFee = 0;
-//remark = "\U4e0b\U67b6";
-//status = 1;
-//type = 0;
-//updateDatetime = "Aug 21, 2017 3:42:01 PM";
-//updater = admin;
+
+/**
+ 本类是  3件套：1.西服 2.裤子 3.衬衫                         衬衫：1.只有衬衫
+ */
+@property (nonatomic, strong) NSArray <TLInnerProduct *> *modelSpecsList;
+
 
 @end

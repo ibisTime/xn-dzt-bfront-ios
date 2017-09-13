@@ -13,6 +13,12 @@
 @property (nonatomic, copy) NSString *code;
 @property (nonatomic, copy) NSString *advPic;
 @property (nonatomic, copy) NSString *modelNum;
+@property (nonatomic, strong) NSNumber *price;
+
+/**
+ 所属产品编号
+ */
+@property (nonatomic, copy) NSString *modelCode;
 
 
 @property (nonatomic, assign) BOOL isSelected;

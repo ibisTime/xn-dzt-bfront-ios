@@ -44,7 +44,7 @@
 
     if (self.delegate) {
         
-        [self.delegate didSelected:self.section];
+        [self.delegate didSelected:self.section priceHeaderView:self];
         
     }
 
@@ -92,7 +92,7 @@
     
     [self.contentLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self.mas_centerY);
-        make.left.equalTo(self.mas_left).offset(90);
+        make.left.equalTo(self.titleLbl.mas_right).offset(15);
         
     }];
     

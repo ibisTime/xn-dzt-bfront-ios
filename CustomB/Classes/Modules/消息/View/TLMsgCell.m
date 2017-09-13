@@ -170,6 +170,7 @@
     [self.userInfoLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.topBgView.mas_left).offset(16);
         make.centerY.equalTo(self.topBgView.mas_centerY);
+        make.right.lessThanOrEqualTo(self.timeLbl.mas_left);
     }];
     
  

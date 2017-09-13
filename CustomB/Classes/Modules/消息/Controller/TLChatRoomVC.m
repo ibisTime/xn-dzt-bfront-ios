@@ -16,6 +16,7 @@
 #import "TLPageDataHelper.h"
 #import "TLAlert.h"
 #import "TLProgressHUD.h"
+#import "MJRefresh.h"
 
 @interface TLChatRoomVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -34,7 +35,8 @@
 
     [super viewWillAppear:animated];
     if (self.isFirst) {
-        [self.chatTableView beginRefreshing];
+        [self.chatTableView.mj_footer beginRefreshing];
+//        beginRefreshing];
         self.isFirst = NO;
     }
     
@@ -84,59 +86,86 @@
     pageDataHelper.parameters[@"receiver"] = [TLUser user].userId;
     pageDataHelper.parameters[@"commenter"] = self.otherUserId;
 //    pageDataHelper.limit = 1;
-//    pageDataHelper.tableView = self.chatTableView;
     [pageDataHelper modelClass:[CustomLiuYanModel class]];
     [self.chatTableView addRefreshAction:^{
     
-        [pageDataHelper refresh:^(NSMutableArray *objs, BOOL stillHave) {
-            
-            [weakSelf.chatTableView endRefreshHeader];
-
-            weakSelf.chatModelRoom = objs;
-            [weakSelf.chatTableView reloadData];
-            if (weakSelf.chatModelRoom.count) {
-                
-                  [weakSelf.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow: weakSelf.chatModelRoom.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-            }
-          
-            [weakSelf.chatTableView resetNoMoreData_tl];
-            
-        } failure:^(NSError *error) {
-            
-            [weakSelf.chatTableView endRefreshHeader];
-
-        }];
-  
-    }];
-    
-    [self.chatTableView addLoadMoreAction:^{
-     
+      
         [pageDataHelper loadMore:^(NSMutableArray *objs, BOOL stillHave) {
             
-            [weakSelf.chatTableView endRefreshFooter];
-
+            [weakSelf.chatTableView endRefreshHeader];
             
-            weakSelf.chatModelRoom = objs;
+            NSEnumerator *enumerator = [objs reverseObjectEnumerator];
+            weakSelf.chatModelRoom = [enumerator.allObjects mutableCopy];
+            //            weakSelf.chatModelRoom = objs;
+            
             [weakSelf.chatTableView reloadData];
-            if (weakSelf.chatModelRoom.count) {
-                
-                  [weakSelf.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow: weakSelf.chatModelRoom.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+            if (!stillHave) {
+                pageDataHelper.start ++;
             }
-          
-
+//            if (weakSelf.chatModelRoom.count) {
+//                
+//                [weakSelf.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow: weakSelf.chatModelRoom.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+//            }
+            
         } failure:^(NSError *error) {
             
-            [weakSelf.chatTableView endRefreshFooter];
-
+            [weakSelf.chatTableView endRefreshHeader];
+            
         }];
         
   
+    }];
+    
+    
+    [self.chatTableView addLoadMoreAction:^{
+     
+        [pageDataHelper refresh:^(NSMutableArray *objs, BOOL stillHave) {
+            
+            [weakSelf.chatTableView endRefreshFooter];
+            
+            NSEnumerator *enumerator = [objs reverseObjectEnumerator];
+            weakSelf.chatModelRoom = [enumerator.allObjects mutableCopy];
+            [weakSelf.chatTableView reloadData];
+                        if (weakSelf.chatModelRoom.count) {
+            
+                              [weakSelf.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow: weakSelf.chatModelRoom.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+                        }
+            //
+            [weakSelf.chatTableView resetNoMoreData_tl];
+            
+            if (!stillHave) {
+                pageDataHelper.start ++;
+            }
+            
+        } failure:^(NSError *error) {
+            
+            [weakSelf.chatTableView endRefreshFooter];
+            
+        }];
+        
         
     }];
     
     //
+   MJRefreshNormalHeader *refreshStateHeader =  (MJRefreshNormalHeader *)self.chatTableView.mj_header;
     
+    refreshStateHeader.lastUpdatedTimeLabel.hidden = YES;
+    [refreshStateHeader setTitle:@"加载历史" forState:MJRefreshStateIdle];
+    [refreshStateHeader setTitle:@"加载历史" forState:MJRefreshStatePulling];
     
+    [refreshStateHeader setTitle:@"正在加载历史" forState:MJRefreshStateRefreshing];
+    
+    //
+    MJRefreshBackNormalFooter *refreshBackNormalFooter = (MJRefreshBackNormalFooter *)self.chatTableView.mj_footer;
+    
+    [refreshBackNormalFooter setTitle:@"上拉刷新" forState:MJRefreshStateIdle];
+    [refreshBackNormalFooter setTitle:@"正在刷新" forState:MJRefreshStateRefreshing];
+    [refreshBackNormalFooter setTitle:@"上拉刷新" forState:MJRefreshStatePulling];
+    [refreshBackNormalFooter setTitle:@"上拉刷新" forState:MJRefreshStateWillRefresh];
+//    [refreshBackNormalFooter setTitle:@"上拉刷新" forState:MJRefreshStateWillRefresh];
+
+
+    //
     CGFloat btnW = 60;
     //
     UIView *bottomBgView = [[UIView alloc] initWithFrame:CGRectMake(0, self.chatTableView.yy, SCREEN_WIDTH, bottomHeight)];
@@ -182,7 +211,14 @@
 }
 
 - (void)sendMsg {
-
+    
+    if (!self.textView.text || self.textView.text.length <= 0) {
+        
+        [TLAlert alertWithInfo:@"请输入消息内容"];
+        return;
+    }
+    
+    //
     [TLProgressHUD showWithStatus:nil];
             NBCDRequest *req = [[NBCDRequest alloc] init];
             req.code = @"620141";

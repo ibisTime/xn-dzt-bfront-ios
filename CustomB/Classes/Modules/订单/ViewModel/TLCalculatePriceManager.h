@@ -16,10 +16,10 @@
 @property (nonatomic, assign) float times;
 
 //6个元素必须同时配置才能进行计算
-
 @property (nonatomic, assign) float mianLiaoPrice; //单价
 @property (nonatomic, assign) float mianLiaoCount; //面料数量
 @property (nonatomic, assign) float gongYiPrice; //工艺费
+
 
 //
 //@property (nonatomic, assign) float jiaGongPrice; //加工费

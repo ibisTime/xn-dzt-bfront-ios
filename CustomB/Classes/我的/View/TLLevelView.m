@@ -22,7 +22,7 @@
         
         self.contentLbl = [UILabel labelWithFrame:CGRectZero
                                      textAligment:NSTextAlignmentRight
-                                  backgroundColor:[UIColor whiteColor]
+                                  backgroundColor:self.backgroundColor
                                              font:FONT(11)
                                         textColor:[UIColor whiteColor]];
         [self addSubview:self.contentLbl];

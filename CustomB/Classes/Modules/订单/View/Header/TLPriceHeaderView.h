@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@class TLInnerProduct;
+@class TLPriceHeaderView;
 
 @protocol TLPriceHeaderViewDelegate <NSObject>
 
-- (void)didSelected:(NSInteger)section;
+- (void)didSelected:(NSInteger)section priceHeaderView:(TLPriceHeaderView *)priceHeaderView;
 
 @end
 
@@ -25,6 +27,8 @@
 @property (nonatomic, assign) NSInteger section;
 
 @property (nonatomic, strong) TLGroup *group;
+//@property (nonatomic, strong) TLInnerProduct *innerProduct;
+
 @property (nonatomic, strong) UILabel *titleLbl;
 @property (nonatomic, strong) UILabel *contentLbl;
 @property (nonatomic, strong) UIImageView *arrowImageView;

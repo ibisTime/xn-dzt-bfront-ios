@@ -8,15 +8,17 @@
 
 #import "TLBaseVC.h"
 #import "TLOrderModel.h"
+#import "TLInnerProduct.h"
 
 @protocol TLGongYiChooseVCDelegate <NSObject>
 
 - (void)didFinishChooseWith:(NSMutableArray *)arr dict:(NSMutableDictionary *)dict gongYiPrice:(float)price  vc:(UIViewController *)vc ;
+
 @end
 
 @interface TLGongYiChooseVC : TLBaseVC
 
-@property (nonatomic, copy) NSString *productCode;
+@property (nonatomic, strong) TLInnerProduct *innerProduct;
 @property (nonatomic, strong) TLOrderModel *order;
 @property (nonatomic, assign) id<TLGongYiChooseVCDelegate> delegate;
 

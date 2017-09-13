@@ -44,4 +44,17 @@
 @property (nonatomic, strong) NSMutableArray *dataModelRoom;
 
 
+
+/**
+ 尽量不要使用该字段，（在定价界面，面料和工艺中有使用）
+ */
+@property (nonatomic, strong) NSString *mark;
+
+
+/**
+ 和mark 相同，自己定义规则
+ */
+@property (nonatomic, strong) id dateModel;
+
+
 @end

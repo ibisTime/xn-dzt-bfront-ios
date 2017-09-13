@@ -17,6 +17,14 @@
     
 }
 
+
++ (NSDictionary *)mj_objectClassInArray {
+
+    return @{@"modelSpecsList" : [TLInnerProduct class]};
+    
+}
+
+
 - (TLProductType)productType {
 
     if ([self.type isEqualToString:@"0"]) {

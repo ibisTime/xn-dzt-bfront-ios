@@ -95,6 +95,7 @@
 		2E30728F1F51B3AB0003ADD9 /* CustomCaptchaView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E30728E1F51B3AB0003ADD9 /* CustomCaptchaView.m */; };
 		2E3072921F51B5750003ADD9 /* ZHChangeMobileVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072911F51B5750003ADD9 /* ZHChangeMobileVC.m */; };
 		2E3072951F525C370003ADD9 /* CustomChangePwdVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E3072941F525C370003ADD9 /* CustomChangePwdVC.m */; };
+		2E352E401F68CC920062182D /* TLSwitchHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E352E3F1F68CC920062182D /* TLSwitchHeaderView.m */; };
 		2E8C8A831F4A851B00974F85 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8C8A821F4A851B00974F85 /* main.m */; };
 		2E8C8A8E1F4A851B00974F85 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C8A8D1F4A851B00974F85 /* Assets.xcassets */; };
 		2E8C8A911F4A851B00974F85 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E8C8A8F1F4A851B00974F85 /* LaunchScreen.storyboard */; };
@@ -134,6 +135,10 @@
 		2E8DCCDC1F5D2E8300C9B39F /* RespHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8DCCDB1F5D2E8300C9B39F /* RespHandler.m */; };
 		2E8DCCDF1F5D440300C9B39F /* TLNetworkingConfig.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8DCCDE1F5D440300C9B39F /* TLNetworkingConfig.m */; };
 		2E8DCD571F5FF0CE00C9B39F /* UIColor+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E8DCD561F5FF0CE00C9B39F /* UIColor+Extension.m */; };
+		2E94650F1F691CB7004E091F /* TLInnerProduct.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E94650E1F691CB7004E091F /* TLInnerProduct.m */; };
+		2E9465121F691D5D004E091F /* TLRes.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9465111F691D5D004E091F /* TLRes.m */; };
+		2E9465151F691FCE004E091F /* TLGuiGeDaLei.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9465141F691FCE004E091F /* TLGuiGeDaLei.m */; };
+		2E94651B1F692265004E091F /* TLGuiGeXiaoLei.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E94651A1F692265004E091F /* TLGuiGeXiaoLei.m */; };
 		2EFFF9A21F67A8FF000CE5F4 /* TLMianLiaoChooseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFFF9A11F67A8FF000CE5F4 /* TLMianLiaoChooseVC.m */; };
 		2EFFF9A51F67AC1F000CE5F4 /* TLMianLiaoChooseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFFF9A41F67AC1F000CE5F4 /* TLMianLiaoChooseCell.m */; };
 		2EFFF9A81F67B9F3000CE5F4 /* TLMianLiaoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFFF9A71F67B9F3000CE5F4 /* TLMianLiaoModel.m */; };
@@ -318,6 +323,8 @@
 		2E3072911F51B5750003ADD9 /* ZHChangeMobileVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZHChangeMobileVC.m; sourceTree = "<group>"; };
 		2E3072931F525C370003ADD9 /* CustomChangePwdVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomChangePwdVC.h; sourceTree = "<group>"; };
 		2E3072941F525C370003ADD9 /* CustomChangePwdVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomChangePwdVC.m; sourceTree = "<group>"; };
+		2E352E3E1F68CC920062182D /* TLSwitchHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLSwitchHeaderView.h; sourceTree = "<group>"; };
+		2E352E3F1F68CC920062182D /* TLSwitchHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLSwitchHeaderView.m; sourceTree = "<group>"; };
 		2E8C8A7E1F4A851B00974F85 /* CustomB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CustomB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E8C8A821F4A851B00974F85 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2E8C8A8D1F4A851B00974F85 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -397,6 +404,14 @@
 		2E8DCCDE1F5D440300C9B39F /* TLNetworkingConfig.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLNetworkingConfig.m; sourceTree = "<group>"; };
 		2E8DCD551F5FF0CE00C9B39F /* UIColor+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+Extension.h"; sourceTree = "<group>"; };
 		2E8DCD561F5FF0CE00C9B39F /* UIColor+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+Extension.m"; sourceTree = "<group>"; };
+		2E94650D1F691CB7004E091F /* TLInnerProduct.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLInnerProduct.h; sourceTree = "<group>"; };
+		2E94650E1F691CB7004E091F /* TLInnerProduct.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLInnerProduct.m; sourceTree = "<group>"; };
+		2E9465101F691D5D004E091F /* TLRes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLRes.h; sourceTree = "<group>"; };
+		2E9465111F691D5D004E091F /* TLRes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLRes.m; sourceTree = "<group>"; };
+		2E9465131F691FCE004E091F /* TLGuiGeDaLei.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLGuiGeDaLei.h; sourceTree = "<group>"; };
+		2E9465141F691FCE004E091F /* TLGuiGeDaLei.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLGuiGeDaLei.m; sourceTree = "<group>"; };
+		2E9465191F692265004E091F /* TLGuiGeXiaoLei.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLGuiGeXiaoLei.h; sourceTree = "<group>"; };
+		2E94651A1F692265004E091F /* TLGuiGeXiaoLei.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLGuiGeXiaoLei.m; sourceTree = "<group>"; };
 		2EFFF9A01F67A8FF000CE5F4 /* TLMianLiaoChooseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLMianLiaoChooseVC.h; sourceTree = "<group>"; };
 		2EFFF9A11F67A8FF000CE5F4 /* TLMianLiaoChooseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLMianLiaoChooseVC.m; sourceTree = "<group>"; };
 		2EFFF9A31F67AC1F000CE5F4 /* TLMianLiaoChooseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLMianLiaoChooseCell.h; sourceTree = "<group>"; };
@@ -519,6 +534,14 @@
 				2E3072471F4D8AFB0003ADD9 /* TLInputDataModel.m */,
 				2E30723A1F4D37600003ADD9 /* TLProduct.h */,
 				2E30723B1F4D37600003ADD9 /* TLProduct.m */,
+				2E94650D1F691CB7004E091F /* TLInnerProduct.h */,
+				2E94650E1F691CB7004E091F /* TLInnerProduct.m */,
+				2E9465101F691D5D004E091F /* TLRes.h */,
+				2E9465111F691D5D004E091F /* TLRes.m */,
+				2E9465131F691FCE004E091F /* TLGuiGeDaLei.h */,
+				2E9465141F691FCE004E091F /* TLGuiGeDaLei.m */,
+				2E9465191F692265004E091F /* TLGuiGeXiaoLei.h */,
+				2E94651A1F692265004E091F /* TLGuiGeXiaoLei.m */,
 				2E3072401F4D4F0D0003ADD9 /* TLParameterModel.h */,
 				2E3072411F4D4F0D0003ADD9 /* TLParameterModel.m */,
 				2EFFF9A61F67B9F3000CE5F4 /* TLMianLiaoModel.h */,
@@ -648,6 +671,8 @@
 				2E30722F1F4C74810003ADD9 /* TLOrderDoubleTitleHeader.m */,
 				2E10D9B11F555E5500811AB1 /* TLUserHeaderView.h */,
 				2E10D9B21F555E5500811AB1 /* TLUserHeaderView.m */,
+				2E352E3E1F68CC920062182D /* TLSwitchHeaderView.h */,
+				2E352E3F1F68CC920062182D /* TLSwitchHeaderView.m */,
 			);
 			path = Header;
 			sourceTree = "<group>";
@@ -1333,6 +1358,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E94650F1F691CB7004E091F /* TLInnerProduct.m in Sources */,
 				2E8C8AD41F4A8B8900974F85 /* TLBaseModel.m in Sources */,
 				2E3072831F4FFC830003ADD9 /* TLImagePicker.m in Sources */,
 				2E3071C31F4B1F520003ADD9 /* ZHAccountBaseVC.m in Sources */,
@@ -1372,6 +1398,7 @@
 				2E3072861F500E0B0003ADD9 /* ZHBannerModel.m in Sources */,
 				2E1F27D21F52AAF50003717D /* TLBalanceCell.m in Sources */,
 				2E3072191F4C27300003ADD9 /* TLOrderParameterCell.m in Sources */,
+				2E9465121F691D5D004E091F /* TLRes.m in Sources */,
 				2E8C8B101F4A998C00974F85 /* TLOrderVC.m in Sources */,
 				2E3072791F4FF2010003ADD9 /* TLUserSettingCell.m in Sources */,
 				2E3071A61F4AC94F0003ADD9 /* TLOrderModel.m in Sources */,
@@ -1414,6 +1441,7 @@
 				2E8C8AE71F4A952E00974F85 /* TLTableView.m in Sources */,
 				2E3072331F4D115D0003ADD9 /* TLDataModel.m in Sources */,
 				2E3071DB1F4BFA570003ADD9 /* TLOrderDetailVC2.m in Sources */,
+				2E352E401F68CC920062182D /* TLSwitchHeaderView.m in Sources */,
 				2E3072421F4D4F0D0003ADD9 /* TLParameterModel.m in Sources */,
 				2E8C8AEF1F4A958A00974F85 /* TLProgressHUD.m in Sources */,
 				2E8C8A831F4A851B00974F85 /* main.m in Sources */,
@@ -1427,6 +1455,7 @@
 				2E3072201F4C5B4C0003ADD9 /* TLMeasureDataCell.m in Sources */,
 				2E3072571F4E6C6C0003ADD9 /* TLCustomer.m in Sources */,
 				2E1F27CC1F5267250003717D /* TLPickerTextField.m in Sources */,
+				2E94651B1F692265004E091F /* TLGuiGeXiaoLei.m in Sources */,
 				2E1F27CF1F5267ED0003717D /* CustomBankCardCell.m in Sources */,
 				2EFFF9A21F67A8FF000CE5F4 /* TLMianLiaoChooseVC.m in Sources */,
 				2E10D9A01F5416A100811AB1 /* TLGongYiChooseVC.m in Sources */,
@@ -1439,6 +1468,7 @@
 				2E3071CC1F4B22830003ADD9 /* ZHUserForgetPwdVC.m in Sources */,
 				2E1F27E71F52D1CB0003717D /* DateChooseCell.m in Sources */,
 				2E3071B41F4AD2140003ADD9 /* TLCustomerCategoryVC.m in Sources */,
+				2E9465151F691FCE004E091F /* TLGuiGeDaLei.m in Sources */,
 				2E3072131F4C175E0003ADD9 /* TLGroup.m in Sources */,
 				2E1F27EA1F52F5B10003717D /* CustomLiuYanModel.m in Sources */,
 				2E30727C1F4FF3300003ADD9 /* TLAccountSettingVC.m in Sources */,

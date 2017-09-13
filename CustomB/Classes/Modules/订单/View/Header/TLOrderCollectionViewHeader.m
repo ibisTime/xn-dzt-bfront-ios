@@ -50,8 +50,6 @@
     self.contentLbl.text = _group.content;
     self.titleLbl.text = _group.title;
     
-//    self.contentLbl.text=  @"在哪1";
-    
     if (!group.canEdit) {
         
         [self forbidEdit];

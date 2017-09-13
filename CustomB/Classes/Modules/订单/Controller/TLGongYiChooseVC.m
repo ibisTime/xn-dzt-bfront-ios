@@ -15,6 +15,7 @@
 #import "TLOrderBigTitleHeader.h"
 #import "TLOrderBGTitleHeader.h"
 #import "TLOrderDoubleTitleHeader.h"
+#import "TLSwitchHeaderView.h"
 
 #import "TLOrderDataManager.h"
 #import "TLOrderDetailCell.h"
@@ -349,14 +350,9 @@
     [TLProgressHUD showWithStatus:nil];
     NBCDRequest *req = [[NBCDRequest alloc] init];
     req.code = @"620054";
-    req.parameters[@"modelCode"] =  self.productCode;
+    req.parameters[@"modelCode"] =  self.innerProduct.code;
     req.parameters[@"status"] = @"1";
     
-//    //面料
-//    NBCDRequest *mianLiaoReq = [[NBCDRequest alloc] init];
-//    mianLiaoReq.code = @"620032";
-//    mianLiaoReq.parameters[@"modelCode"] = self.productCode;
-//    mianLiaoReq.parameters[@"status"] = @"1";
     //
     NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[req]];
     [batchReq startWithSuccess:^(NBBatchReqest *batchRequest) {
@@ -365,23 +361,16 @@
         [TLProgressHUD dismiss];
 
         NBCDRequest *chooseReq = (NBCDRequest *)batchRequest.reqArray[0];
-//        NBCDRequest *mianLiaoReq = (NBCDRequest *)batchRequest.reqArray[1];
-        
-        //初始化
-       
         
         //定制信息
         [self.dataManager handleParameterData:chooseReq.responseObject];
         
         //面料选择
-//        [self.dataManager handleMianLiaoData:mianLiaoReq.responseObject];
-        
-        //
         [self setUpUI];
         [self registerClass];
+        
         //配置Model
         [self configModel];
-        
         
     } failure:^(NBBatchReqest *batchRequest) {
         
@@ -399,8 +388,8 @@
     self.title = @"工艺选择";
     
     //获取全部选择参数，除布料外
-    if (!self.productCode) {
-        NSLog(@"产品编号不能为空");
+    if (!self.innerProduct) {
+        NSLog(@"产品不能为空");
     }
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
     
@@ -422,7 +411,14 @@
     UIEdgeInsets paramterEdgeInsets = UIEdgeInsetsMake(15, 32, 0, 32);
     CGFloat parameterCellWidth = (SCREEN_WIDTH - paramterEdgeInsets.left * 2 - 2*horizonMargin)/3.0;
     
+    //switch
+    TLGroup *switchGroup = [[TLGroup alloc] init];
+    [self.dataManager.groups addObject:switchGroup];
+    switchGroup.dataModelRoom = [[NSMutableArray alloc] init];
+    switchGroup.headerSize = headerSmallSize;
+    switchGroup.headerReuseIdentifier = [TLSwitchHeaderView headerReuseIdentifier];
     
+    //
     TLGroup *dingZhiGroup = [[TLGroup alloc] init];
     [self.dataManager.groups addObject:dingZhiGroup];
     dingZhiGroup.dataModelRoom = [self.dataManager configDefaultModel];
@@ -688,6 +684,7 @@
 
 - (void)registerClass {
     
+      [self.orderDetailCollectionView registerClass:[TLSwitchHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:[TLSwitchHeaderView headerReuseIdentifier]];
     //
     [self.orderDetailCollectionView registerClass:[TLOrderCollectionViewHeader class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:[TLOrderCollectionViewHeader headerReuseIdentifier]];
     

@@ -138,6 +138,7 @@
             }else{
                 NSLog(@"footer不存在");
             }
+    
 }
 
 - (void)setHiddenHeader:(BOOL)hiddenHeader

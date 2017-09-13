@@ -31,12 +31,14 @@
         }];
         
     }
+    
     return self;
+    
 }
+
 + (NSString *)headerReuseIdentifier {
     
-    
-    return     [NSString stringWithFormat:@"%@ID",NSStringFromClass(self)];
+    return [NSString stringWithFormat:@"%@ID",NSStringFromClass(self)];
     
 }
 
@@ -45,4 +47,5 @@
     _title = [title copy];
     self.contentLbl.text = _title;
 }
+
 @end

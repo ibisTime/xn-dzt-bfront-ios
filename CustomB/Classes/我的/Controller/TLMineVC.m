@@ -35,7 +35,7 @@
 @property (nonatomic, strong) UIImageView *userPhotoImageView;
 @property (nonatomic, strong) UILabel *nameLbl;
 
-//@property (nonatomic, strong) TLLevelView *levelView;
+@property (nonatomic, strong) TLLevelView *levelView;
 @property (nonatomic, strong) UILabel *professionalTitleLbl;
 
 @property (nonatomic, copy) NSArray <TLSettingModel * >*models;
@@ -160,7 +160,13 @@
 - (void)changeInfo {
     
     self.nameLbl.text = [TLUser user].mobile;
+    
+    //
+    self.professionalTitleLbl.text = @"高级顾问";
+    self.levelView.contentLbl.text = @"LV10";
+    
 
+    //
     NSString *urlStr = [ImageUtil convertImageUrl:[TLUser user].photo imageServerUrl:[AppConfig config].qiniuDomain];
     
     [self.userPhotoImageView sd_setImageWithURL:[NSURL URLWithString:urlStr] placeholderImage:[UIImage imageNamed:@"默认头像"]];
@@ -353,8 +359,8 @@
     [topImageView addSubview:self.nameLbl];
     
     //
-//  self.levelView = [[TLLevelView alloc] init];
-//  [topImageView addSubview:self.levelView];
+  self.levelView = [[TLLevelView alloc] init];
+  [topImageView addSubview:self.levelView];
     
     
     //
@@ -376,19 +382,19 @@
     [self.nameLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         
         make.left.equalTo(self.userPhotoImageView.mas_right).offset(30);
-        make.centerY.equalTo(self.userPhotoImageView.mas_centerY);
+        make.centerY.equalTo(self.userPhotoImageView.mas_centerY).offset(-7);
         
     }];
     
-//    [self.levelView mas_makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.equalTo(self.nameLbl.mas_left);
-//        make.top.equalTo(self.nameLbl.mas_bottom).offset(7);
-//        make.height.mas_equalTo(13);
-//    }];
+    [self.levelView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.nameLbl.mas_left);
+        make.top.equalTo(self.nameLbl.mas_bottom).offset(7);
+        make.height.mas_equalTo(13);
+    }];
     
     [self.professionalTitleLbl mas_makeConstraints:^(MASConstraintMaker *make) {
         
-        make.left.equalTo(self.nameLbl.mas_left).offset(5);
+        make.left.equalTo(self.levelView.mas_right).offset(5);
         make.top.equalTo(self.nameLbl.mas_bottom).offset(7);        
     }];
     
