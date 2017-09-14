@@ -52,6 +52,14 @@
     if (parameterModel.yuSelected) {
         
         self.selectMarkImageView.hidden = NO;
+        self.selectMarkImageView.layer.borderWidth = 2;
+        if (parameterModel.selectPic) {
+            
+            NSString *selectPicStr = [ImageUtil convertImageUrl:parameterModel.selectPic imageServerUrl:[AppConfig config].qiniuDomain];
+            [self.selectMarkImageView sd_setImageWithURL:[NSURL URLWithString:selectPicStr]];
+            self.selectMarkImageView.layer.borderWidth = 0;
+
+        }
         
     } else {
         

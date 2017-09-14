@@ -26,6 +26,7 @@
 #import "TLRefreshEngine.h"
 #import "TLMianLiaoChooseVC.h"
 #import "TLMianLiaoModel.h"
+#import "TLGuiGeXiaoLei.h"
 
 #define MIAN_LIAO_MARK @"MIAN_LIAO_MARK"
 #define GONG_YI_MARK @"GONG_YI_MARK"
@@ -34,12 +35,12 @@
 #define HEADER_SIZE CGSizeMake(SCREEN_WIDTH, 45)
 @interface TLConfirmPriceVC ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,TLOrderEditHeaderDelegate,TLPriceHeaderViewDelegate,TLButtonHeaderViewDelegate,TLGongYiChooseVCDelegate,TLMianLiaoChooseVCDelegate>
 
-@property (nonatomic, strong)  TLOrderDataManager *dataManager;
+@property (nonatomic, strong) TLOrderDataManager *dataManager;
 @property (nonatomic, strong) UICollectionView *confirmPriceCollectionView;
 @property (nonatomic, strong) NSMutableArray <TLProduct *>*productRoom;
 
-@property (nonatomic, strong) NSMutableArray *currentArr;
-@property (nonatomic, strong) NSMutableDictionary *currentDict;
+//@property (nonatomic, strong) NSMutableArray *currentArr;
+//@property (nonatomic, strong) NSMutableDictionary *currentDict;
 
 //
 @property (nonatomic, strong) TLProduct *currentProductModel;
@@ -65,37 +66,67 @@
 @property (nonatomic, strong) TLGroup *totalPriceGroup;
 
 
-//
-
-//@property (nonatomic, strong) TLGongYiChooseVC *gongYiChooseVC;
-
 @end
 
 
 @implementation TLConfirmPriceVC
 
-
-//- (TLGongYiChooseVC *)gongYiChooseVC {
-//
-//    if (!_gongYiChooseVC) {
-//        
-//        _gongYiChooseVC = [[TLGongYiChooseVC alloc] init];
-//        //只能初始化的时候赋值
-//        _gongYiChooseVC.order = self.order;
-//    }
-//    
-//    return _gongYiChooseVC;
-//
-//}
-
 #pragma mark- 面料选择 TLMianLiaoChooseVCDelegate
 - (void)didFinishChooseWithMianLiaoModel:(TLMianLiaoModel *)mianLiaoModel vc:(UIViewController *)vc {
+    
+    //回来的时候，判断是哪个的面料
+    [vc.navigationController popViewControllerAnimated:YES];
     
     //哪个产品的面料
     __block TLInnerProduct *innerProduct = nil;
     [self.currentProductModel.modelSpecsList enumerateObjectsUsingBlock:^(TLInnerProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        if ([obj.modelCode isEqualToString:mianLiaoModel.modelCode]) {
+        if ([obj.code isEqualToString:mianLiaoModel.modelSpecsCode]) {
+            //是该产品的model
+            innerProduct = obj;
+            obj.mianLiaoModel = mianLiaoModel;
+            *stop = YES;
+        }
+        
+    }];
+    
+    if (!innerProduct) {
+        [TLAlert alertWithInfo:@"innerProduct 不应该为空"];
+        return;
+    }
+    
+    //根据找出了面料对应的产品,进行价格刷新
+    [self.dataManager.groups enumerateObjectsUsingBlock:^(TLGroup * _Nonnull mianLiaoPriceGroup, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        if (mianLiaoPriceGroup.mark && [mianLiaoPriceGroup.mark isEqualToString:MIAN_LIAO_MARK] && [mianLiaoPriceGroup.dateModel isEqual:innerProduct]) {
+            //找出面料的group
+            mianLiaoPriceGroup.content = [mianLiaoModel.price convertToRealMoney];
+            *stop = YES;
+            [self.confirmPriceCollectionView reloadData];
+        }
+        
+    }];
+    
+    [self calculateTotalPriceWhenCan];
+    
+}
+
+
+#pragma mark- 选择工艺Delegate
+- (void)didFinishChooseWith:(NSMutableArray <TLGuiGeXiaoLei *> *)arr ciXiuText:(NSString *)text  vc:(UIViewController *)vc {
+    
+    [vc.navigationController popViewControllerAnimated:YES];
+
+    if (arr.count <= 0) {
+        [TLAlert alertWithInfo:@"该产品还未添加工艺"];
+        return;
+    }
+    
+    //哪个产品的工艺
+    __block TLInnerProduct *innerProduct = nil;
+    [self.currentProductModel.modelSpecsList enumerateObjectsUsingBlock:^(TLInnerProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        if ([obj.code isEqualToString:arr[0].modelSpecsCode]) {
             //是该产品的model
             innerProduct = obj;
             *stop = YES;
@@ -108,23 +139,67 @@
         return;
     }
     
-    //根据上面
-    [self.dataManager.groups enumerateObjectsUsingBlock:^(TLGroup * _Nonnull mianLiaoPriceGroup, NSUInteger idx, BOOL * _Nonnull stop) {
+    //
+    innerProduct.ciXiuText = text;
+    innerProduct.guiGeXiaoLeiRoom = arr;
+    
+    //计算价格
+    
+    //改变group价格
+    //根据找出了面料对应的产品,进行价格刷新
+    [self.dataManager.groups enumerateObjectsUsingBlock:^(TLGroup * _Nonnull gongYiGroup, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        if (mianLiaoPriceGroup.mark && [mianLiaoPriceGroup.mark isEqualToString:MIAN_LIAO_MARK] && [mianLiaoPriceGroup.dateModel isEqual:innerProduct]) {
+        if (gongYiGroup.mark && [gongYiGroup.mark isEqualToString:GONG_YI_MARK] && [gongYiGroup.dateModel isEqual:innerProduct]) {
             //找出面料的group
-            mianLiaoPriceGroup.content = [mianLiaoModel.price convertToRealMoney];
+            
+            gongYiGroup.content = [NSString stringWithFormat:@"%.2f",[innerProduct calculateGongYiPrice]];
             *stop = YES;
             [self.confirmPriceCollectionView reloadData];
         }
         
     }];
     
-    
-    //回来的时候，判断是哪个的面料
-    [vc.navigationController popViewControllerAnimated:YES];
-    
+    [self calculateTotalPriceWhenCan];
+
 }
+
+#pragma mark- 每次选择后判断是否要进行总价计算当然是在合适的时候
+- (void)calculateTotalPriceWhenCan {
+
+    @try {
+        
+        [self.currentProductModel.modelSpecsList enumerateObjectsUsingBlock:^(TLInnerProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            if (!obj.mianLiaoModel || obj.guiGeXiaoLeiRoom.count <= 0) {
+                
+                @throw [NSException exceptionWithName:@"暂时不能计算" reason:nil userInfo:nil];
+                
+            }
+            
+        }];
+        
+        //都选择了
+        __block float totalPrice = 0;
+        [self.currentProductModel.modelSpecsList enumerateObjectsUsingBlock:^(TLInnerProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            totalPrice +=  [obj calculateTotalPrice];
+            
+        }];
+        
+        self.totalPriceGroup.content = [NSString stringWithFormat:@"%.2f",totalPrice];
+        [self.confirmPriceCollectionView reloadData];
+        
+        
+    } @catch (NSException *exception) {
+        
+    } @finally {
+        
+    }
+    
+   
+
+}
+
 
 - (void)configModel {
 
@@ -193,44 +268,7 @@
     productGroup.editingEdgeInsets = paramterEdgeInsets;
     productGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     
-   
 
-    
-//    //工艺费
-//    TLGroup *gongYiPriceGroup = [[TLGroup alloc] init];
-//    self.gongYiPriceGroup = gongYiPriceGroup;
-//    gongYiPriceGroup.canEdit = YES;
-//    gongYiPriceGroup.dataModelRoom = [NSMutableArray new];
-//    [self.dataManager.groups addObject:gongYiPriceGroup];
-//    gongYiPriceGroup.title = @"工艺费";
-//    gongYiPriceGroup.content =  @"--";
-//    gongYiPriceGroup.headerSize = headerSmallSize;
-//    gongYiPriceGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
-//    gongYiPriceGroup.headerReuseIdentifier = [TLPriceHeaderView headerReuseIdentifier];
-//    gongYiPriceGroup.minimumLineSpacing = horizonMargin;
-//    gongYiPriceGroup.minimumInteritemSpacing = middleMargin;
-//    gongYiPriceGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-//    gongYiPriceGroup.editingEdgeInsets = paramterEdgeInsets;
-//    gongYiPriceGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
-//    
-//    
-//    //面料单价
-//    TLGroup *mianLiaoDanJiaGroup = [[TLGroup alloc] init];
-//    self.mianLiaoDanJiaGroup = mianLiaoDanJiaGroup;
-//    mianLiaoDanJiaGroup.canEdit = YES;
-//    mianLiaoDanJiaGroup.dataModelRoom = [NSMutableArray new];
-//    [self.dataManager.groups addObject:mianLiaoDanJiaGroup];
-//    mianLiaoDanJiaGroup.title = @"面料费";
-//    mianLiaoDanJiaGroup.content =  @"--";
-//    mianLiaoDanJiaGroup.headerSize = headerSmallSize;
-//    mianLiaoDanJiaGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
-//    mianLiaoDanJiaGroup.headerReuseIdentifier = [TLPriceHeaderView headerReuseIdentifier];
-//    mianLiaoDanJiaGroup.minimumLineSpacing = horizonMargin;
-//    mianLiaoDanJiaGroup.minimumInteritemSpacing = middleMargin;
-//    mianLiaoDanJiaGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-//    mianLiaoDanJiaGroup.editingEdgeInsets = paramterEdgeInsets;
-//    mianLiaoDanJiaGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
-    
 //    //总价
     TLGroup *zongJiaGroup = [[TLGroup alloc] init];
     self.totalPriceGroup = zongJiaGroup;
@@ -318,59 +356,137 @@
         }
         
         return;
-        //
-        if (section == 1) {
-            
-            __block TLParameterModel *currentChooseModel = nil;
-            [self.dataManager.groups[0].dataModelRoom enumerateObjectsUsingBlock:^(TLParameterModel  *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                
-                if (obj.isSelected) {
-                    
-                    currentChooseModel = obj;
-                    
-                }
-            }];
-            
-            if (!currentChooseModel) {
-                
-                [TLAlert alertWithMsg:@"请选择产品"];
-            }
-            
-            
-            //需要处理工艺
-//            TLGongYiChooseVC *vc = [[TLGongYiChooseVC alloc] init];
-            //需要确定的
-//            self.gongYiChooseVC.delegate = self;
-//            self.gongYiChooseVC.productCode = currentChooseModel.code;
-//            
-//            [self.navigationController pushViewController:self.gongYiChooseVC animated:YES];
-            
-        }
-        
-        
-        if (section == 2) {
-            
-            //面料选择
-//            TLMianLiaoChooseVC *mianLiaoChooseVC =  [[TLMianLiaoChooseVC alloc] init];
-//            mianLiaoChooseVC.innnerProductCode = self.currentProductModel.code;
-//            mianLiaoChooseVC.delegate = self;
-//            [self.navigationController pushViewController:mianLiaoChooseVC animated:YES];
-            
-        }
 
-        
     } @catch (NSException *exception) {
         
         [TLAlert alertWithMsg:exception.name];
         
     } @finally {
         
-        
     }
     
 }
 
 
+
+//- (void)didFinishChooseWith:(NSMutableArray *)arr dict:(NSMutableDictionary *)dict gongYiPrice:(float)gongYiPrice  vc:(UIViewController *)vc  {
+//    
+//    self.currentArr = arr;
+//    self.currentDict = dict;
+//    
+//
+//
+//        self.calculatePriceManager.gongYiPrice = gongYiPrice;
+//        //计算价格 -------- 选择产品后需要计算，改变公益后需要计算
+//        float totalPrice = [self.calculatePriceManager calculate];
+//        
+//        //改变数据模型
+//        self.totalPriceGroup.content = [NSString stringWithFormat:@"%.2f",totalPrice];
+//        //刷新数据
+//        [self.confirmPriceCollectionView reloadData];
+//    
+//    [self.confirmPriceCollectionView reloadData];
+//    [vc.navigationController popViewControllerAnimated:YES];
+//    
+//}
+
+#pragma mark- TLButtonHeaderView delegate 代理方法
+- (void)didSelected:(TLButtonHeaderView *)btnHeaderView section:(NSInteger)secction {
+    
+    //都是套装，单品只是套装的特殊情况
+  
+    //1.先选产品
+    if (!self.currentProductModel) {
+        [TLAlert alertWithInfo:@"请先选择产品"];
+        return;
+    }
+    
+    //2.判断工艺是否选择
+    NSMutableArray *parameterList = [[NSMutableArray alloc] init];
+    
+    //
+    @try {
+        
+        [self.currentProductModel.modelSpecsList enumerateObjectsUsingBlock:^(TLInnerProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            NSMutableDictionary *singleDict = [[NSMutableDictionary alloc] init];
+            singleDict[@"modelSpecs"] = obj.code;
+            if (!obj.mianLiaoModel) {
+                
+                @throw [NSException exceptionWithName:[NSString stringWithFormat:@"%@面料未选择",obj.name] reason:nil userInfo:nil];
+                
+            }
+            singleDict[@"clothCode"] = obj.mianLiaoModel.code;
+            
+            //
+            if (obj.guiGeXiaoLeiRoom.count <= 0) {
+                
+                @throw [NSException exceptionWithName:[NSString stringWithFormat:@"%@工艺未选择",obj.name] reason:nil userInfo:nil];
+                
+            }
+//            singleDict[@"codeList"] = obj
+            
+            
+        }];
+        
+        
+        //各项都选择完成
+        // NEW 一代定价
+        NBCDRequest *req = [[NBCDRequest alloc] init];
+        req.code = @"620203";
+        req.parameters[@"modelCode"] = self.currentProductModel.code;
+        req.parameters[@"orderCode"] = self.order.code;
+        req.parameters[@"quantity"] = @"1";
+        req.parameters[@"updater"] = [TLUser user].userId;
+        req.parameters[@"address"] = @"iOS 收货地址";
+        
+        NSMutableArray *list = [[NSMutableArray alloc] init];
+        
+        [self.currentProductModel.modelSpecsList enumerateObjectsUsingBlock:^(TLInnerProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            NSMutableArray *codeList = [[NSMutableArray alloc] initWithCapacity:obj.guiGeXiaoLeiRoom.count];
+            [obj.guiGeXiaoLeiRoom enumerateObjectsUsingBlock:^(TLGuiGeXiaoLei * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [codeList addObject:obj.code];
+            }];
+            
+           NSDictionary *dict = @{
+                  @"clothCode" : obj.mianLiaoModel.code,
+                  @"codeList" : codeList,
+                  @"map" : @{},
+                  @"modelSpecsCode" : obj.code
+                  };
+           [list addObject:dict];
+            
+        }];
+        
+        NSData *data = [NSJSONSerialization dataWithJSONObject:list options:NSJSONWritingPrettyPrinted error:nil];
+//        NSString *reqListStr = 
+        req.parameters[@"reqList"] = list;
+//        [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        
+        [TLProgressHUD showWithStatus:nil];
+        [req startWithSuccess:^(__kindof NBBaseRequest *request) {
+            [TLProgressHUD dismiss];
+
+        } failure:^(__kindof NBBaseRequest *request) {
+            [TLProgressHUD dismiss];
+
+        }];
+        
+        
+        
+    } @catch (NSException *exception) {
+        
+        [TLAlert alertWithInfo:exception.name];
+        
+    } @finally {
+        
+    }
+    
+
+}
+
+// ------------------ //
 - (void)registerClass {
     
     if (!self.confirmPriceCollectionView) {
@@ -457,117 +573,9 @@
     
 }
 
-#pragma mark- 选择工艺Delegate
-- (void)didFinishChooseWith:(NSMutableArray *)arr dict:(NSMutableDictionary *)dict gongYiPrice:(float)gongYiPrice  vc:(UIViewController *)vc  {
 
-    self.currentArr = arr;
-    self.currentDict = dict;
-    
-    //已经选择了产品
-    if (self.currentProductModel.productType == TLProductTypeChenShan) {
-        //为衬衫 价格置0
-        [self chooseChenShanChangePrice];
-        
-    } else {
-        
-        //为衬衫 H+ 进行价格计算
-//        self.calculatePriceManager.mianLiaoPrice = mianLiaoPrice;
-        self.calculatePriceManager.gongYiPrice = gongYiPrice;
-        //获取快递 和 包装费
-        //            self.calculatePriceManager.kuaiDiPrice = self.kuaiDiFei;
-        //            self.calculatePriceManager.baoZhuangPrice = self.baoZhuangFei;
-        //计算价格 -------- 选择产品后需要计算，改变公益后需要计算
-        float totalPrice = [self.calculatePriceManager calculate];
-        
-        //改变数据模型
-//        self.gongYiPriceGroup.content = [NSString stringWithFormat:@"%.2f",gongYiPrice];
-        self.totalPriceGroup.content = [NSString stringWithFormat:@"%.2f",totalPrice];
-        
-//        self.mianLiaoDanJiaGroup.content = [NSString stringWithFormat:@"%.2f",mianLiaoPrice];
-        //刷新数据
-        [self.confirmPriceCollectionView reloadData];
-        
-    }
-    
-    [self.confirmPriceCollectionView reloadData];
-    [vc.navigationController popViewControllerAnimated:YES];
 
-}
 
-#pragma mark- TLButtonHeaderView delegate 代理方法
-- (void)didSelected:(TLButtonHeaderView *)btnHeaderView section:(NSInteger)secction {
-
-    if (self.currentProductModel && self.currentProductModel.productType == TLProductTypeChenShan) {
-        //衬衫定价
-        NBCDRequest *req = [[NBCDRequest alloc] init];
-        req.code = @"620203";
-        req.parameters[@"modelCode"] = self.currentProductModel.code;
-        req.parameters[@"orderCode"] = self.order.code;
-        req.parameters[@"quantity"] = @"1";
-        req.parameters[@"updater"] = [TLUser user].userId;
-        [req startWithSuccess:^(__kindof NBBaseRequest *request) {
-            
-            [TLAlert alertWithSucces:@"定价成功"];
-            [TLRefreshEngine engine].refreshTag = 10;
-            [self.navigationController popToRootViewControllerAnimated:YES];
-            
-        } failure:^(__kindof NBBaseRequest *request) {
-            
-        }];
-        return;
-    }
-    //统一改为都要选择工艺
-    
-
-    //h+ 定价
-    if(!self.currentDict) {
-    
-        [TLAlert alertWithMsg:@"请选择工艺"];
-        return;
-    }
-    
-    
-    NBCDRequest *req = [[NBCDRequest alloc] init];
-//    NSMutableArray *otherArr = [[NSMutableArray alloc] init];
-    
-    req.code = @"620205";
-    req.parameters[@"map"] = self.currentDict;
-    req.parameters[@"orderCode"] = self.order.code;
-    req.parameters[@"quantity"] = @"1";
-    req.parameters[@"updater"] = [TLUser user].userId;    
-    __block TLParameterModel *currentChooseModel = nil;
-    [self.dataManager.groups[0].dataModelRoom enumerateObjectsUsingBlock:^(TLParameterModel  *obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        if (obj.isSelected) {
-            
-            currentChooseModel = obj;
-            
-        }
-    }];
-    
-    if (!currentChooseModel) {
-        
-        [TLAlert alertWithMsg:@"请选择产品"];
-    }
-
-    [self.currentArr addObject:currentChooseModel.code];
-    req.parameters[@"codeList"] = self.currentArr;
-
-    [TLProgressHUD showWithStatus:nil];
-    [req startWithSuccess:^(__kindof NBBaseRequest *request) {
-        
-        [TLProgressHUD dismiss];
-        [TLAlert alertWithSucces:@"定价成功"];
-        [TLRefreshEngine engine].refreshTag = 10;
-        [self.navigationController popViewControllerAnimated:YES];
-        
-    } failure:^(__kindof NBBaseRequest *request) {
-        [TLProgressHUD dismiss];
-
-    }];
-
-    
-}
 
 - (void)setUpUI {
     
@@ -645,18 +653,18 @@
     
 }
 
-- (void)chooseChenShanChangePrice {
-
-//    self.gongYiPriceGroup.content = @"0";
-    self.totalPriceGroup.content = [self.currentProductModel.price convertToRealMoney];
-    
-//    self.mianLiaoCountGroup.content = @"0";
-//    self.mianLiaoDanJiaGroup.content = @"0";
-//    self.jiaGongPriceGroup.content = @"0";
-//    self.kuaiDiFeiGroup.content =  @"0";
-//    self.baoZhuangFeiGroup.content = @"0";
-
-}
+//- (void)chooseChenShanChangePrice {
+//
+////    self.gongYiPriceGroup.content = @"0";
+//    self.totalPriceGroup.content = [self.currentProductModel.price convertToRealMoney];
+//    
+////    self.mianLiaoCountGroup.content = @"0";
+////    self.mianLiaoDanJiaGroup.content = @"0";
+////    self.jiaGongPriceGroup.content = @"0";
+////    self.kuaiDiFeiGroup.content =  @"0";
+////    self.baoZhuangFeiGroup.content = @"0";
+//
+//}
 
 #pragma mark- 必须在配置完 模型 和 产品之后调用
 - (void)chooseProductAfter {
@@ -669,8 +677,8 @@
     }
     //产品切换，把数据清除掉
 //    self.gongYiChooseVC = nil;
-    self.currentArr = nil;
-    self.currentDict = nil;
+//    self.currentArr = nil;
+//    self.currentDict = nil;
     
     //
 //    if ( self.currentProductModel.productType == TLProductTypeHAdd) {
@@ -680,8 +688,8 @@
     
         //改变面料单消耗
 //        self.mianLiaoCountGroup.content = [NSString stringWithFormat:@"%@",self.currentProductModel.loss];
-        self.calculatePriceManager.mianLiaoCount = [self.currentProductModel.loss floatValue];
-        
+//        self.calculatePriceManager.mianLiaoCount = [self.currentProductModel.loss floatValue];
+    
         //是否有面料费
         if (self.order.resultMap && self.order.resultMap.DINGZHI && self.order.resultMap.DINGZHI[@"1-02"]) {
             NSDictionary *dict =  self.order.resultMap.DINGZHI[@"1-02"];
@@ -699,7 +707,7 @@
 //        self.calculatePriceManager.kuaiDiPrice = self.kuaiDiFei;
 //        self.calculatePriceManager.baoZhuangPrice = self.baoZhuangFei;
     
-        self.totalPriceGroup.content = @"0";
+//        self.totalPriceGroup.content = @"0";
 
 //    } else {
 //        //选择的为衬衫

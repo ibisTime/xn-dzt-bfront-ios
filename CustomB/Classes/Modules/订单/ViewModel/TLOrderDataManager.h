@@ -14,6 +14,7 @@
 #import "TLCiXiuTextInputCell.h"
 #import "TLInputDataModel.h"
 
+@class TLGuiGeDaLei;
 @class TLChooseDataModel;
 
 @interface TLOrderDataManager : NSObject
@@ -58,6 +59,8 @@
 @property (nonatomic, strong) NSMutableArray <TLParameterModel *>*shouXingRoom;
 @property (nonatomic, strong) NSString  *shouXingValue;
 
+/****************************** 刺绣相关 ******************************************/
+- (void)handleCiXiu:(NSMutableArray <TLGuiGeDaLei *>*)room;
 @property (nonatomic, strong) NSMutableArray <TLParameterModel *>*fontRoom;
 @property (nonatomic, strong) NSString  *fontValue;
 
@@ -71,11 +74,12 @@
 @property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*ciXiuTextRoom;
 @property (nonatomic, strong) NSString  *ciXiuTextValue;
 
+/****************************** 杂项 ******************************************/
 //备注
 @property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*remarkRoom;
 @property (nonatomic, strong) NSString  *remarkValue;
 
-//
+//收货
 @property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*shouHuoAddressRoom;
 @property (nonatomic, strong) NSString  *shouHuoValue;
 
@@ -83,7 +87,6 @@
 - (void)handleMianLiaoData:(id)responseObject;
 @property (nonatomic, strong) NSMutableArray < TLParameterModel*>*mianLiaoRoom;
 @property (nonatomic, strong) NSString  *mianLiaoValue;
-
 
 
 /**

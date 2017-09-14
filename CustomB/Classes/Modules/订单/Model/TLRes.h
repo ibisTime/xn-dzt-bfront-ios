@@ -7,9 +7,10 @@
 //
 
 #import "TLBaseModel.h"
+@class TLGuiGeDaLei;
 
 @interface TLRes : TLBaseModel
 
-@property (nonatomic, copy) NSArray *productCategoryList;
+@property (nonatomic, copy) NSArray <TLGuiGeDaLei *>*productCategoryList;
 
 @end

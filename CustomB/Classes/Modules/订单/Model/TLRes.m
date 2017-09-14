@@ -7,7 +7,15 @@
 //
 
 #import "TLRes.h"
+#import "TLGuiGeDaLei.h"
 
 @implementation TLRes
+
+
++ (NSDictionary *)mj_objectClassInArray {
+    
+    return @{@"productCategoryList" : [TLGuiGeDaLei class]};
+    
+}
 
 @end

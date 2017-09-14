@@ -10,7 +10,7 @@
 
 @interface TLParameterModel : TLBaseModel
 
-@property (nonatomic, copy) NSString *type; // 1-3 大类对应很多选型，如大领，小领，宽领
+@property (nonatomic, copy) NSString *type; //
 @property (nonatomic, copy) NSString *typeName; // 大类姓名
 
 
@@ -21,16 +21,20 @@
 @property (nonatomic, assign) BOOL isSelected;
 @property (nonatomic, copy) NSString *code;
 @property (nonatomic, copy) NSString *name; //小类姓名
-@property (nonatomic, copy) NSString *pic; //未选中图片
+@property (nonatomic, copy) NSString *pic; //选中图片
 
 
-@property (nonatomic, copy,readonly) NSString *selectPic; //未选中图片
+@property (nonatomic, copy) NSString *selectPic; //未选中图片
 @property (nonatomic, copy) NSString *advPic; //未选中图片
 @property (nonatomic, strong) NSNumber *price; //对应的价格
 
 @property (nonatomic, copy) NSString *modelNum;
 
 
+/**
+ 当前模型属于转化模型, dataModel 是真正的数据模型
+ */
+@property (nonatomic, strong) id dataModel;
 //"code":"GY201708231211313165",
 //"type":"1-3",
 //"name":"大尖领",

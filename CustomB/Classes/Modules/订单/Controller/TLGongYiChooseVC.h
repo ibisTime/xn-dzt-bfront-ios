@@ -9,10 +9,11 @@
 #import "TLBaseVC.h"
 #import "TLOrderModel.h"
 #import "TLInnerProduct.h"
+@class TLGuiGeXiaoLei;
 
 @protocol TLGongYiChooseVCDelegate <NSObject>
 
-- (void)didFinishChooseWith:(NSMutableArray *)arr dict:(NSMutableDictionary *)dict gongYiPrice:(float)price  vc:(UIViewController *)vc ;
+- (void)didFinishChooseWith:(NSMutableArray <TLGuiGeXiaoLei *> *)arr ciXiuText:(NSString *)text  vc:(UIViewController *)vc;
 
 @end
 

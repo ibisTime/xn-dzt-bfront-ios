@@ -18,6 +18,11 @@
 /**
  所属产品编号
  */
+@property (nonatomic, copy) NSString *modelSpecsCode;
+
+/**
+ 所属大类产品编号
+ */
 @property (nonatomic, copy) NSString *modelCode;
 
 

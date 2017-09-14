@@ -349,7 +349,7 @@
     
     [TLProgressHUD showWithStatus:nil];
     NBCDRequest *orderReq = [[NBCDRequest alloc] init];
-    orderReq.code = @"620234";
+    orderReq.code = @"620231";
     orderReq.parameters[@"code"] = self.orderCode;
     [orderReq startWithSuccess:^(__kindof NBBaseRequest *request) {
         

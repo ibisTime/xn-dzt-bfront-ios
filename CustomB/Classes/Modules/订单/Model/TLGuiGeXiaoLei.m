@@ -10,4 +10,14 @@
 
 @implementation TLGuiGeXiaoLei
 
+- (GuiGeXiaoLeiType)xiaoLeiType {
+
+    return [self.isHit isEqualToString:@"1"] ? GuiGeXiaoLeiTypeDefault : GuiGeXiaoLeiTypeNone;
+
+}
+- (NSString *)selectedPic {
+
+    return  self.selected ? : nil;
+}
+
 @end
