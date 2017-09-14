@@ -11,6 +11,8 @@
 #import "TLUser.h"
 #import "TLUserProduct.h"
 #import "TLUserParameterMap.h"
+#import "TLProduct.h"
+#import "TLMeasureModel.h"
 
 typedef NS_ENUM(NSUInteger, TLOrderType) {
     
@@ -64,11 +66,17 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 
 //0为衬衫订单，1为H+ 为空时
 @property (nonatomic, copy) NSString *type;
-@property (nonatomic, strong) NSMutableArray <TLUserProduct *>*productList;
 
-@property (nonatomic, strong) TLUserParameterMap *resultMap;
+/**
+ 产品列表, 单品时只有一个。套装有多个
+ */
+@property (nonatomic, strong) NSMutableArray <TLUserProduct *> *productList;
+
+//@property (nonatomic, strong) TLUserParameterMap *resultMap;
 //量体用户
 @property (nonatomic, strong) TLCustomer *ltUserDO;
+
+@property (nonatomic, strong) NSMutableArray <TLMeasureModel *>*orderSizeData;
 
 
 - (TLOrderType)getOrderType;

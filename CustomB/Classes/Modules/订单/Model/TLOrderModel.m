@@ -16,10 +16,10 @@
     
     return @{
              
-             @"productList" : [TLUserProduct class]
+             @"productList" : [TLUserProduct class],
+             @"orderSizeData" : [TLMeasureModel class]
              
              };
-    
     
 }
 

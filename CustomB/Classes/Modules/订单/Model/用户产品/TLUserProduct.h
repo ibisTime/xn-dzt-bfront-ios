@@ -8,6 +8,9 @@
 
 #import "TLBaseModel.h"
 #import "TLUserParameterModel.h"
+#import "TLMianLiaoModel.h"
+
+@class TLGuiGeDaLei;
 
 @interface TLUserProduct : TLBaseModel
 
@@ -19,20 +22,35 @@
 @property (nonatomic, copy) NSString *advPic;
 
 @property (nonatomic, strong) NSNumber *price;
+
+
+/**
+ SB, 里面只可有用一个，还数组
+ */
+@property (nonatomic, strong) NSMutableArray *productVarList;
 //@property (nonatomic, strong) NSMutableArray <TLUserParameterModel *>*productSpecsList;
 
+// 由productVarList 转换
+//当前产品对应的规格
+@property (nonatomic, strong) NSMutableArray <TLGuiGeDaLei *>*guiGeDaLeiRoom;
+
+//当前产品的面料
+@property (nonatomic, strong) TLMianLiaoModel *mianLiaoModel;
 
 - (NSString *)getPriceStr;
 @end
 
-//"code":"PD201708232132013489",
-//"orderCode":"DD201708171511465585",
-//"modelCode":"MO201708161448405541",
-//"modelName":"花花公子衬衫 短袖",
-//"modelPic":"499_1493949069841.jpg",
-//"advPic":"2_1502863432270.jpg",
-//"description":"<p><img src="http://opf6b9y6y.bkt.clouddn.com/2_1502863443876.jpg" style="max-width:100%"><br></p><p>定制——你的私人专属</p><p><img src="http://opf6b9y6y.bkt.clouddn.com/2_1502863443876.jpg" style="max-width:100%"><br></p><p>定制——你的私人专属</p><p><img src="http://opf6b9y6y.bkt.clouddn.com/2_1502863443876.jpg" style="max-width:100%"><br></p><p>定制——你的私人专属</p><p><img src="http://opf6b9y6y.bkt.clouddn.com/2_1502863443876.jpg" style="max-width:100%"><br></p><p>定制——你的私人专属</p>",
-//"processFee":0,
-//"price":499000,
-//"quantity":1,
-//"productSpecsList
+//"productVarList": [
+//                   {
+//                       "code": "PSV201709160846338343",
+//                       "name": "西单",
+//                       "pic": "2_1505277098691.jpg",
+//                       "updater": "U1111111111111111",
+//                       "updateDatetime": "Sep 16, 2017 8:46:33 AM",
+//                       "productCode": "PD201709160846338245",
+//                       "modelSpecsCode": "MOS201709181243554097",
+//                       "productSpecs": [{
+//                                        }]
+//                       "productCategory" : []
+//                   }
+//                   ]

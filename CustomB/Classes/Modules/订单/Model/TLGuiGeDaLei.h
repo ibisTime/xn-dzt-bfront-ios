@@ -8,8 +8,9 @@
 
 #import "TLBaseModel.h"
 #import "TLGuiGeXiaoLei.h"
-
+#import "TLProductCraft.h"
 #import "TLColorDaLei.h"
+
 typedef NS_ENUM(NSUInteger, GuiGeDaLeiType) {
     GuiGeDaLeiTypeZhuoZhuangFengGe,
     GuiGeDaLeiTypeDefaultGongYi,
@@ -29,6 +30,13 @@ typedef NS_ENUM(NSUInteger, GuiGeDaLeiType) {
 @property (nonatomic, copy) NSString *updater;
 @property (nonatomic, copy) NSString *updateDatetime;
 
+
+
+/**
+ 订单中，规格大类的_____值
+ */
+@property (nonatomic, strong) TLProductCraft *productCraft;
+//@property (nonatomic, strong)TLProductCraft *productCraft;
 
 /**
  规格类别

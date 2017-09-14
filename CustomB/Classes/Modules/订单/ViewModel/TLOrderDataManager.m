@@ -98,20 +98,20 @@
         model.keyName = obj[model.keyCode];
 //        model.value = @"-";
         
-        if (!resp) {
-            //查询订单中信息进行赋值
-            if (self.order.resultMap.CELIANG && self.order.resultMap.CELIANG[model.keyCode]) {
-                
-                NSDictionary *dict = self.order.resultMap.CELIANG[model.keyCode];
-                model.value =   dict[@"code"] ? dict[@"code"] : @"-";
-            }
-            
-        } else {
-            
-           //根据传入的结果进行估值
-           //用在用户信息界面
-        
-        }
+//        if (!resp) {
+//            //查询订单中信息进行赋值
+//            if (self.order.resultMap.CELIANG && self.order.resultMap.CELIANG[model.keyCode]) {
+//                
+//                NSDictionary *dict = self.order.resultMap.CELIANG[model.keyCode];
+//                model.value =   dict[@"code"] ? dict[@"code"] : @"-";
+//            }
+//            
+//        } else {
+//            
+//           //根据传入的结果进行估值
+//           //用在用户信息界面
+//        
+//        }
    
         [self.measureDataRoom addObject:model];
         
@@ -156,30 +156,30 @@
         chooseDataModel.canEdit = [self.order canEditXingTi];
         
         //形体对应的类
-        NSDictionary *valueDict = self.order.resultMap.TIXIN[chooseDataModel.type];
-        NSString *selectValueCode = valueDict[@"code"];
-        
-        //
-        NSString *code = obj.allKeys[0]; //1-2
-        NSDictionary *paraDict = dict[code];
-
-        [paraDict.allKeys enumerateObjectsUsingBlock:^(id  _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
-            
-            TLParameterModel *model = [[TLParameterModel alloc] init];
-            
-            model.code = key;
-            model.name = paraDict[key];
-            model.type = code;
-            model.typeName = obj[code];
-            
-            if (selectValueCode && [selectValueCode isEqualToString:model.code]) {
-                chooseDataModel.typeValue = model.code;
-                chooseDataModel.typeValueName = model.name;
-            }
-            
-            [chooseDataModel.parameterModelRoom addObject:model];
-            
-        }];
+//        NSDictionary *valueDict = self.order.resultMap.TIXIN[chooseDataModel.type];
+//        NSString *selectValueCode = valueDict[@"code"];
+//        
+//        //
+//        NSString *code = obj.allKeys[0]; //1-2
+//        NSDictionary *paraDict = dict[code];
+//
+//        [paraDict.allKeys enumerateObjectsUsingBlock:^(id  _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
+//            
+//            TLParameterModel *model = [[TLParameterModel alloc] init];
+//            
+//            model.code = key;
+//            model.name = paraDict[key];
+//            model.type = code;
+//            model.typeName = obj[code];
+//            
+//            if (selectValueCode && [selectValueCode isEqualToString:model.code]) {
+//                chooseDataModel.typeValue = model.code;
+//                chooseDataModel.typeValueName = model.name;
+//            }
+//            
+//            [chooseDataModel.parameterModelRoom addObject:model];
+//            
+//        }];
        
         [self.xingTiRoom addObject:chooseDataModel];
 
@@ -190,37 +190,37 @@
 
 
 
-- (void)handleMianLiaoData:(id)responseObject {
-
-    if (!responseObject) {
-        NSLog(@"布料 未传值");
-        return;
-    }
-    
-    self.mianLiaoRoom = [TLParameterModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
-
-    //
-    [self.mianLiaoRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-        obj.name = [obj.modelNum copy];
-        if (self.order.resultMap.DINGZHI[@"1-02"]) {
-            
-            NSDictionary *selelctParaDict = self.order.resultMap.DINGZHI[@"1-02"];
-            
-            if ([obj.code isEqualToString:selelctParaDict[@"code"]]) {
-                
-                obj.isSelected = YES;
-                obj.yuSelected = YES;
-                self.mianLiaoValue = obj.modelNum;
-                
-            }
-            
-        }
-        
-    }];
-    
-    
-}
+//- (void)handleMianLiaoData:(id)responseObject {
+//
+//    if (!responseObject) {
+//        NSLog(@"布料 未传值");
+//        return;
+//    }
+//    
+//    self.mianLiaoRoom = [TLParameterModel tl_objectArrayWithDictionaryArray:responseObject[@"data"]];
+//
+//    //
+//    [self.mianLiaoRoom enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        
+//        obj.name = [obj.modelNum copy];
+//        if (self.order.resultMap.DINGZHI[@"1-02"]) {
+//            
+//            NSDictionary *selelctParaDict = self.order.resultMap.DINGZHI[@"1-02"];
+//            
+//            if ([obj.code isEqualToString:selelctParaDict[@"code"]]) {
+//                
+//                obj.isSelected = YES;
+//                obj.yuSelected = YES;
+//                self.mianLiaoValue = obj.modelNum;
+//                
+//            }
+//            
+//        }
+//        
+//    }];
+//    
+//    
+//}
 
 
 
@@ -371,17 +371,17 @@
 
 }
 
-- (void)handleParameterData:(id)responseObject {
-
-    if (!responseObject) {
-        
-        NSLog(@"规格信息不能为空");
-        return;
-    }
-    
-    
-   
-}
+//- (void)handleParameterData:(id)responseObject {
+//
+//    if (!responseObject) {
+//        
+//        NSLog(@"规格信息不能为空");
+//        return;
+//    }
+//    
+//    
+//   
+//}
 
 
 - (NSMutableArray <TLDataModel *>*)configConstOrderInfoDataModel {
@@ -452,20 +452,20 @@
     }
     
     
-    
+//    
     NSMutableArray <NSDictionary *> *productInfoArr = [ @[
                                                           
                                                           @{@"下单产品" :     self.order.productList[0].modelName},
                                                           
                                                           ] mutableCopy];
-    
-    if (self.order.resultMap.DINGZHI[@"1-02"]) {
-        
-        NSDictionary *selelctParaDict = self.order.resultMap.DINGZHI[@"1-02"];
-        
-        [productInfoArr addObject:@{@"面料编号" : selelctParaDict[@"modelNum"]}];
-        
-    }
+//
+//    if (self.order.resultMap.DINGZHI[@"1-02"]) {
+//        
+//        NSDictionary *selelctParaDict = self.order.resultMap.DINGZHI[@"1-02"];
+//        
+//        [productInfoArr addObject:@{@"面料编号" : selelctParaDict[@"modelNum"]}];
+//        
+//    }
     //
     
     //订单价格
@@ -568,33 +568,33 @@ NSDictionary *kuaiDiDcit =   @{
     TLInputDataModel *shouHuoDiZHi = [[TLInputDataModel alloc] init];
     self.shouHuoAddressRoom = [[NSMutableArray alloc] initWithObjects:shouHuoDiZHi, nil];
     shouHuoDiZHi.canEdit = [self.order canSubmitData];
-    if (self.order.resultMap.QITA[kShouHuoDiZhiType]) {
-        
-        NSDictionary *selelctParaDict = self.order.resultMap.QITA[kShouHuoDiZhiType];
-        shouHuoDiZHi.keyCode = kShouHuoDiZhiType;
-        shouHuoDiZHi.keyName = @"收货地址";
-        shouHuoDiZHi.value = selelctParaDict[@"code"];
-        
-    } else {
-        
-        shouHuoDiZHi.keyCode = kShouHuoDiZhiType;
-        shouHuoDiZHi.keyName = @"收货地址";
-        shouHuoDiZHi.value =  [self.order getDetailAddress];
-    
-    }
+//    if (self.order.resultMap.QITA[kShouHuoDiZhiType]) {
+//        
+//        NSDictionary *selelctParaDict = self.order.resultMap.QITA[kShouHuoDiZhiType];
+//        shouHuoDiZHi.keyCode = kShouHuoDiZhiType;
+//        shouHuoDiZHi.keyName = @"收货地址";
+//        shouHuoDiZHi.value = selelctParaDict[@"code"];
+//        
+//    } else {
+//        
+//        shouHuoDiZHi.keyCode = kShouHuoDiZhiType;
+//        shouHuoDiZHi.keyName = @"收货地址";
+//        shouHuoDiZHi.value =  [self.order getDetailAddress];
+//    
+//    }
     
     //
     TLInputDataModel *remarkDataModel =  [[TLInputDataModel alloc] init];
     //可提交 就可编辑
     remarkDataModel.canEdit = [self.order canSubmitData];
     self.remarkRoom = [[NSMutableArray alloc] initWithArray:@[remarkDataModel]];
-    if (self.order.resultMap.QITA[kBeiZhuType]) {
-        
-        NSDictionary *selelctParaDict = self.order.resultMap.QITA[kBeiZhuType];
-        remarkDataModel.value = selelctParaDict[@"code"];
-        self.remarkValue = self.order.remark;
-        
-    }
+//    if (self.order.resultMap.QITA[kBeiZhuType]) {
+//        
+//        NSDictionary *selelctParaDict = self.order.resultMap.QITA[kBeiZhuType];
+//        remarkDataModel.value = selelctParaDict[@"code"];
+//        self.remarkValue = self.order.remark;
+//        
+//    }
 
     //
     NSMutableArray <NSDictionary *> *orderInfoArr = [[NSMutableArray alloc] initWithArray:   @[
@@ -603,29 +603,29 @@ NSDictionary *kuaiDiDcit =   @{
                                       ]];
     
 
-    if (self.order.resultMap.QITA[@"6-01"]) {
-        
-        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-01"];
-
-            [orderInfoArr addObject:@{@"年龄" : selelctParaDict[@"code"]}];
-    }
-    
-    //
-    if (self.order.resultMap.QITA[@"6-02"]) {
-        
-        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-02"];
-        [orderInfoArr addObject:@{@"身高" : [NSString stringWithFormat:@"%@ cm",selelctParaDict[@"code"]]}];
-        
-    }
-    
-    //
-    if (self.order.resultMap.QITA[@"6-03"]) {
-        
-        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-03"];
-        
-        [orderInfoArr addObject:@{@"体重" : [NSString stringWithFormat:@"%@ kg",selelctParaDict[@"code"]]}];
-        
-    }
+//    if (self.order.resultMap.QITA[@"6-01"]) {
+//        
+//        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-01"];
+//
+//            [orderInfoArr addObject:@{@"年龄" : selelctParaDict[@"code"]}];
+//    }
+//    
+//    //
+//    if (self.order.resultMap.QITA[@"6-02"]) {
+//        
+//        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-02"];
+//        [orderInfoArr addObject:@{@"身高" : [NSString stringWithFormat:@"%@ cm",selelctParaDict[@"code"]]}];
+//        
+//    }
+//    
+//    //
+//    if (self.order.resultMap.QITA[@"6-03"]) {
+//        
+//        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-03"];
+//        
+//        [orderInfoArr addObject:@{@"体重" : [NSString stringWithFormat:@"%@ kg",selelctParaDict[@"code"]]}];
+//        
+//    }
     
     //
     [orderInfoArr addObject:@{@"量体地址" : [self.order getDetailAddress]}];

@@ -37,38 +37,38 @@
 //- (NSMutableArray <TLCiXiuTextInputCell *>*)configCiXiuTextDataModel;
 
 //除形体之外的可选参数, 拉出全部选型
-- (void)handleParameterData:(id)responseObject;
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*zhuoZhuangFengGeRoom;
-@property (nonatomic, strong) NSString  *zhuoZhuangFengGeValue;
-
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*guiGeRoom;
-@property (nonatomic, strong) NSString  *guiGeValue;
-
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*menJinRoom;
-@property (nonatomic, strong) NSString  *menJinValue;
-
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*lingXingRoom;
-@property (nonatomic, strong) NSString  *lingXingValue;
-
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*xiuXingRoom;
-@property (nonatomic, strong) NSString  *xiuXingValue;
-
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*kouDaiRoom;
-@property (nonatomic, strong) NSString  *kouDaiValue;
-
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*shouXingRoom;
-@property (nonatomic, strong) NSString  *shouXingValue;
+//- (void)handleParameterData:(id)responseObject;
+//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*zhuoZhuangFengGeRoom;
+//@property (nonatomic, strong) NSString  *zhuoZhuangFengGeValue;
+//
+//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*guiGeRoom;
+//@property (nonatomic, strong) NSString  *guiGeValue;
+//
+//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*menJinRoom;
+//@property (nonatomic, strong) NSString  *menJinValue;
+//
+//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*lingXingRoom;
+//@property (nonatomic, strong) NSString  *lingXingValue;
+//
+//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*xiuXingRoom;
+//@property (nonatomic, strong) NSString  *xiuXingValue;
+//
+//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*kouDaiRoom;
+//@property (nonatomic, strong) NSString  *kouDaiValue;
+//
+//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*shouXingRoom;
+//@property (nonatomic, strong) NSString  *shouXingValue;
 
 /****************************** 刺绣相关 ******************************************/
-- (void)handleCiXiu:(NSMutableArray <TLGuiGeDaLei *>*)room;
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*fontRoom;
-@property (nonatomic, strong) NSString  *fontValue;
-
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*ciXiuLocationRoom;
-@property (nonatomic, strong) NSString  *ciXiuLocationValue;
-
-@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*ciXiuColorRoom;
-@property (nonatomic, strong) NSString  *ciXiuColorValue;
+//- (void)handleCiXiu:(NSMutableArray <TLGuiGeDaLei *>*)room;
+//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*fontRoom;
+//@property (nonatomic, strong) NSString  *fontValue;
+//
+//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*ciXiuLocationRoom;
+//@property (nonatomic, strong) NSString  *ciXiuLocationValue;
+//
+//@property (nonatomic, strong) NSMutableArray <TLParameterModel *>*ciXiuColorRoom;
+//@property (nonatomic, strong) NSString  *ciXiuColorValue;
 
 //
 @property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*ciXiuTextRoom;
@@ -83,10 +83,10 @@
 @property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*shouHuoAddressRoom;
 @property (nonatomic, strong) NSString  *shouHuoValue;
 
-//面料
-- (void)handleMianLiaoData:(id)responseObject;
-@property (nonatomic, strong) NSMutableArray < TLParameterModel*>*mianLiaoRoom;
-@property (nonatomic, strong) NSString  *mianLiaoValue;
+////面料
+//- (void)handleMianLiaoData:(id)responseObject;
+//@property (nonatomic, strong) NSMutableArray < TLParameterModel*>*mianLiaoRoom;
+//@property (nonatomic, strong) NSString  *mianLiaoValue;
 
 
 /**

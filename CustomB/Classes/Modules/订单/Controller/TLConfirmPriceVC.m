@@ -563,7 +563,6 @@
         [self setUpUI];
         [self registerClass];
         [self configModel];
-        [self chooseProductAfter];
         
     } failure:^(NBBatchReqest *batchRequest) {
         [TLProgressHUD dismiss];
@@ -666,57 +665,7 @@
 //
 //}
 
-#pragma mark- 必须在配置完 模型 和 产品之后调用
-- (void)chooseProductAfter {
 
-    if (!self.currentProductModel) {
-        
-        NSLog(@"还未选择产品");
-        return;
-        
-    }
-    //产品切换，把数据清除掉
-//    self.gongYiChooseVC = nil;
-//    self.currentArr = nil;
-//    self.currentDict = nil;
-    
-    //
-//    if ( self.currentProductModel.productType == TLProductTypeHAdd) {
-    
-        //工艺是否可编辑
-//        self.gongYiPriceGroup.canEdit = YES;
-    
-        //改变面料单消耗
-//        self.mianLiaoCountGroup.content = [NSString stringWithFormat:@"%@",self.currentProductModel.loss];
-//        self.calculatePriceManager.mianLiaoCount = [self.currentProductModel.loss floatValue];
-    
-        //是否有面料费
-        if (self.order.resultMap && self.order.resultMap.DINGZHI && self.order.resultMap.DINGZHI[@"1-02"]) {
-            NSDictionary *dict =  self.order.resultMap.DINGZHI[@"1-02"];
-//            self.mianLiaoDanJiaGroup.content = [dict[@"price"] convertToRealMoney];
-            
-        }
-        
-        //改变加工费
-//        self.jiaGongPriceGroup.content = [NSString stringWithFormat:@"%@",[self.currentProductModel.processFee convertToRealMoney]];
-    
-//        self.calculatePriceManager.jiaGongPrice = [[self.currentProductModel.processFee convertToRealMoney] floatValue];
-        //
-//        self.kuaiDiFeiGroup.content = [NSString stringWithFormat:@"%.2f",self.kuaiDiFei];
-//        self.baoZhuangFeiGroup.content = [NSString stringWithFormat:@"%.2f",self.baoZhuangFei];
-//        self.calculatePriceManager.kuaiDiPrice = self.kuaiDiFei;
-//        self.calculatePriceManager.baoZhuangPrice = self.baoZhuangFei;
-    
-//        self.totalPriceGroup.content = @"0";
-
-//    } else {
-//        //选择的为衬衫
-//        //工艺是否可编辑
-//        self.gongYiPriceGroup.canEdit = NO;
-//        [self chooseChenShanChangePrice];
-//    }
-
-}
 
 #pragma mark-  TLOrderEditHeaderDelegate
 - (void)actionWithView:(TLOrderCollectionViewHeader *)reusableView type:(EditType)type {
@@ -776,7 +725,6 @@
                         //当前选中的_产品
                         self.currentProductModel = currentProduct;
 
-                        [self chooseProductAfter];
                         
                     } else {
                         
