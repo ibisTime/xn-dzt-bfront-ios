@@ -71,8 +71,8 @@
 //@property (nonatomic, strong) NSString  *ciXiuColorValue;
 
 //
-@property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*ciXiuTextRoom;
-@property (nonatomic, strong) NSString  *ciXiuTextValue;
+//@property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*ciXiuTextRoom;
+//@property (nonatomic, strong) NSString  *ciXiuTextValue;
 
 /****************************** 杂项 ******************************************/
 //备注

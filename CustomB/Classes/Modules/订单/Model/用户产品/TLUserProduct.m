@@ -16,8 +16,8 @@
 
     return @{
              
-             @"productSpecsList" : [TLUserParameterModel class]
-             
+             @"productSpecsList" : [TLUserParameterModel class],
+             @"productVarList" : [TLUserProductXiaoJian class]
              };
 
 }
@@ -57,20 +57,7 @@
 //                         }],
 //                       "productCategory": []
 //                   }
-- (void)setProductVarList:(NSMutableArray *)productVarList {
 
-    _productVarList = productVarList;
-    
-    NSDictionary *dict = _productVarList[0];
-    
-    //全部规格
-    NSArray *guiGeArr = dict[@"productCategory"];
-    self.guiGeDaLeiRoom = [TLGuiGeDaLei tl_objectArrayWithDictionaryArray:guiGeArr];
-    
-    //面料
-    self.mianLiaoModel = [TLMianLiaoModel tl_objectWithDictionary:dict[@"productSpecs"][0]];
-    
-}
 
 
 + (NSDictionary *)tl_replacedKeyFromPropertyName

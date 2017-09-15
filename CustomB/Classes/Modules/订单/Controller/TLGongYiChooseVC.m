@@ -15,7 +15,7 @@
 #import "TLOrderBigTitleHeader.h"
 #import "TLOrderBGTitleHeader.h"
 #import "TLOrderDoubleTitleHeader.h"
-#import "TLSwitchHeaderView.h"
+//#import "TLSwitchHeaderView.h"
 
 #import "TLOrderDataManager.h"
 #import "TLOrderDetailCell.h"
@@ -76,7 +76,9 @@
  
     //1.检测工艺是非为空
     NSMutableArray <TLGuiGeXiaoLei *> *guiGeXiaoLeiArr = [[NSMutableArray alloc] init];
-    NSString *cixiuValue = nil;
+    
+    //字符串 改为字典
+    NSMutableDictionary *cixiuDict = [[NSMutableDictionary alloc] init];
     
     //怎样判断规格已经选择
     [self.dataManager.groups enumerateObjectsUsingBlock:^(TLGroup * _Nonnull group, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -136,13 +138,13 @@
     
     //刺绣
     //判断产品是否有刺绣,
-    BOOL isHaveCiXiuValue = self.cixiuTextGroup.dataModelRoom;
 
-    if (self.cixiuTextGroup) {
+    if (self.cixiuTextGroup.content) {
         
         [self.dataManager.groups enumerateObjectsUsingBlock:^(TLGroup * _Nonnull group, NSUInteger idx, BOOL * _Nonnull stop) {
             
             if (group.mark && [group.mark isEqualToString:CI_XIU_MARK] && ![group isEqual:self.cixiuTextGroup]) {
+                //
                 //过滤掉刺绣内容
                 [group.dataModelRoom enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     
@@ -165,11 +167,20 @@
         }
        ];
         
-    }
- 
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didFinishChooseWith:ciXiuText:vc:)]) {
+        TLGuiGeDaLei *cixiuTextDaLei = self.cixiuTextGroup.dateModel;
+        if (self.cixiuTextGroup.content) {
+            
+            cixiuDict[cixiuTextDaLei.dkey] = self.cixiuTextGroup.content;
+            
+        }
         
-        [self.delegate didFinishChooseWith:guiGeXiaoLeiArr ciXiuText:cixiuValue vc:self];
+    }
+    
+ 
+    if (self.delegate && [self.delegate respondsToSelector:@selector(didFinishChooseWith:ciXiuDict:vc:)]) {
+        
+        [self.delegate didFinishChooseWith:guiGeXiaoLeiArr ciXiuDict:cixiuDict ? : nil vc:self];
+        
     }
     
 }
@@ -193,10 +204,9 @@
         
     }
     
-   
-    
 }
 
+//--//
 - (void)tl_placeholderOperation {
 
     //获取刺绣和 定制信息的选项, 根据不通的产品获得
@@ -269,11 +279,11 @@
     CGFloat parameterCellWidth = (SCREEN_WIDTH - paramterEdgeInsets.left * 2 - 2*horizonMargin)/3.0;
     
     //switch
-    TLGroup *switchGroup = [[TLGroup alloc] init];
-    [self.dataManager.groups addObject:switchGroup];
-    switchGroup.dataModelRoom = [[NSMutableArray alloc] init];
-    switchGroup.headerSize = headerSmallSize;
-    switchGroup.headerReuseIdentifier = [TLSwitchHeaderView headerReuseIdentifier];
+//    TLGroup *switchGroup = [[TLGroup alloc] init];
+//    [self.dataManager.groups addObject:switchGroup];
+//    switchGroup.dataModelRoom = [[NSMutableArray alloc] init];
+//    switchGroup.headerSize = headerSmallSize;
+//    switchGroup.headerReuseIdentifier = [TLSwitchHeaderView headerReuseIdentifier];
     
     //
     TLGroup *dingZhiGroup = [[TLGroup alloc] init];
@@ -440,6 +450,7 @@
                     NSMutableArray *arr =  [[NSMutableArray alloc] initWithCapacity:1];
                     [arr addObject:@1];
                     self.cixiuTextGroup = ciXiuTextGroup;
+                    ciXiuTextGroup.dateModel = guiGeDaLei;
                     ciXiuTextGroup.dataModelRoom = @[[[TLInputDataModel alloc] init]].mutableCopy;
                     //单独处理，与订单的处理方式不同
                     TLInputDataModel *dataModelRoomOneModel = ciXiuTextGroup.dataModelRoom[0];
@@ -447,7 +458,6 @@
                     ciXiuTextGroup.mark = CI_XIU_MARK;
                     ciXiuTextGroup.title = @"刺绣内容";
                     ciXiuTextGroup.canEdit = YES;
-                    ciXiuTextGroup.content = self.dataManager.ciXiuTextValue;
                     ciXiuTextGroup.headerSize = headerSmallSize;
                     ciXiuTextGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
                     ciXiuTextGroup.cellReuseIdentifier = [TLCiXiuTextInputCell cellReuseIdentifier];
@@ -580,7 +590,7 @@
 
 - (void)registerClass {
     
-      [self.orderDetailCollectionView registerClass:[TLSwitchHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:[TLSwitchHeaderView headerReuseIdentifier]];
+//      [self.orderDetailCollectionView registerClass:[TLSwitchHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:[TLSwitchHeaderView headerReuseIdentifier]];
     //
     [self.orderDetailCollectionView registerClass:[TLOrderCollectionViewHeader class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:[TLOrderCollectionViewHeader headerReuseIdentifier]];
     

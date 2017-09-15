@@ -13,7 +13,7 @@
 
 @protocol TLGongYiChooseVCDelegate <NSObject>
 
-- (void)didFinishChooseWith:(NSMutableArray <TLGuiGeXiaoLei *> *)arr ciXiuText:(NSString *)text  vc:(UIViewController *)vc;
+- (void)didFinishChooseWith:(NSMutableArray <TLGuiGeXiaoLei *> *)arr ciXiuDict:(NSDictionary *)ciXiuDict  vc:(UIViewController *)vc;
 
 @end
 

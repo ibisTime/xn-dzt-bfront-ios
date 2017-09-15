@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TLGroup.h"
 
 @class TLSwitchHeaderView;
 
 @protocol TLSwitchHeaderViewDelegate <NSObject>
 
-- (void)didSwitchWith:(TLSwitchHeaderView *)switchHeaderView  selectedIdx:(NSInteger)idx;
+- (void)didSwitchWith:(TLSwitchHeaderView *)switchHeaderView selectedIdx:(NSInteger)idx;
 
 @end
 
@@ -21,6 +22,7 @@
 @property (nonatomic, weak) id<TLSwitchHeaderViewDelegate> delegate;
 
 + (NSString *)headerReuseIdentifier;
+@property (nonatomic, strong) TLGroup *group;
 
 @end
 

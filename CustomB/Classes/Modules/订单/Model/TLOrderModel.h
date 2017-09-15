@@ -35,6 +35,8 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 
 @property (nonatomic, copy) NSString *ltName;
 
+@property (nonatomic, copy) NSString *reAddress;
+
 //量体信息
 @property (nonatomic, copy) NSString *ltProvince;
 @property (nonatomic, copy) NSString *ltCity;
@@ -70,19 +72,22 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 /**
  产品列表, 单品时只有一个。套装有多个
  */
-@property (nonatomic, strong) NSMutableArray <TLUserProduct *> *productList;
+//@property (nonatomic, strong) NSMutableArray <TLUserProduct *> *productList;
+@property (nonatomic, strong) TLUserProduct *product;
 
 //@property (nonatomic, strong) TLUserParameterMap *resultMap;
 //量体用户
 @property (nonatomic, strong) TLCustomer *ltUserDO;
 
-@property (nonatomic, strong) NSMutableArray <TLMeasureModel *>*orderSizeData;
+@property (nonatomic, strong) NSMutableArray <TLMeasureModel *> *orderSizeData;
 
 
 - (TLOrderType)getOrderType;
 
 
 - (NSString *)getDetailAddress;
+- (NSString *)getDetailMeasureAddress;
+
 
 
 - (NSString *)getStatusName;

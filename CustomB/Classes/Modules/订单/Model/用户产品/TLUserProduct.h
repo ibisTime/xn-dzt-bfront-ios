@@ -9,9 +9,11 @@
 #import "TLBaseModel.h"
 #import "TLUserParameterModel.h"
 #import "TLMianLiaoModel.h"
+#import "TLUserProductXiaoJian.h"
 
 @class TLGuiGeDaLei;
 
+//本类是套装
 @interface TLUserProduct : TLBaseModel
 
 @property (nonatomic, copy) NSString *code;
@@ -25,17 +27,17 @@
 
 
 /**
- SB, 里面只可有用一个，还数组
+  存放的是套装里的产品
  */
-@property (nonatomic, strong) NSMutableArray *productVarList;
+@property (nonatomic, strong) NSMutableArray <TLUserProductXiaoJian *>*productVarList;
 //@property (nonatomic, strong) NSMutableArray <TLUserParameterModel *>*productSpecsList;
 
 // 由productVarList 转换
 //当前产品对应的规格
-@property (nonatomic, strong) NSMutableArray <TLGuiGeDaLei *>*guiGeDaLeiRoom;
+//@property (nonatomic, strong) NSMutableArray <TLGuiGeDaLei *>*guiGeDaLeiRoom;
 
 //当前产品的面料
-@property (nonatomic, strong) TLMianLiaoModel *mianLiaoModel;
+//@property (nonatomic, strong) TLMianLiaoModel *mianLiaoModel;
 
 - (NSString *)getPriceStr;
 @end

@@ -16,6 +16,8 @@
 
 
 @property (nonatomic, copy) NSString *dkey;
+@property (nonatomic, copy) NSString *dvalue;
+
 
 @end
 
@@ -25,3 +27,13 @@
 //"ckey": "6-02",
 //"cvalue": "身高",
 //"dkey": "170"
+
+//形体数据
+//{
+//    "id": "85",
+//    "orderCode": "DD201709170051212381",
+//    "ckey": "4-06",
+//    "cvalue": "肤色",
+//    "dkey": "B",
+//    "dvalue": "偏白"
+//},

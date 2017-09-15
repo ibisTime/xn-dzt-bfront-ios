@@ -28,6 +28,10 @@
 #import "TLMianLiaoModel.h"
 #import "TLGuiGeXiaoLei.h"
 
+#import "TLOrderBigTitleHeader.h"
+#import "TLCiXiuTextInputCell.h"
+
+
 #define MIAN_LIAO_MARK @"MIAN_LIAO_MARK"
 #define GONG_YI_MARK @"GONG_YI_MARK"
 
@@ -64,6 +68,8 @@
 @property (nonatomic, strong) TLGroup *productGroup;
 @property (nonatomic, strong) TLGroup *confirmBtnGroup;
 @property (nonatomic, strong) TLGroup *totalPriceGroup;
+@property (nonatomic, strong) TLGroup *receiveAddressGroup;
+
 
 
 @end
@@ -113,7 +119,7 @@
 
 
 #pragma mark- 选择工艺Delegate
-- (void)didFinishChooseWith:(NSMutableArray <TLGuiGeXiaoLei *> *)arr ciXiuText:(NSString *)text  vc:(UIViewController *)vc {
+- (void)didFinishChooseWith:(NSMutableArray <TLGuiGeXiaoLei *> *)arr ciXiuDict:(NSDictionary *)ciXiuDict  vc:(UIViewController *)vc {
     
     [vc.navigationController popViewControllerAnimated:YES];
 
@@ -140,7 +146,7 @@
     }
     
     //
-    innerProduct.ciXiuText = text;
+    innerProduct.ciXiuDict = ciXiuDict;
     innerProduct.guiGeXiaoLeiRoom = arr;
     
     //计算价格
@@ -196,8 +202,6 @@
         
     }
     
-   
-
 }
 
 
@@ -225,25 +229,25 @@
         //前端从产品界面进入，预约的时候已经有产品
         [self.productRoom enumerateObjectsUsingBlock:^(TLProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
-            if ( (self.order.productList && self.order.productList.count > 0) && [self.order.productList[0].modelCode isEqualToString:obj.code]) {
-
-                TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
-                parameterModel.code = obj.code;
-                parameterModel.name = obj.name;
-                parameterModel.pic = obj.advPic;
-                parameterModel.yuSelected = YES;
-                parameterModel.isSelected = YES;
-                [productMutableArr addObject:parameterModel];
-                self.currentProductModel = obj;
-                
-            } else {
+//            if ( (self.order.productList && self.order.productList.count > 0) && [self.order.productList[0].modelCode isEqualToString:obj.code]) {
+//
+//                TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
+//                parameterModel.code = obj.code;
+//                parameterModel.name = obj.name;
+//                parameterModel.pic = obj.advPic;
+//                parameterModel.yuSelected = YES;
+//                parameterModel.isSelected = YES;
+//                [productMutableArr addObject:parameterModel];
+//                self.currentProductModel = obj;
+//                
+//            } else {
             
                 TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
                 parameterModel.code = obj.code;
                 parameterModel.name = obj.name;
                 parameterModel.pic = obj.advPic;
                 [productMutableArr addObject:parameterModel];
-            }
+//            }
       
             
         }];
@@ -258,7 +262,6 @@
     [self.dataManager.groups addObject:productGroup];
     productGroup.title =  @"请选择产品";
     productGroup.content = self.order.modelName ?  : nil;
-
     productGroup.headerSize = headerSmallSize;
     productGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
     productGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
@@ -268,8 +271,7 @@
     productGroup.editingEdgeInsets = paramterEdgeInsets;
     productGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     
-
-//    //总价
+    //总价
     TLGroup *zongJiaGroup = [[TLGroup alloc] init];
     self.totalPriceGroup = zongJiaGroup;
     zongJiaGroup.canEdit = NO;
@@ -286,13 +288,33 @@
     zongJiaGroup.editingEdgeInsets = paramterEdgeInsets;
     zongJiaGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     
+    //收货地址
+    TLGroup *receiveGroup = [[TLGroup alloc] init];
+    [self.dataManager.groups addObject:receiveGroup];
+    self.receiveAddressGroup = receiveGroup;
+    
+    TLInputDataModel *inputDataModel = [[TLInputDataModel alloc] init];
+    inputDataModel.canEdit = YES;
+    inputDataModel.value = [self.order getDetailAddress];
+    receiveGroup.dataModelRoom = @[inputDataModel].mutableCopy;
+    receiveGroup.title = @"收货地址";
+    receiveGroup.content = self.dataManager.shouHuoValue;
+    receiveGroup.editting = YES;
+    receiveGroup.headerSize = headerSmallSize;
+    receiveGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
+    receiveGroup.cellReuseIdentifier = [TLCiXiuTextInputCell cellReuseIdentifier];
+    receiveGroup.minimumLineSpacing = horizonMargin;
+    receiveGroup.minimumInteritemSpacing = middleMargin;
+    receiveGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, 0, paramterEdgeInsets.right);
+    receiveGroup.editingEdgeInsets = receiveGroup.editedEdgeInsets;
+    receiveGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 45);
+    
     //确定按钮
     TLGroup *confirmBtnGroup = [[TLGroup alloc] init];
     self.confirmBtnGroup = confirmBtnGroup;
     confirmBtnGroup.canEdit = NO;
     confirmBtnGroup.dataModelRoom = [NSMutableArray new];
     [self.dataManager.groups addObject:confirmBtnGroup];
-    
     confirmBtnGroup.title = @"确定";
     confirmBtnGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 80);
     confirmBtnGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
@@ -430,6 +452,15 @@
         }];
         
         
+        //检查收货地址
+        TLInputDataModel * receiveAddressModel = self.receiveAddressGroup.dataModelRoom[0];
+        if (!receiveAddressModel.value || receiveAddressModel.value.length <= 0 ) {
+            
+            [TLAlert alertWithInfo:@"请填写收货地址"];
+            return;
+        }
+        
+        
         //各项都选择完成
         // NEW 一代定价
         NBCDRequest *req = [[NBCDRequest alloc] init];
@@ -438,10 +469,12 @@
         req.parameters[@"orderCode"] = self.order.code;
         req.parameters[@"quantity"] = @"1";
         req.parameters[@"updater"] = [TLUser user].userId;
-        req.parameters[@"address"] = @"iOS 收货地址";
+        //先默认取量体地址
+        req.parameters[@"address"] = receiveAddressModel.value;
         
         NSMutableArray *list = [[NSMutableArray alloc] init];
         
+
         [self.currentProductModel.modelSpecsList enumerateObjectsUsingBlock:^(TLInnerProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
             NSMutableArray *codeList = [[NSMutableArray alloc] initWithCapacity:obj.guiGeXiaoLeiRoom.count];
@@ -449,10 +482,11 @@
                 [codeList addObject:obj.code];
             }];
             
+       
            NSDictionary *dict = @{
                   @"clothCode" : obj.mianLiaoModel.code,
                   @"codeList" : codeList,
-                  @"map" : @{},
+                  @"map" : obj.ciXiuDict? : @"",
                   @"modelSpecsCode" : obj.code
                   };
            [list addObject:dict];
@@ -467,6 +501,8 @@
         [TLProgressHUD showWithStatus:nil];
         [req startWithSuccess:^(__kindof NBBaseRequest *request) {
             [TLProgressHUD dismiss];
+            [self.navigationController popViewControllerAnimated:YES];
+            [TLRefreshEngine engine].refreshTag = 100;
 
         } failure:^(__kindof NBBaseRequest *request) {
             [TLProgressHUD dismiss];
@@ -503,8 +539,14 @@
     //
     [self.confirmPriceCollectionView registerClass:[TLPriceHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:[TLPriceHeaderView headerReuseIdentifier]];
     
+    [self.confirmPriceCollectionView registerClass:[TLOrderBigTitleHeader class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:[TLOrderBigTitleHeader headerReuseIdentifier]];
+
+    
     //Cell
     [self.confirmPriceCollectionView registerClass:[TLOrderParameterCell class] forCellWithReuseIdentifier:[TLOrderParameterCell cellReuseIdentifier]];
+    [self.confirmPriceCollectionView registerClass:[TLCiXiuTextInputCell class] forCellWithReuseIdentifier:[TLCiXiuTextInputCell cellReuseIdentifier]];
+
+    
     
 }
 
@@ -530,12 +572,12 @@
     xhReq.parameters[@"status"] = @"1";
     
     //
-    NBCDRequest *orderReq = [[NBCDRequest alloc] init];
-    orderReq.code = @"620234";
-    orderReq.parameters[@"code"] = self.order.code;
+//    NBCDRequest *orderReq = [[NBCDRequest alloc] init];
+//    orderReq.code = @"620234";
+//    orderReq.parameters[@"code"] = self.order.code;
     
     //
-    NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[xhReq,orderReq]];
+    NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[xhReq]];
     [batchReq startWithSuccess:^(NBBatchReqest *batchRequest) {
         
         //
@@ -543,15 +585,13 @@
 //        NBCDRequest *kuaiDiReq2 = (NBCDRequest *)batchRequest.reqArray[0];
         
         NBCDRequest *xhReq = (NBCDRequest *)batchRequest.reqArray[0];
-        NBCDRequest *orderReq = (NBCDRequest *)batchRequest.reqArray[1];
-
-        TLOrderModel *orderModel = [TLOrderModel tl_objectWithDictionary:orderReq.responseObject[@"data"]];
-        self.order = orderModel;
-        self.calculatePriceManager.times = [orderModel.times floatValue];
+//        NBCDRequest *orderReq = (NBCDRequest *)batchRequest.reqArray[1];
+//
+//        TLOrderModel *orderModel = [TLOrderModel tl_objectWithDictionary:orderReq.responseObject[@"data"]];
+//        self.order = orderModel;
+//        self.calculatePriceManager.times = [orderModel.times floatValue];
         //
-//        self.baoZhuangFei = [kuaiDiReq2.responseObject[@"data"][@"BZF"] floatValue];
-//        self.kuaiDiFei = [kuaiDiReq2.responseObject[@"data"][@"KDF"] floatValue];
-        
+
         //获取产品
         NSArray *arr = xhReq.responseObject[@"data"];
         self.productRoom =  [TLProduct tl_objectArrayWithDictionaryArray:arr];
@@ -768,7 +808,9 @@
                 
             }];
             //添加总价
+            
             [groupArr addObject:self.totalPriceGroup];
+            [groupArr addObject:self.receiveAddressGroup];
             [groupArr addObject:self.confirmBtnGroup];
             
             self.dataManager.groups = groupArr;
@@ -838,7 +880,13 @@
         
     
         
+    } else if ([header isKindOfClass:[ TLOrderBigTitleHeader class]]) {
+        
+        TLOrderBigTitleHeader *trueHeader = header;
+        trueHeader.titleLbl.text = self.dataManager.groups[indexPath.section].title;
+        
     }
+    
     return header;
     
 }
@@ -856,6 +904,7 @@
     TLOrderBaseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier
                                                                       forIndexPath:indexPath];
     
+
     cell.model = self.dataManager.groups[indexPath.section].dataModelRoom[indexPath.row];
     return cell;
 }

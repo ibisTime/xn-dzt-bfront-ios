@@ -79,9 +79,17 @@
     
 }
 
+- (NSString *)getDetailMeasureAddress {
+
+    return [NSString stringWithFormat:@"%@%@%@%@",self.ltProvince,self.ltCity,self.ltArea,self.ltAddress];
+
+}
 
 - (NSString *)getDetailAddress {
 
+    if (self.reAddress) {
+        return self.reAddress;
+    }
     return [NSString stringWithFormat:@"%@%@%@%@",self.ltProvince,self.ltCity,self.ltArea,self.ltAddress];
 
 }
@@ -112,6 +120,7 @@
 
 - (BOOL)canEditXingTi {
 
+//    return YES;
     //已支付=待录入，的可以编辑形体信息
     return [self.status isEqualToString:kOrderStatusDidPay] ;
     

@@ -75,7 +75,6 @@
     //组装量体信息，如果当前 数据控制器，的订单中测量信息不为空，就读取对应的值
     //在用户详情中，可能也有这些信息，？？怎样处理
     self.measureDataRoom = [[NSMutableArray alloc] initWithCapacity:typeArr.count];
-    
     [typeArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
 //        TLDataModel *model = [[TLDataModel alloc] init];
@@ -96,7 +95,19 @@
         model.canEdit = [self.order canEditXingTi];
         model.keyCode = obj.allKeys[0]; //1-2
         model.keyName = obj[model.keyCode];
-//        model.value = @"-";
+        
+        
+        //找出value
+            [self.order.orderSizeData enumerateObjectsUsingBlock:^(TLMeasureModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                
+                if ([model.keyCode isEqualToString:obj.ckey]) {
+                    
+                    model.value = obj.dkey;
+                    *stop = YES;
+
+                }
+
+            }];
         
 //        if (!resp) {
 //            //查询订单中信息进行赋值
@@ -147,6 +158,7 @@
                                  ];
     NSDictionary *dict = resp[@"data"];
     
+    //先创建 大类 eg: 形态
     [xingArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         TLChooseDataModel *chooseDataModel = [[TLChooseDataModel alloc] init];
@@ -155,31 +167,38 @@
         chooseDataModel.parameterModelRoom = [[NSMutableArray alloc] init];
         chooseDataModel.canEdit = [self.order canEditXingTi];
         
-        //形体对应的类
-//        NSDictionary *valueDict = self.order.resultMap.TIXIN[chooseDataModel.type];
-//        NSString *selectValueCode = valueDict[@"code"];
-//        
-//        //
-//        NSString *code = obj.allKeys[0]; //1-2
-//        NSDictionary *paraDict = dict[code];
-//
-//        [paraDict.allKeys enumerateObjectsUsingBlock:^(id  _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
-//            
-//            TLParameterModel *model = [[TLParameterModel alloc] init];
-//            
-//            model.code = key;
-//            model.name = paraDict[key];
-//            model.type = code;
-//            model.typeName = obj[code];
-//            
+        //找出大类当轻值
+        [self.order.orderSizeData enumerateObjectsUsingBlock:^(TLMeasureModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            if ([chooseDataModel.type isEqualToString:obj.ckey]) {
+                chooseDataModel.typeValue = obj.dkey;
+                chooseDataModel.typeValueName = obj.dvalue;
+                *stop = YES;
+            }
+
+        }];
+        
+        
+        //
+        NSString *code = obj.allKeys[0]; //1-2
+        NSDictionary *paraDict = dict[code];
+        [paraDict.allKeys enumerateObjectsUsingBlock:^(id  _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            TLParameterModel *model = [[TLParameterModel alloc] init];
+            
+            model.code = key;
+            model.name = paraDict[key];
+            model.type = code;
+            model.typeName = obj[code];
+            
 //            if (selectValueCode && [selectValueCode isEqualToString:model.code]) {
 //                chooseDataModel.typeValue = model.code;
 //                chooseDataModel.typeValueName = model.name;
 //            }
-//            
-//            [chooseDataModel.parameterModelRoom addObject:model];
-//            
-//        }];
+            //创建各种小类
+            [chooseDataModel.parameterModelRoom addObject:model];
+            
+        }];
        
         [self.xingTiRoom addObject:chooseDataModel];
 
@@ -224,7 +243,7 @@
 
 
 
-- (void)handleCiXiu:(NSMutableArray <TLGuiGeDaLei *>*)ciXiuGuiGeRoom {
+//- (void)handleCiXiu:(NSMutableArray <TLGuiGeDaLei *>*)ciXiuGuiGeRoom {
 
     //为分类好的全部信息
 //    [ciXiuGuiGeRoom enumerateObjectsUsingBlock:^(TLGuiGeDaLei * _Nonnull guiGeDaLei, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -367,9 +386,9 @@
 //        }];
 //    }
 
+//}
 
 
-}
 
 //- (void)handleParameterData:(id)responseObject {
 //
@@ -401,12 +420,7 @@
       @{@"订单状态" : [self.order getStatusName]},
       
       ] mutableCopy];
-    
-    
-  
-    
 
-    
     NSMutableArray *thenArr = [[NSMutableArray alloc] init];
     [dingDanInfoArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
@@ -446,7 +460,7 @@
 
 - (NSMutableArray <TLDataModel *>*)configProductInfoDataModel {
 
-    if (!self.order || !self.order.productList || self.order.productList.count <= 0) {
+    if (!self.order || !self.order.product || self.order.product.productVarList.count <= 0) {
         NSLog(@"订单和产品");
         return nil;
     }
@@ -455,17 +469,17 @@
 //    
     NSMutableArray <NSDictionary *> *productInfoArr = [ @[
                                                           
-                                                          @{@"下单产品" :     self.order.productList[0].modelName},
+                                                          @{@"下单产品" :     self.order.product.modelName},
                                                           
                                                           ] mutableCopy];
 //
-//    if (self.order.resultMap.DINGZHI[@"1-02"]) {
+//    [self.order.productList enumerateObjectsUsingBlock:^(TLUserProduct * _Nonnull userProduct, NSUInteger idx, BOOL * _Nonnull stop) {
 //        
-//        NSDictionary *selelctParaDict = self.order.resultMap.DINGZHI[@"1-02"];
+//        TLMianLiaoModel *mianLiaoModel = userProduct.mianLiaoModel;
 //        
-//        [productInfoArr addObject:@{@"面料编号" : selelctParaDict[@"modelNum"]}];
-//        
-//    }
+//        [productInfoArr addObject:@{[NSString stringWithFormat:@"%@面料编号",userProduct.modelName] : mianLiaoModel.modelNum}];
+//
+//    }];
     //
     
     //订单价格
@@ -538,9 +552,9 @@ NSDictionary *kuaiDiDcit =   @{
     
     NSMutableArray <NSDictionary *> *orderInfoArr = [  @[
   @{@"物流公司" : kuaiDiDcit[self.order.logisticsCompany] ? : self.order.logisticsCompany},
-@{@"发货时间" : [self.order.deliveryDatetime convertDate]},
-@{@"快递单号" : self.order.logisticsCode},
-@{@"收货确认" : shouHuoStr},
+  @{@"发货时间" : [self.order.deliveryDatetime convertDate]},
+  @{@"快递单号" : self.order.logisticsCode},
+  @{@"收货确认" : shouHuoStr},
 
 
                                                                                                ] mutableCopy];
@@ -582,12 +596,24 @@ NSDictionary *kuaiDiDcit =   @{
 //        shouHuoDiZHi.value =  [self.order getDetailAddress];
 //    
 //    }
+    if (self.order.reAddress) {
+        
+      shouHuoDiZHi.keyCode = kShouHuoDiZhiType;
+      shouHuoDiZHi.keyName = @"收货地址";
+      shouHuoDiZHi.value =  self.order.reAddress;
+        
+    }
     
     //
     TLInputDataModel *remarkDataModel =  [[TLInputDataModel alloc] init];
     //可提交 就可编辑
     remarkDataModel.canEdit = [self.order canSubmitData];
     self.remarkRoom = [[NSMutableArray alloc] initWithArray:@[remarkDataModel]];
+    if (self.order.remark) {
+        remarkDataModel.value = self.order.remark;
+        self.remarkValue = self.order.remark;
+    }
+    
 //    if (self.order.resultMap.QITA[kBeiZhuType]) {
 //        
 //        NSDictionary *selelctParaDict = self.order.resultMap.QITA[kBeiZhuType];
@@ -628,7 +654,7 @@ NSDictionary *kuaiDiDcit =   @{
 //    }
     
     //
-    [orderInfoArr addObject:@{@"量体地址" : [self.order getDetailAddress]}];
+    [orderInfoArr addObject:@{@"量体地址" : [self.order getDetailMeasureAddress]}];
 
     //
     NSMutableArray *thenArr = [[NSMutableArray alloc] init];

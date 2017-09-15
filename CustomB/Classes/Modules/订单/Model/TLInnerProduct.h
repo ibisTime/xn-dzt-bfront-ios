@@ -33,11 +33,11 @@
 //"modelCode": "MO201708291541466881",
 
 //产品进行工艺选择是确定一下字段
-
 @property (nonatomic, strong) TLMianLiaoModel *mianLiaoModel;
 
 //工艺
-@property (nonatomic, copy) NSString *ciXiuText;
+// key : 刺绣的key  value: 次刺绣的内容
+@property (nonatomic, copy) NSDictionary *ciXiuDict;
 @property (nonatomic, strong) NSMutableArray<TLGuiGeXiaoLei *> *guiGeXiaoLeiRoom;
 
 - (float)calculateMianLiaoPrice ;

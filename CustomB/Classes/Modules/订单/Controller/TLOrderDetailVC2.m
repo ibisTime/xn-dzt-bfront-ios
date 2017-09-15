@@ -42,6 +42,12 @@
 #import "TLSwitchHeaderView.h"
 #import "TLGuiGeDaLei.h"
 
+#define HEADER_SMALL_SIZE CGSizeMake(SCREEN_WIDTH, 45)
+#define HEADER_MIDDLE_SIZE CGSizeMake(SCREEN_WIDTH, 45)
+
+#define HEADER_BIG_SIZE CGSizeMake(SCREEN_WIDTH, 75)
+
+//
 #define CI_XIU_MARK @"CI_XIU_MARK"
 #define DA_LEI_COLOR_MARK @"DA_LEI_COLOR_MARK"
 
@@ -51,6 +57,11 @@
 @property (nonatomic, strong) UICollectionView *orderDetailCollectionView;
 @property (nonatomic, strong) TLOrderModel *order;
 @property (nonatomic, strong) TLGroup *ciXiuTextGroup;
+
+//
+@property (nonatomic, strong) NSMutableArray <TLGroup *>*topGroups;
+// 中部是套装随产品改变的group
+@property (nonatomic, strong) NSMutableArray <TLGroup *>*bottomGroups;
 
 
 @end
@@ -64,32 +75,32 @@
 #pragma mark- 提交
 - (void)trueSubmit {
 
-//  [TLProgressHUD showWithStatus:nil];
+    //  [TLProgressHUD showWithStatus:nil];
     NBCDRequest *req = [[NBCDRequest alloc] init];
-    NSMutableArray *otherArr = [[NSMutableArray alloc] init];
-
+//    NSMutableArray *otherArr = [[NSMutableArray alloc] init];
+    
     NSMutableDictionary *measureDict = [[NSMutableDictionary alloc] init];
+    
+    req.code = @"620205";
     req.parameters[@"map"] = measureDict;
-
-        req.code = @"620207";
-        req.parameters[@"orderCode"] = self.order.code;
-        req.parameters[@"updater"] = [TLUser user].userId;
-
-        [self.dataManager.measureDataRoom enumerateObjectsUsingBlock:^(TLInputDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            
-            if (!obj.value  || obj.value.length <=0) {
-                
-            @throw [NSException
-                       exceptionWithName:[NSString  stringWithFormat:@"请填写%@",obj.keyName] reason:nil userInfo:nil];
-                
-            }
-            //数据正常
-            measureDict[obj.keyCode] = @"1111";
-            measureDict[obj.keyCode] = obj.value;
-
-        }];
+    req.parameters[@"orderCode"] = self.order.code;
+    req.parameters[@"updater"] = [TLUser user].userId;
+    
+    [self.dataManager.measureDataRoom enumerateObjectsUsingBlock:^(TLInputDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        //2.形体信息（可选）
+        if (!obj.value  || obj.value.length <=0) {
+            
+            @throw [NSException
+                    exceptionWithName:[NSString  stringWithFormat:@"请填写%@",obj.keyName] reason:nil userInfo:nil];
+            
+        }
+        //数据正常
+        //            measureDict[obj.keyCode] = @"1111";
+        measureDict[obj.keyCode] = obj.value;
+        
+    }];
+    
+    //2.形体信息（可选）
     [self.dataManager.xingTiRoom enumerateObjectsUsingBlock:^(TLChooseDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         if (obj.typeValue) {
@@ -99,10 +110,10 @@
         }
         
     }];
-
     
-
-
+    
+    
+    
     
     //收货地址
     NSString *addressType = @"6-04";
@@ -111,25 +122,26 @@
     
     //备注
     measureDict[kBeiZhuType] = self.dataManager.remarkRoom[0].value;
-
-    req.parameters[@"codeList"] = otherArr;
+    
+//    req.parameters[@"codeList"] = otherArr;
     [req startWithSuccess:^(__kindof NBBaseRequest *request) {
         
         [TLProgressHUD dismiss];
         [TLAlert alertWithSucces:@"录入成功"];
         //
-//      [self.navigationController popToRootViewControllerAnimated:YES];
+        //      [self.navigationController popToRootViewControllerAnimated:YES];
         
     } failure:^(__kindof NBBaseRequest *request) {
         [TLProgressHUD dismiss];
         
     }];
-
+    
     
 }
 
 - (void)tl_placeholderOperation {
     
+    //订单详情
     [TLProgressHUD showWithStatus:nil];
     NBCDRequest *orderReq = [[NBCDRequest alloc] init];
     orderReq.code = @"620231";
@@ -142,22 +154,30 @@
         self.order = [TLOrderModel tl_objectWithDictionary:request.responseObject[@"data"]];
         
         //根据产品获取产品code
-        self.productCode = self.order.productList[0].modelCode;
+        self.productCode = self.order.product.modelCode;
         
         
         //************* //
         self.dataManager = [[TLOrderDataManager alloc] initWithOrder:self.order];
-        //
-        [self.dataManager handMeasureDataWithResp:nil];
-        [self.dataManager configXingTiDataModelWithResp:nil];
-        
-        //
-        [self setUpUI];
-        [self registerClass];
-        //配置Model
-        [self configModel];
+    
         //************* //
 
+        NBCDRequest *xingTiReq = [[NBCDRequest alloc] init];
+        xingTiReq.code = @"620908";
+        [xingTiReq startWithSuccess:^(__kindof NBBaseRequest *request) {
+            
+            //
+            [self.dataManager handMeasureDataWithResp:nil];
+            [self.dataManager configXingTiDataModelWithResp:request.responseObject];
+
+            //
+            [self setUpUI];
+            [self registerClass];
+            //配置Model
+            [self configModel];
+        } failure:^(__kindof NBBaseRequest *request) {
+            
+        }];
         
         
         //重要内容不要删除
@@ -170,7 +190,7 @@
 //        //获取形体数据
 //        NBCDRequest *xingTiReq = [[NBCDRequest alloc] init];
 //        xingTiReq.code = @"620908";
-//        
+//
 //        //面料
 //        NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[req,xingTiReq]];
 //        [batchReq startWithSuccess:^(NBBatchReqest *batchRequest) {
@@ -214,224 +234,72 @@
 
 }
 
-- (void)viewDidLoad {
+#pragma mark- switchHeaderDelegate
+- (void)didSwitchWith:(TLSwitchHeaderView *)switchHeaderView  selectedIdx:(NSInteger)idx {
 
-    [super viewDidLoad];
-
-    self.title = @"订单详情";
-    [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
-
-    
-    //获取全部选择参数，除布料外
-//    if (!self.productCode) {
-//        NSLog(@"产品编号不能为空");
-//    }
-    
-    //
-    [self tl_placeholderOperation];
-   
-}
-
-#pragma mark- delegate  按钮点击事件,底部按钮点击事件
-- (void)didSelected:(TLButtonHeaderView *)btnHeaderView section:(NSInteger)secction {
-
-    if ([btnHeaderView.title isEqualToString:@"提交复核"]) {
-        
-        [TLProgressHUD showWithStatus:nil];
-        NBCDRequest *req = [[NBCDRequest alloc] init];
-        req.code = @"620209";
-        req.parameters[@"orderCode"] = self.order.code;
-        req.parameters[@"updater"] = [TLUser user].userId;
-        [req startWithSuccess:^(__kindof NBBaseRequest *request) {
-            [TLProgressHUD dismiss];
-            
-            [TLAlert alertWithSucces:@"提交复核成功"];
-            [TLRefreshEngine engine].refreshTag = 10;
-            [self.navigationController popToRootViewControllerAnimated:YES];
-            
-        } failure:^(__kindof NBBaseRequest *request) {
-            
-            [TLProgressHUD dismiss];
-            
-        }];
-        
-    } else if ([btnHeaderView.title isEqualToString:@"提交数据"]) {
-    
-        @try {
-            
-            [self trueSubmit];
-            
-        } @catch (NSException *exception) {
-            
-            [TLAlert alertWithError:exception.name];
-            //
-        } @finally {
-            
-        }
-    
-    }
+   //冲新加载group模型
+//    int i = 10;
+    NSMutableArray *newGroups = [[NSMutableArray alloc] init];
+    [newGroups addObjectsFromArray:self.topGroups];
+    [newGroups addObjectsFromArray:[self reloadDynamicGroupWhenSwitchXiaoJianWithXiaoJianIdx:idx]];
+    [newGroups addObjectsFromArray:self.bottomGroups];
+    self.dataManager.groups = newGroups;
+    [self.orderDetailCollectionView reloadData];
     
 }
 
 
-- (void)configModel {
+- (NSMutableArray <TLGroup *> *)reloadDynamicGroupWhenSwitchXiaoJianWithXiaoJianIdx:(NSInteger )index {
+    
+    NSMutableArray *middleGroups = [[NSMutableArray alloc] init];
 
-    
-    CGSize headerBigSize = CGSizeMake(SCREEN_WIDTH, 75);
-    CGSize headerMiddleSize = CGSizeMake(SCREEN_WIDTH, 45);
-    CGSize headerSmallSize = CGSizeMake(SCREEN_WIDTH, 45);
-    
-    
-    //顶部用户信息
-    TLGroup *topUserGroup = [[TLGroup alloc] init];
-    topUserGroup.dataModelRoom = [NSMutableArray new];
-    [self.dataManager.groups addObject:topUserGroup];
-    topUserGroup.title = [NSString stringWithFormat:@"%@ | %@",self.order.ltName,self.order.applyMobile];
-    topUserGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
-    topUserGroup.headerReuseIdentifier = [TLUserHeaderView headerReuseIdentifier];
-    topUserGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 40);
-    topUserGroup.minimumLineSpacing = 0;
-    topUserGroup.minimumInteritemSpacing = 0;
-    topUserGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 30);
-    
-    //***********订单信息******************************//
-    TLGroup *orderInfoGroup = [[TLGroup alloc] init];
-    [self.dataManager.groups addObject:orderInfoGroup];
-    orderInfoGroup.dataModelRoom = [self.dataManager configConstOrderInfoDataModel];
-    orderInfoGroup.title = @"订单信息";
-    orderInfoGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
-    orderInfoGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
-    orderInfoGroup.headerSize = headerMiddleSize;
-    orderInfoGroup.minimumLineSpacing = 0;
-    orderInfoGroup.minimumInteritemSpacing = 0;
-    orderInfoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 0, 20, 0);
-    orderInfoGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
-    orderInfoGroup.itemSize = CGSizeZero;
-    
-    //伪头部
-    TLGroup *falseGroup = [[TLGroup alloc] init];
-    falseGroup.dataModelRoom = [self.dataManager configProductInfoDataModel];
-    if (falseGroup.dataModelRoom.count > 0) {
-        [self.dataManager.groups addObject:falseGroup];
-    }
-    falseGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
-    falseGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
-    falseGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 1);
-    falseGroup.minimumLineSpacing = 0;
-    falseGroup.minimumInteritemSpacing = 0;
-    falseGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-    falseGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
-    falseGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 30);
-    
-    
-    //***********物流信息******************************//
-    TLGroup *logisticsInfoGroup = [[TLGroup alloc] init];
-    logisticsInfoGroup.dataModelRoom = [self.dataManager configConstLogisticsInfoDataModel];
-    if (logisticsInfoGroup.dataModelRoom.count > 0) {
-        [self.dataManager.groups addObject:logisticsInfoGroup];
-
-    }
-    logisticsInfoGroup.title = @"物流信息";
-    logisticsInfoGroup.headerSize = headerMiddleSize;
-    logisticsInfoGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
-    logisticsInfoGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
-    logisticsInfoGroup.minimumLineSpacing = 0;
-    logisticsInfoGroup.minimumInteritemSpacing = 0;
-    logisticsInfoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 0, 20, 0);
-    logisticsInfoGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
-    logisticsInfoGroup.itemSize = CGSizeZero;
-
-    
-    //***********客户信息******************************//
-    TLGroup *userInfoGroup = [[TLGroup alloc] init];
-    [self.dataManager.groups addObject:userInfoGroup];
-    userInfoGroup.dataModelRoom = [self.dataManager configConstUserInfoDataModel];
-    userInfoGroup.title = @"客户信息";
-    userInfoGroup.headerSize = headerMiddleSize;
-    
-    userInfoGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
-    userInfoGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
-    userInfoGroup.minimumLineSpacing = 0;
-    userInfoGroup.minimumInteritemSpacing = 0;
-    userInfoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 0, 20, 0);
-    userInfoGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
-    userInfoGroup.itemSize = CGSizeZero;
-    
-        //*********** 量体信息 ******************************//
-        TLGroup *measureGroup = [[TLGroup alloc] init];
-        [self.dataManager.groups addObject:measureGroup];
-        measureGroup.title = @"量体信息";
-        measureGroup.editting = YES;
-        measureGroup.headerSize = headerMiddleSize;
-        measureGroup.cellReuseIdentifier = [TLMeasureDataCell cellReuseIdentifier];
-        measureGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
-        measureGroup.dataModelRoom = self.dataManager.measureDataRoom;
-        measureGroup.minimumLineSpacing = 0;
-        measureGroup.minimumInteritemSpacing = 0;
-        
-        CGFloat singleW = 300;
-        CGFloat measureWidth = singleW/2.0;
-        CGFloat measureLeftMargin = (SCREEN_WIDTH - singleW)/2.0;
-        
-        //量体边距
-        measureGroup.editedEdgeInsets = UIEdgeInsetsMake(0, measureLeftMargin, 0, measureLeftMargin);
-        measureGroup.editingEdgeInsets =  measureGroup.editedEdgeInsets;
-        measureGroup.itemSize = CGSizeMake(measureWidth, 35);
-        
-        //***********形体数据******************************//
-        TLGroup *bodyTypeGroup = [[TLGroup alloc] init];
-        [self.dataManager.groups addObject:bodyTypeGroup];
-        bodyTypeGroup.dataModelRoom = self.dataManager.xingTiRoom;
-        bodyTypeGroup.title = @"形体信息";
-        bodyTypeGroup.headerSize = headerMiddleSize;
-        bodyTypeGroup.cellReuseIdentifier = [TLMeasureDataCell cellReuseIdentifier];
-        bodyTypeGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
-        bodyTypeGroup.minimumLineSpacing = 0;
-        bodyTypeGroup.minimumInteritemSpacing = 0;
-        bodyTypeGroup.editedEdgeInsets = UIEdgeInsetsMake(0, measureLeftMargin, 20, measureLeftMargin);
-        bodyTypeGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
-        bodyTypeGroup.itemSize = CGSizeMake(measureWidth, 30);
-
-    
-    
-    // *********** 多种产品的时候需要切换 ***************//
-    //switch
-    TLGroup *switchGroup = [[TLGroup alloc] init];
-    [self.dataManager.groups addObject:switchGroup];
-    switchGroup.dataModelRoom = [[NSMutableArray alloc] init];
-    switchGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 35);
-    switchGroup.headerReuseIdentifier = [TLSwitchHeaderView headerReuseIdentifier];
-    
     //***********定制信息 ******************************//
     CGFloat horizonMargin = 18;
     CGFloat middleMargin = 15;
     UIEdgeInsets paramterEdgeInsets = UIEdgeInsetsMake(15, 32, 0, 32);
     CGFloat parameterCellWidth = (SCREEN_WIDTH - paramterEdgeInsets.left * 2 - 2*horizonMargin)/3.0;
-
+    
     
     TLGroup *dingZhiGroup = [[TLGroup alloc] init];
-    [self.dataManager.groups addObject:dingZhiGroup];
+//    [self.dataManager.groups addObject:dingZhiGroup];
+    [middleGroups addObject:dingZhiGroup];
     dingZhiGroup.dataModelRoom = [self.dataManager configDefaultModel];
     dingZhiGroup.title = @"定制信息";
-    dingZhiGroup.headerSize = headerBigSize;
+    dingZhiGroup.headerSize = HEADER_BIG_SIZE;
     dingZhiGroup.headerReuseIdentifier = [TLOrderDoubleTitleHeader headerReuseIdentifier];
     
-//    //找出普通信息
-//    [self.order.productList[0].guiGeDaLeiRoom enumerateObjectsUsingBlock:^(TLGuiGeDaLei * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//        
-//    }];
     //装载规格的大类
     NSMutableArray <TLGuiGeDaLei *> *cixiuGuiGeDaLeiRoom = [[NSMutableArray alloc] init];
     
+    //面料
+    TLGroup *mianLiaoGroup = [[TLGroup alloc] init];
+    [middleGroups addObject:mianLiaoGroup];
+    mianLiaoGroup.canEdit = NO;
+    NSMutableArray *xiaoLeiRoom = [[NSMutableArray alloc] init];
+    mianLiaoGroup.dataModelRoom = xiaoLeiRoom;
+    mianLiaoGroup.title = @"面料" ;
+    mianLiaoGroup.content = self.order.product.productVarList[index].mianLiaoModel.modelNum;
+    mianLiaoGroup.headerSize = HEADER_SMALL_SIZE;
+    mianLiaoGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
+    mianLiaoGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
+    mianLiaoGroup.minimumLineSpacing = horizonMargin;
+    mianLiaoGroup.minimumInteritemSpacing = middleMargin;
+    mianLiaoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
+    mianLiaoGroup.editingEdgeInsets = paramterEdgeInsets;
+    mianLiaoGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
+    
     //遍历所有大类
-    [self.order.productList[0].guiGeDaLeiRoom enumerateObjectsUsingBlock:^(TLGuiGeDaLei * _Nonnull guiGeDaLei, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.order.product.productVarList[index].guiGeDaLeiRoom enumerateObjectsUsingBlock:^(TLGuiGeDaLei * _Nonnull guiGeDaLei, NSUInteger idx, BOOL * _Nonnull stop) {
         
         switch (guiGeDaLei.guiGeLeiBie) {
             case GuiGeDaLeiTypeDefaultGongYi: {
                 
                 TLGroup *parameterGroup = [[TLGroup alloc] init];
-                [self.dataManager.groups addObject:parameterGroup];
+//                [self.dataManager.groups addObject:parameterGroup];
+                [middleGroups addObject:parameterGroup];
+
                 parameterGroup.dateModel = guiGeDaLei;
+                parameterGroup.canEdit = NO;
                 NSMutableArray *xiaoLeiRoom = [[NSMutableArray alloc] init];
                 if (guiGeDaLei.productCraft) {
                     parameterGroup.content = guiGeDaLei.productCraft.name;
@@ -450,9 +318,8 @@
                 //
                 parameterGroup.dataModelRoom = xiaoLeiRoom;
                 parameterGroup.title = guiGeDaLei.dvalue;
-                parameterGroup.canEdit = YES;
                 //        parameterGroup.content = self.dataManager.menJinValue;
-                parameterGroup.headerSize = headerSmallSize;
+                parameterGroup.headerSize = HEADER_SMALL_SIZE;
                 parameterGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
                 parameterGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
                 parameterGroup.minimumLineSpacing = horizonMargin;
@@ -462,38 +329,38 @@
                 parameterGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
                 
                 //判断是否有颜色标识
-//                if ([guiGeDaLei isHaveColorMark]) {
-//                    
-//                    TLGroup *colorGroup = [[TLGroup alloc] init];
-//                    colorGroup.mark = DA_LEI_COLOR_MARK;
-//                    [self.dataManager.groups addObject:colorGroup];
-//                    NSMutableArray *colorRoom = [[NSMutableArray alloc] init];
-//                    [guiGeDaLei.colorPcList[0].colorCraftList enumerateObjectsUsingBlock:^(TLGuiGeXiaoLei * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//                        
-//                        TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
-//                        parameterModel.pic = obj.pic;
-//                        parameterModel.selectPic = obj.selectedPic;
-//                        parameterModel.dataModel = obj;
-//                        parameterModel.name = obj.name;
-//                        [colorRoom addObject:parameterModel];
-//                        
-//                    }];
-//                    colorGroup.dataModelRoom = colorRoom;
-//                    colorGroup.title = guiGeDaLei.colorPcList[0].name;
-////                    colorGroup.content = self.dataManager.ciXiuColorValue;
-//                    colorGroup.headerSize = headerSmallSize;
-//                    colorGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
-//                    colorGroup.canEdit = YES;
-//                    colorGroup.cellReuseIdentifier = [TLColorChooseCell cellReuseIdentifier];
-//                    colorGroup.minimumLineSpacing = 11;
-//                    colorGroup.minimumInteritemSpacing = 15;
-//                    colorGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 35, 0, 35);
-//                    colorGroup.editingEdgeInsets = UIEdgeInsetsMake(15, 35, 10, 35);
-//                    CGFloat colorChooseCellWidth = (SCREEN_WIDTH - colorGroup.edgeInsets.left * 2 - 2* colorGroup.minimumLineSpacing - 10)/3.0;
-//                    colorGroup.itemSize = CGSizeMake(colorChooseCellWidth, 30);
-//                    colorGroup.itemSize = CGSizeMake(colorChooseCellWidth, 30);
-//                    
-//                }
+                //                if ([guiGeDaLei isHaveColorMark]) {
+                //
+                //                    TLGroup *colorGroup = [[TLGroup alloc] init];
+                //                    colorGroup.mark = DA_LEI_COLOR_MARK;
+                //                    [self.dataManager.groups addObject:colorGroup];
+                //                    NSMutableArray *colorRoom = [[NSMutableArray alloc] init];
+                //                    [guiGeDaLei.colorPcList[0].colorCraftList enumerateObjectsUsingBlock:^(TLGuiGeXiaoLei * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                //
+                //                        TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
+                //                        parameterModel.pic = obj.pic;
+                //                        parameterModel.selectPic = obj.selectedPic;
+                //                        parameterModel.dataModel = obj;
+                //                        parameterModel.name = obj.name;
+                //                        [colorRoom addObject:parameterModel];
+                //
+                //                    }];
+                //                    colorGroup.dataModelRoom = colorRoom;
+                //                    colorGroup.title = guiGeDaLei.colorPcList[0].name;
+                ////                    colorGroup.content = self.dataManager.ciXiuColorValue;
+                //                    colorGroup.headerSize = headerSmallSize;
+                //                    colorGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
+                //                    colorGroup.canEdit = YES;
+                //                    colorGroup.cellReuseIdentifier = [TLColorChooseCell cellReuseIdentifier];
+                //                    colorGroup.minimumLineSpacing = 11;
+                //                    colorGroup.minimumInteritemSpacing = 15;
+                //                    colorGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 35, 0, 35);
+                //                    colorGroup.editingEdgeInsets = UIEdgeInsetsMake(15, 35, 10, 35);
+                //                    CGFloat colorChooseCellWidth = (SCREEN_WIDTH - colorGroup.edgeInsets.left * 2 - 2* colorGroup.minimumLineSpacing - 10)/3.0;
+                //                    colorGroup.itemSize = CGSizeMake(colorChooseCellWidth, 30);
+                //                    colorGroup.itemSize = CGSizeMake(colorChooseCellWidth, 30);
+                //
+                //                }
                 
             }  break;
                 
@@ -502,7 +369,10 @@
                 
                 
                 TLGroup *styleGroup = [[TLGroup alloc] init];
-                [self.dataManager.groups addObject:styleGroup];
+//                [self.dataManager.groups addObject:styleGroup];
+                [middleGroups addObject:styleGroup];
+                styleGroup.canEdit = NO;
+
                 NSMutableArray *styleRoom = [[NSMutableArray alloc] init];
                 if (guiGeDaLei.productCraft) {
                     styleGroup.content = guiGeDaLei.productCraft.name;
@@ -518,8 +388,7 @@
                 
                 styleGroup.dataModelRoom = styleRoom;
                 styleGroup.title = @"着装风格";
-                styleGroup.canEdit = YES;
-                styleGroup.headerSize = headerSmallSize;
+                styleGroup.headerSize = HEADER_SMALL_SIZE;
                 styleGroup.cellReuseIdentifier = [TLOrderStyleCell cellReuseIdentifier];
                 styleGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
                 styleGroup.minimumLineSpacing = horizonMargin;
@@ -557,11 +426,13 @@
         //        [self.dataManager handleCiXiu:cixiuGuiGeDaLeiRoom];
         //***********************刺绣内容**************************//
         TLGroup *ciXiuGroup = [[TLGroup alloc] init];
-        [self.dataManager.groups addObject:ciXiuGroup];
+//        [self.dataManager.groups addObject:ciXiuGroup];
+        [middleGroups addObject:ciXiuGroup];
+        ciXiuGroup.canEdit = NO;
         ciXiuGroup.dataModelRoom = [self.dataManager configDefaultModel];
         
         ciXiuGroup.title = @"刺绣定制信息";
-        ciXiuGroup.headerSize = headerMiddleSize;
+        ciXiuGroup.headerSize = HEADER_MIDDLE_SIZE;
         ciXiuGroup.headerReuseIdentifier = [TLOrderBGTitleHeader headerReuseIdentifier];
         
         [cixiuGuiGeDaLeiRoom enumerateObjectsUsingBlock:^(TLGuiGeDaLei * _Nonnull guiGeDaLei, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -571,22 +442,23 @@
                     
                     //内容
                     TLGroup *ciXiuTextGroup = [[TLGroup alloc] init];
-                    [self.dataManager.groups addObject:ciXiuTextGroup];
+//                    [self.dataManager.groups addObject:ciXiuTextGroup];
+                    [middleGroups addObject:ciXiuTextGroup];
+                    ciXiuTextGroup.canEdit = NO;
+
                     NSMutableArray *arr =  [[NSMutableArray alloc] initWithCapacity:1];
                     [arr addObject:@1];
                     self.ciXiuTextGroup = ciXiuTextGroup;
                     if (guiGeDaLei.productCraft) {
-                        ciXiuTextGroup.content = guiGeDaLei.productCraft.name;
+                        ciXiuTextGroup.content = guiGeDaLei.productCraft.code;
                     }
                     ciXiuTextGroup.dataModelRoom = @[[[TLInputDataModel alloc] init]].mutableCopy;
                     //单独处理，与订单的处理方式不同
                     TLInputDataModel *dataModelRoomOneModel = ciXiuTextGroup.dataModelRoom[0];
-                    dataModelRoomOneModel.canEdit = YES;
+                    dataModelRoomOneModel.canEdit = NO;
                     ciXiuTextGroup.mark = CI_XIU_MARK;
                     ciXiuTextGroup.title = @"刺绣内容";
-                    ciXiuTextGroup.canEdit = YES;
-                    ciXiuTextGroup.content = self.dataManager.ciXiuTextValue;
-                    ciXiuTextGroup.headerSize = headerSmallSize;
+                    ciXiuTextGroup.headerSize = HEADER_SMALL_SIZE;
                     ciXiuTextGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
                     ciXiuTextGroup.cellReuseIdentifier = [TLCiXiuTextInputCell cellReuseIdentifier];
                     ciXiuTextGroup.minimumLineSpacing = horizonMargin;
@@ -600,7 +472,10 @@
                 case GuiGeDaLeiTypeCiXiuColor: {
                     //颜色
                     TLGroup *ciXiuColorGroup = [[TLGroup alloc] init];
-                    [self.dataManager.groups addObject:ciXiuColorGroup];
+//                    [self.dataManager.groups addObject:ciXiuColorGroup];
+                    ciXiuColorGroup.canEdit = NO;
+                    [middleGroups addObject:ciXiuColorGroup];
+
                     if (guiGeDaLei.productCraft) {
                         ciXiuColorGroup.content = guiGeDaLei.productCraft.name;
                     }
@@ -618,11 +493,9 @@
                     
                     ciXiuColorGroup.dataModelRoom = arr;
                     ciXiuColorGroup.title = @"刺绣颜色";
-//                    ciXiuColorGroup.content = self.dataManager.ciXiuColorValue;
-                    ciXiuColorGroup.headerSize = headerSmallSize;
+                    ciXiuColorGroup.headerSize = HEADER_SMALL_SIZE;
                     ciXiuColorGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
                     ciXiuColorGroup.mark = CI_XIU_MARK;
-                    ciXiuColorGroup.canEdit = YES;
                     ciXiuColorGroup.cellReuseIdentifier = [TLColorChooseCell cellReuseIdentifier];
                     ciXiuColorGroup.minimumLineSpacing = 11;
                     ciXiuColorGroup.minimumInteritemSpacing = 15;
@@ -636,7 +509,9 @@
                 case GuiGeDaLeiTypeCiXiuOther: {
                     
                     TLGroup *ciXiuLocationGroup = [[TLGroup alloc] init];
-                    [self.dataManager.groups addObject:ciXiuLocationGroup];
+//                    [self.dataManager.groups addObject:ciXiuLocationGroup];
+                    [middleGroups addObject:ciXiuLocationGroup];
+                    ciXiuLocationGroup.canEdit = NO;
                     if (guiGeDaLei.productCraft) {
                         ciXiuLocationGroup.content = guiGeDaLei.productCraft.name;
                     }
@@ -655,9 +530,8 @@
                     ciXiuLocationGroup.dataModelRoom = arr;
                     ciXiuLocationGroup.title = guiGeDaLei.dvalue;
                     ciXiuLocationGroup.mark = CI_XIU_MARK;
-                    ciXiuLocationGroup.canEdit = YES;
-//                    ciXiuLocationGroup.content = self.dataManager.ciXiuLocationValue;
-                    ciXiuLocationGroup.headerSize = headerSmallSize;
+                    //                    ciXiuLocationGroup.content = self.dataManager.ciXiuLocationValue;
+                    ciXiuLocationGroup.headerSize = HEADER_SMALL_SIZE;
                     ciXiuLocationGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
                     ciXiuLocationGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
                     ciXiuLocationGroup.minimumLineSpacing = horizonMargin;
@@ -675,237 +549,247 @@
         
         
     }
+
+    return middleGroups;
+
+}
+
+- (void)viewDidLoad {
+
+    [super viewDidLoad];
+
+    self.title = @"订单详情";
+    [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
+
     
-    //找出刺绣相关
-    
-    
-    //自己一种计算方式
-//    TLGroup *styleGroup = [[TLGroup alloc] init];
-//    [self.dataManager.groups addObject:styleGroup];
-//    styleGroup.dataModelRoom = self.dataManager.zhuoZhuangFengGeRoom;
-//    styleGroup.title = @"着装风格";
-//    styleGroup.canEdit = [self.order canEditDingZhi];
-//    styleGroup.content = self.dataManager.zhuoZhuangFengGeValue;
-//    styleGroup.headerSize = headerSmallSize;
-//    styleGroup.cellReuseIdentifier = [TLOrderStyleCell cellReuseIdentifier];
-//    styleGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
-//    styleGroup.minimumLineSpacing = horizonMargin;
-//    styleGroup.minimumInteritemSpacing = middleMargin;
-//    styleGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-//    styleGroup.editingEdgeInsets = paramterEdgeInsets;
-////    styleGroup.itemSize = CGSizeMake(styleW, 30);
-//    styleGroup.itemSize = CGSizeMake(parameterCellWidth, 30);
-//    //
-//    TLGroup *mianLiaoRoom = [[TLGroup alloc] init];
-//    mianLiaoRoom.canEdit = [self.order canEditDingZhi];
-//    if (mianLiaoRoom.canEdit) {
-//        [self.dataManager.groups addObject:mianLiaoRoom];
-//
+    //获取全部选择参数，除布料外
+//    if (!self.productCode) {
+//        NSLog(@"产品编号不能为空");
 //    }
-//    mianLiaoRoom.dataModelRoom = self.dataManager.mianLiaoRoom;
-//    mianLiaoRoom.title = @"面料";
-//    mianLiaoRoom.content = self.dataManager.mianLiaoValue;
-//    mianLiaoRoom.headerSize = headerSmallSize;
-//    mianLiaoRoom.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
-//    mianLiaoRoom.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
-//    mianLiaoRoom.minimumLineSpacing = horizonMargin;
-//    mianLiaoRoom.minimumInteritemSpacing = middleMargin;
-//    mianLiaoRoom.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-//    mianLiaoRoom.editingEdgeInsets = paramterEdgeInsets;
-//    mianLiaoRoom.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
-//    
+    
     //
-//    TLGroup *parameterGroup = [[TLGroup alloc] init];
-//    [self.dataManager.groups addObject:parameterGroup];
-//    parameterGroup.dataModelRoom = self.dataManager.guiGeRoom;
-//    parameterGroup.title = @"规格";
-//    parameterGroup.content = self.dataManager.guiGeValue;
-//    parameterGroup.canEdit = [self.order canEditDingZhi];
+    [self tl_placeholderOperation];
+   
+}
+
+#pragma mark- delegate  按钮点击事件,底部按钮点击事件
+- (void)didSelected:(TLButtonHeaderView *)btnHeaderView section:(NSInteger)secction {
+
+    if ([btnHeaderView.title isEqualToString:@"提交复核"]) {
+        
+        [TLProgressHUD showWithStatus:nil];
+        NBCDRequest *req = [[NBCDRequest alloc] init];
+        req.code = @"620206";
+        req.parameters[@"orderCode"] = self.order.code;
+        req.parameters[@"updater"] = [TLUser user].userId;
+        [req startWithSuccess:^(__kindof NBBaseRequest *request) {
+            [TLProgressHUD dismiss];
+            
+            [TLAlert alertWithSucces:@"提交复核成功"];
+            [TLRefreshEngine engine].refreshTag = 10;
+            [self.navigationController popToRootViewControllerAnimated:YES];
+            
+        } failure:^(__kindof NBBaseRequest *request) {
+            
+            [TLProgressHUD dismiss];
+            
+        }];
+        
+    } else if ([btnHeaderView.title isEqualToString:@"提交数据"]) {
+    
+        @try {
+            
+            [self trueSubmit];
+            
+        } @catch (NSException *exception) {
+            
+            [TLAlert alertWithError:exception.name];
+            //
+        } @finally {
+            
+        }
+    
+    }
+    
+}
 
 
-//    parameterGroup.headerSize = headerSmallSize;
-//    parameterGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
-//    parameterGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
-//    parameterGroup.minimumLineSpacing = horizonMargin;
-//    parameterGroup.minimumInteritemSpacing = middleMargin;
-//    parameterGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-//    parameterGroup.editingEdgeInsets = paramterEdgeInsets;
-//    parameterGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
+- (void)configModel {
+
     
-    //门禁
-//    TLGroup *doorGroup = [[TLGroup alloc] init];
-//    [self.dataManager.groups addObject:doorGroup];
-//    doorGroup.dataModelRoom = self.dataManager.menJinRoom;
-//    doorGroup.title = @"门禁";
-//    doorGroup.canEdit = [self.order canEditDingZhi];
-//    doorGroup.content = self.dataManager.menJinValue;
-//    doorGroup.headerSize = headerSmallSize;
-//    doorGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
-//    doorGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
+//    CGSize headerBigSize = CGSizeMake(SCREEN_WIDTH, 75);
+//    CGSize headerMiddleSize = CGSizeMake(SCREEN_WIDTH, 45);
+//    CGSize headerSmallSize = CGSizeMake(SCREEN_WIDTH, 45);
+    self.topGroups = [[NSMutableArray alloc] init];
+    self.bottomGroups = [[NSMutableArray alloc] init];
+    //
     
-//    doorGroup.minimumLineSpacing = horizonMargin;
-//    doorGroup.minimumInteritemSpacing = middleMargin;
-//    doorGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-//    doorGroup.editingEdgeInsets = paramterEdgeInsets;
-//    doorGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
-//    
-//    //领型
-//    TLGroup *lingXingGroup = [[TLGroup alloc] init];
-//    [self.dataManager.groups addObject:lingXingGroup];
-//    lingXingGroup.dataModelRoom = self.dataManager.lingXingRoom;
-//    lingXingGroup.title = @"领型";
-//    lingXingGroup.canEdit = [self.order canEditDingZhi];
-//    lingXingGroup.content = self.dataManager.lingXingValue;
-//    lingXingGroup.headerSize = headerSmallSize;
-//    lingXingGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
-//    lingXingGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
-//    
-//    lingXingGroup.minimumLineSpacing = horizonMargin;
-//    lingXingGroup.minimumInteritemSpacing = middleMargin;
-//    lingXingGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-//    lingXingGroup.editingEdgeInsets = paramterEdgeInsets;
-//    lingXingGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
-//    
-//    //袖型
-//    TLGroup *xiuXingGroup = [[TLGroup alloc] init];
-//    [self.dataManager.groups addObject:xiuXingGroup];
-//    xiuXingGroup.dataModelRoom = self.dataManager.xiuXingRoom;
-//    xiuXingGroup.title = @"袖型";
-//    xiuXingGroup.canEdit = [self.order canEditDingZhi];
-//    xiuXingGroup.content = self.dataManager.xiuXingValue;
-//
-//    xiuXingGroup.headerSize = headerSmallSize;
-//    xiuXingGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
-//    xiuXingGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
-//    
-//    xiuXingGroup.minimumLineSpacing = horizonMargin;
-//    xiuXingGroup.minimumInteritemSpacing = middleMargin;
-//    xiuXingGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-//    xiuXingGroup.editingEdgeInsets = paramterEdgeInsets;
-//    xiuXingGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
-//    
-//    //口袋
-//    TLGroup *koudaiGroup = [[TLGroup alloc] init];
-//    [self.dataManager.groups addObject:koudaiGroup];
-//    koudaiGroup.dataModelRoom = self.dataManager.kouDaiRoom;
-//    koudaiGroup.title = @"口袋";
-//    koudaiGroup.canEdit = [self.order canEditDingZhi];
-//    koudaiGroup.content = self.dataManager.kouDaiValue;
-//    koudaiGroup.headerSize = headerSmallSize;
-//    koudaiGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
-//    koudaiGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
-//    
-//    koudaiGroup.minimumLineSpacing = horizonMargin;
-//    koudaiGroup.minimumInteritemSpacing = middleMargin;
-//    koudaiGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-//    koudaiGroup.editingEdgeInsets = paramterEdgeInsets;
-//    koudaiGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
-//    
-//    //收省
-//    TLGroup *shouXingGroup = [[TLGroup alloc] init];
-//    [self.dataManager.groups addObject:shouXingGroup];
-//    shouXingGroup.dataModelRoom = self.dataManager.shouXingRoom;
-//    shouXingGroup.title = @"收省";
-//    shouXingGroup.canEdit = [self.order canEditDingZhi];
-//    shouXingGroup.content = self.dataManager.shouXingValue;
-//    shouXingGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
-//    shouXingGroup.headerSize = headerSmallSize;
-//    shouXingGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
-//    shouXingGroup.minimumLineSpacing = horizonMargin;
-//    shouXingGroup.minimumInteritemSpacing = middleMargin;
-//    shouXingGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-//    shouXingGroup.editingEdgeInsets = paramterEdgeInsets;
-//    shouXingGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
-//    
-//    
-//    //***********************刺绣内容**************************//
-//    TLGroup *ciXiuGroup = [[TLGroup alloc] init];
-//    [self.dataManager.groups addObject:ciXiuGroup];
-//    ciXiuGroup.dataModelRoom = [self.dataManager configDefaultModel];
-//    ciXiuGroup.title = @"刺绣定制信息";
-//    ciXiuGroup.headerSize = headerMiddleSize;
-//    ciXiuGroup.headerReuseIdentifier = [TLOrderBGTitleHeader headerReuseIdentifier];
-//    
-//    //内容
-//    TLGroup *ciXiuTextGroup = [[TLGroup alloc] init];
-//    [self.dataManager.groups addObject:ciXiuTextGroup];
-//    NSMutableArray *arr =  [[NSMutableArray alloc] initWithCapacity:1];
-//    [arr addObject:@1];
-//    ciXiuTextGroup.dataModelRoom = self.dataManager.ciXiuTextRoom;
-//    ciXiuTextGroup.title = @"刺绣内容";
-//    self.ciXiuTextGroup = ciXiuTextGroup;
-//
-//    ciXiuTextGroup.canEdit = [self.order canEditDingZhi];
-//    ciXiuTextGroup.content = self.dataManager.ciXiuTextValue;
-//    ciXiuTextGroup.headerSize = headerSmallSize;
-//    ciXiuTextGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
-//    ciXiuTextGroup.cellReuseIdentifier = [TLCiXiuTextInputCell cellReuseIdentifier];
-//    ciXiuTextGroup.minimumLineSpacing = horizonMargin;
-//    ciXiuTextGroup.minimumInteritemSpacing = middleMargin;
-//    ciXiuTextGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-//    ciXiuTextGroup.editingEdgeInsets = shouXingGroup.editedEdgeInsets;
-//    
-//    ciXiuTextGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 45);
-//    
-//    
-//    //字体
-//    TLGroup *ciXiuFontGroup = [[TLGroup alloc] init];
-//    [self.dataManager.groups addObject:ciXiuFontGroup];
-//    ciXiuFontGroup.dataModelRoom = self.dataManager.fontRoom;
-//    ciXiuFontGroup.title = @"刺绣字体";
-//    ciXiuFontGroup.canEdit = [self.order canEditDingZhi];
-//    ciXiuFontGroup.content = self.dataManager.fontValue;
-//    ciXiuFontGroup.headerSize = headerSmallSize;
-//    ciXiuFontGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
-//    ciXiuFontGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
-//    ciXiuFontGroup.minimumLineSpacing = horizonMargin;
-//    ciXiuFontGroup.minimumInteritemSpacing = middleMargin;
-//    ciXiuFontGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-//    ciXiuFontGroup.editingEdgeInsets = paramterEdgeInsets;
-//    ciXiuFontGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
-//    
-//    //位置
-//    TLGroup *ciXiuLocationGroup = [[TLGroup alloc] init];
-//    [self.dataManager.groups addObject:ciXiuLocationGroup];
-//    ciXiuLocationGroup.dataModelRoom = self.dataManager.ciXiuLocationRoom;
-//    ciXiuLocationGroup.title = @"刺绣位置";
-//    ciXiuLocationGroup.canEdit = [self.order canEditDingZhi];
-//    ciXiuLocationGroup.content = self.dataManager.ciXiuLocationValue;
-//    ciXiuLocationGroup.headerSize = headerSmallSize;
-//    ciXiuLocationGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
-//    ciXiuLocationGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
-//    ciXiuLocationGroup.minimumLineSpacing = horizonMargin;
-//    ciXiuLocationGroup.minimumInteritemSpacing = middleMargin;
-//    ciXiuLocationGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
-//    ciXiuLocationGroup.editingEdgeInsets = paramterEdgeInsets;
-//    ciXiuLocationGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
-//    
-//    //颜色
-//    TLGroup *ciXiuColorGroup = [[TLGroup alloc] init];
-//    [self.dataManager.groups addObject:ciXiuColorGroup];
-//    ciXiuColorGroup.dataModelRoom = self.dataManager.ciXiuColorRoom;
-//    ciXiuColorGroup.title = @"刺绣颜色";
-//    ciXiuColorGroup.content = self.dataManager.ciXiuColorValue;
-//    ciXiuColorGroup.headerSize = headerSmallSize;
-//    ciXiuColorGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
-//    ciXiuColorGroup.canEdit = [self.order canEditDingZhi];
-//    ciXiuColorGroup.cellReuseIdentifier = [TLColorChooseCell cellReuseIdentifier];
-//    ciXiuColorGroup.minimumLineSpacing = 11;
-//    ciXiuColorGroup.minimumInteritemSpacing = 15;
-//    ciXiuColorGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 35, 0, 35);
-//    ciXiuColorGroup.editingEdgeInsets = UIEdgeInsetsMake(15, 35, 0, 35);
-//    CGFloat colorChooseCellWidth = (SCREEN_WIDTH - ciXiuColorGroup.edgeInsets.left * 2 - 2* ciXiuColorGroup.minimumLineSpacing - 10)/3.0;
-//    ciXiuColorGroup.itemSize = CGSizeMake(colorChooseCellWidth, 30);
-//
+    //顶部用户信息
+    TLGroup *topUserGroup = [[TLGroup alloc] init];
+    topUserGroup.dataModelRoom = [NSMutableArray new];
+    [self.dataManager.groups addObject:topUserGroup];
+    [self.topGroups addObject:topUserGroup];
+    topUserGroup.title = [NSString stringWithFormat:@"%@ | %@",self.order.ltName,self.order.applyMobile];
+    topUserGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
+    topUserGroup.headerReuseIdentifier = [TLUserHeaderView headerReuseIdentifier];
+    topUserGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 40);
+    topUserGroup.minimumLineSpacing = 0;
+    topUserGroup.minimumInteritemSpacing = 0;
+    topUserGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 30);
     
+    //***********订单信息******************************//
+    TLGroup *orderInfoGroup = [[TLGroup alloc] init];
+    [self.dataManager.groups addObject:orderInfoGroup];
+    [self.topGroups addObject:orderInfoGroup];
+
+    orderInfoGroup.dataModelRoom = [self.dataManager configConstOrderInfoDataModel];
+    orderInfoGroup.title = @"订单信息";
+    orderInfoGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
+    orderInfoGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
+    orderInfoGroup.headerSize = HEADER_MIDDLE_SIZE;
+    orderInfoGroup.minimumLineSpacing = 0;
+    orderInfoGroup.minimumInteritemSpacing = 0;
+    orderInfoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 0, 20, 0);
+    orderInfoGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
+    orderInfoGroup.itemSize = CGSizeZero;
+    
+    //伪头部
+    TLGroup *falseGroup = [[TLGroup alloc] init];
+    falseGroup.dataModelRoom = [self.dataManager configProductInfoDataModel];
+    if (falseGroup.dataModelRoom.count > 0) {
+        [self.dataManager.groups addObject:falseGroup];
+        [self.topGroups addObject:falseGroup];
+
+    }
+    falseGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
+    falseGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
+    falseGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 1);
+    falseGroup.minimumLineSpacing = 0;
+    falseGroup.minimumInteritemSpacing = 0;
+    falseGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
+    falseGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
+    falseGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 30);
+    
+    
+    //***********物流信息******************************//
+    TLGroup *logisticsInfoGroup = [[TLGroup alloc] init];
+    logisticsInfoGroup.dataModelRoom = [self.dataManager configConstLogisticsInfoDataModel];
+    if (logisticsInfoGroup.dataModelRoom.count > 0) {
+        [self.dataManager.groups addObject:logisticsInfoGroup];
+        [self.topGroups addObject:logisticsInfoGroup];
+
+    }
+    logisticsInfoGroup.title = @"物流信息";
+    logisticsInfoGroup.headerSize = HEADER_MIDDLE_SIZE;
+    logisticsInfoGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
+    logisticsInfoGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
+    logisticsInfoGroup.minimumLineSpacing = 0;
+    logisticsInfoGroup.minimumInteritemSpacing = 0;
+    logisticsInfoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 0, 20, 0);
+    logisticsInfoGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
+    logisticsInfoGroup.itemSize = CGSizeZero;
+
+    
+    //***********客户信息******************************//
+    TLGroup *userInfoGroup = [[TLGroup alloc] init];
+    [self.dataManager.groups addObject:userInfoGroup];
+    userInfoGroup.dataModelRoom = [self.dataManager configConstUserInfoDataModel];
+    [self.topGroups addObject:userInfoGroup];
+    userInfoGroup.title = @"客户信息";
+    userInfoGroup.headerSize = HEADER_MIDDLE_SIZE;
+    
+    userInfoGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
+    userInfoGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
+    userInfoGroup.minimumLineSpacing = 0;
+    userInfoGroup.minimumInteritemSpacing = 0;
+    userInfoGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 0, 20, 0);
+    userInfoGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
+    userInfoGroup.itemSize = CGSizeZero;
+    
+        //*********** 量体信息 ******************************//
+        TLGroup *measureGroup = [[TLGroup alloc] init];
+        [self.dataManager.groups addObject:measureGroup];
+    [self.topGroups addObject:measureGroup];
+
+        measureGroup.title = @"量体信息";
+        measureGroup.editting = YES;
+        measureGroup.headerSize = HEADER_MIDDLE_SIZE;
+        measureGroup.cellReuseIdentifier = [TLMeasureDataCell cellReuseIdentifier];
+        measureGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
+        measureGroup.dataModelRoom = self.dataManager.measureDataRoom;
+        measureGroup.minimumLineSpacing = 0;
+        measureGroup.minimumInteritemSpacing = 0;
+        
+        CGFloat singleW = 300;
+        CGFloat measureWidth = singleW/2.0;
+        CGFloat measureLeftMargin = (SCREEN_WIDTH - singleW)/2.0;
+        
+        //量体边距
+        measureGroup.editedEdgeInsets = UIEdgeInsetsMake(0, measureLeftMargin, 0, measureLeftMargin);
+        measureGroup.editingEdgeInsets =  measureGroup.editedEdgeInsets;
+        measureGroup.itemSize = CGSizeMake(measureWidth, 35);
+        
+        //***********      形体数据          ******************************//
+        TLGroup *bodyTypeGroup = [[TLGroup alloc] init];
+        [self.dataManager.groups addObject:bodyTypeGroup];
+    [self.topGroups addObject:bodyTypeGroup];
+        bodyTypeGroup.dataModelRoom = self.dataManager.xingTiRoom;
+        bodyTypeGroup.title = @"形体信息";
+        bodyTypeGroup.canEdit = YES;
+        bodyTypeGroup.headerSize = HEADER_MIDDLE_SIZE;
+        bodyTypeGroup.cellReuseIdentifier = [TLMeasureDataCell cellReuseIdentifier];
+        bodyTypeGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
+        bodyTypeGroup.minimumLineSpacing = 0;
+        bodyTypeGroup.minimumInteritemSpacing = 0;
+        bodyTypeGroup.editedEdgeInsets = UIEdgeInsetsMake(0, measureLeftMargin, 20, measureLeftMargin);
+        bodyTypeGroup.editingEdgeInsets =  orderInfoGroup.editedEdgeInsets;
+        bodyTypeGroup.itemSize = CGSizeMake(measureWidth, 30);
+
+    
+    
+    // *********** 多种产品的时候  需要切换 ***************//
+    
+    //switch
+    if (self.order.product.productVarList.count > 1) {
+        
+        TLGroup *switchGroup = [[TLGroup alloc] init];
+        [self.dataManager.groups addObject:switchGroup];
+        [self.topGroups addObject:switchGroup];
+
+        
+        NSMutableArray *names = [[NSMutableArray alloc] init];
+        [self.order.product.productVarList enumerateObjectsUsingBlock:^(TLUserProductXiaoJian * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            [names addObject:obj.name];
+
+            
+        }];
+         
+        switchGroup.dataModelRoom = names;
+        switchGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 35);
+        switchGroup.headerReuseIdentifier = [TLSwitchHeaderView headerReuseIdentifier];
+        
+    }
+
+    //***********定制信息 ******************************//
+    CGFloat horizonMargin = 18;
+    CGFloat middleMargin = 15;
+    UIEdgeInsets paramterEdgeInsets = UIEdgeInsetsMake(15, 32, 0, 32);
+    CGFloat parameterCellWidth = (SCREEN_WIDTH - paramterEdgeInsets.left * 2 - 2*horizonMargin)/3.0;
+    
+    [self.dataManager.groups addObjectsFromArray:    [self reloadDynamicGroupWhenSwitchXiaoJianWithXiaoJianIdx:0] ];
+    
+//
+  
     //收货地址
     TLGroup *receiveGroup = [[TLGroup alloc] init];
     [self.dataManager.groups addObject:receiveGroup];
+    [self.bottomGroups addObject:receiveGroup];
     receiveGroup.dataModelRoom = self.dataManager.shouHuoAddressRoom;
     receiveGroup.title = @"收货地址";
     receiveGroup.content = self.dataManager.shouHuoValue;
     receiveGroup.editting = YES;
-    receiveGroup.headerSize = headerSmallSize;
+    receiveGroup.headerSize = HEADER_SMALL_SIZE;
     receiveGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
     receiveGroup.cellReuseIdentifier = [TLCiXiuTextInputCell cellReuseIdentifier];
     receiveGroup.minimumLineSpacing = horizonMargin;
@@ -917,11 +801,12 @@
     //
     TLGroup *remarkGroup = [[TLGroup alloc] init];
     [self.dataManager.groups addObject:remarkGroup];
+    [self.bottomGroups addObject:remarkGroup];
     remarkGroup.dataModelRoom = self.dataManager.remarkRoom;
     remarkGroup.title = @"备注";
     remarkGroup.content = self.dataManager.remarkValue;
     remarkGroup.editting = YES;
-    remarkGroup.headerSize = headerSmallSize;
+    remarkGroup.headerSize = HEADER_SMALL_SIZE;
     remarkGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
     remarkGroup.cellReuseIdentifier = [TLCiXiuTextInputCell cellReuseIdentifier];
     remarkGroup.minimumLineSpacing = horizonMargin;
@@ -936,8 +821,9 @@
     confirmBtnGroup.dataModelRoom = [NSMutableArray new];
     
     if ([self.order canSubmitData]) {
-        
+    
         [self.dataManager.groups addObject:confirmBtnGroup];
+        [self.bottomGroups addObject:confirmBtnGroup];
 
     }
     
@@ -955,11 +841,12 @@
     TLGroup *submitCheckBtnGroup = [[TLGroup alloc] init];
     submitCheckBtnGroup.canEdit = NO;
     submitCheckBtnGroup.dataModelRoom = [NSMutableArray new];
-//    if ([self.order canSubmitCheck]) {
+    if ([self.order canSubmitCheck]) {
     
         [self.dataManager.groups addObject:submitCheckBtnGroup];
+        [self.bottomGroups addObject:submitCheckBtnGroup];
         
-//    }
+    }
     submitCheckBtnGroup.title = @"提交复核";
     submitCheckBtnGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 60);
     submitCheckBtnGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
@@ -1296,6 +1183,12 @@
     
         TLUserHeaderView *trueHeader = header;
         trueHeader.title = self.dataManager.groups[indexPath.section].title;
+        
+    } else if ([header isKindOfClass:[TLSwitchHeaderView class]]) {
+    
+        TLSwitchHeaderView *trueHeader = header;
+        trueHeader.group = self.dataManager.groups[indexPath.section];
+        trueHeader.delegate = self;
         
     }
 

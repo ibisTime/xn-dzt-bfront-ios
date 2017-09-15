@@ -27,39 +27,59 @@
     if (self) {
         
         self.backgroundColor = [UIColor themeColor];
-        [self data];
     }
     
     return self;
     
 }
 
-- (void)data {
+- (void)setGroup:(TLGroup *)group {
+
+    _group = group;
     
-    
-    
-    
-    NSInteger num = 3;
-    CGFloat width = self.frame.size.width/num;
-    for (int i = 0; i <= num ; i ++) {
-        
-        CGFloat x = i*width;
-        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(x, 0, width, self.frame.size.height)];
-        [self addSubview:btn];
-        
-        [btn setTitleColor:NORMAL_TITLE_COLOR forState:UIControlStateNormal];
-        if (i == 0) {
-            self.lastBtn = btn;
-            [btn setTitleColor:SELECTED_TITLE_COLOR forState:UIControlStateNormal];
-        }
-        
-        btn.tag = 100 + i;
-        btn.titleLabel.font = [UIFont systemFontOfSize:14];
-        [btn addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
-        btn.titleLabel.textColor = [UIColor whiteColor];
-        [btn setTitle:[NSString stringWithFormat:@"%d",i] forState:UIControlStateNormal];
-        
+    //已经创建过直接返回
+    if (self.lastBtn) {
+        return;
     }
+    //移除原来的
+    NSArray <UIView *> *subViews = self.subviews;
+    [subViews enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        [obj removeFromSuperview];
+        
+    }];
+    
+    //添加新的
+    NSInteger num = group.dataModelRoom.count;
+    CGFloat width = self.frame.size.width/num;
+    [group.dataModelRoom enumerateObjectsUsingBlock:^(NSString  *title, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        
+            CGFloat x = idx*width;
+            UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(x, 0, width, self.frame.size.height)];
+            [self addSubview:btn];
+            
+            [btn setTitleColor:NORMAL_TITLE_COLOR forState:UIControlStateNormal];
+            if (idx == 0) {
+                self.lastBtn = btn;
+                [btn setTitleColor:SELECTED_TITLE_COLOR forState:UIControlStateNormal];
+            }
+            
+            btn.tag = 100 + idx;
+            btn.titleLabel.font = [UIFont systemFontOfSize:14];
+            [btn addTarget:self action:@selector(action:) forControlEvents:UIControlEventTouchUpInside];
+            btn.titleLabel.textColor = [UIColor whiteColor];
+//            [btn setTitle:[NSString stringWithFormat:@"%d",i] forState:UIControlStateNormal];
+            [btn setTitle:title forState:UIControlStateNormal];
+
+            
+        
+    }];
+
+}
+- (void)data {
+        
+ 
 
 }
 

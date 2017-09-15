@@ -52,7 +52,8 @@
     mianLiaoReq.parameters[@"modelSpecsCode"] = self.innnerProductCode;
     mianLiaoReq.parameters[@"status"] = @"1";
     [mianLiaoReq startWithSuccess:^(__kindof NBBaseRequest *request) {
-        
+        [self removePlaceholderView];
+
         [TLProgressHUD dismiss];
         self.mianLiaoRoom = [TLMianLiaoModel tl_objectArrayWithDictionaryArray:request.responseObject[@"data"]];
         self.mianLiaoAndTypeRoom = @[
@@ -69,6 +70,7 @@
 
     } failure:^(__kindof NBBaseRequest *request) {
         [TLProgressHUD dismiss];
+        [self addPlaceholderView];
 
     }];
 
