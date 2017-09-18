@@ -82,39 +82,22 @@
         model.keyName = obj[model.keyCode];
 //        model.value = @"-";
 //        model.value = @"111";
+        
+        [self.customerStatisticsInfo.sizeDataList enumerateObjectsUsingBlock:^(TLMeasureModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            if ([model.keyCode isEqualToString:obj.ckey]) {
+                
+                model.value = obj.dkey;
+                *stop = YES;
+            }
+
+        }];
 
         
-        if (self.customerStatisticsInfo.resultMap && self.customerStatisticsInfo.resultMap.CELIANG) {
-            
-            model.value =  self.customerStatisticsInfo.resultMap.CELIANG[model.keyCode] ?  : @"-";
-            
-//            [self.customerStatisticsInfo.sizeDataList enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-//                
-//                if ([obj[@"ckey"] isEqualToString:model.keyCode]) {
-//                    
-//                    model.value = obj[@"dkey"];
-//                    *stop = YES;
-//                }
-//                
-//            }];
 
-        }
 
         
-        if (!resp) {
-            //查询订单中信息进行赋值
-//            if (self.order.resultMap.CELIANG && self.order.resultMap.CELIANG[model.keyCode]) {
-//                
-//                NSDictionary *dict = self.order.resultMap.CELIANG[model.keyCode];
-//                model.value =   dict[@"code"] ? dict[@"code"] : @"-";
-//            }
-            
-        } else {
-            
-            //根据传入的结果进行估值
-            //用在用户信息界面
-            
-        }
+
         
         [self.measureDataRoom addObject:model];
         
@@ -158,22 +141,31 @@
         //形体对应的类
 //     NSDictionary *valueDict =
         
-        if (self.customerStatisticsInfo.resultMap.TIXIN) {
-            //找出对应小类的Value
-            // 如 A
-            NSString *selectValueCode = self.customerStatisticsInfo.resultMap.TIXIN[chooseDataModel.type];
+//        if (self.customerStatisticsInfo.resultMap.TIXIN) {
+//            //找出对应小类的Value
+//            // 如 A
+//            NSString *selectValueCode = self.customerStatisticsInfo.resultMap.TIXIN[chooseDataModel.type];
+//            
+//            //在去resp 中把value取出来
+////            "4-02" =         {
+////                A = "\U6b63\U5e38";
+////                B = "\U9a7c\U80cc";
+////            };
+//            chooseDataModel.typeValue = selectValueCode;
+//            
+//            NSDictionary *perDict = dict[chooseDataModel.type]; // key  "4-02"
+//            chooseDataModel.typeValueName = perDict[selectValueCode];
+//            
+//        }
+        
+        [self.customerStatisticsInfo.sizeDataList enumerateObjectsUsingBlock:^(TLMeasureModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
-            //在去resp 中把value取出来
-//            "4-02" =         {
-//                A = "\U6b63\U5e38";
-//                B = "\U9a7c\U80cc";
-//            };
-            chooseDataModel.typeValue = selectValueCode;
-            
-            NSDictionary *perDict = dict[chooseDataModel.type]; // key  "4-02"
-            chooseDataModel.typeValueName = perDict[selectValueCode];
-            
-        }
+            if ([obj.ckey isEqualToString:chooseDataModel.type]) {
+                chooseDataModel.typeValue = obj.dkey;
+                chooseDataModel.typeValueName = obj.dvalue;
+                *stop = YES;
+            }
+        }];
         
         
         //
@@ -239,21 +231,26 @@
     }
 
     //
-    if (self.customerStatisticsInfo.resultMap.QITA[@"6-02"]) {
+    if (self.customerStatisticsInfo.sizeDataList) {
             
         
-            [userInfoInfoArr addObject:@{@"身高" : [NSString stringWithFormat:@"%@ cm",self.customerStatisticsInfo.resultMap.QITA[@"6-02"]]}];
+        [self.customerStatisticsInfo.sizeDataList enumerateObjectsUsingBlock:^(TLMeasureModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+           
+            if ([obj.ckey isEqualToString:@"6-02"]) {
+                [userInfoInfoArr addObject:@{@"身高" : [NSString stringWithFormat:@"%@ cm",obj.dkey]
+ }];
+
+            } else if ([obj.ckey isEqualToString:@"6-03"]) {
             
-      }
+                [userInfoInfoArr addObject:@{@"体重" : [NSString stringWithFormat:@"%@ kg",obj.dkey]
+                                             }];
+
+            }
+            
+        }];
         
-     //
-     if (self.customerStatisticsInfo.resultMap.QITA[@"6-03"]) {
-            
-         
-            [userInfoInfoArr addObject:@{@"体重" : [NSString stringWithFormat:@"%@ kg",self.customerStatisticsInfo.resultMap.QITA[@"6-03"]]}];
-            
       }
-    //
+
     
 
     [userInfoInfoArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {

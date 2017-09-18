@@ -162,8 +162,15 @@
     self.nameLbl.text = [TLUser user].mobile;
     
     //
-    self.professionalTitleLbl.text = @"高级顾问";
-    self.levelView.contentLbl.text = @"LV10";
+    NSDictionary *levelDict = @{
+                           @"1" : @"见习着装顾问",
+                           @"2" : @"初级着装顾问",
+                           @"3" : @"中级着装顾问",
+                           @"4" : @"高级着装顾问",
+                           @"5" : @"特级着装顾问"
+                           };
+    self.professionalTitleLbl.text = levelDict[[TLUser user].level];
+    self.levelView.contentLbl.text = [NSString stringWithFormat:@"LV%@",[TLUser user].level];
     
 
     //

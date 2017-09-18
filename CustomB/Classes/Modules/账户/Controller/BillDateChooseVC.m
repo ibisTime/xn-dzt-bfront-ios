@@ -56,7 +56,7 @@
         //遍历月
         if (i == 2017 && lastYear == 2017) {
             
-            for (NSInteger month = 5; month <= lastMonth; month ++) {
+            for (NSInteger month = 9; month <= lastMonth; month ++) {
                 
                 TLDateModel *dateModel = [[TLDateModel alloc] init];
                 dateModel.year = i;

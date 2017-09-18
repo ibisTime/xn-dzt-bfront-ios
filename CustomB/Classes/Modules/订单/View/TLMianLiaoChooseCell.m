@@ -57,7 +57,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         
-        self.backgroundColor = [UIColor whiteColor];
+//        self.backgroundColor = [UIColor whiteColor];
         self.contentView.backgroundColor = self.backgroundColor;
         
         self.bgImageView = [[UIImageView alloc] initWithFrame:self.bounds];

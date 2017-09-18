@@ -138,8 +138,7 @@
     
     //刺绣
     //判断产品是否有刺绣,
-
-    if (self.cixiuTextGroup.content) {
+    if (self.cixiuTextGroup && self.cixiuTextGroup.content && self.cixiuTextGroup.content.length > 0) {
         
         [self.dataManager.groups enumerateObjectsUsingBlock:^(TLGroup * _Nonnull group, NSUInteger idx, BOOL * _Nonnull stop) {
             
@@ -174,14 +173,47 @@
             
         }
         
+        //call delegate
+        if (self.delegate && [self.delegate respondsToSelector:@selector(didFinishChooseWith:ciXiuDict:vc:)]) {
+            
+            [self.delegate didFinishChooseWith:guiGeXiaoLeiArr ciXiuDict:cixiuDict ? : nil vc:self];
+            
+        }
+        
+    } else {
+    
+        if (self.cixiuTextGroup) {
+            
+            //未选择刺绣
+            [TLAlert alertWithTitle:@"刺绣内容未填写" Message:@"您确定不需要刺绣吗" confirmMsg:@"确定" CancleMsg:@"取消" cancle:^(UIAlertAction *action) {
+                
+                
+            } confirm:^(UIAlertAction *action) {
+                
+                ///call delegate
+                if (self.delegate && [self.delegate respondsToSelector:@selector(didFinishChooseWith:ciXiuDict:vc:)]) {
+                    
+                    [self.delegate didFinishChooseWith:guiGeXiaoLeiArr ciXiuDict:cixiuDict ? : nil vc:self];
+                    
+                }
+                
+            }];
+            
+        } else {
+        
+            ///call delegate
+            if (self.delegate && [self.delegate respondsToSelector:@selector(didFinishChooseWith:ciXiuDict:vc:)]) {
+                
+                [self.delegate didFinishChooseWith:guiGeXiaoLeiArr ciXiuDict:cixiuDict ? : nil vc:self];
+                
+            }
+        
+        }
+     
+    
     }
     
- 
-    if (self.delegate && [self.delegate respondsToSelector:@selector(didFinishChooseWith:ciXiuDict:vc:)]) {
-        
-        [self.delegate didFinishChooseWith:guiGeXiaoLeiArr ciXiuDict:cixiuDict ? : nil vc:self];
-        
-    }
+
     
 }
 
@@ -197,8 +229,11 @@
         
     } @catch (NSException *exception) {
         
-        [TLAlert alertWithError:exception.name];
-        NSLog(@"%@",exception);
+        if (exception.name && exception.name.length > 0) {
+            
+            [TLAlert alertWithError:exception.name];
+
+        }
         
     } @finally {
         
@@ -293,7 +328,6 @@
     dingZhiGroup.headerSize = headerBigSize;
     dingZhiGroup.headerReuseIdentifier = [TLOrderDoubleTitleHeader headerReuseIdentifier];
     
-    
     //装载规格的大类
     NSMutableArray <TLGuiGeDaLei *> *cixiuGuiGeDaLeiRoom = [[NSMutableArray alloc] init];
     
@@ -314,6 +348,13 @@
                     parameterModel.selectPic = guiGeXiaoLei.selectedPic;
                     parameterModel.name = guiGeXiaoLei.name;
                     parameterModel.dataModel = guiGeXiaoLei;
+                    //
+                    if (guiGeXiaoLei.isSelected) {
+                        parameterGroup.content = guiGeXiaoLei.name;
+                    }
+                    parameterModel.yuSelected = guiGeXiaoLei.isSelected;
+                    parameterModel.isSelected = guiGeXiaoLei.isSelected;
+                    //
                     [xiaoLeiRoom addObject:parameterModel];
                     
                 }];
@@ -340,13 +381,20 @@
                     colorGroup.mark = DA_LEI_COLOR_MARK;
                     [self.dataManager.groups addObject:colorGroup];
                     NSMutableArray *colorRoom = [[NSMutableArray alloc] init];
-                    [guiGeDaLei.colorPcList[0].colorCraftList enumerateObjectsUsingBlock:^(TLGuiGeXiaoLei * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    [guiGeDaLei.colorPcList[0].colorCraftList enumerateObjectsUsingBlock:^(TLGuiGeXiaoLei * _Nonnull guiGeXiaoLei, NSUInteger idx, BOOL * _Nonnull stop) {
                         
                         TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
-                        parameterModel.pic = obj.pic;
-                        parameterModel.selectPic = obj.selectedPic;
-                        parameterModel.dataModel = obj;
-                        parameterModel.name = obj.name;
+                        parameterModel.pic = guiGeXiaoLei.pic;
+                        parameterModel.selectPic = guiGeXiaoLei.selectedPic;
+                        parameterModel.dataModel = guiGeXiaoLei;
+                        parameterModel.name = guiGeXiaoLei.name;
+                        //
+                        if (guiGeXiaoLei.isSelected) {
+                            colorGroup.content = guiGeXiaoLei.name;
+                        }
+                        parameterModel.yuSelected = guiGeXiaoLei.isSelected;
+                        parameterModel.isSelected = guiGeXiaoLei.isSelected;
+                        //
                         [colorRoom addObject:parameterModel];
                         
                     }];
@@ -357,11 +405,6 @@
                     colorGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
                     colorGroup.canEdit = YES;
                     colorGroup.cellReuseIdentifier = [TLColorChooseCell cellReuseIdentifier];
-//                    colorGroup.minimumLineSpacing = 11;
-//                    colorGroup.minimumInteritemSpacing = 15;
-//                    colorGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 35, 30, 35);
-//                    colorGroup.editingEdgeInsets = UIEdgeInsetsMake(15, 35, 30, 35);
-//                    CGFloat colorChooseCellWidth = (SCREEN_WIDTH - colorGroup.edgeInsets.left * 2 - 2* colorGroup.minimumLineSpacing - 10)/3.0;
                     colorGroup.minimumLineSpacing = 11;
                     colorGroup.minimumInteritemSpacing = 15;
                     colorGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 35, 0, 35);
@@ -382,11 +425,16 @@
                 [self.dataManager.groups addObject:styleGroup];
                 NSMutableArray *styleRoom = [[NSMutableArray alloc] init];
                 
-                [guiGeDaLei.craftList enumerateObjectsUsingBlock:^(TLGuiGeXiaoLei * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                [guiGeDaLei.craftList enumerateObjectsUsingBlock:^(TLGuiGeXiaoLei * _Nonnull guiGeXiaoLei, NSUInteger idx, BOOL * _Nonnull stop) {
                     
                     TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
-                    parameterModel.name = obj.name;
-                    parameterModel.dataModel = obj;
+                    parameterModel.name = guiGeXiaoLei.name;
+                    parameterModel.dataModel = guiGeXiaoLei;
+                    if (guiGeXiaoLei.isSelected) {
+                        styleGroup.content = guiGeXiaoLei.name;
+                    }
+                    parameterModel.yuSelected = guiGeXiaoLei.isSelected;
+                    parameterModel.isSelected = guiGeXiaoLei.isSelected;
                     [styleRoom addObject:parameterModel];
                     
                 }];
@@ -451,7 +499,17 @@
                     [arr addObject:@1];
                     self.cixiuTextGroup = ciXiuTextGroup;
                     ciXiuTextGroup.dateModel = guiGeDaLei;
-                    ciXiuTextGroup.dataModelRoom = @[[[TLInputDataModel alloc] init]].mutableCopy;
+                    
+                    TLInputDataModel *inputDataModel =  [[TLInputDataModel alloc] init];
+                    if (self.innerProduct.ciXiuDict) {
+                        NSDictionary *ciXiuDict = self.innerProduct.ciXiuDict;
+                        if (ciXiuDict.allKeys && ciXiuDict.allKeys.count > 0) {
+                            
+                            inputDataModel.value = ciXiuDict[ciXiuDict.allKeys[0]];
+
+                        }
+                    }
+                    ciXiuTextGroup.dataModelRoom = @[inputDataModel].mutableCopy;
                     //单独处理，与订单的处理方式不同
                     TLInputDataModel *dataModelRoomOneModel = ciXiuTextGroup.dataModelRoom[0];
                     dataModelRoomOneModel.canEdit = YES;
@@ -475,13 +533,20 @@
                     [self.dataManager.groups addObject:ciXiuColorGroup];
                     
                     NSMutableArray *arr = [[NSMutableArray alloc] init];
-                    [guiGeDaLei.craftList enumerateObjectsUsingBlock:^(TLGuiGeXiaoLei * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    [guiGeDaLei.craftList enumerateObjectsUsingBlock:^(TLGuiGeXiaoLei * _Nonnull guiGeXiaoLei, NSUInteger idx, BOOL * _Nonnull stop) {
                         
                         TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
-                        parameterModel.name = obj.name;
-                        parameterModel.pic = obj.pic;
-                        parameterModel.selectPic = obj.selectedPic;
-                        parameterModel.dataModel = obj;
+                        parameterModel.name = guiGeXiaoLei.name;
+                        parameterModel.pic = guiGeXiaoLei.pic;
+                        parameterModel.selectPic = guiGeXiaoLei.selectedPic;
+                        parameterModel.dataModel = guiGeXiaoLei;
+                        
+                        if (guiGeXiaoLei.isSelected) {
+                            ciXiuColorGroup.content = guiGeXiaoLei.name;
+                            parameterModel.yuSelected = guiGeXiaoLei.isSelected;
+                            parameterModel.isSelected = guiGeXiaoLei.isSelected;
+                        }
+                 
                         [arr addObject:parameterModel];
                         
                     }];
@@ -508,13 +573,21 @@
                     TLGroup *ciXiuLocationGroup = [[TLGroup alloc] init];
                     [self.dataManager.groups addObject:ciXiuLocationGroup];
                     NSMutableArray *arr = [[NSMutableArray alloc] init];
-                    [guiGeDaLei.craftList enumerateObjectsUsingBlock:^(TLGuiGeXiaoLei * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    [guiGeDaLei.craftList enumerateObjectsUsingBlock:^(TLGuiGeXiaoLei * _Nonnull guiGeXiaoLei, NSUInteger idx, BOOL * _Nonnull stop) {
                         
                         TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
-                        parameterModel.name = obj.name;
-                        parameterModel.pic = obj.pic;
-                        parameterModel.selectPic = obj.selectedPic;
-                        parameterModel.dataModel = obj;
+                        parameterModel.name = guiGeXiaoLei.name;
+                        parameterModel.pic = guiGeXiaoLei.pic;
+                        parameterModel.selectPic = guiGeXiaoLei.selectedPic;
+                        parameterModel.dataModel = guiGeXiaoLei;
+                        //
+                        if (guiGeXiaoLei.isSelected) {
+
+                            ciXiuLocationGroup.content = guiGeXiaoLei.name;
+                            parameterModel.yuSelected = guiGeXiaoLei.isSelected;
+                            parameterModel.isSelected = guiGeXiaoLei.isSelected;
+                        }
+                        //
                         [arr addObject:parameterModel];
                         
                     }];
@@ -790,13 +863,18 @@
                 //以下是选择
                 NSMutableArray <TLParameterModel *>*models =  group.dataModelRoom;
                 [models enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    TLGuiGeXiaoLei *guiGeXiaoLei = obj.dataModel;
+                    
                     if (obj.yuSelected) {
                         
                         obj.isSelected = YES;
+                        guiGeXiaoLei.isSelected = obj.isSelected;
                         group.content = obj.name;
                         
                     } else {
+                        
                         obj.isSelected = NO;
+                        guiGeXiaoLei.isSelected = obj.isSelected;
                         
                     }
                     

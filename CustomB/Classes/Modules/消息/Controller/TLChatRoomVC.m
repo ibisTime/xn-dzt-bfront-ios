@@ -287,8 +287,8 @@
     if (!cell) {
         
         cell = [[TLChatCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"TLChatCell"];
-        cell.backgroundColor =   [UIColor colorWithHexString:@"#eeeeee"];
-        cell.contentView.backgroundColor = cell.backgroundColor;
+//        cell.backgroundColor =   ;
+        cell.contentView.backgroundColor = [UIColor colorWithHexString:@"#eeeeee"];
 
         
     }

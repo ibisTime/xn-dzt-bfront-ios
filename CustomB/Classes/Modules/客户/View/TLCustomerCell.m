@@ -74,7 +74,7 @@
     
     }
     //
-    self.userInfoLbl.text = _customer.mobile;
+    self.userInfoLbl.text = [NSString stringWithFormat:@"%@|%@",_customer.realName ? : _customer.nickname,_customer.mobile? : @""];
     self.vipTypeLbl.text = [_customer getVipName];
     self.addressLbl.text = [_customer getDetailAddress];
     self.customerTypeLbl.text = [_customer getCustomerTitle];

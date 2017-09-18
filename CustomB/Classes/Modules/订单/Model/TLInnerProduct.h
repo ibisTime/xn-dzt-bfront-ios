@@ -40,6 +40,8 @@
 @property (nonatomic, copy) NSDictionary *ciXiuDict;
 @property (nonatomic, strong) NSMutableArray<TLGuiGeXiaoLei *> *guiGeXiaoLeiRoom;
 
+- (void)clearSelected;
+
 - (float)calculateMianLiaoPrice ;
 - (float)calculateGongYiPrice;
 - (float)calculateTotalPrice;

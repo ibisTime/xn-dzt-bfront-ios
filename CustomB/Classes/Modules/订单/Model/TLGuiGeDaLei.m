@@ -53,4 +53,11 @@
 
 }
 
+- (void)setProductCategory:(NSDictionary *)productCategory {
+
+    _productCategory = productCategory;
+    self.colorDaLei = [TLGuiGeDaLei tl_objectWithDictionary:_productCategory];
+    
+}
+
 @end

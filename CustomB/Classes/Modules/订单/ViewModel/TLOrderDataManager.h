@@ -83,11 +83,6 @@
 @property (nonatomic, strong) NSMutableArray <TLInputDataModel *>*shouHuoAddressRoom;
 @property (nonatomic, strong) NSString  *shouHuoValue;
 
-////面料
-//- (void)handleMianLiaoData:(id)responseObject;
-//@property (nonatomic, strong) NSMutableArray < TLParameterModel*>*mianLiaoRoom;
-//@property (nonatomic, strong) NSString  *mianLiaoValue;
-
 
 /**
  配置不变的 如订单信息，物流信息 客户，此类信息较固定

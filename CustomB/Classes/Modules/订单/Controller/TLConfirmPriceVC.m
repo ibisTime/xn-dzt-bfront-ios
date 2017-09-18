@@ -229,29 +229,13 @@
         //前端从产品界面进入，预约的时候已经有产品
         [self.productRoom enumerateObjectsUsingBlock:^(TLProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
-//            if ( (self.order.productList && self.order.productList.count > 0) && [self.order.productList[0].modelCode isEqualToString:obj.code]) {
-//
-//                TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
-//                parameterModel.code = obj.code;
-//                parameterModel.name = obj.name;
-//                parameterModel.pic = obj.advPic;
-//                parameterModel.yuSelected = YES;
-//                parameterModel.isSelected = YES;
-//                [productMutableArr addObject:parameterModel];
-//                self.currentProductModel = obj;
-//                
-//            } else {
-            
                 TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
                 parameterModel.code = obj.code;
                 parameterModel.name = obj.name;
                 parameterModel.pic = obj.advPic;
                 [productMutableArr addObject:parameterModel];
-//            }
-      
             
         }];
- 
     
     //
     TLGroup *productGroup = [[TLGroup alloc] init];
@@ -330,9 +314,8 @@
 #pragma mark- 价格delegate PriceHeaderDelegate
 - (void)didSelected:(NSInteger)section priceHeaderView:(TLPriceHeaderView *)priceHeaderView;
  {
-
+    
     @try {
-        
         
         if ([self.dataManager.groups[section] isEqual:self.productGroup] || [self.dataManager.groups[section] isEqual:self.totalPriceGroup]) {
             
@@ -362,7 +345,7 @@
             //面料选择
             TLMianLiaoChooseVC *mianLiaoChooseVC =  [[TLMianLiaoChooseVC alloc] init];
             TLInnerProduct *innerProduct = self.dataManager.groups[section].dateModel;
-            mianLiaoChooseVC.innnerProductCode = innerProduct.code;
+            mianLiaoChooseVC.innnerProduct = innerProduct;
             mianLiaoChooseVC.delegate = self;
             [self.navigationController pushViewController:mianLiaoChooseVC animated:YES];
             
@@ -424,7 +407,7 @@
     }
     
     //2.判断工艺是否选择
-    NSMutableArray *parameterList = [[NSMutableArray alloc] init];
+//    NSMutableArray *parameterList = [[NSMutableArray alloc] init];
     
     //
     @try {
@@ -493,12 +476,14 @@
             
         }];
         
-        NSData *data = [NSJSONSerialization dataWithJSONObject:list options:NSJSONWritingPrettyPrinted error:nil];
-//        NSString *reqListStr = 
         req.parameters[@"reqList"] = list;
-//        [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         
+        
+//#warning qudiao
+//        return;
         [TLProgressHUD showWithStatus:nil];
+
+    
         [req startWithSuccess:^(__kindof NBBaseRequest *request) {
             [TLProgressHUD dismiss];
             [self.navigationController popViewControllerAnimated:YES];
@@ -572,9 +557,15 @@
     xhReq.parameters[@"status"] = @"1";
     
     //
-//    NBCDRequest *orderReq = [[NBCDRequest alloc] init];
-//    orderReq.code = @"620234";
-//    orderReq.parameters[@"code"] = self.order.code;
+    NBCDRequest *orderDetailReq = [[NBCDRequest alloc] init];
+    orderDetailReq.code = @"620231";
+    orderDetailReq.parameters[@"code"] = self.order.code;
+    [orderDetailReq startWithSuccess:^(__kindof NBBaseRequest *request) {
+        
+        
+    } failure:^(__kindof NBBaseRequest *request) {
+        
+    }];
     
     //
     NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[xhReq]];
@@ -763,6 +754,12 @@
                         //
                         TLProduct *currentProduct = self.productRoom[idx];
                         //当前选中的_产品
+                        if (self.currentProductModel) {
+                            [self.currentProductModel.modelSpecsList enumerateObjectsUsingBlock:^(TLInnerProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                                [obj clearSelected];
+                            }];
+                        }
+                        self.totalPriceGroup.content = @"--";
                         self.currentProductModel = currentProduct;
 
                         

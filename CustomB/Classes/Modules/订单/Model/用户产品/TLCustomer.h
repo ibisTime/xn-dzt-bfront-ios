@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TLMeasureModel.h"
 
 @interface TLCustomer : NSObject
 
@@ -33,7 +34,6 @@
 @property (nonatomic, copy) NSString *area;
 
 @property (nonatomic, copy) NSString *lastOrderDatetime;
-
 
 
 - (NSString *)getDetailAddress;

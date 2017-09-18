@@ -10,4 +10,9 @@
 
 @implementation TLCustomerStatisticsInfo
 
++ (NSDictionary *)mj_objectClassInArray {
+
+    return @{@"sizeDataList" : [TLMeasureModel class]};
+
+}
 @end

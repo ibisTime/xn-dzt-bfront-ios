@@ -15,7 +15,7 @@
 
     if (self = [super initWithReuseIdentifier:reuseIdentifier]) {
         
-        self.backgroundColor = [UIColor whiteColor];
+//        self.backgroundColor = [UIColor whiteColor];
         self.contentView.backgroundColor = [UIColor whiteColor];
         
         self.titleLbl = [UILabel labelWithFrame:CGRectZero

@@ -68,6 +68,8 @@
     helper.parameters[@"companyCode"] = [AppConfig config].systemCode;
     helper.parameters[@"kind"] = @"C";
     helper.parameters[@"userName"] = self.searchInfo;
+    helper.parameters[@"ltUser"] = [TLUser user].userId;
+
     //
     helper.isDeliverCompanyCode = NO;
     helper.tableView = self.customerTableView;

@@ -21,8 +21,8 @@ typedef NS_ENUM(NSUInteger, GuiGeXiaoLeiType) {
 @property (nonatomic, copy) NSString *pic;
 @property (nonatomic, strong) NSNumber *price;
 
+//图片
 @property (nonatomic, copy ,readonly) NSString *selectedPic;
-
 @property (nonatomic, copy) NSString *selected;
 
 @property (nonatomic, copy) NSString *modelSpecsCode; //所属产品编码
@@ -30,7 +30,8 @@ typedef NS_ENUM(NSUInteger, GuiGeXiaoLeiType) {
 @property (nonatomic, copy) NSString *isHit;
 @property (nonatomic, assign, readonly) GuiGeXiaoLeiType xiaoLeiType;
 
-
+//是否选中
+@property (nonatomic, assign) BOOL isSelected;
 
 //"code": "GY201709181940107804",
 //"type": "MJLX",

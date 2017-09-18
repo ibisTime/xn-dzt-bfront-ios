@@ -637,21 +637,24 @@ NSDictionary *kuaiDiDcit =   @{
 //    }
 //    
 //    //
-//    if (self.order.resultMap.QITA[@"6-02"]) {
-//        
-//        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-02"];
-//        [orderInfoArr addObject:@{@"身高" : [NSString stringWithFormat:@"%@ cm",selelctParaDict[@"code"]]}];
-//        
-//    }
-//    
-//    //
-//    if (self.order.resultMap.QITA[@"6-03"]) {
-//        
-//        NSDictionary *selelctParaDict = self.order.resultMap.QITA[@"6-03"];
-//        
-//        [orderInfoArr addObject:@{@"体重" : [NSString stringWithFormat:@"%@ kg",selelctParaDict[@"code"]]}];
-//        
-//    }
+    
+    if (self.order.orderSizeData) {
+        
+        [self.order.orderSizeData enumerateObjectsUsingBlock:^(TLMeasureModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            if ([obj.ckey isEqualToString:@"6-02"]) {
+                
+                [orderInfoArr addObject:@{@"身高" : [NSString stringWithFormat:@"%@ cm",obj.dkey]}];
+
+            } else if ([obj.ckey isEqualToString:@"6-03"]) {
+            
+                [orderInfoArr addObject:@{@"体重" : [NSString stringWithFormat:@"%@ kg",obj.dkey]}];
+
+            
+            }
+        }];
+        
+        
+    }
     
     //
     [orderInfoArr addObject:@{@"量体地址" : [self.order getDetailMeasureAddress]}];

@@ -46,6 +46,7 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 
 @property (nonatomic, copy) NSString *applyName;
 @property (nonatomic, copy) NSString *applyMobile;
+@property (nonatomic, copy) NSString *applyNote;
 
 //
 @property (nonatomic, copy) NSString *deliverer;

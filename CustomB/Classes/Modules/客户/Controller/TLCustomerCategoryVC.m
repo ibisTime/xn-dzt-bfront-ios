@@ -77,6 +77,8 @@
     helper.code = @"805120";
     helper.parameters[@"systemCode"] = [AppConfig config].systemCode;
     helper.parameters[@"companyCode"] = [AppConfig config].systemCode;
+    helper.parameters[@"ltUser"] = [TLUser user].userId;
+
     helper.parameters[@"kind"] = @"C";
     if (self.status && self.status.length > 0) {
         

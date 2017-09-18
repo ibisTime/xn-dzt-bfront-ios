@@ -7,7 +7,9 @@
 //  面料选择的_VC_
 
 #import "TLBaseVC.h"
+@class TLInnerProduct;
 @class TLMianLiaoModel;
+
 
 @protocol TLMianLiaoChooseVCDelegate <NSObject>
 
@@ -19,7 +21,7 @@
 
 @property (nonatomic, weak) id<TLMianLiaoChooseVCDelegate> delegate;
 
-@property (nonatomic, copy) NSString *innnerProductCode;
+@property (nonatomic, strong) TLInnerProduct *innnerProduct;
 
 //选择完成的时候根据， productCode 就能判断出是什么产品的，面料费
 

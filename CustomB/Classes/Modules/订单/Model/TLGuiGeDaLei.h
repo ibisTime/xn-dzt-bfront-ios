@@ -36,7 +36,18 @@ typedef NS_ENUM(NSUInteger, GuiGeDaLeiType) {
  订单中，规格大类的_____值
  */
 @property (nonatomic, strong) TLProductCraft *productCraft;
-//@property (nonatomic, strong)TLProductCraft *productCraft;
+
+
+/**
+ 如果为工艺颜色大类，这个是对应的值
+ */
+@property (nonatomic, strong) TLProductCraft *colorProductCraft;
+
+/**
+ 订单中，规格大类的颜色值，起的这名字也是zuiLe, 转换为 colorDaLei
+ */
+@property (nonatomic, strong) TLGuiGeDaLei *colorDaLei;
+@property (nonatomic, strong) NSDictionary  *productCategory;
 
 /**
  规格类别

@@ -8,6 +8,7 @@
 
 #import "TLBaseModel.h"
 #import "TLUserParameterMap.h"
+#import "TLMeasureModel.h"
 
 @interface TLCustomerStatisticsInfo : TLBaseModel
 
@@ -20,10 +21,11 @@
 @property (nonatomic, copy) NSString *realName;
 @property (nonatomic, copy) NSString *level;
 
+@property (nonatomic, copy) NSArray <TLMeasureModel *>*sizeDataList;
 
 //@property (nonatomic, strong) NSArray <NSDictionary *>*sizeDataList;
 
-@property (nonatomic, strong)  TLUserParameterMap *resultMap;
+//@property (nonatomic, strong)  TLUserParameterMap *resultMap;
 
 @property (nonatomic, strong) NSNumber *sjAmount;
 

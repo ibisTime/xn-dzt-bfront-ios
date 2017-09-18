@@ -45,6 +45,12 @@
 @property (nonatomic,copy) NSString *city;
 @property (nonatomic,copy) NSString *area;
 
+
+/**
+ 量体师编号
+ */
+@property (nonatomic, copy) NSString *roleCode;
+
 //是否为需要登录，如果已登录，取出用户信息
 - (BOOL)isLogin;
 

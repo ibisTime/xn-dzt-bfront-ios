@@ -14,6 +14,7 @@
 @property (nonatomic, copy) NSString *advPic;
 @property (nonatomic, copy) NSString *modelNum;
 @property (nonatomic, strong) NSNumber *price;
+@property (nonatomic, copy) NSString *yarn;
 
 /**
  所属产品编号

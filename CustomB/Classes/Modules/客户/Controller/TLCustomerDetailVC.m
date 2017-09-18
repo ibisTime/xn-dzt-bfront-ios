@@ -93,7 +93,7 @@
     req.parameters[@"remark"] = @"ios 端量体师修改";
     req.parameters[@"userId"] = self.customer.userId;
         
-        [self.dataManager.measureDataRoom enumerateObjectsUsingBlock:^(TLInputDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.dataManager.measureDataRoom enumerateObjectsUsingBlock:^(TLInputDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
 //            if (!obj.value || [obj.value isEqualToString:@"-"] || obj.value.length <=0) {
 //                
@@ -102,10 +102,9 @@
 //                
 //            }
             //数据正常
-            measureDict[obj.keyCode] = @"1111";
             measureDict[obj.keyCode] = obj.value;
             
-        }];
+     }];
         
         //2.形体信息（可选）
         [self.dataManager.xingTiRoom enumerateObjectsUsingBlock:^(TLChooseDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
@@ -121,7 +120,7 @@
     [req startWithSuccess:^(__kindof NBBaseRequest *request) {
         
         [TLAlert alertWithSucces:@"修改成功"];
-        [self.navigationController popToRootViewControllerAnimated:YES];
+//        [self.navigationController popToRootViewControllerAnimated:YES];
         
     } failure:^(__kindof NBBaseRequest *request) {
         

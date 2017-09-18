@@ -15,6 +15,7 @@
 #import "TLMianLiaoModel.h"
 #import "TLAlert.h"
 #import "TLProgressHUD.h"
+#import "TLInnerProduct.h"
 
 @interface TLMianLiaoChooseVC ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -49,18 +50,57 @@
     [TLProgressHUD showWithStatus:nil];
     NBCDRequest *mianLiaoReq = [[NBCDRequest alloc] init];
     mianLiaoReq.code = @"620032";
-    mianLiaoReq.parameters[@"modelSpecsCode"] = self.innnerProductCode;
+    mianLiaoReq.parameters[@"modelSpecsCode"] = self.innnerProduct.code;
     mianLiaoReq.parameters[@"status"] = @"1";
     [mianLiaoReq startWithSuccess:^(__kindof NBBaseRequest *request) {
         [self removePlaceholderView];
 
         [TLProgressHUD dismiss];
         self.mianLiaoRoom = [TLMianLiaoModel tl_objectArrayWithDictionaryArray:request.responseObject[@"data"]];
+        
+        if (self.innnerProduct.mianLiaoModel) {
+            [self.mianLiaoRoom enumerateObjectsUsingBlock:^(TLMianLiaoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                if ([obj.code isEqualToString:self.innnerProduct.mianLiaoModel.code]) {
+                    
+                    obj.isSelected = YES;
+                    *stop = YES;
+                }
+            }];
+        }
+        //
+        NSMutableArray *baShiRoom = [[NSMutableArray alloc] init];
+        NSMutableArray *yiBaiRoom = [[NSMutableArray alloc] init];
+        NSMutableArray *mianZhenSiRoom = [[NSMutableArray alloc] init];
+        NSMutableArray *mianTanLiRoom = [[NSMutableArray alloc] init];
+
+       
+        [self.mianLiaoRoom enumerateObjectsUsingBlock:^(TLMianLiaoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            if ([obj.yarn isEqualToString:@"1"]) {
+                
+                [baShiRoom addObject:obj];
+                
+            } else if ([obj.yarn isEqualToString:@"2"]) {
+            
+                [yiBaiRoom addObject:obj];
+
+            } else if ([obj.yarn isEqualToString:@"3"]) {
+            
+                [mianZhenSiRoom addObject:obj];
+
+            } else if ([obj.yarn isEqualToString:@"4"]) {
+            
+                [mianTanLiRoom addObject:obj];
+
+            }
+        }];
+      
+        
         self.mianLiaoAndTypeRoom = @[
-                                     @{@"80支棉" : self.mianLiaoRoom},
-                                     @{@"100支棉" : self.mianLiaoRoom},
-                                     @{@"棉真丝" : self.mianLiaoRoom},
-                                     @{@"棉弹力" : self.mianLiaoRoom},
+                                     @{@"80支棉" : baShiRoom},
+                                     @{@"100支棉" : yiBaiRoom},
+                                     @{@"棉真丝" : mianZhenSiRoom},
+                                     @{@"棉弹力" : mianTanLiRoom},
                                      
                                      ];
         
@@ -82,8 +122,9 @@
     self.mianLiaoArr = @[@"80支棉",@"100支棉",@"棉真丝",@"棉弹力",];
     
     //
-    if (!self.innnerProductCode) {
-        [TLAlert alertWithInfo:@"请传入产品编号"];
+    if (!self.innnerProduct ){
+        
+    [TLAlert alertWithInfo:@"请传入产品编号"];
         return;
     }
     
@@ -233,15 +274,11 @@
     if (!cell) {
         
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCellId"];
-        cell.backgroundColor = [UIColor colorWithHexString:@"#f2f2f2"];
-        cell.contentView.backgroundColor = cell.backgroundColor;
+//        cell.backgroundColor = [UIColor colorWithHexString:@"#f2f2f2"];
+        cell.contentView.backgroundColor = [UIColor colorWithHexString:@"#f2f2f2"];
         cell.textLabel.font = [UIFont systemFontOfSize:14];
         cell.textLabel.textColor = [UIColor themeColor];
-//        [cell.textLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-//            make.top.bottom.equalTo(cell.contentView);
-//            make.left.equalTo(cell.contentView.mas_left).offset(10);
-//            make.right.equalTo(cell.contentView.mas_right).offset(-10);
-//        }];
+
         
         cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[ImageUtil convertColorToImage:[UIColor whiteColor]]];
         

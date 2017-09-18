@@ -59,4 +59,12 @@
 
 }
 
+- (void)clearSelected {
+
+    self.ciXiuDict = nil;
+    self.mianLiaoModel = nil;
+    [self.guiGeXiaoLeiRoom removeAllObjects];
+
+}
+
 @end

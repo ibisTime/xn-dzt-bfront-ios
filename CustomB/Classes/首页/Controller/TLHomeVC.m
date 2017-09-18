@@ -210,6 +210,7 @@
     NBCDRequest *bannerReq =  [[NBCDRequest alloc] init];
     bannerReq.code = @"805806";
     bannerReq.parameters[@"type"] = @"2";
+    bannerReq.parameters[@"belong"] = @"1";
     bannerReq.parameters[@"companyCode"] = [AppConfig config].systemCode;
     bannerReq.parameters[@"systemCode"] = [AppConfig config].systemCode;
 //    bannerReq.ignoreCache = NO;
@@ -359,10 +360,11 @@
     __weak typeof(self) weakSelf = self;
     [v setAction:^(NSInteger section){
 
-        TLMianLiaoChooseVC *vc = [[TLMianLiaoChooseVC alloc] init];
-        [self.navigationController pushViewController:vc animated:YES];
+//        TLMianLiaoChooseVC *vc = [[TLMianLiaoChooseVC alloc] init];
+//        [self.navigationController pushViewController:vc animated:YES];
+//        
+//        return ;
         
-        return ;
         if (section == 0) {
         
             TLLiuYanController *vc = [[TLLiuYanController alloc] init];

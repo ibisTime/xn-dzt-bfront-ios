@@ -75,9 +75,9 @@
 #pragma mark- 提交
 - (void)trueSubmit {
 
-    //  [TLProgressHUD showWithStatus:nil];
+    //[TLProgressHUD showWithStatus:nil];
     NBCDRequest *req = [[NBCDRequest alloc] init];
-//    NSMutableArray *otherArr = [[NSMutableArray alloc] init];
+//  NSMutableArray *otherArr = [[NSMutableArray alloc] init];
     
     NSMutableDictionary *measureDict = [[NSMutableDictionary alloc] init];
     
@@ -115,13 +115,14 @@
     
     
     
-    //收货地址
-    NSString *addressType = @"6-04";
-    NSString *addressValue = self.dataManager.shouHuoAddressRoom[0].value;
-    measureDict[addressType] = addressValue;
+//    //收货地址
+//    NSString *addressType = @"6-04";
+//    NSString *addressValue = self.dataManager.shouHuoAddressRoom[0].value;
+//    measureDict[addressType] = addressValue;
     
     //备注
-    measureDict[kBeiZhuType] = self.dataManager.remarkRoom[0].value;
+//    measureDict[kBeiZhuType] = self.dataManager.remarkRoom[0].value;
+    req.parameters[@"remark"] = self.dataManager.remarkRoom[0].value;
     
 //    req.parameters[@"codeList"] = otherArr;
     [req startWithSuccess:^(__kindof NBBaseRequest *request) {
@@ -261,7 +262,7 @@
     
     
     TLGroup *dingZhiGroup = [[TLGroup alloc] init];
-//    [self.dataManager.groups addObject:dingZhiGroup];
+//  [self.dataManager.groups addObject:dingZhiGroup];
     [middleGroups addObject:dingZhiGroup];
     dingZhiGroup.dataModelRoom = [self.dataManager configDefaultModel];
     dingZhiGroup.title = @"定制信息";
@@ -277,7 +278,7 @@
     mianLiaoGroup.canEdit = NO;
     NSMutableArray *xiaoLeiRoom = [[NSMutableArray alloc] init];
     mianLiaoGroup.dataModelRoom = xiaoLeiRoom;
-    mianLiaoGroup.title = @"面料" ;
+    mianLiaoGroup.title = @"面料编号";
     mianLiaoGroup.content = self.order.product.productVarList[index].mianLiaoModel.modelNum;
     mianLiaoGroup.headerSize = HEADER_SMALL_SIZE;
     mianLiaoGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
@@ -328,6 +329,28 @@
                 parameterGroup.editingEdgeInsets = paramterEdgeInsets;
                 parameterGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
                 
+                if (guiGeDaLei.colorDaLei && guiGeDaLei.colorDaLei.colorProductCraft) {
+                    
+                    TLGroup *colorGroup = [[TLGroup alloc] init];
+                    colorGroup.mark = DA_LEI_COLOR_MARK;
+                    [middleGroups addObject:colorGroup];
+                    colorGroup.content = guiGeDaLei.colorDaLei.colorProductCraft.name;
+                    colorGroup.dataModelRoom = [[NSMutableArray alloc] init];
+                    colorGroup.title = guiGeDaLei.colorDaLei.dvalue;
+                    
+                    colorGroup.headerSize = HEADER_SMALL_SIZE;
+                    colorGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
+                    colorGroup.canEdit = NO;
+                    colorGroup.cellReuseIdentifier = [TLColorChooseCell cellReuseIdentifier];
+                    colorGroup.minimumLineSpacing = 11;
+                    colorGroup.minimumInteritemSpacing = 15;
+                    colorGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 35, 0, 35);
+                    colorGroup.editingEdgeInsets = UIEdgeInsetsMake(15, 35, 10, 35);
+                    CGFloat colorChooseCellWidth = (SCREEN_WIDTH - colorGroup.edgeInsets.left * 2 - 2* colorGroup.minimumLineSpacing - 10)/3.0;
+                    colorGroup.itemSize = CGSizeMake(colorChooseCellWidth, 30);
+                    colorGroup.itemSize = CGSizeMake(colorChooseCellWidth, 30);
+                    
+                }
                 //判断是否有颜色标识
                 //                if ([guiGeDaLei isHaveColorMark]) {
                 //
@@ -421,7 +444,7 @@
         
     }];
     
-    if (cixiuGuiGeDaLeiRoom.count > 0) {
+    if (cixiuGuiGeDaLeiRoom.count > 0 && cixiuGuiGeDaLeiRoom[0].productCraft) {
         
         //        [self.dataManager handleCiXiu:cixiuGuiGeDaLeiRoom];
         //***********************刺绣内容**************************//
@@ -566,7 +589,6 @@
 //    if (!self.productCode) {
 //        NSLog(@"产品编号不能为空");
 //    }
-    
     //
     [self tl_placeholderOperation];
    
@@ -582,6 +604,7 @@
         req.code = @"620206";
         req.parameters[@"orderCode"] = self.order.code;
         req.parameters[@"updater"] = [TLUser user].userId;
+        req.parameters[@"remark"] = self.dataManager.remarkRoom[0].value;
         [req startWithSuccess:^(__kindof NBBaseRequest *request) {
             [TLProgressHUD dismiss];
             
@@ -777,9 +800,8 @@
     UIEdgeInsets paramterEdgeInsets = UIEdgeInsetsMake(15, 32, 0, 32);
     CGFloat parameterCellWidth = (SCREEN_WIDTH - paramterEdgeInsets.left * 2 - 2*horizonMargin)/3.0;
     
+    //中部可变信息
     [self.dataManager.groups addObjectsFromArray:    [self reloadDynamicGroupWhenSwitchXiaoJianWithXiaoJianIdx:0] ];
-    
-//
   
     //收货地址
     TLGroup *receiveGroup = [[TLGroup alloc] init];
