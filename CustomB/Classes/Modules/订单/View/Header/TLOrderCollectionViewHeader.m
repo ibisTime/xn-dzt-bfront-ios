@@ -34,7 +34,7 @@
         
         [self setUpUI];
         self.titleLbl.text = @"着装风格";
-  
+        self.clipsToBounds = YES;
         [self.editBtn addTarget:self action:@selector(goEdit) forControlEvents:UIControlEventTouchUpInside];
         [self.confirmBtn addTarget:self action:@selector(editConfirm) forControlEvents:UIControlEventTouchUpInside];
         [self.cancleBtn addTarget:self action:@selector(cancelEdit) forControlEvents:UIControlEventTouchUpInside];

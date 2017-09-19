@@ -38,11 +38,17 @@
     
     if (model.chatType == ChatModelTypeMe) {
         
+        [self.bgImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.greaterThanOrEqualTo(self.leftImageView.mas_right).offset(14);
+            make.right.equalTo(self.rightImageView.mas_left).offset(-14);
+            make.top.equalTo(self.leftImageView.mas_top).offset(4);
+            make.bottom.lessThanOrEqualTo(self.contentView.mas_bottom);
+        }];
+        
         self.leftImageView.hidden = YES;
         self.rightImageView.hidden=  NO;
         self.leftArrowImageView.hidden = self.leftImageView.hidden;
         self.rightArrowImageView.hidden = self.rightImageView.hidden;
-
         NSString *photoUrl =  [ImageUtil convertImageUrl:model.commentPhoto imageServerUrl:[AppConfig config].qiniuDomain];
         
         
@@ -52,11 +58,20 @@
         
     } else {
         
+        [self.bgImageView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.leftImageView.mas_right).offset(14);
+            make.right.lessThanOrEqualTo(self.rightImageView.mas_left).offset(-14);
+            make.top.equalTo(self.leftImageView.mas_top).offset(4);
+            make.bottom.lessThanOrEqualTo(self.contentView.mas_bottom);
+        }];
+        
+      
+        
         self.leftImageView.hidden = NO;
         self.rightImageView.hidden=  YES;
         self.leftArrowImageView.hidden = self.leftImageView.hidden;
         self.rightArrowImageView.hidden = self.rightImageView.hidden;
-        
+
         NSString *photoUrl =  [ImageUtil convertImageUrl:model.commentPhoto imageServerUrl:[AppConfig config].qiniuDomain];
         [self.leftImageView sd_setImageWithURL:[NSURL URLWithString:photoUrl] placeholderImage:[UIImage imageNamed:@"默认头像"]];
         self.contentLbl.textAlignment = NSTextAlignmentRight;
@@ -101,7 +116,7 @@
         
         //
         self.contentLbl = [UILabel labelWithFrame:CGRectZero
-                                     textAligment:NSTextAlignmentCenter
+                                     textAligment:NSTextAlignmentLeft
                                   backgroundColor:[UIColor whiteColor]
                                              font:[UIFont systemFontOfSize:12]
                                         textColor:[UIColor colorWithHexString:@"#000000"]];
@@ -125,23 +140,38 @@
         
      
         
+    
+        
+        //箭头应该先和 头像产生关系
+        [self.leftArrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.leftImageView.mas_right).offset(7);
+            make.centerY.equalTo(self.bgImageView.mas_top).offset(22);
+
+        }];
+        
+        [self.rightArrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.rightImageView.mas_left).offset(-7);
+            make.centerY.equalTo(self.leftArrowImageView.mas_centerY);
+        }];
+        
+//        //内容背景和内容
         [self.bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.leftImageView.mas_right).offset(14);
             make.right.equalTo(self.rightImageView.mas_left).offset(-14);
             make.top.equalTo(self.leftImageView.mas_top).offset(4);
             make.bottom.lessThanOrEqualTo(self.contentView.mas_bottom);
         }];
-        [self.leftArrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(self.bgImageView.mas_left);
-            make.centerY.equalTo(self.bgImageView.mas_top).offset(22);
-
-        }];
         
-        [self.rightArrowImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.equalTo(self.bgImageView.mas_right);
-            make.centerY.equalTo(self.leftArrowImageView.mas_centerY);
-        }];
+//        [self.bgImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+//            make.left.equalTo(self.leftImageView.mas_right).offset(14);
+//            make.right.lessThanOrEqualTo(self.rightImageView.mas_left).offset(-14);
+//            make.top.equalTo(self.leftImageView.mas_top).offset(4);
+//            make.bottom.lessThanOrEqualTo(self.contentView.mas_bottom);
+//        }];
         
+     
+        
+        //
         [self.contentLbl mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self.bgImageView.mas_left).offset(14);
             make.right.equalTo(self.bgImageView.mas_right).offset(-14);

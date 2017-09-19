@@ -98,10 +98,12 @@
             weakSelf.chatModelRoom = [enumerator.allObjects mutableCopy];
             //            weakSelf.chatModelRoom = objs;
             
-            [weakSelf.chatTableView reloadData];
             if (!stillHave) {
                 pageDataHelper.start ++;
             }
+            
+            [weakSelf.chatTableView reloadData];
+
 //            if (weakSelf.chatModelRoom.count) {
 //                
 //                [weakSelf.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow: weakSelf.chatModelRoom.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
@@ -126,15 +128,21 @@
             NSEnumerator *enumerator = [objs reverseObjectEnumerator];
             weakSelf.chatModelRoom = [enumerator.allObjects mutableCopy];
             [weakSelf.chatTableView reloadData];
-                        if (weakSelf.chatModelRoom.count) {
-            
-                              [weakSelf.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow: weakSelf.chatModelRoom.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
-                        }
+      
             //
             [weakSelf.chatTableView resetNoMoreData_tl];
             
             if (!stillHave) {
                 pageDataHelper.start ++;
+            }
+            
+            if (weakSelf.chatModelRoom.count) {
+//                [weakSelf.chatTableView scrollRectToVisible:CGRectMake(0, MAXFLOAT, 100, 10) animated:NO];
+//                CGFloat offfsetY = (weakSelf.chatTableView.contentSize.height - weakSelf.chatTableView.height) > 0 ? (weakSelf.chatTableView.contentSize.height - weakSelf.chatTableView.height) : 0;
+//                [weakSelf.chatTableView  setContentOffset:CGPointMake(0, offfsetY)];
+//                weakSelf.chatTableView.contentSize
+                //
+                [weakSelf.chatTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow: weakSelf.chatModelRoom.count - 1 inSection:0] atScrollPosition:UITableViewScrollPositionBottom animated:NO];
             }
             
         } failure:^(NSError *error) {
@@ -279,8 +287,6 @@
 
 }
 
-
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 
     TLChatCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TLChatCell"];
@@ -290,11 +296,11 @@
 //        cell.backgroundColor =   ;
         cell.contentView.backgroundColor = [UIColor colorWithHexString:@"#eeeeee"];
 
-        
     }
     cell.model = self.chatModelRoom[indexPath.row];
     
     return cell;
 
 }
+
 @end

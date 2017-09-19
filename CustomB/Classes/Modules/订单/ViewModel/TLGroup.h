@@ -43,6 +43,8 @@
 //比如地址这些存的是TLDataModel,  有选择的存的是 TLParameterModel
 @property (nonatomic, strong) NSMutableArray *dataModelRoom;
 
+- (void)groupSetHidden;
+- (void)groupSetShow;
 
 
 /**

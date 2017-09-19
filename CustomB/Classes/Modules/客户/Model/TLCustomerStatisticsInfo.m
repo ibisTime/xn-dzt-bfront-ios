@@ -7,6 +7,7 @@
 //
 
 #import "TLCustomerStatisticsInfo.h"
+#import "NSString+Extension.h"
 
 @implementation TLCustomerStatisticsInfo
 
@@ -15,4 +16,25 @@
     return @{@"sizeDataList" : [TLMeasureModel class]};
 
 }
+
+- (NSString *)getBirthdayStr {
+    
+    if (!self.birthday) {
+        return @"";
+    }
+
+    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+    formatter.dateFormat = @"MMM dd, yyyy hh:mm:ss aa";
+    formatter.locale = [[NSLocale alloc] initWithLocaleIdentifier:@"en_US"];
+    
+    //
+    NSDate *date01 = [formatter dateFromString:self.birthday];
+    formatter.dateFormat = @"MM月dd日";
+    formatter.locale = [NSLocale currentLocale];
+    
+    //
+    return [formatter stringFromDate:date01];
+
+}
+
 @end

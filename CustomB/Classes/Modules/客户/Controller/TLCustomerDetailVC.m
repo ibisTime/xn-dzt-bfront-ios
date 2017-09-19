@@ -147,7 +147,6 @@
 //    parameterReq.parameters[@"systemCode"] = [AppConfig config].systemCode;
 //    parameterReq.parameters[@"companyCode"] = [AppConfig config].systemCode;
     
-    
     NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[parameterReq,userInfo]];
     [batchReq startWithSuccess:^(NBBatchReqest *batchRequest) {
         
@@ -159,7 +158,7 @@
         self.customerStatisticsInfo = [TLCustomerStatisticsInfo tl_objectWithDictionary:infoReq.responseObject[@"data"]];
         self.dataManager = [[TLUserDataManager alloc] init];
         self.dataManager.customerStatisticsInfo = self.customerStatisticsInfo;
-//        self.dataManager.customer = self.customer;
+        
         //
         [self.dataManager handleUserInfo:nil];
         [self.dataManager handMeasureDataWithResp:nil];

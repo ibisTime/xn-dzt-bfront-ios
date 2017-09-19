@@ -285,12 +285,16 @@
 //        
 //    } else {
     
+    
       vipInfoInfoArr  = [  @[
                @{@"会员等级" :vipDict[self.customerStatisticsInfo.level]},
                @{@"会员成长经验" :     [self convertBigDigital: self.customerStatisticsInfo.jyAmount]},
                @{@"会员天数" : self.customerStatisticsInfo.days},
                @{@"升级所需经验" : [self convertBigDigital:self.customerStatisticsInfo.sjAmount]},
+               @{@"会员生日" : [self.customerStatisticsInfo getBirthdayStr]},
+               @{@"历史总积分" : [self convertBigDigital:@([self.customerStatisticsInfo.conAmount longLongValue] + [self.customerStatisticsInfo.jfAmount longLongValue])]},
                @{@"剩余积分" : [self convertBigDigital:self.customerStatisticsInfo.jfAmount]},
+               @{@"已消费积分" : [self convertBigDigital:self.customerStatisticsInfo.conAmount]},
                
                ] mutableCopy];
         

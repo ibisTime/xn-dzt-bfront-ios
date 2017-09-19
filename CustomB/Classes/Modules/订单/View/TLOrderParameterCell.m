@@ -106,9 +106,8 @@
 //        testLbl.textColor = [UIColor blackColor];
 //        self.testLbl = testLbl;
 //        [self addSubview:testLbl];
-      
-        
     }
+    
     return self;
 }
 

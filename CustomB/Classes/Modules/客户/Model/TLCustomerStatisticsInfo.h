@@ -16,18 +16,18 @@
 @property (nonatomic, copy) NSString *days;
 @property (nonatomic, strong) NSNumber *jfAmount;
 @property (nonatomic, strong) NSNumber *jyAmount;
+@property (nonatomic, copy) NSString *birthday;
 
 @property (nonatomic, copy) NSString *mobile;
 @property (nonatomic, copy) NSString *realName;
 @property (nonatomic, copy) NSString *level;
 
 @property (nonatomic, copy) NSArray <TLMeasureModel *>*sizeDataList;
-
-//@property (nonatomic, strong) NSArray <NSDictionary *>*sizeDataList;
-
-//@property (nonatomic, strong)  TLUserParameterMap *resultMap;
-
 @property (nonatomic, strong) NSNumber *sjAmount;
+- (NSString *)getBirthdayStr;
+
+@property (nonatomic, strong) NSNumber *conAmount;
+
 
 //address	地址	string
 //days	成为会员天数	string

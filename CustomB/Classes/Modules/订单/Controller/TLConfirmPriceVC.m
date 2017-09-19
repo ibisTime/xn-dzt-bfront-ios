@@ -43,26 +43,8 @@
 @property (nonatomic, strong) UICollectionView *confirmPriceCollectionView;
 @property (nonatomic, strong) NSMutableArray <TLProduct *>*productRoom;
 
-//@property (nonatomic, strong) NSMutableArray *currentArr;
-//@property (nonatomic, strong) NSMutableDictionary *currentDict;
-
-//
 @property (nonatomic, strong) TLProduct *currentProductModel;
 @property (nonatomic, strong) TLCalculatePriceManager *calculatePriceManager;
-
-//需要修改的组
-//@property (nonatomic, strong) TLGroup *gongYiPriceGroup;
-
-//@property (nonatomic, strong) TLGroup *mianLiaoDanJiaGroup;
-
-//@property (nonatomic, strong) TLGroup *mianLiaoCountGroup;
-
-//@property (nonatomic, strong) TLGroup *jiaGongPriceGroup;
-//@property (nonatomic, strong) TLGroup *kuaiDiFeiGroup;
-//@property (nonatomic, strong) TLGroup *baoZhuangFeiGroup;
-//
-//@property (nonatomic, assign) float kuaiDiFei;
-//@property (nonatomic, assign) float baoZhuangFei;
 
 // 固定group
 @property (nonatomic, strong) TLGroup *productGroup;
@@ -70,7 +52,7 @@
 @property (nonatomic, strong) TLGroup *totalPriceGroup;
 @property (nonatomic, strong) TLGroup *receiveAddressGroup;
 
-
+@property (nonatomic, assign) float times;
 
 @end
 
@@ -106,7 +88,7 @@
         
         if (mianLiaoPriceGroup.mark && [mianLiaoPriceGroup.mark isEqualToString:MIAN_LIAO_MARK] && [mianLiaoPriceGroup.dateModel isEqual:innerProduct]) {
             //找出面料的group
-            mianLiaoPriceGroup.content = [mianLiaoModel.price convertToRealMoney];
+            mianLiaoPriceGroup.content = [NSString stringWithFormat:@"￥%@",[mianLiaoModel.price convertToRealMoney]];
             *stop = YES;
             [self.confirmPriceCollectionView reloadData];
         }
@@ -158,7 +140,7 @@
         if (gongYiGroup.mark && [gongYiGroup.mark isEqualToString:GONG_YI_MARK] && [gongYiGroup.dateModel isEqual:innerProduct]) {
             //找出面料的group
             
-            gongYiGroup.content = [NSString stringWithFormat:@"%.2f",[innerProduct calculateGongYiPrice]];
+            gongYiGroup.content = [NSString stringWithFormat:@"￥%.2f",[innerProduct calculateGongYiPrice]];
             *stop = YES;
             [self.confirmPriceCollectionView reloadData];
         }
@@ -192,12 +174,24 @@
             
         }];
         
-        self.totalPriceGroup.content = [NSString stringWithFormat:@"%.2f",totalPrice];
+        //
+        if (self.currentProductModel.productType == TLProductTypeHAdd) {
+            
+            if ([self.order.ltUserDO.level isEqualToString:@"1"]) {
+                //非会员乘 倍数
+                totalPrice = self.times*totalPrice;
+
+            }
+            
+        }
+        
+        self.totalPriceGroup.content = [NSString stringWithFormat:@"￥%.2f",totalPrice];
         [self.confirmPriceCollectionView reloadData];
         
-        
+        //
     } @catch (NSException *exception) {
         
+        //
     } @finally {
         
     }
@@ -226,16 +220,16 @@
     //
     NSMutableArray *productMutableArr = [[NSMutableArray alloc] init];
     
-        //前端从产品界面进入，预约的时候已经有产品
-        [self.productRoom enumerateObjectsUsingBlock:^(TLProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            
-                TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
-                parameterModel.code = obj.code;
-                parameterModel.name = obj.name;
-                parameterModel.pic = obj.advPic;
-                [productMutableArr addObject:parameterModel];
-            
-        }];
+    //前端从产品界面进入，预约的时候已经有产品
+    [self.productRoom enumerateObjectsUsingBlock:^(TLProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
+        parameterModel.code = obj.code;
+        parameterModel.name = obj.name;
+        parameterModel.pic = obj.pic;
+        [productMutableArr addObject:parameterModel];
+        
+    }];
     
     //
     TLGroup *productGroup = [[TLGroup alloc] init];
@@ -276,7 +270,6 @@
     TLGroup *receiveGroup = [[TLGroup alloc] init];
     [self.dataManager.groups addObject:receiveGroup];
     self.receiveAddressGroup = receiveGroup;
-    
     TLInputDataModel *inputDataModel = [[TLInputDataModel alloc] init];
     inputDataModel.canEdit = YES;
     inputDataModel.value = [self.order getDetailAddress];
@@ -452,6 +445,7 @@
         req.parameters[@"orderCode"] = self.order.code;
         req.parameters[@"quantity"] = @"1";
         req.parameters[@"updater"] = [TLUser user].userId;
+        req.parameters[@"token"] = [TLUser user].token;
         //先默认取量体地址
         req.parameters[@"address"] = receiveAddressModel.value;
         
@@ -515,7 +509,7 @@
         return;
     }
     
-     //Header
+    //Header
     [self.confirmPriceCollectionView registerClass:[TLButtonHeaderView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:[TLButtonHeaderView headerReuseIdentifier]];
     
     //
@@ -541,34 +535,38 @@
     // Do any additional setup after loading the view.
     self.title = @"定价";
     self.view.backgroundColor = [UIColor whiteColor];
+    self.times = 1;
     self.calculatePriceManager = [[TLCalculatePriceManager alloc] init];
     
     [TLProgressHUD showWithStatus:nil];
-//    NBCDRequest *kuaiDiReq2 = [[NBCDRequest alloc] init];
-//    kuaiDiReq2.code = @"620918";
-//    kuaiDiReq2.parameters[@"keyList"] = @[@"KDF",@"BZF"]; ;
-//    kuaiDiReq2.parameters[@"companyCode"] = [AppConfig config].systemCode;
-//    kuaiDiReq2.parameters[@"systemCode"] = [AppConfig config].systemCode;
+    
+    //获取非会员的价格倍数
+    NBCDRequest *timesReq = [[NBCDRequest alloc] init];
+    timesReq.code = @"620918";
+    timesReq.parameters[@"keyList"] = @[@"FHY"];
+    timesReq.parameters[@"companyCode"] = [AppConfig config].systemCode;
+    timesReq.parameters[@"systemCode"] = [AppConfig config].systemCode;
+    timesReq.parameters[@"token"] = [TLUser user].token;
     
     //获取产品列表
     NBCDRequest *xhReq = [[NBCDRequest alloc] init];
-//    xhReq.code = @"620012";
+//  xhReq.code = @"620012";
     xhReq.code = @"620014";
     xhReq.parameters[@"status"] = @"1";
     
     //
-    NBCDRequest *orderDetailReq = [[NBCDRequest alloc] init];
-    orderDetailReq.code = @"620231";
-    orderDetailReq.parameters[@"code"] = self.order.code;
-    [orderDetailReq startWithSuccess:^(__kindof NBBaseRequest *request) {
-        
-        
-    } failure:^(__kindof NBBaseRequest *request) {
-        
-    }];
+//    NBCDRequest *orderDetailReq = [[NBCDRequest alloc] init];
+//    orderDetailReq.code = @"620231";
+//    orderDetailReq.parameters[@"code"] = self.order.code;
+//    [orderDetailReq startWithSuccess:^(__kindof NBBaseRequest *request) {
+//        
+//        
+//    } failure:^(__kindof NBBaseRequest *request) {
+//        
+//    }];
     
     //
-    NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[xhReq]];
+    NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[xhReq,timesReq]];
     [batchReq startWithSuccess:^(NBBatchReqest *batchRequest) {
         
         //
@@ -576,13 +574,12 @@
 //        NBCDRequest *kuaiDiReq2 = (NBCDRequest *)batchRequest.reqArray[0];
         
         NBCDRequest *xhReq = (NBCDRequest *)batchRequest.reqArray[0];
-//        NBCDRequest *orderReq = (NBCDRequest *)batchRequest.reqArray[1];
-//
-//        TLOrderModel *orderModel = [TLOrderModel tl_objectWithDictionary:orderReq.responseObject[@"data"]];
-//        self.order = orderModel;
-//        self.calculatePriceManager.times = [orderModel.times floatValue];
-        //
 
+        //倍数
+        NBCDRequest *timesReqCopy = (NBCDRequest *)batchRequest.reqArray[1];
+        NSDictionary *dict = timesReqCopy.responseObject[@"data"];
+        self.times =  [dict[@"FHY"] floatValue];
+        
         //获取产品
         NSArray *arr = xhReq.responseObject[@"data"];
         self.productRoom =  [TLProduct tl_objectArrayWithDictionaryArray:arr];

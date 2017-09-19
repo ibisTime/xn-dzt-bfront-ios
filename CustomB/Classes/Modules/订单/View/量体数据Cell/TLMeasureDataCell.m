@@ -18,6 +18,7 @@
 @property (nonatomic, strong) UILabel *leftTitleLbl;
 @property (nonatomic, strong) UITextField *textField;
 @property (nonatomic, strong) UIImageView *arrowImageView;
+@property (nonatomic, strong) UIView *bottomLine;
 
 @end
 
@@ -62,6 +63,7 @@
         UIView *line = [[UIView alloc] init];
         line.backgroundColor = [UIColor colorWithHexString:@"#d4d4d4"];
         [self.contentView addSubview:line];
+        self.bottomLine = line;
         
      
         CGFloat topMargin = 5;
@@ -129,6 +131,7 @@
         self.textField.text = dataModel.value;
         self.textField.userInteractionEnabled = dataModel.canEdit;
         self.arrowImageView.hidden = YES;
+        self.bottomLine.hidden = !dataModel.canEdit;
         
     } else if ([model isKindOfClass:[TLChooseDataModel class]]) {
         //主要是形体
@@ -141,6 +144,8 @@
         self.textField.userInteractionEnabled = NO;
         self.arrowImageView.hidden = !dataModel.canEdit;
         self.contentView.userInteractionEnabled = dataModel.canEdit;
+        self.bottomLine.hidden = !dataModel.canEdit;
+
         
     }
     

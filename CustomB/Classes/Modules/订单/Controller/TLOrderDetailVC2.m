@@ -85,6 +85,8 @@
     req.parameters[@"map"] = measureDict;
     req.parameters[@"orderCode"] = self.order.code;
     req.parameters[@"updater"] = [TLUser user].userId;
+    req.parameters[@"token"] = [TLUser user].token;
+
     
     [self.dataManager.measureDataRoom enumerateObjectsUsingBlock:^(TLInputDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
@@ -604,6 +606,7 @@
         req.code = @"620206";
         req.parameters[@"orderCode"] = self.order.code;
         req.parameters[@"updater"] = [TLUser user].userId;
+        req.parameters[@"token"] = [TLUser user].token;
         req.parameters[@"remark"] = self.dataManager.remarkRoom[0].value;
         [req startWithSuccess:^(__kindof NBBaseRequest *request) {
             [TLProgressHUD dismiss];

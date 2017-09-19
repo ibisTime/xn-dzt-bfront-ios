@@ -100,6 +100,7 @@
         req.parameters[@"orderCode"] = self.order.code;
         req.parameters[@"quantity"] = @"1";
         req.parameters[@"updater"] = [TLUser user].userId;
+        req.parameters[@"token"] = [TLUser user].token;
         [req startWithSuccess:^(__kindof NBBaseRequest *request) {
             
             TLOrderDetailVC2 *vc = [[TLOrderDetailVC2 alloc] init];
@@ -122,16 +123,13 @@
         
     }
 
-
-    
 }
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
-    
     return self.productRoom.count;
     
-
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {

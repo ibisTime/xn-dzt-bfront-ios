@@ -11,7 +11,12 @@
 #import "TLDataModel.h"
 #import "TLInputDataModel.h"
 
-@implementation TLGroup
+
+@implementation TLGroup {
+
+    CGSize _orgHeaderSize;
+
+}
 
 - (instancetype)init
 {
@@ -32,6 +37,31 @@
     return self.editedEdgeInsets;
     
 }
+
+
+- (void)setHeaderSize:(CGSize)headerSize {
+
+    _headerSize = headerSize;
+    _orgHeaderSize = headerSize;
+}
+
+- (void)groupSetShow {
+
+    self.editting = YES;
+    _headerSize = _orgHeaderSize;
+
+}
+
+- (void)groupSetHidden {
+
+//    return;
+    self.editting = NO;
+    //高度设为0
+    //不要调用set
+    _headerSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, 0.01);
+
+}
+
 
 - (NSInteger)itemCount {
 
@@ -57,5 +87,7 @@
     }
  
 }
+
+
 
 @end

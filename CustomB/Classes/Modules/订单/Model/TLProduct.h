@@ -20,6 +20,8 @@ typedef NS_ENUM(NSUInteger, TLProductType) {
 @interface TLProduct : TLBaseModel
 
 @property (nonatomic, copy) NSString *advPic;
+@property (nonatomic, copy) NSString *pic;
+
 @property (nonatomic, copy) NSString *code;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, strong) NSNumber *price;

@@ -86,6 +86,20 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginOut) name:kUserLoginOutNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLogin) name:kUserLoginNotification object:nil];
     
+//    NBCDRequest *timesReq = [[NBCDRequest alloc] init];
+//    timesReq.code = @"620918";
+//    timesReq.parameters[@"keyList"] = @[@"FHY"];
+//    timesReq.parameters[@"companyCode"] = [AppConfig config].systemCode;
+//    timesReq.parameters[@"systemCode"] = [AppConfig config].systemCode;
+//    timesReq.parameters[@"token"] = [TLUser user].token;
+//    [timesReq startWithSuccess:^(__kindof NBBaseRequest *request) {
+//        
+//        NSDictionary *dict = request.responseObject[@"data"];
+//        [dict[@"FHY"] floatValue]
+//    } failure:^(__kindof NBBaseRequest *request) {
+//        
+//    }];
+    
     return YES;
     
 }

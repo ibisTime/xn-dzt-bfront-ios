@@ -138,7 +138,9 @@
     
     //刺绣
     //判断产品是否有刺绣,
-    if (self.cixiuTextGroup && self.cixiuTextGroup.content && self.cixiuTextGroup.content.length > 0) {
+    if (self.cixiuTextGroup
+        && self.cixiuTextGroup.content
+        && self.cixiuTextGroup.content.length > 0) {
         
         [self.dataManager.groups enumerateObjectsUsingBlock:^(TLGroup * _Nonnull group, NSUInteger idx, BOOL * _Nonnull stop) {
             
@@ -299,9 +301,13 @@
     
 }
 
+- (NSString *)getContentStrWith:(TLGuiGeXiaoLei *)guiGeXiaoLei {
+
+    return  [NSString stringWithFormat:@"%@（￥%@）",guiGeXiaoLei.name,[guiGeXiaoLei.price convertToRealMoney]];
+    
+}
 
 - (void)configModel {
-    
     
     CGSize headerBigSize = CGSizeMake(SCREEN_WIDTH, 75);
     CGSize headerMiddleSize = CGSizeMake(SCREEN_WIDTH, 45);
@@ -349,8 +355,11 @@
                     parameterModel.name = guiGeXiaoLei.name;
                     parameterModel.dataModel = guiGeXiaoLei;
                     //
+                    
                     if (guiGeXiaoLei.isSelected) {
-                        parameterGroup.content = guiGeXiaoLei.name;
+                        //
+                        parameterGroup.content = [self getContentStrWith:guiGeXiaoLei];
+                        //
                     }
                     parameterModel.yuSelected = guiGeXiaoLei.isSelected;
                     parameterModel.isSelected = guiGeXiaoLei.isSelected;
@@ -358,12 +367,10 @@
                     [xiaoLeiRoom addObject:parameterModel];
                     
                 }];
-                
                 //
                 parameterGroup.dataModelRoom = xiaoLeiRoom;
                 parameterGroup.title = guiGeDaLei.dvalue;
                 parameterGroup.canEdit = YES;
-                //        parameterGroup.content = self.dataManager.menJinValue;
                 parameterGroup.headerSize = headerSmallSize;
                 parameterGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
                 parameterGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
@@ -390,7 +397,7 @@
                         parameterModel.name = guiGeXiaoLei.name;
                         //
                         if (guiGeXiaoLei.isSelected) {
-                            colorGroup.content = guiGeXiaoLei.name;
+                            colorGroup.content = [self getContentStrWith:guiGeXiaoLei];
                         }
                         parameterModel.yuSelected = guiGeXiaoLei.isSelected;
                         parameterModel.isSelected = guiGeXiaoLei.isSelected;
@@ -400,7 +407,6 @@
                     }];
                     colorGroup.dataModelRoom = colorRoom;
                     colorGroup.title = guiGeDaLei.colorPcList[0].name;
-//                    colorGroup.content = self.dataManager.ciXiuColorValue;
                     colorGroup.headerSize = headerSmallSize;
                     colorGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
                     colorGroup.canEdit = YES;
@@ -431,7 +437,8 @@
                     parameterModel.name = guiGeXiaoLei.name;
                     parameterModel.dataModel = guiGeXiaoLei;
                     if (guiGeXiaoLei.isSelected) {
-                        styleGroup.content = guiGeXiaoLei.name;
+                        styleGroup.content = [self getContentStrWith:guiGeXiaoLei]
+                        ;
                     }
                     parameterModel.yuSelected = guiGeXiaoLei.isSelected;
                     parameterModel.isSelected = guiGeXiaoLei.isSelected;
@@ -506,7 +513,7 @@
                         if (ciXiuDict.allKeys && ciXiuDict.allKeys.count > 0) {
                             
                             inputDataModel.value = ciXiuDict[ciXiuDict.allKeys[0]];
-
+                            ciXiuTextGroup.content = inputDataModel.value;
                         }
                     }
                     ciXiuTextGroup.dataModelRoom = @[inputDataModel].mutableCopy;
@@ -542,7 +549,7 @@
                         parameterModel.dataModel = guiGeXiaoLei;
                         
                         if (guiGeXiaoLei.isSelected) {
-                            ciXiuColorGroup.content = guiGeXiaoLei.name;
+                            ciXiuColorGroup.content = [self getContentStrWith:guiGeXiaoLei];
                             parameterModel.yuSelected = guiGeXiaoLei.isSelected;
                             parameterModel.isSelected = guiGeXiaoLei.isSelected;
                         }
@@ -553,7 +560,6 @@
                     
                     ciXiuColorGroup.dataModelRoom = arr;
                     ciXiuColorGroup.title = @"刺绣颜色";
-//                    ciXiuColorGroup.content = self.dataManager.ciXiuColorValue;
                     ciXiuColorGroup.headerSize = headerSmallSize;
                     ciXiuColorGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
                     ciXiuColorGroup.mark = CI_XIU_MARK;
@@ -583,7 +589,7 @@
                         //
                         if (guiGeXiaoLei.isSelected) {
 
-                            ciXiuLocationGroup.content = guiGeXiaoLei.name;
+                            ciXiuLocationGroup.content = [self getContentStrWith:guiGeXiaoLei];
                             parameterModel.yuSelected = guiGeXiaoLei.isSelected;
                             parameterModel.isSelected = guiGeXiaoLei.isSelected;
                         }
@@ -595,7 +601,6 @@
                     ciXiuLocationGroup.title = guiGeDaLei.dvalue;
                     ciXiuLocationGroup.mark = CI_XIU_MARK;
                     ciXiuLocationGroup.canEdit = YES;
-//                    ciXiuLocationGroup.content = self.dataManager.ciXiuLocationValue;
                     ciXiuLocationGroup.headerSize = headerSmallSize;
                     ciXiuLocationGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
                     ciXiuLocationGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
@@ -862,14 +867,37 @@
             } else {
                 //以下是选择
                 NSMutableArray <TLParameterModel *>*models =  group.dataModelRoom;
+                TLGuiGeDaLei *guiGeDaLei = group.dateModel;
+                
                 [models enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
                     TLGuiGeXiaoLei *guiGeXiaoLei = obj.dataModel;
-                    
+                    //
                     if (obj.yuSelected) {
+                        
+                        //__________//
+                        //专一找出颜色
+                        TLGuiGeXiaoLei *guiGeXiaoLei = obj.dataModel;
+                        if (guiGeDaLei.guiGeLeiBie == GuiGeDaLeiTypeDefaultGongYi
+                            && guiGeDaLei.colorPcList && guiGeDaLei.colorPcList.count > 0) {
+                            
+                            //这个规格小类不需要提醒
+                            TLGroup *nextGrop = self.dataManager.groups[reusableView.section + 1];
+                            if ([guiGeXiaoLei.isHit isEqualToString:@"0"]) {
+                                
+                                [nextGrop groupSetHidden];
+
+                            } else {
+                            
+                                [nextGrop groupSetShow];
+
+                            }
+                          
+                            
+                        }//_______//
                         
                         obj.isSelected = YES;
                         guiGeXiaoLei.isSelected = obj.isSelected;
-                        group.content = obj.name;
+                        group.content = [self getContentStrWith:guiGeXiaoLei];
                         
                     } else {
                         
@@ -883,10 +911,15 @@
             }
             
             
+            [self.orderDetailCollectionView reloadData];
+
+            
             [UIView animateWithDuration:0 animations:^{
                 [self.orderDetailCollectionView  performBatchUpdates:^{
-                    [self.orderDetailCollectionView reloadSections:[NSIndexSet indexSetWithIndex:reusableView.section]];
-                    
+//
+//                    [self.orderDetailCollectionView reloadData];
+////                    [self.orderDetailCollectionView reloadSections:[NSIndexSet indexSetWithIndex:reusableView.section]];
+//                    
                 } completion:nil];
             }];
             
@@ -949,7 +982,6 @@
         TLButtonHeaderView *trueHeader = header;
         trueHeader.section = indexPath.section;
         trueHeader.delegate = self;
-        //self.dataManager.groups[indexPath.section].content = @"200";
         trueHeader.title = self.dataManager.groups[indexPath.section].title;
         
     }
