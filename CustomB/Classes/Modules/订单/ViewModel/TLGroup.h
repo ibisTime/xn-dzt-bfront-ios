@@ -46,6 +46,12 @@
 - (void)groupSetHidden;
 - (void)groupSetShow;
 
+/**
+ 规格为无的时候颜色隐藏，不需验证, default Yes
+ */
+@property (nonatomic, assign) BOOL shouldCheckEdit;
+
+
 
 /**
  尽量不要使用该字段，（在定价界面，面料和工艺中有使用）

@@ -17,7 +17,6 @@
 #import "TLOrderCell.h"
 #import "Const.h"
 #import "TLOrderDetailVC2.h"
-#import "TLProductChooseVC.h"
 #import "TLConfirmPriceVC.h"
 #import "TLAlert.h"
 #import <MJRefresh/MJRefresh.h>
@@ -34,11 +33,7 @@
 @implementation TLOrderCategoryVC
 
 
-- (void)viewDidLayoutSubviews {
-    
-    self.orderTableView.frame = self.view.bounds;
-    
-}
+
 
 - (void)refresh {
     
@@ -81,13 +76,19 @@
 
 }
 
+- (void)viewDidLayoutSubviews {
+    
+    self.orderTableView.frame = self.view.bounds;
+    
+}
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.isFirst = YES;
     
     [self setPlaceholderViewTitle:@"加载失败" operationTitle:@"重新加载"];
-    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 40) delegate:self dataSource:self];
+    TLTableView *tableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, 0) delegate:self dataSource:self];
     [self.view addSubview:tableView];
     tableView.backgroundColor = [UIColor whiteColor];
 //    tableView.contentOffset = CGPointMake(0, -24);

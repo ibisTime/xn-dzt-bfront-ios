@@ -33,7 +33,7 @@
 //    http://oss.dzt.hichengdai.com/main.html
 //    http://www.cnblogs.com/wjblogs/p/5367052.html 删除
 //    http://118.178.124.16:3308/main.html
-    
+
     //1.配置应用运行环境
     [AppConfig config].runEnv = RunEnvTest;
      
@@ -116,7 +116,6 @@
 - (void)userLogin {
 
     self.window.rootViewController = [[TLTabBarController alloc] init];
-
 
 }
 

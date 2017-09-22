@@ -13,6 +13,7 @@
 #import "NSString+Extension.h"
 #import "TLAlert.h"
 #import "TLCustomerSearchVC.h"
+#import "DeviceUtil.h"
 
 #define NORMAL_TITLE_COLOR  [UIColor colorWithHexString:@"#b3b3b3"]
 #define SELECT_TITLE_COLOR  [UIColor themeColor]
@@ -45,7 +46,6 @@
     [self.navigationController pushViewController:vc animated:YES];
     
     //
-
 }
 
 
@@ -138,7 +138,7 @@
     
     
     //
-    self.switchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, smallChooseView.yy, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - smallChooseView.bottom)];
+    self.switchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, smallChooseView.yy, SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] - [DeviceUtil bottom49] - smallChooseView.bottom)];
     self.switchScrollView.delegate = self;
     self.switchScrollView.showsHorizontalScrollIndicator = NO;
     self.switchScrollView.pagingEnabled =  YES;

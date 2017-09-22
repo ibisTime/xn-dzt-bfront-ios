@@ -24,6 +24,7 @@
     if (self) {
         self.canEdit = YES;
         self.editting = NO;
+        self.shouldCheckEdit = YES;
     }
     return self;
 }
@@ -49,6 +50,8 @@
 
     self.editting = YES;
     _headerSize = _orgHeaderSize;
+    self.shouldCheckEdit = YES;
+
 
 }
 
@@ -59,7 +62,8 @@
     //高度设为0
     //不要调用set
     _headerSize = CGSizeMake([UIScreen mainScreen].bounds.size.width, 0.01);
-
+    self.shouldCheckEdit = NO;
+    
 }
 
 

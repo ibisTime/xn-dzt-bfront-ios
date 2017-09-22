@@ -27,7 +27,6 @@
 #import "TLCiXiuTextInputCell.h"
 
 #import "NBNetwork.h"
-#import "TLProductChooseVC.h"
 #import "TLProgressHUD.h"
 #import "AppConfig.h"
 
@@ -885,6 +884,12 @@
     
 }
 
+- (void)viewDidLayoutSubviews {
+    
+    self.orderDetailCollectionView.frame = self.view.bounds;
+    
+}
+
 - (void)setUpUI {
 
     //
@@ -892,7 +897,7 @@
     fl.minimumLineSpacing = 0;
     fl.minimumInteritemSpacing = 0;
     
-    UICollectionView *orderDetailCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0,SCREEN_WIDTH, SCREEN_HEIGHT - 64) collectionViewLayout:fl];
+    UICollectionView *orderDetailCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0,SCREEN_WIDTH, 0) collectionViewLayout:fl];
     [self.view addSubview:orderDetailCollectionView];
     self.orderDetailCollectionView = orderDetailCollectionView;
     orderDetailCollectionView.backgroundColor = [UIColor colorWithHexString:@"#fafafa"];

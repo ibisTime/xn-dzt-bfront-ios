@@ -112,6 +112,12 @@
 
 }
 
+- (void)viewDidLayoutSubviews {
+    
+    self.billTV.frame = self.view.bounds;
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -127,7 +133,7 @@
         return;
     }
     
-    TLTableView *billTableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)
+    TLTableView *billTableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
                                                        delegate:self
                                                      dataSource:self];
     [self.view addSubview:billTableView];

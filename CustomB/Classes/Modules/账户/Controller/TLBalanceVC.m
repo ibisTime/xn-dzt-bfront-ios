@@ -19,6 +19,7 @@
 #import "ZHWithdrawalVC.h"
 #import "TLTableView.h"
 #import "ImageUtil.h"
+#import "DeviceUtil.h"
 
 @interface TLBalanceVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -170,7 +171,7 @@
 //
 - (void)setUpUI {
 
-    self.balanceTableView =  [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 60) delegate:self dataSource:self];
+    self.balanceTableView =  [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] - 60) delegate:self dataSource:self];
     [self.view addSubview:self.balanceTableView];
     self.balanceTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.balanceTableView.rowHeight = 60;

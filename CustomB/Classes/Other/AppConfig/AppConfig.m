@@ -45,7 +45,7 @@ void TLLog(NSString *format, ...) {
         
            self.qiniuDomain = @"http://omxvtiss6.bkt.clouddn.com";
             
-           self.addr = @"http://139.224.200.54:5601"; //test
+            self.addr = @"http://116.62.241.53:8901"; //test
 
         }break;
             

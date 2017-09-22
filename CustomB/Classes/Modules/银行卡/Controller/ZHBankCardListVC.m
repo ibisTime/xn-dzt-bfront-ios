@@ -47,13 +47,21 @@
 }
 
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    self.bankCardTV.frame = self.view.bounds;
+
+}
+
+
+
 - (void)viewDidLoad {
 
     [super viewDidLoad];
     self.title = @"我的银行卡";
     
     
-    TLTableView *bankCardTV = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)
+    TLTableView *bankCardTV = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
                                                        delegate:self
                                                      dataSource:self];
     self.bankCardTV = bankCardTV;

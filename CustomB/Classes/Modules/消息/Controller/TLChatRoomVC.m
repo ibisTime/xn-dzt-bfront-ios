@@ -17,6 +17,7 @@
 #import "TLAlert.h"
 #import "TLProgressHUD.h"
 #import "MJRefresh.h"
+#import "DeviceUtil.h"
 
 @interface TLChatRoomVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -57,7 +58,7 @@
     self.title = self.otherName;
     //
     CGFloat bottomHeight = 60;
-    self.chatTableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - bottomHeight) delegate:self dataSource:self];
+    self.chatTableView = [TLTableView tableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] - bottomHeight) delegate:self dataSource:self];
     [self.view addSubview:self.chatTableView];
     self.chatTableView.estimatedRowHeight =  50;
     self.chatTableView.backgroundColor = [UIColor colorWithHexString:@"#eeeeee"];
@@ -264,9 +265,9 @@
     
     [UIView animateWithDuration:duration delay:0 options: 458752 | UIViewAnimationOptionBeginFromCurrentState animations:^{
         
-        self.bootomBgView.y = CGRectGetMinY(keyBoardFrame) - 64 - self.bootomBgView.height;
+        self.bootomBgView.y = CGRectGetMinY(keyBoardFrame) - [DeviceUtil top64] - self.bootomBgView.height;
         
-        self.chatTableView.height = CGRectGetMinY(keyBoardFrame)  - 64 - self.bootomBgView.height;
+        self.chatTableView.height = CGRectGetMinY(keyBoardFrame)  - [DeviceUtil top64] - self.bootomBgView.height;
         
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             

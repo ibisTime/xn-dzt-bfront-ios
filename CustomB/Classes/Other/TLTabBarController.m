@@ -36,15 +36,15 @@
                     selectedImage:selectedImageNames[i]];
     }
     
-
     self.selectedIndex = 0;
+    
 }
 
 - (void)usrLoginOut {
 
     self.tabBar.items[3].badgeValue =  nil;
    [UIApplication sharedApplication].applicationIconBadgeNumber = 0;
-
+    
 }
 
 

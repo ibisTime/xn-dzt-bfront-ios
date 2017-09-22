@@ -26,7 +26,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.edgesForExtendedLayout = UIRectEdgeNone;
-    
+    //
+    //
     [self.navigationController setNavigationBarHidden:NO animated:NO];
     self.view.backgroundColor = [UIColor colorWithHexString:@"#f0f0f0"];
     self.view.backgroundColor = [UIColor whiteColor];
@@ -35,6 +36,8 @@
 //    self.navigationItem.backBarButtonItem = backItem;
 //    self.view.backgroundColor = [UIColor backgroundColor];
     
+    UIBarButtonItem *backItem = [[UIBarButtonItem alloc] initWithTitle:@"" style:UIBarButtonItemStylePlain target:nil action:nil];
+    self.navigationItem.backBarButtonItem = backItem;
 }
 
 

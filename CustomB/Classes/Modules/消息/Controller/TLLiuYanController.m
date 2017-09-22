@@ -15,6 +15,7 @@
 #import "TLUser.h"
 #import "TLChatRoomVC.h"
 #import "TLPlaceholderView.h"
+#import "DeviceUtil.h"
 
 @interface TLLiuYanController()<UITableViewDelegate,UITableViewDataSource>
 
@@ -62,7 +63,7 @@
 - (void)setUpUI {
     
     __weak typeof(self) weakself = self;
-    self.liuYanTableView = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 48) delegate:self dataSource:self];
+    self.liuYanTableView = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] - 48) delegate:self dataSource:self];
     [self.view addSubview:self.liuYanTableView];
     self.liuYanTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.liuYanTableView.estimatedRowHeight = 50;

@@ -28,7 +28,6 @@
 #import "TLCiXiuTextInputCell.h"
 
 #import "NBNetwork.h"
-#import "TLProductChooseVC.h"
 #import "TLProgressHUD.h"
 #import "AppConfig.h"
 
@@ -39,6 +38,7 @@
 #import "NSNumber+TLAdd.h"
 #import "NSString+Extension.h"
 #import "TLGuiGeDaLei.h"
+#import "TLUIHeader.h"
 
 #define CI_XIU_MARK @"CI_XIU_MARK"
 #define DA_LEI_COLOR_MARK @"DA_LEI_COLOR_MARK"
@@ -73,6 +73,14 @@
 }
 #pragma mark- 提交
 - (void)trueSubmit {
+    
+    //判断是否编辑
+    [self.dataManager.groups enumerateObjectsUsingBlock:^(TLGroup * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        if (obj.shouldCheckEdit && obj.editting) {
+            
+            @throw [NSException exceptionWithName:[NSString stringWithFormat:@"#%@# 还处于编辑状态,请确定",obj.title] reason:nil userInfo:nil];
+        }
+    }];
  
     //1.检测工艺是非为空
     NSMutableArray <TLGuiGeXiaoLei *> *guiGeXiaoLeiArr = [[NSMutableArray alloc] init];
@@ -329,6 +337,7 @@
     //
     TLGroup *dingZhiGroup = [[TLGroup alloc] init];
     [self.dataManager.groups addObject:dingZhiGroup];
+    dingZhiGroup.shouldCheckEdit = NO;
     dingZhiGroup.dataModelRoom = [self.dataManager configDefaultModel];
     dingZhiGroup.title = @"定制信息";
     dingZhiGroup.headerSize = headerBigSize;
@@ -491,6 +500,7 @@
         ciXiuGroup.dataModelRoom = [self.dataManager configDefaultModel];
         
         ciXiuGroup.title = @"刺绣定制信息";
+        ciXiuGroup.shouldCheckEdit = NO;
         ciXiuGroup.headerSize = headerMiddleSize;
         ciXiuGroup.headerReuseIdentifier = [TLOrderBGTitleHeader headerReuseIdentifier];
         
@@ -633,6 +643,7 @@
         confirmBtnGroup.dataModelRoom = [NSMutableArray new];
         [self.dataManager.groups addObject:confirmBtnGroup];
         confirmBtnGroup.title = @"确定";
+    confirmBtnGroup.shouldCheckEdit = NO;
         confirmBtnGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 80);
         confirmBtnGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
         confirmBtnGroup.headerReuseIdentifier = [TLButtonHeaderView headerReuseIdentifier];
@@ -642,9 +653,15 @@
         confirmBtnGroup.editingEdgeInsets = paramterEdgeInsets;
         confirmBtnGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     
-    [self.dataManager.groups enumerateObjectsUsingBlock:^(TLGroup * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        obj.editting = YES;
-    }];
+//    [self.dataManager.groups enumerateObjectsUsingBlock:^(TLGroup * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        obj.editting = YES;
+//    }];
+    
+}
+
+- (void)viewDidLayoutSubviews {
+    
+    self.orderDetailCollectionView.frame = self.view.bounds;
     
 }
 
@@ -656,13 +673,13 @@
     fl.minimumLineSpacing = 0;
     fl.minimumInteritemSpacing = 0;
     
-    UICollectionView *orderDetailCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0,SCREEN_WIDTH, SCREEN_HEIGHT - 64) collectionViewLayout:fl];
+    UICollectionView *orderDetailCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0,SCREEN_WIDTH, 0) collectionViewLayout:fl];
     [self.view addSubview:orderDetailCollectionView];
     self.orderDetailCollectionView = orderDetailCollectionView;
     orderDetailCollectionView.backgroundColor = [UIColor colorWithHexString:@"#fafafa"];
     orderDetailCollectionView.delegate = self;
     orderDetailCollectionView.dataSource = self;
-    
+    [orderDetailCollectionView adjustsContentInsets];
 }
 
 

@@ -27,7 +27,7 @@
 #import "TLMianLiaoChooseVC.h"
 #import "TLMianLiaoModel.h"
 #import "TLGuiGeXiaoLei.h"
-
+#import "UIScrollView+TLAdd.h"
 #import "TLOrderBigTitleHeader.h"
 #import "TLCiXiuTextInputCell.h"
 
@@ -50,7 +50,10 @@
 @property (nonatomic, strong) TLGroup *productGroup;
 @property (nonatomic, strong) TLGroup *confirmBtnGroup;
 @property (nonatomic, strong) TLGroup *totalPriceGroup;
+
 @property (nonatomic, strong) TLGroup *receiveAddressGroup;
+@property (nonatomic, strong) TLGroup *remarkGroup;
+
 
 @property (nonatomic, assign) float times;
 
@@ -266,7 +269,9 @@
     zongJiaGroup.editingEdgeInsets = paramterEdgeInsets;
     zongJiaGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     
-    //收货地址
+   
+    
+    //
     TLGroup *receiveGroup = [[TLGroup alloc] init];
     [self.dataManager.groups addObject:receiveGroup];
     self.receiveAddressGroup = receiveGroup;
@@ -285,6 +290,25 @@
     receiveGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, 0, paramterEdgeInsets.right);
     receiveGroup.editingEdgeInsets = receiveGroup.editedEdgeInsets;
     receiveGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 45);
+    
+    //remark
+    TLGroup *remarkGroup = [[TLGroup alloc] init];
+    [self.dataManager.groups addObject:remarkGroup];
+    self.remarkGroup = remarkGroup;
+    TLInputDataModel *remarkInputDataModel = [[TLInputDataModel alloc] init];
+    remarkInputDataModel.canEdit = YES;
+    remarkGroup.dataModelRoom = @[remarkInputDataModel].mutableCopy;
+    remarkGroup.title = @"备注";
+    remarkGroup.content = self.dataManager.shouHuoValue;
+    remarkGroup.editting = YES;
+    remarkGroup.headerSize = headerSmallSize;
+    remarkGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
+    remarkGroup.cellReuseIdentifier = [TLCiXiuTextInputCell cellReuseIdentifier];
+    remarkGroup.minimumLineSpacing = horizonMargin;
+    remarkGroup.minimumInteritemSpacing = middleMargin;
+    remarkGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, 0, paramterEdgeInsets.right);
+    remarkGroup.editingEdgeInsets = remarkGroup.editedEdgeInsets;
+    remarkGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 45);
     
     //确定按钮
     TLGroup *confirmBtnGroup = [[TLGroup alloc] init];
@@ -435,6 +459,13 @@
             [TLAlert alertWithInfo:@"请填写收货地址"];
             return;
         }
+        TLInputDataModel *remarkModel = self.remarkGroup.dataModelRoom[0];
+//        if (!remarkModel.value || remarkModel.value.length <= 0 ) {
+//
+//            [TLAlert alertWithInfo:@"请填写收货地址"];
+//            return;
+//        }
+        //
         
         
         //各项都选择完成
@@ -448,7 +479,7 @@
         req.parameters[@"token"] = [TLUser user].token;
         //先默认取量体地址
         req.parameters[@"address"] = receiveAddressModel.value;
-        
+        req.parameters[@"remark"] = remarkModel.value;
         NSMutableArray *list = [[NSMutableArray alloc] init];
         
 
@@ -615,7 +646,7 @@
     UICollectionView *confirmPriceCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0,SCREEN_WIDTH, SCREEN_HEIGHT - 64) collectionViewLayout:fl];
     [self.view addSubview:confirmPriceCollectionView];
     self.confirmPriceCollectionView = confirmPriceCollectionView;
-    
+    [confirmPriceCollectionView adjustsContentInsets];
     confirmPriceCollectionView.backgroundColor = [UIColor colorWithHexString:@"#fafafa"];
     confirmPriceCollectionView.delegate = self;
     confirmPriceCollectionView.dataSource = self;
@@ -805,6 +836,7 @@
             
             [groupArr addObject:self.totalPriceGroup];
             [groupArr addObject:self.receiveAddressGroup];
+            [groupArr addObject:self.remarkGroup];
             [groupArr addObject:self.confirmBtnGroup];
             
             self.dataManager.groups = groupArr;

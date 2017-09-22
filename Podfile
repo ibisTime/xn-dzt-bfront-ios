@@ -16,11 +16,16 @@ target 'CustomB' do
     pod 'Masonry', '1.0.2'
     pod 'AFNetworking','3.1.0'
     pod 'SDWebImage','4.0.0'
-    pod 'IQKeyboardManager','4.0.10'
+    pod 'IQKeyboardManager','4.0.13'
+
     #七牛云
+#    MGSwipeTableCell
     pod 'Qiniu','7.1.5'
-    pod 'Realm','2.8.0'
-    pod 'SVProgressHUD', '2.1.2'
+#    pod 'Realm','2.8.0'
+    pod 'SVProgressHUD', '2.2'
+    
+    #设备
+    pod 'UIDeviceIdentifier', :git => 'https://github.com/squarefrog/UIDeviceIdentifier.git'
     
 
 end

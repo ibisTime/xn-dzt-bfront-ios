@@ -14,6 +14,7 @@
 #import "TLUser.h"
 #import "TLAlert.h"
 #import "NSString+Extension.h"
+#import "UIScrollView+TLAdd.h"
 
 @interface CustomPayPwdVC ()
 
@@ -30,12 +31,19 @@
 
 @implementation CustomPayPwdVC
 
+- (void)viewDidLayoutSubviews {
+    
+    self.bgSV.frame = self.view.bounds;
+    
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"支付密码";
     
     self.bgSV = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)];
     [self.view addSubview:self.bgSV];
+    [self.bgSV adjustsContentInsets];
     
     //手机号
     self.phoneInputView = [[CustomInputView alloc] initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH, 45)];

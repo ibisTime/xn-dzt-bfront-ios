@@ -21,7 +21,7 @@
 
 #import "UILable+convience.h"
 #import "UIButton+convience.h"
-
+#import "UIScrollView+TLAdd.h"
 
 #import "UIColor+Extension.h"
 #import "UIColor+theme.h"

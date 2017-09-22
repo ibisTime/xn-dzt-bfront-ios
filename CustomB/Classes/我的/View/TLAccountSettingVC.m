@@ -25,6 +25,7 @@
 #import "ZHBankCardListVC.h"
 #import "ImageUtil.h"
 #import "AppConfig.h"
+#import "DeviceUtil.h"
 
 
 @interface TLAccountSettingVC ()<UITableViewDataSource,UITableViewDelegate>
@@ -227,13 +228,15 @@
 - (void)setUpUI {
 
     
-    self.accountSettingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 80) style:UITableViewStylePlain];
+    self.accountSettingTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] - 80) style:UITableViewStylePlain];
     [self.view addSubview:self.accountSettingTableView];
     self.accountSettingTableView.delegate = self;
     self.accountSettingTableView.dataSource = self;
     self.accountSettingTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     
     self.accountSettingTableView.contentInset = UIEdgeInsetsMake(20, 0, 0, 0);
+    
+    adjustsContentInsets(self.accountSettingTableView);
     
     //
     UIButton *outBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, self.accountSettingTableView.yy + 20, SCREEN_WIDTH - 50, 40)];

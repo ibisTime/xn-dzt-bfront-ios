@@ -16,6 +16,7 @@
 #import "TLAlert.h"
 #import "TLProgressHUD.h"
 #import "TLInnerProduct.h"
+#import "DeviceUtil.h"
 
 @interface TLMianLiaoChooseVC ()<UITableViewDataSource,UITableViewDelegate,UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
@@ -153,6 +154,11 @@
 
 }
 
+- (void)viewDidLayoutSubviews {
+    
+    
+}
+
 - (void)setUpUI {
     
     //
@@ -163,7 +169,7 @@
 
 
     //左类别tableView
-    UITableView *leftTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, topLineView.yy, 100,SCREEN_HEIGHT - 64 ) style:UITableViewStylePlain];
+    UITableView *leftTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, topLineView.yy, 100,SCREEN_HEIGHT - [DeviceUtil top64] ) style:UITableViewStylePlain];
     [self.view addSubview:leftTableView];
     leftTableView.separatorStyle = UITableViewCellSeparatorStyleNone;;
     leftTableView.delegate = self;
@@ -178,7 +184,7 @@
     fl.itemSize = CGSizeMake((SCREEN_WIDTH - leftTableView.width)/3.0, 110);
     fl.sectionInset = UIEdgeInsetsMake(10, 0, 0, 0);
     //
-    UICollectionView *orderDetailCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(leftTableView.right, leftTableView.y,SCREEN_WIDTH - leftTableView.right, SCREEN_HEIGHT - 64 - 80) collectionViewLayout:fl];
+    UICollectionView *orderDetailCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(leftTableView.right, leftTableView.y,SCREEN_WIDTH - leftTableView.right, SCREEN_HEIGHT - [DeviceUtil top64] - 80) collectionViewLayout:fl];
     [self.view addSubview:orderDetailCollectionView];
     self.mianLiaoCollectionView = orderDetailCollectionView;
     orderDetailCollectionView.backgroundColor = [UIColor colorWithHexString:@"#fafafa"];

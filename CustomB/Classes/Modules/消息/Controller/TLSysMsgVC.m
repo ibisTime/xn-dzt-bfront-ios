@@ -43,6 +43,12 @@
     
 }
 
+- (void)viewDidLayoutSubviews {
+    
+    self.liuYanTableView.frame = self.view.bounds;
+    
+}
+
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -59,10 +65,11 @@
 
 }
 
+
 - (void)setUpUI {
     
     __weak typeof(self) weakself = self;
-    self.liuYanTableView = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 48) delegate:self dataSource:self];
+    self.liuYanTableView = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, 0) delegate:self dataSource:self];
     [self.view addSubview:self.liuYanTableView];
     self.liuYanTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.liuYanTableView.estimatedRowHeight = 50;

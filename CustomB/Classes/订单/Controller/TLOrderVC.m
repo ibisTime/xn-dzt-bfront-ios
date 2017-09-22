@@ -15,6 +15,7 @@
 #import "OrderSearchVC.h"
 #import "NSString+Extension.h"
 #import "TLAlert.h"
+#import "DeviceUtil.h"
 
 @interface TLOrderVC ()<ZHSegmentViewDelegate,UIScrollViewDelegate>
 
@@ -62,12 +63,19 @@
     segmentView.tagNames = @[@"全部订单",@"待量体",@"待支付",@"待录入",@"待复核"];
     
     //
-    self.switchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, segmentView.yy, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 49 - segmentView.bottom)];
+    self.switchScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, segmentView.yy, SCREEN_WIDTH, SCREEN_HEIGHT - [DeviceUtil top64] - [DeviceUtil bottom49] - segmentView.yy)];
     self.switchScrollView.delegate = self;
     [self.view addSubview:self.switchScrollView];
     self.switchScrollView.contentSize = CGSizeMake(SCREEN_WIDTH * segmentView.tagNames.count, self.switchScrollView.height);
     self.switchScrollView.scrollEnabled = NO;
     self.switchScrollView.showsHorizontalScrollIndicator = NO;
+    
+    //
+//    [self.switchScrollView mas_makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.right.equalTo(self.view);
+//        make.top.equalTo(segmentView.mas_bottom);
+//        make.bottom.equalTo(self.view.mas_bottom);
+//    }];
 
     
     self.isAdd = [@[@1 ,@0 ,@0 ,@0,@0] mutableCopy];

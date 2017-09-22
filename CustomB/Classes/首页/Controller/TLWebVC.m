@@ -12,8 +12,6 @@
 #import "TLAlert.h"
 #import "TLProgressHUD.h"
 
-
-
 @interface TLWebVC ()<WKNavigationDelegate>
 
 @property (nonatomic, strong) WKWebView *webView;

@@ -27,6 +27,10 @@
 #import <MJRefresh/MJRefresh.h>
 #import "NBNetwork.h"
 #import "ImageUtil.h"
+#import "DeviceUtil.h"
+
+
+
 
 @interface TLMineVC ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -63,12 +67,7 @@
         
         self.isFirst = NO;
     }
-    
-    
-    
 
- 
-    
 }
 
 
@@ -276,6 +275,13 @@
     
 }
 
+//- (void)viewDidLayoutSubviews {
+//    
+//    self.mineTableView.frame = self.view.bounds;
+//    
+//}
+
+
 - (void)setUpUI {
 
     CGFloat userPhotoWidth = 75;
@@ -286,8 +292,11 @@
     self.mineTableView.dataSource = self;
     self.mineTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     self.mineTableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresh)];
+    
+    adjustsContentInsets(self.mineTableView);
+    
     //
-    self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 380 - 49)];
+    self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 380 - [DeviceUtil bottom49])];
     self.footerView.backgroundColor = [UIColor clearColor];
     self.mineTableView.tableFooterView = self.footerView;
     

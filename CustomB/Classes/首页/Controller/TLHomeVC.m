@@ -13,7 +13,6 @@
 #import "TLHomeTableHeaderView.h"
 #import "TLBannerView.h"
 #import "NBNetwork.h"
-#import "TLProductChooseVC.h"
 #import "TLOrderDetailVC2.h"
 #import "TLNetworking.h"
 #import "ZHBannerModel.h"
@@ -77,6 +76,13 @@
     
 }
 
+- (void)viewDidLayoutSubviews {
+    
+    self.homeTableView.frame = self.view.bounds;
+    
+}
+
+//
 - (void)viewDidLoad {
     [super viewDidLoad];
     
@@ -123,11 +129,11 @@
 //    }
     
     [liuYanReq startWithSuccess:^(__kindof NBBaseRequest *request) {
-        
         self.liuYanRoom = [CustomLiuYanModel tl_objectArrayWithDictionaryArray:request.responseObject[@"data"][@"list"]];
         [self.homeTableView reloadData];
         
     } failure:^(__kindof NBBaseRequest *request) {
+        
         
         
     }];
@@ -136,7 +142,7 @@
 - (void)setUpUI {
 
     __weak typeof(self) weakself = self;
-    self.homeTableView = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64 - 48) delegate:self dataSource:self];
+    self.homeTableView = [TLTableView groupTableViewWithframe:CGRectMake(0, 0, SCREEN_WIDTH, 0) delegate:self dataSource:self];
     [self.view addSubview:self.homeTableView];
     self.homeTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     

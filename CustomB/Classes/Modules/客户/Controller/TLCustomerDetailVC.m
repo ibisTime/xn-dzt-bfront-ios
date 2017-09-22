@@ -27,7 +27,6 @@
 #import "TLCiXiuTextInputCell.h"
 
 #import "NBNetwork.h"
-#import "TLProductChooseVC.h"
 #import "TLProgressHUD.h"
 #import "AppConfig.h"
 
@@ -299,6 +298,11 @@
     submitDataBtnGroup.itemSize = CGSizeMake(0, 0);
 }
 
+- (void)viewDidLayoutSubviews {
+    
+    self.orderDetailCollectionView.frame = self.view.bounds;
+
+}
 
 - (void)setUpUI {
     

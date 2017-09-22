@@ -48,14 +48,19 @@
 
 
 @implementation ZHBankCardAddVC
-
+- (void)viewDidLayoutSubviews {
+    
+    [super viewDidLayoutSubviews];
+    self.bgSV.frame = self.view.bounds;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"添加银行卡";
     
-    self.bgSV = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 64)];
+    self.bgSV = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     [self.view addSubview:self.bgSV];
-    
+    [self.bgSV adjustsContentInsets];
+
     //户名
     self.realNameInputView = [[CustomInputView alloc] initWithFrame:CGRectMake(0, 20, SCREEN_WIDTH, 45)];
     [self.bgSV addSubview:self.realNameInputView];

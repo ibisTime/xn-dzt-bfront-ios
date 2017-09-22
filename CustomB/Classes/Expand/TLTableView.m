@@ -9,6 +9,16 @@
 #import "TLTableView.h"
 #import "MJRefresh.h"
 
+#define  adjustsContentInsets(scrollView)\
+do { \
+_Pragma("clang diagnostic push") \
+_Pragma("clang diagnostic ignored \"-Warc-performSelector-leaks\"") \
+if ([UIScrollView instancesRespondToSelector:NSSelectorFromString(@"setContentInsetAdjustmentBehavior:")]) {\
+[scrollView   performSelector:NSSelectorFromString(@"setContentInsetAdjustmentBehavior:") withObject:@(2)];\
+}\
+_Pragma("clang diagnostic pop") \
+} while (0)
+
 @interface TLTableView ()
 
 @property (nonatomic, copy) void(^refresh)();
@@ -41,6 +51,7 @@
     tableView.dataSource = dataSource;
     tableView.backgroundColor = [UIColor clearColor];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    adjustsContentInsets(tableView);
     return tableView;
 
 }
@@ -56,6 +67,7 @@
     tableView.dataSource = dataSource;
     tableView.backgroundColor = [UIColor clearColor];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    adjustsContentInsets(tableView);
     return tableView;
 
 }
