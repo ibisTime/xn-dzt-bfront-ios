@@ -21,7 +21,6 @@ target 'CustomB' do
     #七牛云
 #    MGSwipeTableCell
     pod 'Qiniu','7.1.5'
-#    pod 'Realm','2.8.0'
     pod 'SVProgressHUD', '2.2'
     
     #设备
