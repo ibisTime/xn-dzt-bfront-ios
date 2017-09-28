@@ -49,6 +49,7 @@
 //
 #define CI_XIU_MARK @"CI_XIU_MARK"
 #define DA_LEI_COLOR_MARK @"DA_LEI_COLOR_MARK"
+#define SAVE_DATA_TITLE @"保存数据"
 
 @interface TLOrderDetailVC2 ()<UICollectionViewDataSource,UICollectionViewDelegate,UICollectionViewDelegateFlowLayout,TLOrderEditHeaderDelegate,TLButtonHeaderViewDelegate,TLSwitchHeaderViewDelegate>
 
@@ -56,21 +57,19 @@
 @property (nonatomic, strong) UICollectionView *orderDetailCollectionView;
 @property (nonatomic, strong) TLOrderModel *order;
 @property (nonatomic, strong) TLGroup *ciXiuTextGroup;
-
 //
 @property (nonatomic, strong) NSMutableArray <TLGroup *>*topGroups;
 // 中部是套装随产品改变的group
 @property (nonatomic, strong) NSMutableArray <TLGroup *>*bottomGroups;
 
-
 @end
-
 
 @implementation TLOrderDetailVC2
 - (void)submit {
 
 
 }
+
 #pragma mark- 提交
 - (void)trueSubmit {
 
@@ -86,15 +85,14 @@
     req.parameters[@"updater"] = [TLUser user].userId;
     req.parameters[@"token"] = [TLUser user].token;
 
-    
     [self.dataManager.measureDataRoom enumerateObjectsUsingBlock:^(TLInputDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
-        if (!obj.value  || obj.value.length <=0) {
+        if (obj.isMust && (!obj.value  || obj.value.length <=0)) {
             
             @throw [NSException
                     exceptionWithName:[NSString  stringWithFormat:@"请填写%@",obj.keyName] reason:nil userInfo:nil];
-            
         }
+        //
         //数据正常
         //            measureDict[obj.keyCode] = @"1111";
         measureDict[obj.keyCode] = obj.value;
@@ -104,6 +102,13 @@
     //2.形体信息（可选）
     [self.dataManager.xingTiRoom enumerateObjectsUsingBlock:^(TLChooseDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
+        
+        if (obj.isMust && (!obj.typeValue  || obj.typeValue.length <=0)) {
+            
+            @throw [NSException
+                    exceptionWithName:[NSString  stringWithFormat:@"请选择%@",obj.typeName] reason:nil userInfo:nil];
+        }
+        
         if (obj.typeValue) {
             
             measureDict[obj.type] = obj.typeValue;
@@ -112,20 +117,13 @@
         
     }];
     
-    
-    
-    
-    
 //    //收货地址
 //    NSString *addressType = @"6-04";
 //    NSString *addressValue = self.dataManager.shouHuoAddressRoom[0].value;
 //    measureDict[addressType] = addressValue;
-    
     //备注
 //    measureDict[kBeiZhuType] = self.dataManager.remarkRoom[0].value;
     req.parameters[@"remark"] = self.dataManager.remarkRoom[0].value;
-    
-//    req.parameters[@"codeList"] = otherArr;
     [req startWithSuccess:^(__kindof NBBaseRequest *request) {
         
         [TLProgressHUD dismiss];
@@ -149,7 +147,6 @@
     orderReq.code = @"620231";
     orderReq.parameters[@"code"] = self.orderCode;
     [orderReq startWithSuccess:^(__kindof NBBaseRequest *request) {
-        [TLProgressHUD dismiss];
 
         [self removePlaceholderView];
         //先获取订单信息，在获取其它信息
@@ -158,16 +155,15 @@
         //根据产品获取产品code
         self.productCode = self.order.product.modelCode;
         
-        
         //************* //
         self.dataManager = [[TLOrderDataManager alloc] initWithOrder:self.order];
     
         //************* //
-
         NBCDRequest *xingTiReq = [[NBCDRequest alloc] init];
-        xingTiReq.code = @"620908";
+        xingTiReq.code = @"805908";
         [xingTiReq startWithSuccess:^(__kindof NBBaseRequest *request) {
-            
+            [TLProgressHUD dismiss];
+
             //
             [self.dataManager handMeasureDataWithResp:nil];
             [self.dataManager configXingTiDataModelWithResp:request.responseObject];
@@ -178,7 +174,8 @@
             //配置Model
             [self configModel];
         } failure:^(__kindof NBBaseRequest *request) {
-            
+            [TLProgressHUD dismiss];
+
         }];
         
         
@@ -554,7 +551,7 @@
                     ciXiuLocationGroup.dataModelRoom = arr;
                     ciXiuLocationGroup.title = guiGeDaLei.dvalue;
                     ciXiuLocationGroup.mark = CI_XIU_MARK;
-                    //                    ciXiuLocationGroup.content = self.dataManager.ciXiuLocationValue;
+                    //ciXiuLocationGroup.content = self.dataManager.ciXiuLocationValue;
                     ciXiuLocationGroup.headerSize = HEADER_SMALL_SIZE;
                     ciXiuLocationGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
                     ciXiuLocationGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
@@ -570,10 +567,8 @@
             
         }];
         
-        
-        
     }
-
+    
     return middleGroups;
 
 }
@@ -620,7 +615,7 @@
             
         }];
         
-    } else if ([btnHeaderView.title isEqualToString:@"提交数据"]) {
+    } else if ([btnHeaderView.title isEqualToString:SAVE_DATA_TITLE]) {
     
         @try {
             
@@ -666,7 +661,7 @@
     TLGroup *orderInfoGroup = [[TLGroup alloc] init];
     [self.dataManager.groups addObject:orderInfoGroup];
     [self.topGroups addObject:orderInfoGroup];
-
+    //
     orderInfoGroup.dataModelRoom = [self.dataManager configConstOrderInfoDataModel];
     orderInfoGroup.title = @"订单信息";
     orderInfoGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
@@ -851,7 +846,7 @@
 
     }
     
-    confirmBtnGroup.title = @"提交数据";
+    confirmBtnGroup.title = SAVE_DATA_TITLE;
     confirmBtnGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 60);
     confirmBtnGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
     confirmBtnGroup.headerReuseIdentifier = [TLButtonHeaderView headerReuseIdentifier];

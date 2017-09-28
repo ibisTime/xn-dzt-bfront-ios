@@ -44,166 +44,188 @@
 
 - (void)handMeasureDataWithResp:(id)resp {
 
- NSArray <NSDictionary *>*typeArr = @[
-  
-  @{  @"2-01" : @"领围"},
-  @{  @"2-02" : @"胸围"},
-  @{  @"2-03" : @"中腰围"},
-  @{  @"2-04" : @"裤腰围"},
-  @{  @"2-05" : @"臀围"},
-  @{  @"2-06" : @"大腿围"},
-  @{  @"2-07" : @"通档"},
-  @{  @"2-08" :  @"臂围"},
-  @{  @"2-09" :  @"总肩宽"},
-  @{  @"2-10" :  @"袖长"},
-  @{  @"2-11" : @"前肩宽"},
-  @{  @"2-12" : @"后腰节长"},
-  @{  @"2-13" : @"后腰高"},
-  @{  @"2-14" : @"后衣高"},
-  @{  @"2-15" : @"前腰节长"},
-  @{  @"2-16" : @"前腰高"},
-  @{  @"2-17" : @"裤长"},
-  @{  @"2-18" : @"小腿围"},
-  @{  @"2-19" : @"前胸宽"},
-  @{  @"2-20" : @"后背宽"},
-  @{  @"2-21" : @"腹围"},
-  @{  @"2-22" : @"小臂围"},
-  @{  @"2-23" : @"前衣长"},
-  @{  @"2-24" : @"腕围"}
-      ];
-    
-    //组装量体信息，如果当前 数据控制器，的订单中测量信息不为空，就读取对应的值
-    //在用户详情中，可能也有这些信息，？？怎样处理
-    self.measureDataRoom = [[NSMutableArray alloc] initWithCapacity:typeArr.count];
-    [typeArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        
-//        TLDataModel *model = [[TLDataModel alloc] init];
-//        
-//        model.keyCode = obj.allKeys[0]; //1-2
-//        model.keyName = obj[model.keyCode];
-//        
-//        model.value = @"-";
-//
-//        if (self.order.resultMap.CELIANG && self.order.resultMap.CELIANG[model.keyCode]) {
-//            
-//            NSDictionary *dict = self.order.resultMap.CELIANG[model.keyCode];
-//            model.value =   dict[@"code"] ? dict[@"code"] : @"-";
-//        }
-//        [self.measureDataRoom addObject:model];
+ 
+    self.measureDataRoom = [[NSMutableArray alloc] init];
+    [self.order.measure enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         TLInputDataModel *model = [[TLInputDataModel alloc] init];
+        model.keyCode = obj[@"dkey"]; //1-2
+        model.keyName = obj[@"dvalue"];//
         model.canEdit = [self.order canEditXingTi];
-        model.keyCode = obj.allKeys[0]; //1-2
-        model.keyName = obj[model.keyCode];
-        
-        
-        //找出value
-            [self.order.orderSizeData enumerateObjectsUsingBlock:^(TLMeasureModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                
-                if ([model.keyCode isEqualToString:obj.ckey]) {
-                    
-                    model.value = obj.dkey;
-                    *stop = YES;
+        //
+        model.isMust = obj[@"remark"] && [obj[@"remark"] isEqualToString:@"1"];
 
-                }
-
-            }];
-        
-//        if (!resp) {
-//            //查询订单中信息进行赋值
-//            if (self.order.resultMap.CELIANG && self.order.resultMap.CELIANG[model.keyCode]) {
-//                
-//                NSDictionary *dict = self.order.resultMap.CELIANG[model.keyCode];
-//                model.value =   dict[@"code"] ? dict[@"code"] : @"-";
-//            }
-//            
-//        } else {
-//            
-//           //根据传入的结果进行估值
-//           //用在用户信息界面
-//        
-//        }
-   
+        if (obj[@"orderSizeData"]) {
+            NSDictionary *sizeData = obj[@"orderSizeData"];
+            model.value = sizeData[@"dkey"];
+            
+        }
+        //
         [self.measureDataRoom addObject:model];
         
     }];
+    
+    
+// NSArray <NSDictionary *>*typeArr = @[
+//
+//  @{  @"2-01" : @"领围"},
+//  @{  @"2-02" : @"胸围"},
+//  @{  @"2-03" : @"中腰围"},
+//  @{  @"2-04" : @"裤腰围"},
+//  @{  @"2-05" : @"臀围"},
+//  @{  @"2-06" : @"大腿围"},
+//  @{  @"2-07" : @"通档"},
+//  @{  @"2-08" : @"臂围"},
+//  @{  @"2-09" : @"总肩宽"},
+//  @{  @"2-10" : @"袖长"},
+//  @{  @"2-11" : @"前肩宽"},
+//  @{  @"2-12" : @"后腰节长"},
+//  @{  @"2-13" : @"后腰高"},
+//  @{  @"2-14" : @"后衣长"},
+//  @{  @"2-15" : @"前腰节长"},
+//  @{  @"2-16" : @"前腰高"},
+//  @{  @"2-17" : @"裤长"},
+//  @{  @"2-18" : @"小腿围"},
+//  @{  @"2-19" : @"前胸宽"},
+//  @{  @"2-20" : @"后背宽"},
+//  @{  @"2-21" : @"腹围"},
+//  @{  @"2-22" : @"小臂围"},
+//  @{  @"2-23" : @"前衣长"},
+//  @{  @"2-24" : @"腕围"}
+//      ];
+//
+//    //组装量体信息，如果当前 数据控制器，的订单中测量信息不为空，就读取对应的值
+//    //在用户详情中，可能也有这些信息，？？怎样处理
+//    self.measureDataRoom = [[NSMutableArray alloc] initWithCapacity:typeArr.count];
+//    [typeArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//
+//        TLInputDataModel *model = [[TLInputDataModel alloc] init];
+//        model.canEdit = [self.order canEditXingTi];
+//        model.keyCode = obj.allKeys[0]; //1-2
+//        model.keyName = obj[model.keyCode];
+//
+//        //找出value
+//        [self.order.orderSizeData enumerateObjectsUsingBlock:^(TLMeasureModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//
+//                if ([model.keyCode isEqualToString:obj.ckey]) {
+//
+//                    model.value = obj.dkey;
+//                    *stop = YES;
+//
+//                }
+//
+//         }];
+//
+//        [self.measureDataRoom addObject:model];
+//
+//    }];
     
     
 }
 
 - (void)configXingTiDataModelWithResp:(id)resp {
 
-    //TX("4-01", "体型"), BX("4-02", "背型"), ZJ("4-03", "左肩"), YJ("4-04", "右肩"),
-    //
-    //BZ("4-05", "脖子"), FS("4-06", "肤色"), DX("4-07", "肚型"), SC("4-08", "色彩"),
-    //
-    //SB("4-09", "手臂"), DB("4-10", "对比"), TUNX("4-11", "臀型"), GL("4-12", "量感"),
     
     self.xingTiRoom = [[NSMutableArray alloc] init];
-    NSArray <NSDictionary *> *xingArr = @[
-                                 
-                                 @{@"4-01" : @"形态"},
-                                 @{@"4-02" : @"背型"},
-                                 @{@"4-03" : @"左肩"},
-                                 @{@"4-04" : @"右肩"},
-                                 @{@"4-05":  @"脖子"},
-                                 @{@"4-06" : @"肤色"},
-                                 @{@"4-07" : @"肚型"},
-                                 @{@"4-08" : @"色彩"},
-                                 @{@"4-09"  : @"手臂"},
-                                 @{@"4-10" : @"对比"},
-                                 @{@"4-11" : @"臀型"},
-                                 @{@"4-12" : @"量感"}
-                                 
-                                 ];
-    NSDictionary *dict = resp[@"data"];
-    
-    //先创建 大类 eg: 形态
-    [xingArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.order.figure enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         TLChooseDataModel *chooseDataModel = [[TLChooseDataModel alloc] init];
-        chooseDataModel.type =  obj.allKeys[0];
-        chooseDataModel.typeName = obj[chooseDataModel.type];
+        chooseDataModel.type =  obj[@"dkey"];
+        chooseDataModel.typeName = obj[@"dvalue"];
         chooseDataModel.parameterModelRoom = [[NSMutableArray alloc] init];
         chooseDataModel.canEdit = [self.order canEditXingTi];
-        
-        //找出大类当轻值
-        [self.order.orderSizeData enumerateObjectsUsingBlock:^(TLMeasureModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            
-            if ([chooseDataModel.type isEqualToString:obj.ckey]) {
-                chooseDataModel.typeValue = obj.dkey;
-                chooseDataModel.typeValueName = obj.dvalue;
-                *stop = YES;
-            }
+        chooseDataModel.isMust = obj[@"remark"] && [obj[@"remark"] isEqualToString:@"1"];
 
-        }];
+        //找出对应的值
+        if (obj[@"orderSizeData"]) {
+            NSDictionary *sizeData = obj[@"orderSizeData"];
+            chooseDataModel.typeValue = sizeData[@"dkey"];
+            chooseDataModel.typeValueName = sizeData[@"dvalue"];
+        }
         
-        
-        //
-        NSString *code = obj.allKeys[0]; //1-2
-        NSDictionary *paraDict = dict[code];
-        [paraDict.allKeys enumerateObjectsUsingBlock:^(id  _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
+        //组装选项
+        NSDictionary *chooseChooseDict = resp[@"data"][chooseDataModel.type];
+        [chooseChooseDict.allKeys enumerateObjectsUsingBlock:^(id  _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
             
             TLParameterModel *model = [[TLParameterModel alloc] init];
             
             model.code = key;
-            model.name = paraDict[key];
-            model.type = code;
-            model.typeName = obj[code];
-            
-//            if (selectValueCode && [selectValueCode isEqualToString:model.code]) {
-//                chooseDataModel.typeValue = model.code;
-//                chooseDataModel.typeValueName = model.name;
-//            }
-            //创建各种小类
+            model.name = chooseChooseDict[key];
+            model.type = chooseDataModel.type;
+            model.typeName = chooseDataModel.typeName;
             [chooseDataModel.parameterModelRoom addObject:model];
             
         }];
-       
+        
         [self.xingTiRoom addObject:chooseDataModel];
-
+        
     }];
-    //
+  
+//    self.xingTiRoom = [[NSMutableArray alloc] init];
+//    NSArray <NSDictionary *> *xingArr = @[
+//                                 
+//                                 @{@"4-01" : @"形态"},
+//                                 @{@"4-02" : @"背型"},
+//                                 @{@"4-03" : @"左肩"},
+//                                 @{@"4-04" : @"右肩"},
+//                                 @{@"4-05" : @"脖子"},
+//                                 @{@"4-06" : @"肤色"},
+//                                 @{@"4-07" : @"肚型"},
+//                                 @{@"4-08" : @"色彩"},
+//                                 @{@"4-09" : @"手臂"},
+//                                 @{@"4-10" : @"对比"},
+//                                 @{@"4-11" : @"臀型"},
+//                                 @{@"4-12" : @"量感"}
+//                                 
+//                                 ];
+//    NSDictionary *dict = resp[@"data"];
+//    
+//    //先创建 大类 eg: 形态
+//    [xingArr enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        
+//        TLChooseDataModel *chooseDataModel = [[TLChooseDataModel alloc] init];
+//        chooseDataModel.type =  obj.allKeys[0];
+//        chooseDataModel.typeName = obj[chooseDataModel.type];
+//        chooseDataModel.parameterModelRoom = [[NSMutableArray alloc] init];
+//        chooseDataModel.canEdit = [self.order canEditXingTi];
+//        
+//        //找出大类当轻值
+//        [self.order.orderSizeData enumerateObjectsUsingBlock:^(TLMeasureModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//            
+//            if ([chooseDataModel.type isEqualToString:obj.ckey]) {
+//                chooseDataModel.typeValue = obj.dkey;
+//                chooseDataModel.typeValueName = obj.dvalue;
+//                *stop = YES;
+//            }
+//
+//        }];
+//        
+//        
+//        //
+//        NSString *code = obj.allKeys[0]; //1-2
+//        NSDictionary *paraDict = dict[code];
+//        [paraDict.allKeys enumerateObjectsUsingBlock:^(id  _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
+//            
+//            TLParameterModel *model = [[TLParameterModel alloc] init];
+//            
+//            model.code = key;
+//            model.name = paraDict[key];
+//            model.type = code;
+//            model.typeName = obj[code];
+//            
+////            if (selectValueCode && [selectValueCode isEqualToString:model.code]) {
+////                chooseDataModel.typeValue = model.code;
+////                chooseDataModel.typeValueName = model.name;
+////            }
+//            //创建各种小类
+//            [chooseDataModel.parameterModelRoom addObject:model];
+//            
+//        }];
+//       
+//        [self.xingTiRoom addObject:chooseDataModel];
+//
+//    }];
+//    //
 
 }
 
@@ -638,19 +660,45 @@ NSDictionary *kuaiDiDcit =   @{
 //    
 //    //
     
-    if (self.order.orderSizeData) {
+//    if (self.order.orderSizeData) {
+//
+//        [self.order.orderSizeData enumerateObjectsUsingBlock:^(TLMeasureModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//            if ([obj.ckey isEqualToString:@"6-02"]) {
+//
+//                [orderInfoArr addObject:@{@"身高" : [NSString stringWithFormat:@"%@ cm",obj.dkey]}];
+//
+//            } else if ([obj.ckey isEqualToString:@"6-03"]) {
+//
+//                [orderInfoArr addObject:@{@"体重" : [NSString stringWithFormat:@"%@ kg",obj.dkey]}];
+//
+//
+//            }
+//        }];
+//
+//
+//    }
+    if (self.order.other) {
         
-        [self.order.orderSizeData enumerateObjectsUsingBlock:^(TLMeasureModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            if ([obj.ckey isEqualToString:@"6-02"]) {
+        [self.order.other enumerateObjectsUsingBlock:^(NSDictionary * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            
+            if ([obj[@"dkey"] isEqualToString:@"6-02"]) {
                 
-                [orderInfoArr addObject:@{@"身高" : [NSString stringWithFormat:@"%@ cm",obj.dkey]}];
-
-            } else if ([obj.ckey isEqualToString:@"6-03"]) {
-            
-                [orderInfoArr addObject:@{@"体重" : [NSString stringWithFormat:@"%@ kg",obj.dkey]}];
-
-            
+                if (obj[@"sizeData"]) {
+                    
+                    [orderInfoArr addObject:@{@"身高" : [NSString stringWithFormat:@"%@ cm",obj[@"sizeData"][@"dkey"]]
+                                                 }];
+                }
+                
+            } else  if ([obj[@"dkey"] isEqualToString:@"6-03"]) {
+                
+                if (obj[@"sizeData"]) {
+                    
+                    [orderInfoArr addObject:@{@"体重" : [NSString stringWithFormat:@"%@ kg",obj[@"sizeData"][@"dkey"]]
+                                                 }];
+                }
+                
             }
+            
         }];
         
         

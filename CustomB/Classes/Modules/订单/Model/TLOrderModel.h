@@ -80,7 +80,14 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 //量体用户
 @property (nonatomic, strong) TLCustomer *ltUserDO;
 
-@property (nonatomic, strong) NSMutableArray <TLMeasureModel *> *orderSizeData;
+//@property (nonatomic, strong) NSMutableArray <TLMeasureModel *> *orderSizeData;
+
+@property (nonatomic, assign, readonly) NSArray<NSDictionary *> *figure;
+@property (nonatomic, assign, readonly) NSArray<NSDictionary *> *measure;
+@property (nonatomic, assign, readonly) NSArray<NSDictionary *> *other;
+
+// SB SB
+@property (nonatomic, strong) NSDictionary *sysDictMap;
 
 
 - (TLOrderType)getOrderType;

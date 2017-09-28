@@ -87,31 +87,39 @@
     
     NSMutableDictionary *measureDict = [[NSMutableDictionary alloc] init];
     req.parameters[@"map"] = measureDict;
-
     req.code = @"620220";
     req.parameters[@"remark"] = @"ios 端量体师修改";
     req.parameters[@"userId"] = self.customer.userId;
-        
+    req.parameters[@"token"] = [TLUser user].token;
     [self.dataManager.measureDataRoom enumerateObjectsUsingBlock:^(TLInputDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
-//            if (!obj.value || [obj.value isEqualToString:@"-"] || obj.value.length <=0) {
-//                
-//                @throw [NSException
-//                        exceptionWithName:[NSString  stringWithFormat:@"请填写%@",obj.keyName] reason:nil userInfo:nil];
-//                
-//            }
-            //数据正常
-            measureDict[obj.keyCode] = obj.value;
+        if (obj.isMust && (!obj.value  || obj.value.length <=0)) {
             
+            @throw [NSException
+                    exceptionWithName:[NSString  stringWithFormat:@"请填写%@",obj.keyName] reason:nil userInfo:nil];
+        }
+        //
+        //数据正常
+        //            measureDict[obj.keyCode] = @"1111";
+        measureDict[obj.keyCode] = obj.value;
+            //数据正常
+//            measureDict[obj.keyCode] = obj.value;
+        
      }];
         
         //2.形体信息（可选）
         [self.dataManager.xingTiRoom enumerateObjectsUsingBlock:^(TLChooseDataModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
+            if (obj.isMust && (!obj.typeValue  || obj.typeValue.length <=0)) {
+                
+                @throw [NSException
+                        exceptionWithName:[NSString  stringWithFormat:@"请选择%@",obj.typeName] reason:nil userInfo:nil];
+            }
+            
             if (obj.typeValue) {
                 
                 measureDict[obj.type] = obj.typeValue;
-
+                
             }
             
         }];
@@ -141,7 +149,8 @@
     
     //量体参数
     NBCDRequest *parameterReq = [[NBCDRequest alloc] init];
-    parameterReq.code = @"620908";
+//    parameterReq.code = @"620908";
+    parameterReq.code = @"805908";
 //    parameterReq.parameters[@"parentKey"] = @"measure";
 //    parameterReq.parameters[@"systemCode"] = [AppConfig config].systemCode;
 //    parameterReq.parameters[@"companyCode"] = [AppConfig config].systemCode;

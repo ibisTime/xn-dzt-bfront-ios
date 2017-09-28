@@ -146,6 +146,7 @@
 		2E9465241F6ABFC4004E091F /* TLMeasureModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9465231F6ABFC4004E091F /* TLMeasureModel.m */; };
 		2E9465271F6B78AC004E091F /* TLUserProductXiaoJian.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9465261F6B78AC004E091F /* TLUserProductXiaoJian.m */; };
 		2EEC289E1F72294E00EEC3F3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2EEC289D1F72294E00EEC3F3 /* README.md */; };
+		2EF4DDBB1F7CD4D20024B7EF /* TLSwitchScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDBA1F7CD4D20024B7EF /* TLSwitchScrollView.m */; };
 		2EFFF9A21F67A8FF000CE5F4 /* TLMianLiaoChooseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFFF9A11F67A8FF000CE5F4 /* TLMianLiaoChooseVC.m */; };
 		2EFFF9A51F67AC1F000CE5F4 /* TLMianLiaoChooseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFFF9A41F67AC1F000CE5F4 /* TLMianLiaoChooseCell.m */; };
 		2EFFF9A81F67B9F3000CE5F4 /* TLMianLiaoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFFF9A71F67B9F3000CE5F4 /* TLMianLiaoModel.m */; };
@@ -432,6 +433,8 @@
 		2E9465251F6B78AC004E091F /* TLUserProductXiaoJian.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLUserProductXiaoJian.h; sourceTree = "<group>"; };
 		2E9465261F6B78AC004E091F /* TLUserProductXiaoJian.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLUserProductXiaoJian.m; sourceTree = "<group>"; };
 		2EEC289D1F72294E00EEC3F3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		2EF4DDB91F7CD4D20024B7EF /* TLSwitchScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLSwitchScrollView.h; sourceTree = "<group>"; };
+		2EF4DDBA1F7CD4D20024B7EF /* TLSwitchScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLSwitchScrollView.m; sourceTree = "<group>"; };
 		2EFFF9A01F67A8FF000CE5F4 /* TLMianLiaoChooseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLMianLiaoChooseVC.h; sourceTree = "<group>"; };
 		2EFFF9A11F67A8FF000CE5F4 /* TLMianLiaoChooseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLMianLiaoChooseVC.m; sourceTree = "<group>"; };
 		2EFFF9A31F67AC1F000CE5F4 /* TLMianLiaoChooseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLMianLiaoChooseCell.h; sourceTree = "<group>"; };
@@ -610,6 +613,8 @@
 				2E30728B1F51ADDB0003ADD9 /* CustomInputView.m */,
 				2E30728D1F51B3AB0003ADD9 /* CustomCaptchaView.h */,
 				2E30728E1F51B3AB0003ADD9 /* CustomCaptchaView.m */,
+				2EF4DDB91F7CD4D20024B7EF /* TLSwitchScrollView.h */,
+				2EF4DDBA1F7CD4D20024B7EF /* TLSwitchScrollView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1479,6 +1484,7 @@
 				2E8DCCDF1F5D440300C9B39F /* TLNetworkingConfig.m in Sources */,
 				2E9465271F6B78AC004E091F /* TLUserProductXiaoJian.m in Sources */,
 				2E8C8AE71F4A952E00974F85 /* TLTableView.m in Sources */,
+				2EF4DDBB1F7CD4D20024B7EF /* TLSwitchScrollView.m in Sources */,
 				2E3072331F4D115D0003ADD9 /* TLDataModel.m in Sources */,
 				2E3071DB1F4BFA570003ADD9 /* TLOrderDetailVC2.m in Sources */,
 				2E352E401F68CC920062182D /* TLSwitchHeaderView.m in Sources */,

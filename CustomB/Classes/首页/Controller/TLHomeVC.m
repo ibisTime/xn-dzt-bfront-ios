@@ -331,6 +331,11 @@
     
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    
+    return [[UIView alloc] initWithFrame:CGRectMake(0, 0, tableView.width, 10)];
+}
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     

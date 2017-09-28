@@ -22,7 +22,37 @@
 @property (nonatomic, copy) NSString *realName;
 @property (nonatomic, copy) NSString *level;
 
-@property (nonatomic, copy) NSArray <TLMeasureModel *>*sizeDataList;
+//@property (nonatomic, copy) NSArray <TLMeasureModel *>*sizeDataList;
+//{
+//    figure : [],
+//    measure : [],
+//    other : []
+//}
+
+//dkey = "4-01";
+//dvalue = "\U5de6\U80a9";
+//id = 81;
+//parentKey = figure;
+//remark = "";
+//sizeData =                     {
+//    ckey = "4-01";
+//    cvalue = "\U4f53\U578b";
+//    dkey = A;
+//    dvalue = "\U6b63\U5e38\U4f53\U578b";
+//    id = 247;
+//    userId = U1111111111111115;
+//};
+//systemCode = "CD-CDZT000009";
+//type = 1;
+//updateDatetime = "Sep 11, 2017 11:12:26 AM";
+//updater = admin;
+@property (nonatomic, assign, readonly) NSArray<NSDictionary *> *figure;
+@property (nonatomic, assign, readonly) NSArray<NSDictionary *> *measure;
+@property (nonatomic, assign, readonly) NSArray<NSDictionary *> *other;
+
+// SB SB
+@property (nonatomic, strong) NSDictionary *sysDictMap;
+
 @property (nonatomic, strong) NSNumber *sjAmount;
 - (NSString *)getBirthdayStr;
 

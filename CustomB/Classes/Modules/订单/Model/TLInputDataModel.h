@@ -14,6 +14,10 @@
 
 @property (nonatomic, assign) BOOL canEdit;
 
+// 是否必填 default is NO
+@property (nonatomic, assign) BOOL isMust;
+
+
 @property (nonatomic, copy) NSString *keyName;
 @property (nonatomic, copy) NSString *keyCode; //1-4
 @property (nonatomic, copy) NSString *value;

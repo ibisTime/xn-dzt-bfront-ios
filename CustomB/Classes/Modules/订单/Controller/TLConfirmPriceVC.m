@@ -180,10 +180,11 @@
         //
         if (self.currentProductModel.productType == TLProductTypeHAdd) {
             
-            if ([self.order.ltUserDO.level isEqualToString:@"1"]) {
-                //非会员乘 倍数
+            if (![self.order.ltUserDO.level isEqualToString:@"1"]) {
+                
+                //会员价乘 -- 0.7
                 totalPrice = self.times*totalPrice;
-
+                
             }
             
         }
@@ -812,7 +813,7 @@
                 [groupArr addObject:mianLiaoGroup];
                 mianLiaoGroup.canEdit = YES;
                 mianLiaoGroup.dataModelRoom = [NSMutableArray new];
-                mianLiaoGroup.title = [NSString stringWithFormat:@"%@面料费",obj.name];
+                mianLiaoGroup.title = [NSString stringWithFormat:@"%@基础价格",obj.name];
                 mianLiaoGroup.content =  @"--";
                 mianLiaoGroup.mark = MIAN_LIAO_MARK;
                 mianLiaoGroup.headerSize = HEADER_SIZE;

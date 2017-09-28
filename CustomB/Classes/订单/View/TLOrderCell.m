@@ -33,7 +33,7 @@
     if (self = [super initWithStyle:style reuseIdentifier:reuseIdentifier]) {
         
         [self setUpUI];
-        [self data];
+//        [self data];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
     
         
@@ -132,7 +132,7 @@
     
     //
     self.addressLbl = [UILabel labelWithFrame:CGRectZero
-                                     textAligment:NSTextAlignmentRight
+                                     textAligment:NSTextAlignmentLeft
                                   backgroundColor:[UIColor whiteColor]
                                              font:FONT(12)
                                         textColor:[UIColor textColor]];
@@ -171,12 +171,14 @@
         make.right.equalTo(self.timeLbl.mas_right);
     }];
     
-    
+    //
     [self.statusView mas_makeConstraints:^(MASConstraintMaker *make) {
+        
         make.right.equalTo(self.contentView.mas_right).offset(-35);
         make.top.equalTo(self.userInfoLbl.mas_bottom).offset(10);
         make.bottom.equalTo(self.contentView.mas_bottom).offset(-17);
         make.height.equalTo(@18);
+        
     }];
     
     //
@@ -185,6 +187,7 @@
         make.left.equalTo(self.codeLbl.mas_left);
         make.top.equalTo(self.userInfoLbl.mas_bottom).offset(10);
         make.bottom.equalTo(self.contentView.mas_bottom).offset(-17);
+        make.right.lessThanOrEqualTo(self.contentView.mas_right).offset(-100);
         make.height.equalTo(@18);
         
     }];

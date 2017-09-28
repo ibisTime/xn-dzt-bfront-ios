@@ -13,6 +13,9 @@
 
 @property (nonatomic, assign) BOOL canEdit;
 
+//是否必填 default is NO
+@property (nonatomic, assign) BOOL isMust;
+
 
 @property (nonatomic, copy) NSString *type;      //type 对应的  eg:4-02
 @property (nonatomic, copy) NSString *typeName;  //type对应的名称

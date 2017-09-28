@@ -198,4 +198,22 @@
 
 }
 
+- (NSArray<NSDictionary *> *)figure {
+    
+    return self.sysDictMap[@"figure"];
+    
+}
+
+-(NSArray<NSDictionary *> *)measure {
+    
+    return self.sysDictMap[@"measure"];
+    
+}
+
+-(NSArray<NSDictionary *> *)other {
+    
+    return self.sysDictMap[@"other"];
+    
+}
+
 @end
