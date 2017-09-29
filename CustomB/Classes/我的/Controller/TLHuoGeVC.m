@@ -56,8 +56,8 @@
         
     }];
     
-    //
-    NSString *userStr = [NSString stringWithFormat:@"http://cm.tour.hichengdai.com/?#/home?userReferee=%@",[TLUser user].userId];
+    //m.he-shirts.com
+    NSString *userStr = [NSString stringWithFormat:@"http://m.he-shirts.com/?#/home?userReferee=%@",[TLUser user].userId];
     
     self.qrImageView.image = [SGQRCodeTool SG_generateWithDefaultQRCodeData:userStr imageViewWidth:300];
     //
