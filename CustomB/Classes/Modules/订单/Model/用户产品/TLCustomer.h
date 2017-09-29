@@ -39,6 +39,8 @@
 - (NSString *)getDetailAddress;
 - (NSString *)getCustomerTitle;
 
+//- (BOOL)isVip;
+
 // 金卡会员，银卡会员
 - (NSString *)getVipName;
 

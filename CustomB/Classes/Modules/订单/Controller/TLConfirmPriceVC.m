@@ -53,7 +53,7 @@
 
 @property (nonatomic, strong) TLGroup *receiveAddressGroup;
 @property (nonatomic, strong) TLGroup *remarkGroup;
-
+@property (nonatomic, strong) TLGroup *dingJiaRuleGroup;
 
 @property (nonatomic, assign) float times;
 
@@ -177,14 +177,14 @@
             
         }];
         
-        //
+        
         if (self.currentProductModel.productType == TLProductTypeHAdd) {
-            
-            if (![self.order.ltUserDO.level isEqualToString:@"1"]) {
+            // 会员价只针对
+            if ([self.order isVipOrder]) {
                 
                 //会员价乘 -- 0.7
                 totalPrice = self.times*totalPrice;
-                
+                //
             }
             
         }
@@ -259,7 +259,15 @@
     zongJiaGroup.canEdit = NO;
     zongJiaGroup.dataModelRoom = [NSMutableArray new];
     [self.dataManager.groups addObject:zongJiaGroup];
-    zongJiaGroup.title = @"总价";
+    if ([self.order isVipOrder]) {
+        
+        zongJiaGroup.title = @"会员价";
+
+    } else {
+        
+        zongJiaGroup.title = @"售价";
+        
+    }
     zongJiaGroup.content =  @"--";
     zongJiaGroup.headerSize = headerSmallSize;
     zongJiaGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
@@ -271,7 +279,6 @@
     zongJiaGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
     
    
-    
     //
     TLGroup *receiveGroup = [[TLGroup alloc] init];
     [self.dataManager.groups addObject:receiveGroup];
@@ -310,6 +317,34 @@
     remarkGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, 0, paramterEdgeInsets.right);
     remarkGroup.editingEdgeInsets = remarkGroup.editedEdgeInsets;
     remarkGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 45);
+    
+    //
+//    TLGroup *dingJiaRuleGroup = [[TLGroup alloc] init];
+//    [self.dataManager.groups addObject:dingJiaRuleGroup];
+//    self.dingJiaRuleGroup = dingJiaRuleGroup;
+//
+//    TLInputDataModel *inputDataModel1 = [[TLInputDataModel alloc] init];
+//    inputDataModel1.canEdit = NO;
+//    inputDataModel1.value = @"售价 = 基础价格 + 工艺价格";
+//
+//     TLInputDataModel *inputDataModel2 = [[TLInputDataModel alloc] init];
+//    inputDataModel2.canEdit = NO;
+//    inputDataModel2.value = [NSString stringWithFormat:@"会员价 = %.f X 售价",self.times];
+//
+//    remarkInputDataModel.canEdit = YES;
+//    dingJiaRuleGroup.dataModelRoom = @[inputDataModel1,inputDataModel2].mutableCopy;
+//    dingJiaRuleGroup.title = @"定价规则";
+//    dingJiaRuleGroup.content = self.dataManager.shouHuoValue;
+//    dingJiaRuleGroup.editting = YES;
+//    dingJiaRuleGroup.headerSize = headerSmallSize;
+//    dingJiaRuleGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];
+//    dingJiaRuleGroup.cellReuseIdentifier = [TLCiXiuTextInputCell cellReuseIdentifier];
+//    dingJiaRuleGroup.minimumLineSpacing = horizonMargin;
+//    dingJiaRuleGroup.minimumInteritemSpacing = middleMargin;
+//    dingJiaRuleGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, 0, paramterEdgeInsets.right);
+//    dingJiaRuleGroup.editingEdgeInsets = remarkGroup.editedEdgeInsets;
+//    dingJiaRuleGroup.itemSize = CGSizeMake(SCREEN_WIDTH, 45);
+    
     
     //确定按钮
     TLGroup *confirmBtnGroup = [[TLGroup alloc] init];
@@ -597,8 +632,13 @@
 //        
 //    }];
     
+    //获取订单详情
+    NBCDRequest *orderReq = [[NBCDRequest alloc] init];
+    orderReq.code = @"620231";
+    orderReq.parameters[@"code"] = self.order.code;
+    
     //
-    NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[xhReq,timesReq]];
+    NBBatchReqest *batchReq = [[NBBatchReqest alloc] initWithReqArray:@[xhReq,timesReq,orderReq]];
     [batchReq startWithSuccess:^(NBBatchReqest *batchRequest) {
         
         //
@@ -609,6 +649,9 @@
 
         //倍数
         NBCDRequest *timesReqCopy = (NBCDRequest *)batchRequest.reqArray[1];
+        NBCDRequest *orderReqCopy = (NBCDRequest *)batchRequest.reqArray[2];
+        self.order = [TLOrderModel tl_objectWithDictionary:orderReqCopy.responseObject[@"data"]];
+        
         NSDictionary *dict = timesReqCopy.responseObject[@"data"];
         self.times =  [dict[@"FHY"] floatValue];
         
@@ -625,15 +668,12 @@
         [self configModel];
         
     } failure:^(NBBatchReqest *batchRequest) {
+        
         [TLProgressHUD dismiss];
         
     }];
     
-    
 }
-
-
-
 
 
 - (void)setUpUI {
@@ -652,7 +692,6 @@
     confirmPriceCollectionView.delegate = self;
     confirmPriceCollectionView.dataSource = self;
     //
-    
 }
 
 

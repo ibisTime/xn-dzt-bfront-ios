@@ -37,6 +37,9 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 
 @property (nonatomic, copy) NSString *reAddress;
 
+//用户是非为会员
+@property (nonatomic, copy) NSString *level;
+
 //量体信息
 @property (nonatomic, copy) NSString *ltProvince;
 @property (nonatomic, copy) NSString *ltCity;
@@ -70,6 +73,8 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 //0为衬衫订单，1为H+ 为空时
 @property (nonatomic, copy) NSString *type;
 
+- (BOOL)isVipOrder;
+
 /**
  产品列表, 单品时只有一个。套装有多个
  */
@@ -92,6 +97,7 @@ typedef NS_ENUM(NSUInteger, TLOrderType) {
 
 - (TLOrderType)getOrderType;
 
+//- (BOOL)isVip;
 
 - (NSString *)getDetailAddress;
 - (NSString *)getDetailMeasureAddress;

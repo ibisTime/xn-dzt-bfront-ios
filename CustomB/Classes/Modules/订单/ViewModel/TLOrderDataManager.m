@@ -145,7 +145,19 @@
         
         //组装选项
         NSDictionary *chooseChooseDict = resp[@"data"][chooseDataModel.type];
-        [chooseChooseDict.allKeys enumerateObjectsUsingBlock:^(id  _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
+        
+        NSArray *newArr =  [chooseChooseDict.allKeys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            
+            NSString *str1 = obj1;
+            NSString *str2 = obj2;
+            
+            
+            return  [str1 compare:str2];
+            
+        }];
+        
+        //
+        [newArr enumerateObjectsUsingBlock:^(id  _Nonnull key, NSUInteger idx, BOOL * _Nonnull stop) {
             
             TLParameterModel *model = [[TLParameterModel alloc] init];
             

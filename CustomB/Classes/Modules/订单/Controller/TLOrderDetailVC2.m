@@ -649,7 +649,7 @@
     topUserGroup.dataModelRoom = [NSMutableArray new];
     [self.dataManager.groups addObject:topUserGroup];
     [self.topGroups addObject:topUserGroup];
-    topUserGroup.title = [NSString stringWithFormat:@"%@ | %@",self.order.ltName,self.order.applyMobile];
+    topUserGroup.title = [NSString stringWithFormat:@"%@ | %@",self.order.applyName,self.order.applyMobile];
     topUserGroup.cellReuseIdentifier = [TLOrderInfoCell cellReuseIdentifier];
     topUserGroup.headerReuseIdentifier = [TLUserHeaderView headerReuseIdentifier];
     topUserGroup.headerSize = CGSizeMake(SCREEN_WIDTH, 40);
@@ -754,7 +754,7 @@
         [self.dataManager.groups addObject:bodyTypeGroup];
     [self.topGroups addObject:bodyTypeGroup];
         bodyTypeGroup.dataModelRoom = self.dataManager.xingTiRoom;
-        bodyTypeGroup.title = @"形体信息";
+        bodyTypeGroup.title = @"特体信息";
         bodyTypeGroup.canEdit = YES;
         bodyTypeGroup.headerSize = HEADER_MIDDLE_SIZE;
         bodyTypeGroup.cellReuseIdentifier = [TLMeasureDataCell cellReuseIdentifier];

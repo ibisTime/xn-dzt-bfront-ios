@@ -16,6 +16,10 @@
 
 }
 
+- (BOOL)isVip {
+    return ![self.level isEqualToString:@"1"];
+}
+
 - (NSString *)getVipName {
 
 //    ONE("1", "普通用户"), TWO("2", "银卡会员"),

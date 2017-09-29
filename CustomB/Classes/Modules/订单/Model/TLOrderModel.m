@@ -117,6 +117,13 @@
 
 }
 
+- (BOOL)isVipOrder {
+    
+    return ![self.level isEqualToString:@"1"];
+    
+}
+
+
 
 - (BOOL)canEditXingTi {
 
@@ -197,6 +204,14 @@
 //    [self.status isEqualToString:kOrderStatusWillCheck];
 
 }
+
+//- (BOOL)isVip {
+//    
+//    
+//    
+//    
+//}
+
 
 - (NSArray<NSDictionary *> *)figure {
     

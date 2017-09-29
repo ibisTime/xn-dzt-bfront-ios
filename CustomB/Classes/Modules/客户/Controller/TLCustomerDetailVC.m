@@ -282,7 +282,7 @@
         TLGroup *bodyTypeGroup = [[TLGroup alloc] init];
         [self.dataManager.groups addObject:bodyTypeGroup];
         bodyTypeGroup.dataModelRoom = self.dataManager.xingTiRoom;
-        bodyTypeGroup.title = @"形体信息";
+        bodyTypeGroup.title = @"特体信息";
         bodyTypeGroup.headerSize = headerMiddleSize;
         bodyTypeGroup.cellReuseIdentifier = [TLMeasureDataCell cellReuseIdentifier];
         bodyTypeGroup.headerReuseIdentifier = [TLOrderBigTitleHeader headerReuseIdentifier];

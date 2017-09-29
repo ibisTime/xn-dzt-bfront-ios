@@ -35,7 +35,7 @@
 //    http://118.178.124.16:3308/main.html
 
     //1.配置应用运行环境
-    [AppConfig config].runEnv = RunEnvDev;
+    [AppConfig config].runEnv = RunEnvTest;
      
     //2.新版本请求
     [NBNetworkConfig config].baseUrl = [NSString stringWithFormat:@"%@%@",[AppConfig config].addr,@"/forward-service/api"];
@@ -98,6 +98,31 @@
 //        [dict[@"FHY"] floatValue]
 //    } failure:^(__kindof NBBaseRequest *request) {
 //        
+//    }];
+    
+    
+//    NSDictionary *dict = @{
+//
+//                           @"1" : @"11",
+//                           @"2" : @"22",
+//                           @"3" : @"33",
+//                           @"4" : @"44"
+//
+//                           };
+//  NSArray *newArr =  [dict.allKeys sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+//
+//        NSString *str1 = obj1;
+//        NSString *str2 = obj2;
+//
+//
+//        return  [str1 compare:str2];
+//
+//    }];
+//
+//    [newArr enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//
+//        NSLog(@"%@",dict[obj]);
+//
 //    }];
     
     return YES;

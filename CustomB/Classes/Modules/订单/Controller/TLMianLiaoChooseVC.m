@@ -26,7 +26,9 @@
 
 //
 @property (nonatomic, strong) NSArray <NSString *>*mianLiaoArr;
+
 @property (nonatomic, copy) NSArray <TLMianLiaoModel *>*mianLiaoRoom;
+@property (nonatomic, strong) NSArray <TLMianLiaoModel *> *currentMianLiaoRoom;
 
 //
 @property (nonatomic, strong) TLMianLiaoModel *currentMianLiaoModel;
@@ -220,7 +222,11 @@
 #pragma mark- collectionView Delegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
-    [self.mianLiaoRoom enumerateObjectsUsingBlock:^(TLMianLiaoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    NSIndexPath *tableViewSelectedIndexPath = [self.leftTableView indexPathForSelectedRow];
+    NSDictionary *dict = self.mianLiaoAndTypeRoom[tableViewSelectedIndexPath.row];
+    NSArray <TLMianLiaoModel *>*arr = dict[dict.allKeys[0]];
+    
+    [arr enumerateObjectsUsingBlock:^(TLMianLiaoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         obj.isSelected = idx == indexPath.row;
         if (obj.isSelected) {
@@ -250,6 +256,7 @@
 
     TLMianLiaoChooseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[TLMianLiaoChooseCell cellReuseIdentifier] forIndexPath:indexPath];
     
+    //找出
     NSIndexPath *tableViewSelectedIndexPath = [self.leftTableView indexPathForSelectedRow];
     NSDictionary *dict = self.mianLiaoAndTypeRoom[tableViewSelectedIndexPath.row];
     NSArray *arr = dict[dict.allKeys[0]];
@@ -263,7 +270,6 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
     //切换数据类型，刷新右侧数据
-    
     [self.mianLiaoCollectionView reloadData];
 
 }

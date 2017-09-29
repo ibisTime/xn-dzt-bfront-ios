@@ -29,7 +29,7 @@
 #import "ImageUtil.h"
 #import "DeviceUtil.h"
 
-
+#import "TLHuoGeVC.h"
 
 
 @interface TLMineVC ()<UITableViewDelegate,UITableViewDataSource>
@@ -101,16 +101,29 @@
         
     }];
     
+    //邀请用户
+    TLSettingModel *getUserItem = [[TLSettingModel alloc] init];
+    getUserItem.imgName = @"发展会员";
+    getUserItem.text = @"发展会员";
+    [getUserItem setAction:^{
+        
+        TLHuoGeVC *vc = [[TLHuoGeVC alloc] init];
+        [weakSelf.navigationController pushViewController:vc animated:YES];
+        
+    }];
+    
     //账户设置
     TLSettingModel *accountItem = [[TLSettingModel alloc] init];
     accountItem.imgName = @"账户设置";
     accountItem.text = @"账户设置";
-    self.models = @[accountBalanceItem,sysMsgItem,accountItem];
     [accountItem setAction:^{
         
         [weakSelf goSetUserInfo];
         
     }];
+    
+    self.models = @[accountBalanceItem,sysMsgItem,getUserItem,accountItem];
+
     
     [self setUpUI];
     [self changeInfo];
@@ -296,7 +309,7 @@
     adjustsContentInsets(self.mineTableView);
     
     //
-    self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 380 - [DeviceUtil bottom49])];
+    self.footerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 330 - [DeviceUtil bottom49])];
     self.footerView.backgroundColor = [UIColor clearColor];
     self.mineTableView.tableFooterView = self.footerView;
     

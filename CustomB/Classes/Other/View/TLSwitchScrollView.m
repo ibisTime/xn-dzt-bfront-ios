@@ -26,6 +26,7 @@
 //_delegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
+    //
     
     
 }
@@ -37,7 +38,6 @@
     NSInteger index = (targetContentOffset -> x)/scrollView.frame.size.width;
     
     //告诉外界
-    
     
     
     //    //拖动结束

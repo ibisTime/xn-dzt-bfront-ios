@@ -30,7 +30,7 @@
 - (void)setModel:(TLSettingModel *)model {
 
     _model = model;
-    
+   
     self.leftImageView.image = [UIImage imageNamed:model.imgName];
     self.textLbl.text = model.text;
     self.subTextLbl.text = model.subText;
@@ -38,6 +38,23 @@
 
 }
 
+
+- (UIImage *)changImageColorWithImage:(UIImage *)image  color:(UIColor *)targetColor blendModel:(CGBlendMode)mode
+{
+    //获取画布
+    UIGraphicsBeginImageContext(image.size);
+    //画笔沾取颜色
+    [targetColor setFill];
+    
+    CGRect drawRect = CGRectMake(0, 0, image.size.width, image.size.height);
+    UIRectFill(drawRect);
+    [image drawInRect:drawRect blendMode:mode alpha:1];
+    //获取图片
+    UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    return newImage;
+}
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     

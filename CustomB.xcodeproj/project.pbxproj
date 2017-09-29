@@ -147,6 +147,25 @@
 		2E9465271F6B78AC004E091F /* TLUserProductXiaoJian.m in Sources */ = {isa = PBXBuildFile; fileRef = 2E9465261F6B78AC004E091F /* TLUserProductXiaoJian.m */; };
 		2EEC289E1F72294E00EEC3F3 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 2EEC289D1F72294E00EEC3F3 /* README.md */; };
 		2EF4DDBB1F7CD4D20024B7EF /* TLSwitchScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDBA1F7CD4D20024B7EF /* TLSwitchScrollView.m */; };
+		2EF4DDBE1F7DE94D0024B7EF /* TLHuoGeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDBD1F7DE94D0024B7EF /* TLHuoGeVC.m */; };
+		2EF4DDD71F7DEA9B0024B7EF /* SGQRCodeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDD51F7DEA110024B7EF /* SGQRCodeTool.m */; };
+		2EF4DDD81F7DEAA00024B7EF /* SGAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDD11F7DEA110024B7EF /* SGAlertView.m */; };
+		2EF4DDD91F7DEAA70024B7EF /* SGScanningQRCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDCB1F7DEA110024B7EF /* SGScanningQRCodeView.m */; };
+		2EF4DDDA1F7DEAB30024B7EF /* QRCodebottomRight@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 2EF4DDC81F7DEA110024B7EF /* QRCodebottomRight@2x.png */; };
+		2EF4DDDB1F7DEAFA0024B7EF /* SGGenerateQRCodeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDC11F7DEA110024B7EF /* SGGenerateQRCodeVC.m */; };
+		2EF4DDDC1F7DEAFA0024B7EF /* SGScanningQRCodeVC.h in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDC21F7DEA110024B7EF /* SGScanningQRCodeVC.h */; };
+		2EF4DDDD1F7DEAFA0024B7EF /* ScanSuccessJumpVC.h in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDC31F7DEA110024B7EF /* ScanSuccessJumpVC.h */; };
+		2EF4DDDE1F7DEAFA0024B7EF /* SGGenerateQRCodeVC.h in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDC41F7DEA110024B7EF /* SGGenerateQRCodeVC.h */; };
+		2EF4DDDF1F7DEAFA0024B7EF /* SGScanningQRCodeVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDC51F7DEA110024B7EF /* SGScanningQRCodeVC.m */; };
+		2EF4DDE01F7DEAFA0024B7EF /* ScanSuccessJumpVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDC61F7DEA110024B7EF /* ScanSuccessJumpVC.m */; };
+		2EF4DDE11F7DEB130024B7EF /* QRCodebottomRight@2x.png in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDC81F7DEA110024B7EF /* QRCodebottomRight@2x.png */; };
+		2EF4DDE21F7DEB130024B7EF /* SGScanningQRCodeView.h in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDC91F7DEA110024B7EF /* SGScanningQRCodeView.h */; };
+		2EF4DDE31F7DEB130024B7EF /* QRCodebottomLeft@2x.png in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDCA1F7DEA110024B7EF /* QRCodebottomLeft@2x.png */; };
+		2EF4DDE41F7DEB130024B7EF /* QRCodeLine@2x.png in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDCC1F7DEA110024B7EF /* QRCodeLine@2x.png */; };
+		2EF4DDE51F7DEB130024B7EF /* QRCodeTopRight@2x.png in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDCD1F7DEA110024B7EF /* QRCodeTopRight@2x.png */; };
+		2EF4DDE61F7DEB130024B7EF /* QRCodeTopLeft@2x.png in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDCE1F7DEA110024B7EF /* QRCodeTopLeft@2x.png */; };
+		2EF4DDE71F7DEB220024B7EF /* SGQRCodeTool.h in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDD61F7DEA110024B7EF /* SGQRCodeTool.h */; };
+		2EF4DDE81F7DEB4C0024B7EF /* sound.caf in Sources */ = {isa = PBXBuildFile; fileRef = 2EF4DDD31F7DEA110024B7EF /* sound.caf */; };
 		2EFFF9A21F67A8FF000CE5F4 /* TLMianLiaoChooseVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFFF9A11F67A8FF000CE5F4 /* TLMianLiaoChooseVC.m */; };
 		2EFFF9A51F67AC1F000CE5F4 /* TLMianLiaoChooseCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFFF9A41F67AC1F000CE5F4 /* TLMianLiaoChooseCell.m */; };
 		2EFFF9A81F67B9F3000CE5F4 /* TLMianLiaoModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 2EFFF9A71F67B9F3000CE5F4 /* TLMianLiaoModel.m */; };
@@ -435,6 +454,26 @@
 		2EEC289D1F72294E00EEC3F3 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2EF4DDB91F7CD4D20024B7EF /* TLSwitchScrollView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLSwitchScrollView.h; sourceTree = "<group>"; };
 		2EF4DDBA1F7CD4D20024B7EF /* TLSwitchScrollView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLSwitchScrollView.m; sourceTree = "<group>"; };
+		2EF4DDBC1F7DE94D0024B7EF /* TLHuoGeVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TLHuoGeVC.h; sourceTree = "<group>"; };
+		2EF4DDBD1F7DE94D0024B7EF /* TLHuoGeVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TLHuoGeVC.m; sourceTree = "<group>"; };
+		2EF4DDC11F7DEA110024B7EF /* SGGenerateQRCodeVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SGGenerateQRCodeVC.m; sourceTree = "<group>"; };
+		2EF4DDC21F7DEA110024B7EF /* SGScanningQRCodeVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SGScanningQRCodeVC.h; sourceTree = "<group>"; };
+		2EF4DDC31F7DEA110024B7EF /* ScanSuccessJumpVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScanSuccessJumpVC.h; sourceTree = "<group>"; };
+		2EF4DDC41F7DEA110024B7EF /* SGGenerateQRCodeVC.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SGGenerateQRCodeVC.h; sourceTree = "<group>"; };
+		2EF4DDC51F7DEA110024B7EF /* SGScanningQRCodeVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SGScanningQRCodeVC.m; sourceTree = "<group>"; };
+		2EF4DDC61F7DEA110024B7EF /* ScanSuccessJumpVC.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ScanSuccessJumpVC.m; sourceTree = "<group>"; };
+		2EF4DDC81F7DEA110024B7EF /* QRCodebottomRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QRCodebottomRight@2x.png"; sourceTree = "<group>"; };
+		2EF4DDC91F7DEA110024B7EF /* SGScanningQRCodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SGScanningQRCodeView.h; sourceTree = "<group>"; };
+		2EF4DDCA1F7DEA110024B7EF /* QRCodebottomLeft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QRCodebottomLeft@2x.png"; sourceTree = "<group>"; };
+		2EF4DDCB1F7DEA110024B7EF /* SGScanningQRCodeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SGScanningQRCodeView.m; sourceTree = "<group>"; };
+		2EF4DDCC1F7DEA110024B7EF /* QRCodeLine@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QRCodeLine@2x.png"; sourceTree = "<group>"; };
+		2EF4DDCD1F7DEA110024B7EF /* QRCodeTopRight@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QRCodeTopRight@2x.png"; sourceTree = "<group>"; };
+		2EF4DDCE1F7DEA110024B7EF /* QRCodeTopLeft@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "QRCodeTopLeft@2x.png"; sourceTree = "<group>"; };
+		2EF4DDD01F7DEA110024B7EF /* SGAlertView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SGAlertView.h; sourceTree = "<group>"; };
+		2EF4DDD11F7DEA110024B7EF /* SGAlertView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SGAlertView.m; sourceTree = "<group>"; };
+		2EF4DDD31F7DEA110024B7EF /* sound.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = sound.caf; sourceTree = "<group>"; };
+		2EF4DDD51F7DEA110024B7EF /* SGQRCodeTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SGQRCodeTool.m; sourceTree = "<group>"; };
+		2EF4DDD61F7DEA110024B7EF /* SGQRCodeTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SGQRCodeTool.h; sourceTree = "<group>"; };
 		2EFFF9A01F67A8FF000CE5F4 /* TLMianLiaoChooseVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLMianLiaoChooseVC.h; sourceTree = "<group>"; };
 		2EFFF9A11F67A8FF000CE5F4 /* TLMianLiaoChooseVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TLMianLiaoChooseVC.m; sourceTree = "<group>"; };
 		2EFFF9A31F67AC1F000CE5F4 /* TLMianLiaoChooseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TLMianLiaoChooseCell.h; sourceTree = "<group>"; };
@@ -912,6 +951,7 @@
 		2E8C8AA21F4A864900974F85 /* Other */ = {
 			isa = PBXGroup;
 			children = (
+				2EF4DDBF1F7DEA110024B7EF /* SGQRCode */,
 				2E3071AA1F4ACFDA0003ADD9 /* View */,
 				2E8C8B011F4A977900974F85 /* TLUIHeader.h */,
 				2E8C8B021F4A980600974F85 /* UIFont+UI.h */,
@@ -938,6 +978,8 @@
 				2E8C8B121F4A999A00974F85 /* TLMineVC.m */,
 				2E30727A1F4FF3300003ADD9 /* TLAccountSettingVC.h */,
 				2E30727B1F4FF3300003ADD9 /* TLAccountSettingVC.m */,
+				2EF4DDBC1F7DE94D0024B7EF /* TLHuoGeVC.h */,
+				2EF4DDBD1F7DE94D0024B7EF /* TLHuoGeVC.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1257,6 +1299,71 @@
 			path = BannerBrowser;
 			sourceTree = "<group>";
 		};
+		2EF4DDBF1F7DEA110024B7EF /* SGQRCode */ = {
+			isa = PBXGroup;
+			children = (
+				2EF4DDC01F7DEA110024B7EF /* Controller */,
+				2EF4DDC71F7DEA110024B7EF /* View */,
+				2EF4DDCF1F7DEA110024B7EF /* SGAlertView */,
+				2EF4DDD21F7DEA110024B7EF /* Sound */,
+				2EF4DDD41F7DEA110024B7EF /* Tool */,
+			);
+			path = SGQRCode;
+			sourceTree = "<group>";
+		};
+		2EF4DDC01F7DEA110024B7EF /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2EF4DDC11F7DEA110024B7EF /* SGGenerateQRCodeVC.m */,
+				2EF4DDC21F7DEA110024B7EF /* SGScanningQRCodeVC.h */,
+				2EF4DDC31F7DEA110024B7EF /* ScanSuccessJumpVC.h */,
+				2EF4DDC41F7DEA110024B7EF /* SGGenerateQRCodeVC.h */,
+				2EF4DDC51F7DEA110024B7EF /* SGScanningQRCodeVC.m */,
+				2EF4DDC61F7DEA110024B7EF /* ScanSuccessJumpVC.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		2EF4DDC71F7DEA110024B7EF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2EF4DDC81F7DEA110024B7EF /* QRCodebottomRight@2x.png */,
+				2EF4DDC91F7DEA110024B7EF /* SGScanningQRCodeView.h */,
+				2EF4DDCA1F7DEA110024B7EF /* QRCodebottomLeft@2x.png */,
+				2EF4DDCB1F7DEA110024B7EF /* SGScanningQRCodeView.m */,
+				2EF4DDCC1F7DEA110024B7EF /* QRCodeLine@2x.png */,
+				2EF4DDCD1F7DEA110024B7EF /* QRCodeTopRight@2x.png */,
+				2EF4DDCE1F7DEA110024B7EF /* QRCodeTopLeft@2x.png */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2EF4DDCF1F7DEA110024B7EF /* SGAlertView */ = {
+			isa = PBXGroup;
+			children = (
+				2EF4DDD01F7DEA110024B7EF /* SGAlertView.h */,
+				2EF4DDD11F7DEA110024B7EF /* SGAlertView.m */,
+			);
+			path = SGAlertView;
+			sourceTree = "<group>";
+		};
+		2EF4DDD21F7DEA110024B7EF /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				2EF4DDD31F7DEA110024B7EF /* sound.caf */,
+			);
+			path = Sound;
+			sourceTree = "<group>";
+		};
+		2EF4DDD41F7DEA110024B7EF /* Tool */ = {
+			isa = PBXGroup;
+			children = (
+				2EF4DDD51F7DEA110024B7EF /* SGQRCodeTool.m */,
+				2EF4DDD61F7DEA110024B7EF /* SGQRCodeTool.h */,
+			);
+			path = Tool;
+			sourceTree = "<group>";
+		};
 		6A48F8D13FFF094E0DDEA396 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -1338,6 +1445,7 @@
 			files = (
 				2EEC289E1F72294E00EEC3F3 /* README.md in Resources */,
 				2E8C8A911F4A851B00974F85 /* LaunchScreen.storyboard in Resources */,
+				2EF4DDDA1F7DEAB30024B7EF /* QRCodebottomRight@2x.png in Resources */,
 				2E8C8A8E1F4A851B00974F85 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1397,6 +1505,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EF4DDE81F7DEB4C0024B7EF /* sound.caf in Sources */,
+				2EF4DDE71F7DEB220024B7EF /* SGQRCodeTool.h in Sources */,
+				2EF4DDE11F7DEB130024B7EF /* QRCodebottomRight@2x.png in Sources */,
+				2EF4DDE21F7DEB130024B7EF /* SGScanningQRCodeView.h in Sources */,
+				2EF4DDE31F7DEB130024B7EF /* QRCodebottomLeft@2x.png in Sources */,
+				2EF4DDE41F7DEB130024B7EF /* QRCodeLine@2x.png in Sources */,
+				2EF4DDE51F7DEB130024B7EF /* QRCodeTopRight@2x.png in Sources */,
+				2EF4DDE61F7DEB130024B7EF /* QRCodeTopLeft@2x.png in Sources */,
+				2EF4DDDB1F7DEAFA0024B7EF /* SGGenerateQRCodeVC.m in Sources */,
+				2EF4DDDC1F7DEAFA0024B7EF /* SGScanningQRCodeVC.h in Sources */,
+				2EF4DDDD1F7DEAFA0024B7EF /* ScanSuccessJumpVC.h in Sources */,
+				2EF4DDDE1F7DEAFA0024B7EF /* SGGenerateQRCodeVC.h in Sources */,
+				2EF4DDDF1F7DEAFA0024B7EF /* SGScanningQRCodeVC.m in Sources */,
+				2EF4DDE01F7DEAFA0024B7EF /* ScanSuccessJumpVC.m in Sources */,
 				2E94650F1F691CB7004E091F /* TLInnerProduct.m in Sources */,
 				2E8C8AD41F4A8B8900974F85 /* TLBaseModel.m in Sources */,
 				2E3072831F4FFC830003ADD9 /* TLImagePicker.m in Sources */,
@@ -1418,6 +1540,7 @@
 				2E10D9911F54008C00811AB1 /* OrderSearchVC.m in Sources */,
 				2E1F27DE1F52BBAD0003717D /* ZHWithdrawalVC.m in Sources */,
 				2E30727F1F4FFA5A0003ADD9 /* ZHChangeNickNameVC.m in Sources */,
+				2EF4DDD91F7DEAA70024B7EF /* SGScanningQRCodeView.m in Sources */,
 				2E8C8B041F4A980600974F85 /* UIFont+UI.m in Sources */,
 				2E8C8B321F4ABB7800974F85 /* TLBannerView.m in Sources */,
 				2E1E29641F74B3E9006B4F84 /* DeviceUtil.m in Sources */,
@@ -1454,6 +1577,7 @@
 				2E30724B1F4DA4410003ADD9 /* TLChooseDataModel.m in Sources */,
 				2E8C8AB71F4A88AF00974F85 /* UIColor+theme.m in Sources */,
 				2E3072361F4D176E0003ADD9 /* TLOrderBaseCell.m in Sources */,
+				2EF4DDBE1F7DE94D0024B7EF /* TLHuoGeVC.m in Sources */,
 				2E10D9AC1F55449E00811AB1 /* TLCustomerStatisticsInfo.m in Sources */,
 				2E3071CF1F4BC2540003ADD9 /* Const.m in Sources */,
 				2E8C8B131F4A999A00974F85 /* TLMineVC.m in Sources */,
@@ -1483,6 +1607,7 @@
 				2E8C8B161F4A99BD00974F85 /* TLCustomerVC.m in Sources */,
 				2E8DCCDF1F5D440300C9B39F /* TLNetworkingConfig.m in Sources */,
 				2E9465271F6B78AC004E091F /* TLUserProductXiaoJian.m in Sources */,
+				2EF4DDD81F7DEAA00024B7EF /* SGAlertView.m in Sources */,
 				2E8C8AE71F4A952E00974F85 /* TLTableView.m in Sources */,
 				2EF4DDBB1F7CD4D20024B7EF /* TLSwitchScrollView.m in Sources */,
 				2E3072331F4D115D0003ADD9 /* TLDataModel.m in Sources */,
@@ -1499,6 +1624,7 @@
 				2E1F27F01F52FC190003717D /* TLChatRoomVC.m in Sources */,
 				2E30723F1F4D38CE0003ADD9 /* NSNumber+TLAdd.m in Sources */,
 				2E3072201F4C5B4C0003ADD9 /* TLMeasureDataCell.m in Sources */,
+				2EF4DDD71F7DEA9B0024B7EF /* SGQRCodeTool.m in Sources */,
 				2E3072571F4E6C6C0003ADD9 /* TLCustomer.m in Sources */,
 				2E1F27CC1F5267250003717D /* TLPickerTextField.m in Sources */,
 				2E94651B1F692265004E091F /* TLGuiGeXiaoLei.m in Sources */,
