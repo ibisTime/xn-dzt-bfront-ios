@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "TLOrderBaseCell.h"
+#define TLOrderParameterCellBottomH 35
 
 @interface TLOrderParameterCell : TLOrderBaseCell
 

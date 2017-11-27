@@ -22,10 +22,10 @@
 
 //
 @property (nonatomic, strong) UICollectionView *mianLiaoCollectionView;
-@property (nonatomic, strong) UITableView *leftTableView;
+//@property (nonatomic, strong) UITableView *leftTableView;
 
 //
-@property (nonatomic, strong) NSArray <NSString *>*mianLiaoArr;
+//@property (nonatomic, strong) NSArray <NSString *>*mianLiaoArr;
 
 @property (nonatomic, copy) NSArray <TLMianLiaoModel *>*mianLiaoRoom;
 @property (nonatomic, strong) NSArray <TLMianLiaoModel *> *currentMianLiaoRoom;
@@ -34,7 +34,7 @@
 @property (nonatomic, strong) TLMianLiaoModel *currentMianLiaoModel;
 
 //
-@property (nonatomic, copy) NSArray < NSDictionary <NSString *, NSArray<TLMianLiaoModel *>*>*>  *mianLiaoAndTypeRoom;
+//@property (nonatomic, copy) NSArray < NSDictionary <NSString *, NSArray<TLMianLiaoModel *>*>*>  *mianLiaoAndTypeRoom;
 
 @end
 
@@ -67,49 +67,50 @@
                     
                     obj.isSelected = YES;
                     *stop = YES;
+                    self.currentMianLiaoModel = obj;
                 }
             }];
         }
         //
-        NSMutableArray *baShiRoom = [[NSMutableArray alloc] init];
-        NSMutableArray *yiBaiRoom = [[NSMutableArray alloc] init];
-        NSMutableArray *mianZhenSiRoom = [[NSMutableArray alloc] init];
-        NSMutableArray *mianTanLiRoom = [[NSMutableArray alloc] init];
+//        NSMutableArray *baShiRoom = [[NSMutableArray alloc] init];
+//        NSMutableArray *yiBaiRoom = [[NSMutableArray alloc] init];
+//        NSMutableArray *mianZhenSiRoom = [[NSMutableArray alloc] init];
+//        NSMutableArray *mianTanLiRoom = [[NSMutableArray alloc] init];
 
        
-        [self.mianLiaoRoom enumerateObjectsUsingBlock:^(TLMianLiaoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-            
-            if ([obj.yarn isEqualToString:@"1"]) {
-                
-                [baShiRoom addObject:obj];
-                
-            } else if ([obj.yarn isEqualToString:@"2"]) {
-            
-                [yiBaiRoom addObject:obj];
-
-            } else if ([obj.yarn isEqualToString:@"3"]) {
-            
-                [mianZhenSiRoom addObject:obj];
-
-            } else if ([obj.yarn isEqualToString:@"4"]) {
-            
-                [mianTanLiRoom addObject:obj];
-
-            }
-        }];
+//        [self.mianLiaoRoom enumerateObjectsUsingBlock:^(TLMianLiaoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//
+//            if ([obj.yarn isEqualToString:@"1"]) {
+//
+//                [baShiRoom addObject:obj];
+//
+//            } else if ([obj.yarn isEqualToString:@"2"]) {
+//
+//                [yiBaiRoom addObject:obj];
+//
+//            } else if ([obj.yarn isEqualToString:@"3"]) {
+//
+//                [mianZhenSiRoom addObject:obj];
+//
+//            } else if ([obj.yarn isEqualToString:@"4"]) {
+//
+//                [mianTanLiRoom addObject:obj];
+//
+//            }
+//        }];
       
         
-        self.mianLiaoAndTypeRoom = @[
-                                     @{@"80支棉" : baShiRoom},
-                                     @{@"100支棉" : yiBaiRoom},
-                                     @{@"棉真丝" : mianZhenSiRoom},
-                                     @{@"棉弹力" : mianTanLiRoom},
-                                     
-                                     ];
+//        self.mianLiaoAndTypeRoom = @[
+//                                     @{@"80支棉" : baShiRoom},
+//                                     @{@"100支棉" : yiBaiRoom},
+//                                     @{@"棉真丝" : mianZhenSiRoom},
+//                                     @{@"棉弹力" : mianTanLiRoom},
+//
+//                                     ];
         
         
         [self setUpUI];
-        [self.leftTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
+//        [self.leftTableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] animated:YES scrollPosition:UITableViewScrollPositionTop];
 
     } failure:^(__kindof NBBaseRequest *request) {
         [TLProgressHUD dismiss];
@@ -122,7 +123,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"选择面料";
-    self.mianLiaoArr = @[@"80支棉",@"100支棉",@"棉真丝",@"棉弹力",];
+//    self.mianLiaoArr = @[@"80支棉",@"100支棉",@"棉真丝",@"棉弹力",];
     
     //
     if (!self.innnerProduct ){
@@ -171,22 +172,22 @@
 
 
     //左类别tableView
-    UITableView *leftTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, topLineView.yy, 100,SCREEN_HEIGHT - [DeviceUtil top64] ) style:UITableViewStylePlain];
-    [self.view addSubview:leftTableView];
-    leftTableView.separatorStyle = UITableViewCellSeparatorStyleNone;;
-    leftTableView.delegate = self;
-    leftTableView.dataSource = self;
-    leftTableView.backgroundColor = [UIColor colorWithHexString:@"#f2f2f2"];
-    self.leftTableView = leftTableView;
-    
+//    UITableView *leftTableView = [[UITableView alloc] initWithFrame:CGRectMake(0, topLineView.yy, 100,SCREEN_HEIGHT - [DeviceUtil top64] ) style:UITableViewStylePlain];
+//    [self.view addSubview:leftTableView];
+//    leftTableView.separatorStyle = UITableViewCellSeparatorStyleNone;;
+//    leftTableView.delegate = self;
+//    leftTableView.dataSource = self;
+//    leftTableView.backgroundColor = [UIColor colorWithHexString:@"#f2f2f2"];
+//    self.leftTableView = leftTableView;
+//
     //右CollectionView
     UICollectionViewFlowLayout *fl = [[UICollectionViewFlowLayout alloc] init];
     fl.minimumLineSpacing = 0;
     fl.minimumInteritemSpacing = 0;
-    fl.itemSize = CGSizeMake((SCREEN_WIDTH - leftTableView.width)/3.0, 110);
+    fl.itemSize = CGSizeMake(SCREEN_WIDTH/3.0, 110);
     fl.sectionInset = UIEdgeInsetsMake(10, 0, 0, 0);
     //
-    UICollectionView *orderDetailCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(leftTableView.right, leftTableView.y,SCREEN_WIDTH - leftTableView.right, SCREEN_HEIGHT - [DeviceUtil top64] - 80) collectionViewLayout:fl];
+    UICollectionView *orderDetailCollectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0,SCREEN_WIDTH , SCREEN_HEIGHT - [DeviceUtil top64] - 80) collectionViewLayout:fl];
     [self.view addSubview:orderDetailCollectionView];
     self.mianLiaoCollectionView = orderDetailCollectionView;
     orderDetailCollectionView.backgroundColor = [UIColor colorWithHexString:@"#fafafa"];
@@ -222,11 +223,11 @@
 #pragma mark- collectionView Delegate
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 
-    NSIndexPath *tableViewSelectedIndexPath = [self.leftTableView indexPathForSelectedRow];
-    NSDictionary *dict = self.mianLiaoAndTypeRoom[tableViewSelectedIndexPath.row];
-    NSArray <TLMianLiaoModel *>*arr = dict[dict.allKeys[0]];
+//    NSIndexPath *tableViewSelectedIndexPath = [self.leftTableView indexPathForSelectedRow];
+//    NSDictionary *dict = self.mianLiaoAndTypeRoom[tableViewSelectedIndexPath.row];
+//    NSArray <TLMianLiaoModel *>*arr = dict[dict.allKeys[0]];
     
-    [arr enumerateObjectsUsingBlock:^(TLMianLiaoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+    [self.mianLiaoRoom enumerateObjectsUsingBlock:^(TLMianLiaoModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         
         obj.isSelected = idx == indexPath.row;
         if (obj.isSelected) {
@@ -242,12 +243,12 @@
 #pragma mark- collectionView dataSource
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
 
-   NSIndexPath *indexPath = [self.leftTableView indexPathForSelectedRow];
+//   NSIndexPath *indexPath = [self.leftTableView indexPathForSelectedRow];
     
-    NSDictionary *dict = self.mianLiaoAndTypeRoom[indexPath.row];
-    NSArray *arr = dict[dict.allKeys[0]];
+//    NSDictionary *dict = self.mianLiaoAndTypeRoom[indexPath.row];
+//    NSArray *arr = dict[dict.allKeys[0]];
     
-    return arr.count;
+    return self.mianLiaoRoom.count;
 
 }
 
@@ -256,11 +257,12 @@
 
     TLMianLiaoChooseCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:[TLMianLiaoChooseCell cellReuseIdentifier] forIndexPath:indexPath];
     
-    //找出
-    NSIndexPath *tableViewSelectedIndexPath = [self.leftTableView indexPathForSelectedRow];
-    NSDictionary *dict = self.mianLiaoAndTypeRoom[tableViewSelectedIndexPath.row];
-    NSArray *arr = dict[dict.allKeys[0]];
-    cell.mianLiaoModel = arr[indexPath.row];
+//    //找出
+//    NSIndexPath *tableViewSelectedIndexPath = [self.leftTableView indexPathForSelectedRow];
+//    NSDictionary *dict = self.mianLiaoAndTypeRoom[tableViewSelectedIndexPath.row];
+//    NSArray *arr = dict[dict.allKeys[0]];
+    
+    cell.mianLiaoModel = self.mianLiaoRoom[indexPath.row];
     
     return cell;
     
@@ -275,30 +277,30 @@
 }
 
 #pragma mark- TableView DataSource
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//
+//    return self.mianLiaoAndTypeRoom.count;
+//}
 
-    return self.mianLiaoAndTypeRoom.count;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCellId"];
-    if (!cell) {
-        
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCellId"];
-//        cell.backgroundColor = [UIColor colorWithHexString:@"#f2f2f2"];
-        cell.contentView.backgroundColor = [UIColor colorWithHexString:@"#f2f2f2"];
-        cell.textLabel.font = [UIFont systemFontOfSize:14];
-        cell.textLabel.textColor = [UIColor themeColor];
-
-        
-        cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[ImageUtil convertColorToImage:[UIColor whiteColor]]];
-        
-    }
-    
-    cell.textLabel.text = self.mianLiaoAndTypeRoom[indexPath.row].allKeys[0];
-    
-    return cell;
-}
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+//
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"UITableViewCellId"];
+//    if (!cell) {
+//
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"UITableViewCellId"];
+////        cell.backgroundColor = [UIColor colorWithHexString:@"#f2f2f2"];
+//        cell.contentView.backgroundColor = [UIColor colorWithHexString:@"#f2f2f2"];
+//        cell.textLabel.font = [UIFont systemFontOfSize:14];
+//        cell.textLabel.textColor = [UIColor themeColor];
+//
+//
+//        cell.selectedBackgroundView = [[UIImageView alloc] initWithImage:[ImageUtil convertColorToImage:[UIColor whiteColor]]];
+//
+//    }
+//
+//    cell.textLabel.text = self.mianLiaoAndTypeRoom[indexPath.row].allKeys[0];
+//
+//    return cell;
+//}
 
 @end

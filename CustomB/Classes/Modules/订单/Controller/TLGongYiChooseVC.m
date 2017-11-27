@@ -74,13 +74,13 @@
 #pragma mark- 提交
 - (void)trueSubmit {
     
-    //判断是否编辑
-    [self.dataManager.groups enumerateObjectsUsingBlock:^(TLGroup * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if (obj.shouldCheckEdit && obj.editting) {
-            
-            @throw [NSException exceptionWithName:[NSString stringWithFormat:@"#%@# 还处于编辑状态,请确定",obj.title] reason:nil userInfo:nil];
-        }
-    }];
+    //判断是否编辑 2.0.2 去掉
+//    [self.dataManager.groups enumerateObjectsUsingBlock:^(TLGroup * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//        if (obj.shouldCheckEdit && obj.editting) {
+//
+//            @throw [NSException exceptionWithName:[NSString stringWithFormat:@"#%@# 还处于编辑状态,请确定",obj.title] reason:nil userInfo:nil];
+//        }
+//    }];
  
     //1.检测工艺是非为空
     NSMutableArray <TLGuiGeXiaoLei *> *guiGeXiaoLeiArr = [[NSMutableArray alloc] init];
@@ -323,9 +323,9 @@
     
     //***********定制信息 ******************************//
     CGFloat horizonMargin = 18;
-    CGFloat middleMargin = 15;
+    CGFloat middleMargin = 0.001;
     UIEdgeInsets paramterEdgeInsets = UIEdgeInsetsMake(15, 32, 0, 32);
-    CGFloat parameterCellWidth = (SCREEN_WIDTH - paramterEdgeInsets.left * 2 - 2*horizonMargin)/3.0;
+    CGFloat parameterCellWidth = (SCREEN_WIDTH - paramterEdgeInsets.left * 2 - 2*horizonMargin)/3.0 ;
     
     //switch
 //    TLGroup *switchGroup = [[TLGroup alloc] init];
@@ -355,7 +355,15 @@
                 TLGroup *parameterGroup = [[TLGroup alloc] init];
                 [self.dataManager.groups addObject:parameterGroup];
                 parameterGroup.dateModel = guiGeDaLei;
+                
+                //
                 NSMutableArray *xiaoLeiRoom = [[NSMutableArray alloc] init];
+                
+                __block TLParameterModel *defaultParameterModel = nil;
+                
+//                for (TLGuiGeXiaoLei in guiGeDaLei.craftList) {
+//                    <#statements#>
+//                }
                 [guiGeDaLei.craftList enumerateObjectsUsingBlock:^(TLGuiGeXiaoLei * _Nonnull guiGeXiaoLei, NSUInteger idx, BOOL * _Nonnull stop) {
                     
                     TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
@@ -363,15 +371,40 @@
                     parameterModel.selectPic = guiGeXiaoLei.selectedPic;
                     parameterModel.name = guiGeXiaoLei.name;
                     parameterModel.dataModel = guiGeXiaoLei;
-                    //
                     
+                    
+                    parameterModel.yuSelected = guiGeXiaoLei.isSelected;
+                    parameterModel.isSelected = guiGeXiaoLei.isSelected;
+                    //  ******** 默认的也是已选择
+                    // 默认 和 已选择 只能选一个
+                    //
+                    if (parameterGroup.content == nil || parameterGroup.content.length == 0) {
+                        
+                        if (guiGeXiaoLei.isDefault) {
+                            
+                            parameterGroup.content = [self getContentStrWith:guiGeXiaoLei];
+                            
+                        }
+                        parameterModel.yuSelected = guiGeXiaoLei.isDefault;
+                        parameterModel.isSelected = guiGeXiaoLei.isDefault;
+                        defaultParameterModel = parameterModel;
+                    }
+                    //  ********
+                    
+                    //为选中 ****** **** ***
                     if (guiGeXiaoLei.isSelected) {
                         //
                         parameterGroup.content = [self getContentStrWith:guiGeXiaoLei];
                         //
+                        if (defaultParameterModel) {
+                            
+                            defaultParameterModel.isSelected = NO;
+                            defaultParameterModel.yuSelected = NO;
+                            
+                        }
                     }
-                    parameterModel.yuSelected = guiGeXiaoLei.isSelected;
-                    parameterModel.isSelected = guiGeXiaoLei.isSelected;
+             
+                    
                     //
                     [xiaoLeiRoom addObject:parameterModel];
                     
@@ -383,11 +416,12 @@
                 parameterGroup.headerSize = headerSmallSize;
                 parameterGroup.cellReuseIdentifier = [TLOrderParameterCell cellReuseIdentifier];
                 parameterGroup.headerReuseIdentifier = [TLOrderCollectionViewHeader headerReuseIdentifier];
+                
                 parameterGroup.minimumLineSpacing = horizonMargin;
                 parameterGroup.minimumInteritemSpacing = middleMargin;
                 parameterGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
                 parameterGroup.editingEdgeInsets = paramterEdgeInsets;
-                parameterGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
+                parameterGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth + TLOrderParameterCellBottomH);
                 
                 //判断是否有颜色标识
                 if ([guiGeDaLei isHaveColorMark]) {
@@ -397,6 +431,8 @@
                     colorGroup.mark = DA_LEI_COLOR_MARK;
                     [self.dataManager.groups addObject:colorGroup];
                     NSMutableArray *colorRoom = [[NSMutableArray alloc] init];
+                    
+                    __block TLParameterModel *defaultColorParameterModel = nil;
                     [guiGeDaLei.colorPcList[0].colorCraftList enumerateObjectsUsingBlock:^(TLGuiGeXiaoLei * _Nonnull guiGeXiaoLei, NSUInteger idx, BOOL * _Nonnull stop) {
                         
                         TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
@@ -404,12 +440,29 @@
                         parameterModel.selectPic = guiGeXiaoLei.selectedPic;
                         parameterModel.dataModel = guiGeXiaoLei;
                         parameterModel.name = guiGeXiaoLei.name;
+                        
+                        parameterModel.yuSelected = guiGeXiaoLei.isSelected;
+                        parameterModel.isSelected = guiGeXiaoLei.isSelected;
+                        
+                        if (colorGroup.content == nil || colorGroup.content.length <= 0) {
+                            if (guiGeXiaoLei.isDefault) {
+                                colorGroup.content = [self getContentStrWith:guiGeXiaoLei];
+
+                            }
+                            parameterModel.yuSelected = guiGeXiaoLei.isDefault;
+                            parameterModel.isSelected = guiGeXiaoLei.isDefault;
+                            
+                            defaultColorParameterModel = parameterModel;
+                        }
                         //
                         if (guiGeXiaoLei.isSelected) {
                             colorGroup.content = [self getContentStrWith:guiGeXiaoLei];
+                            if (defaultParameterModel) {
+                                defaultParameterModel.isSelected = NO;
+                                defaultParameterModel.yuSelected = NO;
+                            }
                         }
-                        parameterModel.yuSelected = guiGeXiaoLei.isSelected;
-                        parameterModel.isSelected = guiGeXiaoLei.isSelected;
+                      
                         //
                         [colorRoom addObject:parameterModel];
                         
@@ -425,8 +478,8 @@
                     colorGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 35, 0, 35);
                     colorGroup.editingEdgeInsets = UIEdgeInsetsMake(15, 35, 10, 35);
                     CGFloat colorChooseCellWidth = (SCREEN_WIDTH - colorGroup.edgeInsets.left * 2 - 2* colorGroup.minimumLineSpacing - 10)/3.0;
-                    colorGroup.itemSize = CGSizeMake(colorChooseCellWidth, 30);
-                    colorGroup.itemSize = CGSizeMake(colorChooseCellWidth, 30);
+                    colorGroup.itemSize = CGSizeMake(colorChooseCellWidth, 30 + TLColorChooseCellH);
+//                    colorGroup.itemSize = CGSizeMake(colorChooseCellWidth, 30);
                     
                 }
                 
@@ -580,7 +633,7 @@
                     ciXiuColorGroup.editedEdgeInsets = UIEdgeInsetsMake(0, 35, 30, 35);
                     ciXiuColorGroup.editingEdgeInsets = UIEdgeInsetsMake(15, 35, 30, 35);
                     CGFloat colorChooseCellWidth = (SCREEN_WIDTH - ciXiuColorGroup.edgeInsets.left * 2 - 2* ciXiuColorGroup.minimumLineSpacing - 10)/3.0;
-                    ciXiuColorGroup.itemSize = CGSizeMake(colorChooseCellWidth, 30);
+                    ciXiuColorGroup.itemSize = CGSizeMake(colorChooseCellWidth, 30 + TLColorChooseCellH);
                     
                 }  break;
                     
@@ -618,7 +671,7 @@
                     ciXiuLocationGroup.minimumInteritemSpacing = middleMargin;
                     ciXiuLocationGroup.editedEdgeInsets = UIEdgeInsetsMake(0, paramterEdgeInsets.left, paramterEdgeInsets.bottom, paramterEdgeInsets.right);
                     ciXiuLocationGroup.editingEdgeInsets = paramterEdgeInsets;
-                    ciXiuLocationGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth);
+                    ciXiuLocationGroup.itemSize = CGSizeMake(parameterCellWidth, parameterCellWidth + 30);
                     
                 }  break;
                     
@@ -738,21 +791,18 @@
             
         }];
         
-        [UIView animateWithDuration:0 animations:^{
-            [self.orderDetailCollectionView  performBatchUpdates:^{
-                [self.orderDetailCollectionView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section]];
-                
-            } completion:nil];
-        }];
+//        [UIView animateWithDuration:0 animations:^{
+//            [self.orderDetailCollectionView  performBatchUpdates:^{
+//                [self.orderDetailCollectionView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section]];
+//
+//            } completion:nil];
+//        }];
         
     } else if (
                [cell isKindOfClass:[TLMeasureDataCell class]] &&
                [self.dataManager.groups[indexPath.section].dataModelRoom[indexPath.row]  isKindOfClass:[TLChooseDataModel class]]
                ) {
-        //用此cell you测量数据 和 形体信息，但在此的只能是形体信息
         //形体信息事件处理
-        
-        
         TLGroup *group = self.dataManager.groups[indexPath.section];
         TLChooseDataModel *xingTiChooseModel = group.dataModelRoom[indexPath.row];
         if (!xingTiChooseModel.canEdit) {
@@ -805,14 +855,80 @@
             
         }];
         
-        [UIView animateWithDuration:0 animations:^{
-            [self.orderDetailCollectionView  performBatchUpdates:^{
-                [self.orderDetailCollectionView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section]];
+//        [UIView animateWithDuration:0 animations:^{
+//            [self.orderDetailCollectionView  performBatchUpdates:^{
+//                [self.orderDetailCollectionView reloadSections:[NSIndexSet indexSetWithIndex:indexPath.section]];
+//
+//            } completion:nil];
+//        }];
+        
+        
+    }
+    
+    
+    //
+    TLOrderCollectionViewHeader *reusableView = (TLOrderCollectionViewHeader *)[self.orderDetailCollectionView supplementaryViewForElementKind:UICollectionElementKindSectionHeader atIndexPath:indexPath];
+    
+    [reusableView edited];
+    self.dataManager.groups[indexPath.section].editting = NO;
+    
+    TLGroup *group = self.dataManager.groups[indexPath.section];
+    
+    if ([group.dataModelRoom[0] isKindOfClass:[TLInputDataModel class]]) {
+        //这里是输入选型
+        TLInputDataModel *inputDataModel = (TLInputDataModel *)group.dataModelRoom[0];
+        group.content = inputDataModel.value;
+        
+    } else {
+        //以下是选择
+        NSMutableArray <TLParameterModel *>*models =  group.dataModelRoom;
+        TLGuiGeDaLei *guiGeDaLei = group.dateModel;
+        
+        [models enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+            TLGuiGeXiaoLei *guiGeXiaoLei = obj.dataModel;
+            //
+            if (obj.yuSelected) {
                 
-            } completion:nil];
+                //__________//
+                //专一找出颜色
+                TLGuiGeXiaoLei *guiGeXiaoLei = obj.dataModel;
+                if (guiGeDaLei.guiGeLeiBie == GuiGeDaLeiTypeDefaultGongYi
+                    && guiGeDaLei.colorPcList && guiGeDaLei.colorPcList.count > 0) {
+                    
+                    //这个规格小类不需要提醒
+                    TLGroup *nextGrop = self.dataManager.groups[indexPath.section + 1];
+                    if ([guiGeXiaoLei.isHit isEqualToString:@"0"]) {
+                        
+                        [nextGrop groupSetHidden];
+                        
+                    } else {
+                        
+                        [nextGrop groupSetShow];
+                        
+                    }
+                    
+                    
+                }//_______//
+                
+                obj.isSelected = YES;
+                guiGeXiaoLei.isSelected = obj.isSelected;
+                group.content = [self getContentStrWith:guiGeXiaoLei];
+                
+            } else {
+                
+                obj.isSelected = NO;
+                guiGeXiaoLei.isSelected = obj.isSelected;
+                
+            }
+            
         }];
         
     }
+    
+    
+    [self.orderDetailCollectionView reloadData];
+    
+    
     
 }
 
@@ -832,15 +948,15 @@
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     
     return self.dataManager.groups[section].minimumLineSpacing;
-    
-    
+
+
 }
 
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section  {
-    
+
     return self.dataManager.groups[section].minimumInteritemSpacing;
-    
+
 }
 
 
@@ -869,90 +985,92 @@
             }];
             
         } break;
-        case EditTypeConfirm: {
-            [reusableView edited];
-            
-            self.dataManager.groups[reusableView.section].editting = NO;
-            
-            TLGroup *group = self.dataManager.groups[reusableView.section];
-            
-            if ([group.dataModelRoom[0] isKindOfClass:[TLInputDataModel class]]) {
-                //这里是输入选型
-                TLInputDataModel *inputDataModel = (TLInputDataModel *)group.dataModelRoom[0];
-                group.content = inputDataModel.value;
-                
-            } else {
-                //以下是选择
-                NSMutableArray <TLParameterModel *>*models =  group.dataModelRoom;
-                TLGuiGeDaLei *guiGeDaLei = group.dateModel;
-                
-                [models enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                    TLGuiGeXiaoLei *guiGeXiaoLei = obj.dataModel;
-                    //
-                    if (obj.yuSelected) {
-                        
-                        //__________//
-                        //专一找出颜色
-                        TLGuiGeXiaoLei *guiGeXiaoLei = obj.dataModel;
-                        if (guiGeDaLei.guiGeLeiBie == GuiGeDaLeiTypeDefaultGongYi
-                            && guiGeDaLei.colorPcList && guiGeDaLei.colorPcList.count > 0) {
-                            
-                            //这个规格小类不需要提醒
-                            TLGroup *nextGrop = self.dataManager.groups[reusableView.section + 1];
-                            if ([guiGeXiaoLei.isHit isEqualToString:@"0"]) {
-                                
-                                [nextGrop groupSetHidden];
-
-                            } else {
-                            
-                                [nextGrop groupSetShow];
-
-                            }
-                          
-                            
-                        }//_______//
-                        
-                        obj.isSelected = YES;
-                        guiGeXiaoLei.isSelected = obj.isSelected;
-                        group.content = [self getContentStrWith:guiGeXiaoLei];
-                        
-                    } else {
-                        
-                        obj.isSelected = NO;
-                        guiGeXiaoLei.isSelected = obj.isSelected;
-                        
-                    }
-                    
-                }];
-                
-            }
-            
-            
-            [self.orderDetailCollectionView reloadData];
-
-            
-            [UIView animateWithDuration:0 animations:^{
-                [self.orderDetailCollectionView  performBatchUpdates:^{
+//        case EditTypeConfirm: {
+//            [reusableView edited];
 //
-//                    [self.orderDetailCollectionView reloadData];
-////                    [self.orderDetailCollectionView reloadSections:[NSIndexSet indexSetWithIndex:reusableView.section]];
-//                    
-                } completion:nil];
-            }];
-            
-        } break;
-        case EditTypeCancle: {
-            [reusableView edited];
-            
-            self.dataManager.groups[reusableView.section].editting = NO;
-            [UIView animateWithDuration:0 animations:^{
-                [self.orderDetailCollectionView  performBatchUpdates:^{
-                    [self.orderDetailCollectionView reloadSections:[NSIndexSet indexSetWithIndex:reusableView.section]];
-                    
-                } completion:nil];
-            }];
-            
-        } break;
+//            self.dataManager.groups[reusableView.section].editting = NO;
+//
+//            TLGroup *group = self.dataManager.groups[reusableView.section];
+//
+//            if ([group.dataModelRoom[0] isKindOfClass:[TLInputDataModel class]]) {
+//                //这里是输入选型
+//
+//                // 刺绣内容，刺绣内容需要单独进行判断
+//                TLInputDataModel *inputDataModel = (TLInputDataModel *)group.dataModelRoom[0];
+//                group.content = inputDataModel.value;
+//
+//            } else {
+//                //以下是选择
+//                NSMutableArray <TLParameterModel *>*models =  group.dataModelRoom;
+//                TLGuiGeDaLei *guiGeDaLei = group.dateModel;
+//
+//                [models enumerateObjectsUsingBlock:^(TLParameterModel * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+//                    TLGuiGeXiaoLei *guiGeXiaoLei = obj.dataModel;
+//                    //
+//                    if (obj.yuSelected) {
+//
+//                        //__________//
+//                        //专一找出颜色
+//                        TLGuiGeXiaoLei *guiGeXiaoLei = obj.dataModel;
+//                        if (guiGeDaLei.guiGeLeiBie == GuiGeDaLeiTypeDefaultGongYi
+//                            && guiGeDaLei.colorPcList && guiGeDaLei.colorPcList.count > 0) {
+//
+//                            //这个规格小类不需要提醒
+//                            TLGroup *nextGrop = self.dataManager.groups[reusableView.section + 1];
+//                            if ([guiGeXiaoLei.isHit isEqualToString:@"0"]) {
+//
+//                                [nextGrop groupSetHidden];
+//
+//                            } else {
+//
+//                                [nextGrop groupSetShow];
+//
+//                            }
+//
+//
+//                        }//_______//
+//
+//                        obj.isSelected = YES;
+//                        guiGeXiaoLei.isSelected = obj.isSelected;
+//                        group.content = [self getContentStrWith:guiGeXiaoLei];
+//
+//                    } else {
+//
+//                        obj.isSelected = NO;
+//                        guiGeXiaoLei.isSelected = obj.isSelected;
+//
+//                    }
+//
+//                }];
+//
+//            }
+//
+//
+//            [self.orderDetailCollectionView reloadData];
+//
+//
+//            [UIView animateWithDuration:0 animations:^{
+//                [self.orderDetailCollectionView  performBatchUpdates:^{
+////
+////                    [self.orderDetailCollectionView reloadData];
+//////                    [self.orderDetailCollectionView reloadSections:[NSIndexSet indexSetWithIndex:reusableView.section]];
+////
+//                } completion:nil];
+//            }];
+//
+//        } break;
+//        case EditTypeCancle: {
+//            [reusableView edited];
+//
+//            self.dataManager.groups[reusableView.section].editting = NO;
+//            [UIView animateWithDuration:0 animations:^{
+//                [self.orderDetailCollectionView  performBatchUpdates:^{
+//                    [self.orderDetailCollectionView reloadSections:[NSIndexSet indexSetWithIndex:reusableView.section]];
+//
+//                } completion:nil];
+//            }];
+//
+//        } break;
     }
     
 }

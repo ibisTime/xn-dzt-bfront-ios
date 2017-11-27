@@ -264,10 +264,7 @@
 #pragma mark- delegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    
-  
 
-    
     if ([[tableView cellForRowAtIndexPath:indexPath] isKindOfClass:[TLOrderCell class]]) {
         
         TLOrderModel *order = self.orderGroup[indexPath.row];

@@ -32,7 +32,7 @@
 
     _mianLiaoModel = mianLiaoModel;
     
-    NSString *str = [ImageUtil convertImageUrl:_mianLiaoModel.advPic imageServerUrl:[AppConfig config].qiniuDomain];
+    NSString *str = [ImageUtil convertImageUrl:_mianLiaoModel.pic imageServerUrl:[AppConfig config].qiniuDomain];
     [self.bgImageView sd_setImageWithURL:[NSURL URLWithString:str]];
     self.nameLbl.text = _mianLiaoModel.modelNum;
     

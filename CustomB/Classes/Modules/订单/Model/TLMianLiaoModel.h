@@ -12,6 +12,7 @@
 
 @property (nonatomic, copy) NSString *code;
 @property (nonatomic, copy) NSString *advPic;
+@property (nonatomic, copy) NSString *pic;
 @property (nonatomic, copy) NSString *modelNum;
 @property (nonatomic, strong) NSNumber *price;
 @property (nonatomic, copy) NSString *yarn;

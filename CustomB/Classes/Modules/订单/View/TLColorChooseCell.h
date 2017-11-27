@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "TLOrderBaseCell.h"
 
-@interface TLColorChooseCell : TLOrderBaseCell
+#define TLColorChooseCellH 25
 
+@interface TLColorChooseCell : TLOrderBaseCell
 
 
 @end

@@ -71,8 +71,8 @@
 
     self.editBtn.hidden = YES;
     //
-    self.cancleBtn.hidden = YES;
-    self.confirmBtn.hidden = YES;
+//    self.cancleBtn.hidden = YES;
+//    self.confirmBtn.hidden = YES;
 
 }
 
@@ -80,8 +80,8 @@
 
     self.editBtn.hidden = YES;
     //
-    self.cancleBtn.hidden = NO;
-    self.confirmBtn.hidden = NO;
+//    self.cancleBtn.hidden = NO;
+//    self.confirmBtn.hidden = NO;
 
 }
 
@@ -89,8 +89,8 @@
 
     self.editBtn.hidden = NO;
     
-    self.cancleBtn.hidden = YES;
-    self.confirmBtn.hidden = YES;
+//    self.cancleBtn.hidden = YES;
+//    self.confirmBtn.hidden = YES;
 
 }
 
@@ -173,6 +173,9 @@
     
     self.cancleBtn = [self btnWithTitle:@"取消" titleColor:[UIColor themeColor]];
     [self addSubview:self.cancleBtn];
+    
+    self.confirmBtn.hidden = YES;
+    self.cancleBtn.hidden = YES;
     
     
     [self.editBtn mas_makeConstraints:^(MASConstraintMaker *make) {

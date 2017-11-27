@@ -21,6 +21,10 @@ typedef NS_ENUM(NSUInteger, GuiGeXiaoLeiType) {
 @property (nonatomic, copy) NSString *pic;
 @property (nonatomic, strong) NSNumber *price;
 
+// 是否为默认
+// 1.是 0.不是
+@property (nonatomic, copy) NSString *isDefault;
+
 //图片
 @property (nonatomic, copy ,readonly) NSString *selectedPic;
 @property (nonatomic, copy) NSString *selected;
