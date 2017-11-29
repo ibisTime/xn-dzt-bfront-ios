@@ -493,17 +493,39 @@
                 [self.dataManager.groups addObject:styleGroup];
                 NSMutableArray *styleRoom = [[NSMutableArray alloc] init];
                 
+                //
+               __block TLParameterModel *defaultStyleParameterModel = nil;
                 [guiGeDaLei.craftList enumerateObjectsUsingBlock:^(TLGuiGeXiaoLei * _Nonnull guiGeXiaoLei, NSUInteger idx, BOOL * _Nonnull stop) {
                     
                     TLParameterModel *parameterModel = [[TLParameterModel alloc] init];
                     parameterModel.name = guiGeXiaoLei.name;
                     parameterModel.dataModel = guiGeXiaoLei;
+                    parameterModel.yuSelected = guiGeXiaoLei.isSelected;
+                    parameterModel.isSelected = guiGeXiaoLei.isSelected;
+                    
+                    if (styleGroup.content == nil || styleGroup.content.length <= 0) {
+                        if (guiGeXiaoLei.isDefault) {
+                            
+                            styleGroup.content = [self getContentStrWith:guiGeXiaoLei];
+
+                        }
+                        //
+                        parameterModel.yuSelected = guiGeXiaoLei.isDefault;
+                        parameterModel.isSelected = guiGeXiaoLei.isDefault;
+                        
+                        defaultStyleParameterModel = parameterModel;
+                    }
+                    
+                    //
                     if (guiGeXiaoLei.isSelected) {
                         styleGroup.content = [self getContentStrWith:guiGeXiaoLei]
                         ;
+                        if (defaultStyleParameterModel) {
+                            defaultStyleParameterModel.yuSelected = NO;
+                            defaultStyleParameterModel.isSelected = NO;
+                        }
                     }
-                    parameterModel.yuSelected = guiGeXiaoLei.isSelected;
-                    parameterModel.isSelected = guiGeXiaoLei.isSelected;
+                 
                     [styleRoom addObject:parameterModel];
                     
                 }];

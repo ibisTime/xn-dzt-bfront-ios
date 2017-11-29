@@ -154,14 +154,22 @@
 
 }
 
-#pragma mark- 每次选择后判断是否要进行总价计算当然是在合适的时候
+#pragma mark- 每次选择后判断是否要进行总价计算 —— 当然是在合适的时候
 - (void)calculateTotalPriceWhenCan {
 
     @try {
         
+        // 大类下可能，有多个小件
         [self.currentProductModel.modelSpecsList enumerateObjectsUsingBlock:^(TLInnerProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
-            if (!obj.mianLiaoModel || obj.guiGeXiaoLeiRoom.count <= 0) {
+//            if (!obj.mianLiaoModel || obj.guiGeXiaoLeiRoom.count <= 0) {
+//
+//                @throw [NSException exceptionWithName:@"暂时不能计算" reason:nil userInfo:nil];
+//
+//            }
+            
+            //2.0.2 工艺默认为 0
+            if (!obj.mianLiaoModel) {
                 
                 @throw [NSException exceptionWithName:@"暂时不能计算" reason:nil userInfo:nil];
                 
@@ -173,10 +181,10 @@
         __block float totalPrice = 0;
         [self.currentProductModel.modelSpecsList enumerateObjectsUsingBlock:^(TLInnerProduct * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
             
+            //添加每个产品的 价格
             totalPrice +=  [obj calculateTotalPrice];
             
         }];
-        
         
         if (self.currentProductModel.productType == TLProductTypeHAdd) {
             // 会员价只针对
@@ -615,12 +623,10 @@
     
     //获取产品列表
     NBCDRequest *xhReq = [[NBCDRequest alloc] init];
-//  xhReq.code = @"620012";
     xhReq.code = @"620014";
     xhReq.parameters[@"status"] = @"1";
     xhReq.parameters[@"orderDir"] = @"asc";
     xhReq.parameters[@"orderColumn"] = @"order_no";
-
     
     //
 //    NBCDRequest *orderDetailReq = [[NBCDRequest alloc] init];
@@ -781,7 +787,7 @@
         gongYiGroup.canEdit = YES;
         gongYiGroup.dataModelRoom = [NSMutableArray new];
         gongYiGroup.title = [NSString stringWithFormat:@"%@工艺费",obj.name];
-        gongYiGroup.content =  @"--";
+        gongYiGroup.content =  @"0.00";
         gongYiGroup.dateModel = obj;
         gongYiGroup.mark = GONG_YI_MARK;
         gongYiGroup.headerSize = HEADER_SIZE;

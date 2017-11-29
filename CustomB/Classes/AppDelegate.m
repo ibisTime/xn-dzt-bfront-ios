@@ -36,7 +36,7 @@
 //    http://47.96.161.183:3308/main.html
 
     //1.配置应用运行环境
-    [AppConfig config].runEnv = RunEnvTest;
+    [AppConfig config].runEnv = RunEnvRelease;
      
     //2.新版本请求
     [NBNetworkConfig config].baseUrl = [NSString stringWithFormat:@"%@%@",[AppConfig config].addr,@"/forward-service/api"];
